@@ -1,94 +1,101 @@
 type_traits_unittest.o: src/type_traits_unittest.cc \
  src/sparsehash/internal/sparseconfig.h src/config.h \
- src/sparsehash/type_traits.h /opt/local/include/gcc47/c++/utility \
- /opt/local/include/gcc47/c++//x86_64-apple-darwin12/bits/c++config.h \
- /opt/local/include/gcc47/c++//x86_64-apple-darwin12/bits/os_defines.h \
- /opt/local/include/gcc47/c++//x86_64-apple-darwin12/bits/cpu_defines.h \
- /opt/local/include/gcc47/c++/bits/stl_relops.h \
- /opt/local/include/gcc47/c++/bits/stl_pair.h \
- /opt/local/include/gcc47/c++/bits/move.h \
- /opt/local/include/gcc47/c++/bits/concept_check.h \
- src/sparsehash/template_util.h /usr/include/stdlib.h \
- /usr/include/Availability.h /usr/include/AvailabilityInternal.h \
- /usr/include/_types.h /usr/include/sys/_types.h /usr/include/sys/cdefs.h \
- /usr/include/sys/_symbol_aliasing.h \
- /usr/include/sys/_posix_availability.h /usr/include/machine/_types.h \
- /usr/include/i386/_types.h /usr/include/sys/wait.h \
- /usr/include/sys/signal.h /usr/include/sys/appleapiopts.h \
- /usr/include/machine/signal.h /usr/include/i386/signal.h \
- /usr/include/i386/_structs.h /usr/include/sys/_structs.h \
- /usr/include/machine/_structs.h /usr/include/mach/i386/_structs.h \
- /usr/include/sys/resource.h /usr/include/machine/endian.h \
- /usr/include/i386/endian.h /usr/include/sys/_endian.h \
- /usr/include/libkern/_OSByteOrder.h \
- /usr/include/libkern/i386/_OSByteOrder.h /usr/include/alloca.h \
- /usr/include/machine/types.h /usr/include/i386/types.h \
- /usr/include/stdio.h /opt/local/include/gcc47/c++/string \
- /opt/local/include/gcc47/c++/bits/stringfwd.h \
- /opt/local/include/gcc47/c++/bits/char_traits.h \
- /opt/local/include/gcc47/c++/bits/stl_algobase.h \
- /opt/local/include/gcc47/c++/bits/functexcept.h \
- /opt/local/include/gcc47/c++/bits/exception_defines.h \
- /opt/local/include/gcc47/c++/bits/cpp_type_traits.h \
- /opt/local/include/gcc47/c++/ext/type_traits.h \
- /opt/local/include/gcc47/c++/ext/numeric_traits.h \
- /opt/local/include/gcc47/c++/bits/stl_iterator_base_types.h \
- /opt/local/include/gcc47/c++/bits/stl_iterator_base_funcs.h \
- /opt/local/include/gcc47/c++/bits/stl_iterator.h \
- /opt/local/include/gcc47/c++/debug/debug.h \
- /opt/local/include/gcc47/c++/bits/postypes.h \
- /opt/local/include/gcc47/c++/cwchar /usr/include/wchar.h \
- /opt/local/lib/gcc47/gcc/x86_64-apple-darwin12/4.7.3/include/stdarg.h \
- /usr/include/time.h /usr/include/_structs.h /usr/include/_wctype.h \
- /usr/include/ctype.h /usr/include/runetype.h \
- /opt/local/include/gcc47/c++/bits/allocator.h \
- /opt/local/include/gcc47/c++//x86_64-apple-darwin12/bits/c++allocator.h \
- /opt/local/include/gcc47/c++/ext/new_allocator.h \
- /opt/local/include/gcc47/c++/new /opt/local/include/gcc47/c++/exception \
- /opt/local/include/gcc47/c++/bits/atomic_lockfree_defines.h \
- /opt/local/include/gcc47/c++/bits/localefwd.h \
- /opt/local/include/gcc47/c++//x86_64-apple-darwin12/bits/c++locale.h \
- /opt/local/include/gcc47/c++/clocale /usr/include/locale.h \
- /usr/include/_locale.h /opt/local/include/gcc47/c++/iosfwd \
- /opt/local/include/gcc47/c++/cctype \
- /opt/local/include/gcc47/c++/bits/ostream_insert.h \
- /opt/local/include/gcc47/c++/bits/cxxabi_forced.h \
- /opt/local/include/gcc47/c++/bits/stl_function.h \
- /opt/local/include/gcc47/c++/backward/binders.h \
- /opt/local/include/gcc47/c++/bits/range_access.h \
- /opt/local/include/gcc47/c++/bits/basic_string.h \
- /opt/local/include/gcc47/c++/ext/atomicity.h \
- /opt/local/include/gcc47/c++//x86_64-apple-darwin12/bits/gthr.h \
- /opt/local/include/gcc47/c++//x86_64-apple-darwin12/bits/gthr-default.h \
- /usr/include/pthread.h /usr/include/pthread_impl.h /usr/include/sched.h \
- /opt/local/include/gcc47/c++//x86_64-apple-darwin12/bits/atomic_word.h \
- /opt/local/include/gcc47/c++/bits/basic_string.tcc \
- /opt/local/include/gcc47/c++/vector \
- /opt/local/include/gcc47/c++/bits/stl_construct.h \
- /opt/local/include/gcc47/c++/ext/alloc_traits.h \
- /opt/local/include/gcc47/c++/bits/stl_uninitialized.h \
- /opt/local/include/gcc47/c++/bits/stl_vector.h \
- /opt/local/include/gcc47/c++/bits/stl_bvector.h \
- /opt/local/include/gcc47/c++/bits/vector.tcc src/testutil.h src/config.h \
- /opt/local/include/gcc47/c++/stdexcept \
- /opt/local/include/gcc47/c++/iostream \
- /opt/local/include/gcc47/c++/ostream /opt/local/include/gcc47/c++/ios \
- /opt/local/include/gcc47/c++/bits/ios_base.h \
- /opt/local/include/gcc47/c++/bits/locale_classes.h \
- /opt/local/include/gcc47/c++/bits/locale_classes.tcc \
- /opt/local/include/gcc47/c++/streambuf \
- /opt/local/include/gcc47/c++/bits/streambuf.tcc \
- /opt/local/include/gcc47/c++/bits/basic_ios.h \
- /opt/local/include/gcc47/c++/bits/locale_facets.h \
- /opt/local/include/gcc47/c++/cwctype /usr/include/wctype.h \
- /opt/local/include/gcc47/c++//x86_64-apple-darwin12/bits/ctype_base.h \
- /opt/local/include/gcc47/c++/bits/streambuf_iterator.h \
- /opt/local/include/gcc47/c++//x86_64-apple-darwin12/bits/ctype_inline.h \
- /opt/local/include/gcc47/c++/bits/locale_facets.tcc \
- /opt/local/include/gcc47/c++/bits/basic_ios.tcc \
- /opt/local/include/gcc47/c++/bits/ostream.tcc \
- /opt/local/include/gcc47/c++/istream \
- /opt/local/include/gcc47/c++/bits/istream.tcc
+ src/sparsehash/type_traits.h /usr/include/c++/4.6/utility \
+ /usr/include/c++/4.6/x86_64-linux-gnu/./bits/c++config.h \
+ /usr/include/c++/4.6/x86_64-linux-gnu/./bits/os_defines.h \
+ /usr/include/features.h /usr/include/x86_64-linux-gnu/bits/predefs.h \
+ /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+ /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+ /usr/include/c++/4.6/x86_64-linux-gnu/./bits/cpu_defines.h \
+ /usr/include/c++/4.6/bits/stl_relops.h \
+ /usr/include/c++/4.6/bits/stl_pair.h /usr/include/c++/4.6/bits/move.h \
+ /usr/include/c++/4.6/bits/concept_check.h src/sparsehash/template_util.h \
+ /usr/include/stdlib.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.6.1/include/stddef.h \
+ /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+ /usr/include/x86_64-linux-gnu/bits/waitstatus.h /usr/include/endian.h \
+ /usr/include/x86_64-linux-gnu/bits/endian.h \
+ /usr/include/x86_64-linux-gnu/bits/byteswap.h /usr/include/xlocale.h \
+ /usr/include/x86_64-linux-gnu/sys/types.h \
+ /usr/include/x86_64-linux-gnu/bits/types.h \
+ /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/time.h \
+ /usr/include/x86_64-linux-gnu/sys/select.h \
+ /usr/include/x86_64-linux-gnu/bits/select.h \
+ /usr/include/x86_64-linux-gnu/bits/sigset.h \
+ /usr/include/x86_64-linux-gnu/bits/time.h \
+ /usr/include/x86_64-linux-gnu/sys/sysmacros.h \
+ /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h /usr/include/alloca.h \
+ /usr/include/x86_64-linux-gnu/bits/stdlib.h /usr/include/stdio.h \
+ /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.6.1/include/stdarg.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio2.h /usr/include/c++/4.6/string \
+ /usr/include/c++/4.6/bits/stringfwd.h \
+ /usr/include/c++/4.6/bits/char_traits.h \
+ /usr/include/c++/4.6/bits/stl_algobase.h \
+ /usr/include/c++/4.6/bits/functexcept.h \
+ /usr/include/c++/4.6/bits/exception_defines.h \
+ /usr/include/c++/4.6/bits/cpp_type_traits.h \
+ /usr/include/c++/4.6/ext/type_traits.h \
+ /usr/include/c++/4.6/ext/numeric_traits.h \
+ /usr/include/c++/4.6/bits/stl_iterator_base_types.h \
+ /usr/include/c++/4.6/bits/stl_iterator_base_funcs.h \
+ /usr/include/c++/4.6/bits/stl_iterator.h \
+ /usr/include/c++/4.6/debug/debug.h /usr/include/c++/4.6/bits/postypes.h \
+ /usr/include/c++/4.6/cwchar /usr/include/x86_64-linux-gnu/bits/wchar.h \
+ /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+ /usr/include/c++/4.6/bits/allocator.h \
+ /usr/include/c++/4.6/x86_64-linux-gnu/./bits/c++allocator.h \
+ /usr/include/c++/4.6/ext/new_allocator.h /usr/include/c++/4.6/new \
+ /usr/include/c++/4.6/exception /usr/include/c++/4.6/bits/localefwd.h \
+ /usr/include/c++/4.6/x86_64-linux-gnu/./bits/c++locale.h \
+ /usr/include/c++/4.6/clocale /usr/include/locale.h \
+ /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.6/iosfwd \
+ /usr/include/c++/4.6/cctype /usr/include/ctype.h \
+ /usr/include/c++/4.6/bits/ostream_insert.h \
+ /usr/include/c++/4.6/bits/cxxabi_forced.h \
+ /usr/include/c++/4.6/bits/stl_function.h \
+ /usr/include/c++/4.6/backward/binders.h \
+ /usr/include/c++/4.6/bits/range_access.h \
+ /usr/include/c++/4.6/bits/basic_string.h \
+ /usr/include/c++/4.6/ext/atomicity.h \
+ /usr/include/c++/4.6/x86_64-linux-gnu/./bits/gthr.h \
+ /usr/include/c++/4.6/x86_64-linux-gnu/./bits/gthr-default.h \
+ /usr/include/pthread.h /usr/include/sched.h \
+ /usr/include/x86_64-linux-gnu/bits/sched.h \
+ /usr/include/x86_64-linux-gnu/bits/setjmp.h /usr/include/unistd.h \
+ /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+ /usr/include/x86_64-linux-gnu/bits/environments.h \
+ /usr/include/x86_64-linux-gnu/bits/confname.h /usr/include/getopt.h \
+ /usr/include/x86_64-linux-gnu/bits/unistd.h \
+ /usr/include/c++/4.6/x86_64-linux-gnu/./bits/atomic_word.h \
+ /usr/include/c++/4.6/initializer_list \
+ /usr/include/c++/4.6/bits/basic_string.tcc /usr/include/c++/4.6/vector \
+ /usr/include/c++/4.6/bits/stl_construct.h \
+ /usr/include/c++/4.6/bits/stl_uninitialized.h \
+ /usr/include/c++/4.6/bits/stl_vector.h \
+ /usr/include/c++/4.6/bits/stl_bvector.h \
+ /usr/include/c++/4.6/bits/vector.tcc src/testutil.h src/config.h \
+ /usr/include/c++/4.6/stdexcept /usr/include/c++/4.6/iostream \
+ /usr/include/c++/4.6/ostream /usr/include/c++/4.6/ios \
+ /usr/include/c++/4.6/bits/ios_base.h \
+ /usr/include/c++/4.6/bits/locale_classes.h \
+ /usr/include/c++/4.6/bits/locale_classes.tcc \
+ /usr/include/c++/4.6/streambuf /usr/include/c++/4.6/bits/streambuf.tcc \
+ /usr/include/c++/4.6/bits/basic_ios.h \
+ /usr/include/c++/4.6/bits/locale_facets.h /usr/include/c++/4.6/cwctype \
+ /usr/include/wctype.h \
+ /usr/include/c++/4.6/x86_64-linux-gnu/./bits/ctype_base.h \
+ /usr/include/c++/4.6/bits/streambuf_iterator.h \
+ /usr/include/c++/4.6/x86_64-linux-gnu/./bits/ctype_inline.h \
+ /usr/include/c++/4.6/bits/locale_facets.tcc \
+ /usr/include/c++/4.6/bits/basic_ios.tcc \
+ /usr/include/c++/4.6/bits/ostream.tcc /usr/include/c++/4.6/istream \
+ /usr/include/c++/4.6/bits/istream.tcc
 
 src/sparsehash/internal/sparseconfig.h:
 
@@ -96,236 +103,252 @@ src/config.h:
 
 src/sparsehash/type_traits.h:
 
-/opt/local/include/gcc47/c++/utility:
+/usr/include/c++/4.6/utility:
 
-/opt/local/include/gcc47/c++//x86_64-apple-darwin12/bits/c++config.h:
+/usr/include/c++/4.6/x86_64-linux-gnu/./bits/c++config.h:
 
-/opt/local/include/gcc47/c++//x86_64-apple-darwin12/bits/os_defines.h:
+/usr/include/c++/4.6/x86_64-linux-gnu/./bits/os_defines.h:
 
-/opt/local/include/gcc47/c++//x86_64-apple-darwin12/bits/cpu_defines.h:
+/usr/include/features.h:
 
-/opt/local/include/gcc47/c++/bits/stl_relops.h:
+/usr/include/x86_64-linux-gnu/bits/predefs.h:
 
-/opt/local/include/gcc47/c++/bits/stl_pair.h:
+/usr/include/x86_64-linux-gnu/sys/cdefs.h:
 
-/opt/local/include/gcc47/c++/bits/move.h:
+/usr/include/x86_64-linux-gnu/bits/wordsize.h:
 
-/opt/local/include/gcc47/c++/bits/concept_check.h:
+/usr/include/x86_64-linux-gnu/gnu/stubs.h:
+
+/usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
+
+/usr/include/c++/4.6/x86_64-linux-gnu/./bits/cpu_defines.h:
+
+/usr/include/c++/4.6/bits/stl_relops.h:
+
+/usr/include/c++/4.6/bits/stl_pair.h:
+
+/usr/include/c++/4.6/bits/move.h:
+
+/usr/include/c++/4.6/bits/concept_check.h:
 
 src/sparsehash/template_util.h:
 
 /usr/include/stdlib.h:
 
-/usr/include/Availability.h:
+/usr/lib/gcc/x86_64-linux-gnu/4.6.1/include/stddef.h:
 
-/usr/include/AvailabilityInternal.h:
+/usr/include/x86_64-linux-gnu/bits/waitflags.h:
 
-/usr/include/_types.h:
+/usr/include/x86_64-linux-gnu/bits/waitstatus.h:
 
-/usr/include/sys/_types.h:
+/usr/include/endian.h:
 
-/usr/include/sys/cdefs.h:
+/usr/include/x86_64-linux-gnu/bits/endian.h:
 
-/usr/include/sys/_symbol_aliasing.h:
+/usr/include/x86_64-linux-gnu/bits/byteswap.h:
 
-/usr/include/sys/_posix_availability.h:
+/usr/include/xlocale.h:
 
-/usr/include/machine/_types.h:
+/usr/include/x86_64-linux-gnu/sys/types.h:
 
-/usr/include/i386/_types.h:
+/usr/include/x86_64-linux-gnu/bits/types.h:
 
-/usr/include/sys/wait.h:
-
-/usr/include/sys/signal.h:
-
-/usr/include/sys/appleapiopts.h:
-
-/usr/include/machine/signal.h:
-
-/usr/include/i386/signal.h:
-
-/usr/include/i386/_structs.h:
-
-/usr/include/sys/_structs.h:
-
-/usr/include/machine/_structs.h:
-
-/usr/include/mach/i386/_structs.h:
-
-/usr/include/sys/resource.h:
-
-/usr/include/machine/endian.h:
-
-/usr/include/i386/endian.h:
-
-/usr/include/sys/_endian.h:
-
-/usr/include/libkern/_OSByteOrder.h:
-
-/usr/include/libkern/i386/_OSByteOrder.h:
-
-/usr/include/alloca.h:
-
-/usr/include/machine/types.h:
-
-/usr/include/i386/types.h:
-
-/usr/include/stdio.h:
-
-/opt/local/include/gcc47/c++/string:
-
-/opt/local/include/gcc47/c++/bits/stringfwd.h:
-
-/opt/local/include/gcc47/c++/bits/char_traits.h:
-
-/opt/local/include/gcc47/c++/bits/stl_algobase.h:
-
-/opt/local/include/gcc47/c++/bits/functexcept.h:
-
-/opt/local/include/gcc47/c++/bits/exception_defines.h:
-
-/opt/local/include/gcc47/c++/bits/cpp_type_traits.h:
-
-/opt/local/include/gcc47/c++/ext/type_traits.h:
-
-/opt/local/include/gcc47/c++/ext/numeric_traits.h:
-
-/opt/local/include/gcc47/c++/bits/stl_iterator_base_types.h:
-
-/opt/local/include/gcc47/c++/bits/stl_iterator_base_funcs.h:
-
-/opt/local/include/gcc47/c++/bits/stl_iterator.h:
-
-/opt/local/include/gcc47/c++/debug/debug.h:
-
-/opt/local/include/gcc47/c++/bits/postypes.h:
-
-/opt/local/include/gcc47/c++/cwchar:
-
-/usr/include/wchar.h:
-
-/opt/local/lib/gcc47/gcc/x86_64-apple-darwin12/4.7.3/include/stdarg.h:
+/usr/include/x86_64-linux-gnu/bits/typesizes.h:
 
 /usr/include/time.h:
 
-/usr/include/_structs.h:
+/usr/include/x86_64-linux-gnu/sys/select.h:
 
-/usr/include/_wctype.h:
+/usr/include/x86_64-linux-gnu/bits/select.h:
 
-/usr/include/ctype.h:
+/usr/include/x86_64-linux-gnu/bits/sigset.h:
 
-/usr/include/runetype.h:
+/usr/include/x86_64-linux-gnu/bits/time.h:
 
-/opt/local/include/gcc47/c++/bits/allocator.h:
+/usr/include/x86_64-linux-gnu/sys/sysmacros.h:
 
-/opt/local/include/gcc47/c++//x86_64-apple-darwin12/bits/c++allocator.h:
+/usr/include/x86_64-linux-gnu/bits/pthreadtypes.h:
 
-/opt/local/include/gcc47/c++/ext/new_allocator.h:
+/usr/include/alloca.h:
 
-/opt/local/include/gcc47/c++/new:
+/usr/include/x86_64-linux-gnu/bits/stdlib.h:
 
-/opt/local/include/gcc47/c++/exception:
+/usr/include/stdio.h:
 
-/opt/local/include/gcc47/c++/bits/atomic_lockfree_defines.h:
+/usr/include/libio.h:
 
-/opt/local/include/gcc47/c++/bits/localefwd.h:
+/usr/include/_G_config.h:
 
-/opt/local/include/gcc47/c++//x86_64-apple-darwin12/bits/c++locale.h:
+/usr/include/wchar.h:
 
-/opt/local/include/gcc47/c++/clocale:
+/usr/lib/gcc/x86_64-linux-gnu/4.6.1/include/stdarg.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
+
+/usr/include/x86_64-linux-gnu/bits/sys_errlist.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio2.h:
+
+/usr/include/c++/4.6/string:
+
+/usr/include/c++/4.6/bits/stringfwd.h:
+
+/usr/include/c++/4.6/bits/char_traits.h:
+
+/usr/include/c++/4.6/bits/stl_algobase.h:
+
+/usr/include/c++/4.6/bits/functexcept.h:
+
+/usr/include/c++/4.6/bits/exception_defines.h:
+
+/usr/include/c++/4.6/bits/cpp_type_traits.h:
+
+/usr/include/c++/4.6/ext/type_traits.h:
+
+/usr/include/c++/4.6/ext/numeric_traits.h:
+
+/usr/include/c++/4.6/bits/stl_iterator_base_types.h:
+
+/usr/include/c++/4.6/bits/stl_iterator_base_funcs.h:
+
+/usr/include/c++/4.6/bits/stl_iterator.h:
+
+/usr/include/c++/4.6/debug/debug.h:
+
+/usr/include/c++/4.6/bits/postypes.h:
+
+/usr/include/c++/4.6/cwchar:
+
+/usr/include/x86_64-linux-gnu/bits/wchar.h:
+
+/usr/include/x86_64-linux-gnu/bits/wchar2.h:
+
+/usr/include/c++/4.6/bits/allocator.h:
+
+/usr/include/c++/4.6/x86_64-linux-gnu/./bits/c++allocator.h:
+
+/usr/include/c++/4.6/ext/new_allocator.h:
+
+/usr/include/c++/4.6/new:
+
+/usr/include/c++/4.6/exception:
+
+/usr/include/c++/4.6/bits/localefwd.h:
+
+/usr/include/c++/4.6/x86_64-linux-gnu/./bits/c++locale.h:
+
+/usr/include/c++/4.6/clocale:
 
 /usr/include/locale.h:
 
-/usr/include/_locale.h:
+/usr/include/x86_64-linux-gnu/bits/locale.h:
 
-/opt/local/include/gcc47/c++/iosfwd:
+/usr/include/c++/4.6/iosfwd:
 
-/opt/local/include/gcc47/c++/cctype:
+/usr/include/c++/4.6/cctype:
 
-/opt/local/include/gcc47/c++/bits/ostream_insert.h:
+/usr/include/ctype.h:
 
-/opt/local/include/gcc47/c++/bits/cxxabi_forced.h:
+/usr/include/c++/4.6/bits/ostream_insert.h:
 
-/opt/local/include/gcc47/c++/bits/stl_function.h:
+/usr/include/c++/4.6/bits/cxxabi_forced.h:
 
-/opt/local/include/gcc47/c++/backward/binders.h:
+/usr/include/c++/4.6/bits/stl_function.h:
 
-/opt/local/include/gcc47/c++/bits/range_access.h:
+/usr/include/c++/4.6/backward/binders.h:
 
-/opt/local/include/gcc47/c++/bits/basic_string.h:
+/usr/include/c++/4.6/bits/range_access.h:
 
-/opt/local/include/gcc47/c++/ext/atomicity.h:
+/usr/include/c++/4.6/bits/basic_string.h:
 
-/opt/local/include/gcc47/c++//x86_64-apple-darwin12/bits/gthr.h:
+/usr/include/c++/4.6/ext/atomicity.h:
 
-/opt/local/include/gcc47/c++//x86_64-apple-darwin12/bits/gthr-default.h:
+/usr/include/c++/4.6/x86_64-linux-gnu/./bits/gthr.h:
+
+/usr/include/c++/4.6/x86_64-linux-gnu/./bits/gthr-default.h:
 
 /usr/include/pthread.h:
 
-/usr/include/pthread_impl.h:
-
 /usr/include/sched.h:
 
-/opt/local/include/gcc47/c++//x86_64-apple-darwin12/bits/atomic_word.h:
+/usr/include/x86_64-linux-gnu/bits/sched.h:
 
-/opt/local/include/gcc47/c++/bits/basic_string.tcc:
+/usr/include/x86_64-linux-gnu/bits/setjmp.h:
 
-/opt/local/include/gcc47/c++/vector:
+/usr/include/unistd.h:
 
-/opt/local/include/gcc47/c++/bits/stl_construct.h:
+/usr/include/x86_64-linux-gnu/bits/posix_opt.h:
 
-/opt/local/include/gcc47/c++/ext/alloc_traits.h:
+/usr/include/x86_64-linux-gnu/bits/environments.h:
 
-/opt/local/include/gcc47/c++/bits/stl_uninitialized.h:
+/usr/include/x86_64-linux-gnu/bits/confname.h:
 
-/opt/local/include/gcc47/c++/bits/stl_vector.h:
+/usr/include/getopt.h:
 
-/opt/local/include/gcc47/c++/bits/stl_bvector.h:
+/usr/include/x86_64-linux-gnu/bits/unistd.h:
 
-/opt/local/include/gcc47/c++/bits/vector.tcc:
+/usr/include/c++/4.6/x86_64-linux-gnu/./bits/atomic_word.h:
+
+/usr/include/c++/4.6/initializer_list:
+
+/usr/include/c++/4.6/bits/basic_string.tcc:
+
+/usr/include/c++/4.6/vector:
+
+/usr/include/c++/4.6/bits/stl_construct.h:
+
+/usr/include/c++/4.6/bits/stl_uninitialized.h:
+
+/usr/include/c++/4.6/bits/stl_vector.h:
+
+/usr/include/c++/4.6/bits/stl_bvector.h:
+
+/usr/include/c++/4.6/bits/vector.tcc:
 
 src/testutil.h:
 
 src/config.h:
 
-/opt/local/include/gcc47/c++/stdexcept:
+/usr/include/c++/4.6/stdexcept:
 
-/opt/local/include/gcc47/c++/iostream:
+/usr/include/c++/4.6/iostream:
 
-/opt/local/include/gcc47/c++/ostream:
+/usr/include/c++/4.6/ostream:
 
-/opt/local/include/gcc47/c++/ios:
+/usr/include/c++/4.6/ios:
 
-/opt/local/include/gcc47/c++/bits/ios_base.h:
+/usr/include/c++/4.6/bits/ios_base.h:
 
-/opt/local/include/gcc47/c++/bits/locale_classes.h:
+/usr/include/c++/4.6/bits/locale_classes.h:
 
-/opt/local/include/gcc47/c++/bits/locale_classes.tcc:
+/usr/include/c++/4.6/bits/locale_classes.tcc:
 
-/opt/local/include/gcc47/c++/streambuf:
+/usr/include/c++/4.6/streambuf:
 
-/opt/local/include/gcc47/c++/bits/streambuf.tcc:
+/usr/include/c++/4.6/bits/streambuf.tcc:
 
-/opt/local/include/gcc47/c++/bits/basic_ios.h:
+/usr/include/c++/4.6/bits/basic_ios.h:
 
-/opt/local/include/gcc47/c++/bits/locale_facets.h:
+/usr/include/c++/4.6/bits/locale_facets.h:
 
-/opt/local/include/gcc47/c++/cwctype:
+/usr/include/c++/4.6/cwctype:
 
 /usr/include/wctype.h:
 
-/opt/local/include/gcc47/c++//x86_64-apple-darwin12/bits/ctype_base.h:
+/usr/include/c++/4.6/x86_64-linux-gnu/./bits/ctype_base.h:
 
-/opt/local/include/gcc47/c++/bits/streambuf_iterator.h:
+/usr/include/c++/4.6/bits/streambuf_iterator.h:
 
-/opt/local/include/gcc47/c++//x86_64-apple-darwin12/bits/ctype_inline.h:
+/usr/include/c++/4.6/x86_64-linux-gnu/./bits/ctype_inline.h:
 
-/opt/local/include/gcc47/c++/bits/locale_facets.tcc:
+/usr/include/c++/4.6/bits/locale_facets.tcc:
 
-/opt/local/include/gcc47/c++/bits/basic_ios.tcc:
+/usr/include/c++/4.6/bits/basic_ios.tcc:
 
-/opt/local/include/gcc47/c++/bits/ostream.tcc:
+/usr/include/c++/4.6/bits/ostream.tcc:
 
-/opt/local/include/gcc47/c++/istream:
+/usr/include/c++/4.6/istream:
 
-/opt/local/include/gcc47/c++/bits/istream.tcc:
+/usr/include/c++/4.6/bits/istream.tcc:
