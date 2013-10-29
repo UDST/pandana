@@ -25,6 +25,7 @@ namespace MTC {
                     }
                 }
             }
+			return true;
         }
 #if BOOST
 		bool Accessibility::saveFile(std::string filename)
