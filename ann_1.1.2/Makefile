@@ -70,6 +70,9 @@ clean:
 	cd test ; $(MAKE) clean
 	cd sample ; $(MAKE) clean
 	cd ann2fig ; $(MAKE) clean
+	cd doc ; $(MAKE) clean
+	cd MS_Win32; $(MAKE) clean
+	cd validate ; $(MAKE) clean
 
 #-----------------------------------------------------------------------------
 # Remove everthing that can be remade

@@ -28,17 +28,8 @@
 #define ANN_kd_tree_H
 
 #include <ANN/ANNx.h>					// all ANN includes
-#include "pr_queue_k.h"					// k-element priority queue
 
 using namespace std;					// make std:: available
-
-typedef struct {
-int				ANNkdDim;				// dimension of space
-ANNpoint		ANNkdQ;					// query point
-double			ANNkdMaxErr;			// max tolerable squared error
-ANNpointArray	ANNkdPts;				// the points
-ANNmin_k		*ANNkdPointMK;			// set of k closest points
-} ann_query_t;
 
 //----------------------------------------------------------------------
 //	Generic kd-tree node
@@ -56,7 +47,7 @@ class ANNkd_node{						// generic kd-tree node (empty shell)
 public:
 	virtual ~ANNkd_node() {}					// virtual distroyer
 
-	virtual void ann_search(ANNdist,ann_query_t*) = 0;		// tree search
+	virtual void ann_search(ANNdist) = 0;		// tree search
 	virtual void ann_pri_search(ANNdist) = 0;	// priority search
 	virtual void ann_FR_search(ANNdist) = 0;	// fixed-radius search
 
@@ -119,7 +110,7 @@ public:
 	virtual void print(int level, ostream &out);// print node
 	virtual void dump(ostream &out);			// dump node
 
-	virtual void ann_search(ANNdist, ann_query_t *aqt);			// standard search
+	virtual void ann_search(ANNdist);			// standard search
 	virtual void ann_pri_search(ANNdist);		// priority search
 	virtual void ann_FR_search(ANNdist);		// fixed-radius search
 };
@@ -185,7 +176,7 @@ public:
 	virtual void print(int level, ostream &out);// print node
 	virtual void dump(ostream &out);			// dump node
 
-	virtual void ann_search(ANNdist,ann_query_t*);			// standard search
+	virtual void ann_search(ANNdist);			// standard search
 	virtual void ann_pri_search(ANNdist);		// priority search
 	virtual void ann_FR_search(ANNdist);		// fixed-radius search
 };
