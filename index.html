@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="urbanaccess : Framework for computing accessibility variables" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>urbanaccess</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/fscottfoti/urbanaccess">View on GitHub</a>
+
+          <h1 id="project_title">urbanaccess</h1>
+          <h2 id="project_tagline">Framework for computing accessibility variables</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/fscottfoti/urbanaccess/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/fscottfoti/urbanaccess/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="urbanaccess" class="anchor" href="#urbanaccess"><span class="octicon octicon-link"></span></a>urbanaccess</h1>
+
+<p>Accessibility as defined here is the ability to reach other specified locations in the city.</p>
+
+<p>In practice, it's a bit more subtle than that.  This framework serves to aggregate data along the transportation network in a way that typically creates a smooth surface over the entire city of the variable of interest.</p>
+
+<p>How does this work.  </p>
+
+<p>1) create and preprocess the network</p>
+
+<p>Networks are completely abstract in that they have nodes, edges, and one or more impedances associated with each edge.  Impedances can be time or distance or an index of some kind, but there is a single number associated with each edge.  (If you pass multiple impedances for each edge, a different instance of the network is created for each network.  For instance, for congested travel time by time of day.  Pedestrian, auto, and local street networks have all been used in this framework successfully.</p>
+
+<p>2) assign the variable to the network</p>
+
+<p>First, take the variable of interest.  In some cases it's discrete - like the number of coffee shops, in other cases it's continuous like the income of people.  But you have observations of some kind tied to x-y coordinates in the city.  So you map these to the network, usually be doing a nearest neighbor on all the intersections in the network - i.e. each variable is abstracted to exist at one of the nodes of the network.  If this is a problem-  for instance a large parcel in the city - it might be necessary to split up the object to many nearby nodes, which is an extra step but fits within the same framework.</p>
+
+<p>3) perform the aggregation</p>
+
+<p>The main use case of UrbanAccess is to perform an aggregation.  The api is designed to perform the aggregations for all nodes in the network at the same time in a multi-threaded fashion.  Most accessibility queries can be performed in well under a second, even for hundreds of thousands of nodes.  To perform an aggregation, pass a radius, an aggregation type (min, max, sum, mean, stddev), and a decay (flat, linear, exponential).  Decays can be applied to the variable to that items further away have less of an impact on the node for which the query is being performed.  In other words, the aggregation is performed for the whole network - in the Bay Area this is 226K nodes - and a buffer query up to the radius, typically 500 meters to about 45 minutes travel time, is performed for each node.</p>
+
+<p>4) perform other queries</p>
+
+<p>Because the underlying network operations are performed by the Open Source Routing Machine, "find nearest" queries are also possible as well as point-to-point travel times.</p>
+
+<h1>
+<a name="acknowledgments" class="anchor" href="#acknowledgments"><span class="octicon octicon-link"></span></a>Acknowledgments</h1>
+
+<p>None of this would be possible without the help of Dennis Luxen (now at MapBox) and his OSRM (<a href="https://github.com/DennisOSRM/Project-OSRM">https://github.com/DennisOSRM/Project-OSRM</a>).</p>
+
+<p>OSRM also has a dependency on Google's sparsehash project (<a href="https://code.google.com/p/sparsehash/">https://code.google.com/p/sparsehash/</a>).  </p>
+
+<p>Nearest neighbor queries are performed with the fastest k-d tree around, e.g. ANN (<a href="http://www.cs.umd.edu/%7Emount/ANN/">http://www.cs.umd.edu/~mount/ANN/</a>).  </p>
+
+<h1>
+<a name="install" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>Install</h1>
+
+<p>All source code is included in this project with absolutely no other dependencies.  On Linux/Mac, simply run make.  Or build on Windows using the solution provided in the winaccess folder.  Once the project is built, you can install the Python wrappers to the system directory using distutils, e.g. "python setup.py install"</p>
+
+<h1>
+<a name="docs" class="anchor" href="#docs"><span class="octicon octicon-link"></span></a>Docs</h1>
+
+<p>Docs are on the wiki (or will be soon;)</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">urbanaccess maintained by <a href="https://github.com/fscottfoti">fscottfoti</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
