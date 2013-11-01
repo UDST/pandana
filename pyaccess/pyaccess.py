@@ -134,7 +134,7 @@ class PyAccess():
     def initializeAccVarDirect(my,gno,cat,nodeids,accvar):
         _pyaccess.initialize_acc_var(gno,cat,nodeids,accvar)
 
-    def initializeAccVar(my,cat,nodeids,accvar,preaggregate=1):
+    def initializeAccVar(my,cat,nodeids,accvar,preaggregate=0):
         if my.numgraphs == 1 and type(nodeids) <> type([]):
             nodeids = [nodeids] # allow passing node ids not as a list of lists when one graph
         for i in range(my.numgraphs):
