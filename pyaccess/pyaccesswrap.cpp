@@ -70,7 +70,6 @@ create_graph(PyObject *self, PyObject *args)
     
     std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[id]; 
 
-    omp_set_num_threads(12);
     for(int i = 0 ; i < numimpedances ; i++) {
         std::shared_ptr<MTC::accessibility::Graphalg> ptr(new MTC::accessibility::Graphalg); 
         sa->ga.push_back(ptr);
@@ -155,7 +154,6 @@ static PyObject *
 find_all_nearest_pois(PyObject *self, PyObject *args)
 {
 
-    omp_set_num_threads(12);
     double radius;
 	int varind;
 	if (!PyArg_ParseTuple(args, "di", &radius, &varind)) return NULL;
@@ -237,12 +235,11 @@ initialize_acc_var(PyObject *self, PyObject *args)
 static PyObject *
 xy_to_node(PyObject *self, PyObject *args)
 {
-    omp_set_num_threads(12);
 	PyObject *input1;
     double distance;
     int gno;
-	if (!PyArg_ParseTuple(args, "Odi", &input1, &distance, &gno)) return NULL;
 
+	if (!PyArg_ParseTuple(args, "Odi", &input1, &distance, &gno)) return NULL;
     std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[gno]; 
 
 	PyArrayObject *pyo;
@@ -261,7 +258,9 @@ xy_to_node(PyObject *self, PyObject *args)
 	dbTimer.start();
 	//FILE_LOG(logINFO) << "START --- mapping xys\n";
 #endif
+    #ifndef __APPLE__
     #pragma omp parallel for
+    #endif
     for(int i = 0 ; i < num ; i++) {
         double d;
 		// now that we have multiple subgraphs, the nearest neighbor should
@@ -299,7 +298,6 @@ get_all_open_walkscores(PyObject *self, PyObject *args)
 {
     std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[0]; 
 
-    omp_set_num_threads(12);
     std::vector<double> nodes = sa->getAllOpenWalkscores();
     npy_intp len = nodes.size(); 
     PyArrayObject *returnobj = (PyArrayObject *)PyArray_SimpleNew(1, &len, NPY_FLOAT32);
@@ -424,7 +422,6 @@ sample_many_nodes_in_range(PyObject *self, PyObject *args)
 static PyObject *
 get_many_aggregate_accessibility_variables(PyObject *self, PyObject *args)
 {
-    omp_set_num_threads(12);
 	PyObject *input1;
     double radius;
 	int varind, aggtyp, decay;
@@ -468,7 +465,6 @@ static PyObject *
 get_all_model_results(PyObject *self, PyObject *args)
 {
 
-    omp_set_num_threads(12);
     double radius, asc, denom, nestdenom, mu, distcoeff;
 	int graphno, impno, numvars;
 	PyObject *input1, *input2;
@@ -508,7 +504,6 @@ static PyObject *
 get_all_aggregate_accessibility_variables(PyObject *self, PyObject *args)
 {
 
-    omp_set_num_threads(12);
     double radius;
 	int varind, aggtyp, decay, graphno, impno;
 	if (!PyArg_ParseTuple(args, "diiiii", &radius, &varind, &aggtyp, &decay,
@@ -574,7 +569,6 @@ compute_design_variable(PyObject *self, PyObject *args)
 static PyObject *
 compute_all_design_variables(PyObject *self, PyObject *args)
 {
-    omp_set_num_threads(12);
     double radius;
 	const char *type;
     int gno;
@@ -606,7 +600,6 @@ compute_all_design_variables(PyObject *self, PyObject *args)
 static PyObject *
 precompute_range(PyObject *self, PyObject *args)
 {
-    omp_set_num_threads(12);
     int gno;
     double radius;
 	if (!PyArg_ParseTuple(args, "di", &radius, &gno)) return NULL;
