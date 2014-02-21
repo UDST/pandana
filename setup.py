@@ -23,9 +23,9 @@ library_dirs = [
 'contraction_hierarchies'
 ]
 packages = ['pyaccess']
-libraries = [ 'ANN', 'ch', 'gomp' ]
+libraries = [ 'ANN', 'ch', 'gomp']
 source_files = [ 'pyaccess/accessibility.cpp', 'pyaccess/graphalg.cpp', 'pyaccess/nearestneighbor.cpp', 'pyaccess/pyaccesswrap.cpp' ]
-extra_compile_args = ['-shared','-DMACOSX','-fopenmp','-DLINUX','-w','-std=gnu++0x','-O3','-fpic','-g','-Wno-deprecated']
+extra_compile_args = ['-shared','-DMACOSX','-DLINUX','-w','-std=gnu++0x','-O3','-fopenmp','-fpic','-g','-Wno-deprecated']
 py_modules=['pyaccess/pyaccess','pyaccess/urbanaccess']
 	  
 setup(packages=packages, py_modules=py_modules, name=extension_name, version=extension_version, ext_modules=[Extension( extension_name, source_files, include_dirs=include_dirs, library_dirs=library_dirs, libraries=libraries, extra_compile_args=extra_compile_args, )] )
