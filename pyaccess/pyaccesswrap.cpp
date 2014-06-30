@@ -259,7 +259,7 @@ xy_to_node(PyObject *self, PyObject *args)
 	//FILE_LOG(logINFO) << "START --- mapping xys\n";
 #endif
     #ifndef __APPLE__
-    #pragma omp parallel for
+    //#pragma omp parallel for
     #endif
     for(int i = 0 ; i < num ; i++) {
         double d;
