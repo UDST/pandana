@@ -35,7 +35,7 @@ namespace MTC {
 				graph[i].y = nodesxy[i*2+1];
 			}
 #endif
-			int num = 12; //omp_get_max_threads();
+			int num = omp_get_max_threads();
 			FILE_LOG(logINFO) << "Generating contraction hierarchies with " << num << " threads.\n";
 			ch = CH::ContractionHierarchies(num);
 
