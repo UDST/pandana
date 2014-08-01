@@ -33,7 +33,7 @@ namespace MTC {
 			DECAY_FLAT,
 			DECAY_MAXVAL
 		};
-		
+
 		// points of interest categories
 		enum POI_category_t {
 			POI_COFFEESHOPS,
@@ -59,7 +59,7 @@ namespace MTC {
 		};
 
 		typedef std::vector<std::vector<float> > accessibility_vars_t;
-		
+
 		typedef struct AccVarDef {
 			std::string tblname;
 			std::string varname;
@@ -71,18 +71,22 @@ namespace MTC {
 			}
 		} acc_var_def_t;
 
-		class DLLExport Accessibility
+		#ifdef WIN32
+			class DLLExport Accessibility
+		#else
+			class Accessibility
+		#endif
 		{
 		public:
 			Accessibility(int numnodes=0);
 
 			// aggregate a variable within a radius
-			double aggregateAccessibilityVariable(int srcnode, float radius, 
+			double aggregateAccessibilityVariable(int srcnode, float radius,
 										accessibility_vars_t &vars,
-										aggregation_types_t aggtyp, 
+										aggregation_types_t aggtyp,
 										decay_func_t gravity_func,
 										int graphno=0);
-			
+
 			// computes the accessibility for every node in the network
 			std::vector<double>
 			getAllAggregateAccessibilityVariables(float radius, int index,
@@ -103,19 +107,19 @@ namespace MTC {
                         float distcoeff, float asc, float denom, float nestdenom, float mu, int gno);
 
 			// compute a variable having to do with the street network
-			double computeDesignVariable(int srcnode, float radius, 
+			double computeDesignVariable(int srcnode, float radius,
 													std::string type,
 													int graphno=0);
 
 			void initializeAccVars(int numcategories);
             void initializeAccVar(int index, accessibility_vars_t &vars);
-			
+
 			// look for the closest points of interest
-			void initializePOIs(int numcategories, double maxdist, 
+			void initializePOIs(int numcategories, double maxdist,
 											int maxitems);
 			void initializeCategory(int category, accessibility_vars_t &vars);
-			std::vector<float> findNearestPOIs(int srcnode, 
-											float maxradius, int maxnumber, 
+			std::vector<float> findNearestPOIs(int srcnode,
+											float maxradius, int maxnumber,
 											POI_category_t cat,
 											int graphno=0);
 			std::vector<double> findAllNearestPOIs(float maxradius,
@@ -132,7 +136,7 @@ namespace MTC {
 
 			std::vector<std::shared_ptr<Graphalg> > ga;
 
-			// a little hackish but you can precompute 
+			// a little hackish but you can precompute
 			// the range queries and reuse them
 			void precomputeRangeQueries(float radius);
 			float dmsradius;
@@ -148,7 +152,7 @@ namespace MTC {
 			template<class Archive>
 			void serialize(Archive & ar, const unsigned int /* file_version */){
 					ar & dmsradius & dms & numnodes & xVec & yVec & ids;
-			}		
+			}
 			bool saveCSV(std::string filename);
 			bool saveFile(std::string filename);
 			bool loadFile(std::string filename);
@@ -158,9 +162,9 @@ namespace MTC {
 			int compute_num_blocks(DistanceVec &distances);
 			double compute_centrality(int srcnode, DistanceVec &distances,
 											 int graphno=0);
-			double compute_street_design_var(DistanceVec &distances, 
+			double compute_street_design_var(DistanceVec &distances,
 											 std::string type, float radius,
-											 int graphno=0);			
+											 int graphno=0);
 		};
 	}
 }
