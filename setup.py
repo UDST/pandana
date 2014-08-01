@@ -34,14 +34,13 @@ extra_compile_args = [
     '-fpic',
     '-g',
     '-Wno-deprecated',
-    # '-ferror-limit=1'
 ]
 py_modules=['pyaccess/pyaccess', 'pyaccess/urbanaccess']
 
 setup(
     packages=packages,
     py_modules=py_modules,
-    name=extension_name,
+    name='pyaccess',
     version=extension_version,
     ext_modules=[
         Extension(
