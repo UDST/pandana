@@ -7,7 +7,11 @@
 
 namespace MTC {
 	namespace accessibility {
-		class DLLExport NearestNeighbor
+		#ifdef WIN32
+			class DLLExport NearestNeighbor
+		#else
+			class NearestNeighbor
+		#endif
 		{
 		public:
 
@@ -17,7 +21,7 @@ namespace MTC {
 			void setPoint(int ind, double x, double y);
 			void buildTree();
 			void dump();
-			int Query(double x, double y, int numberofneighbors, double distance, 
+			int Query(double x, double y, int numberofneighbors, double distance,
 													int **retpIndexes, double **retpDistances);
 
 			ANNpointArray		dataPts;

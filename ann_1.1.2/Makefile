@@ -6,12 +6,12 @@
 #-----------------------------------------------------------------------------
 # Copyright (c) 1997-2005 University of Maryland and Sunil Arya and
 # David Mount.  All Rights Reserved.
-# 
+#
 # This software and related documentation is part of the Approximate
 # Nearest Neighbor Library (ANN).  This software is provided under
 # the provisions of the Lesser GNU Public License (LGPL).  See the
 # file ../ReadMe.txt for further information.
-# 
+#
 # The University of Maryland (U.M.) and the authors make no
 # representations about the suitability or fitness of this software for
 # any purpose.  It is provided "as is" without express or implied
@@ -70,14 +70,12 @@ clean:
 	cd test ; $(MAKE) clean
 	cd sample ; $(MAKE) clean
 	cd ann2fig ; $(MAKE) clean
-	cd doc ; $(MAKE) clean
 	cd MS_Win32; $(MAKE) clean
-	cd validate ; $(MAKE) clean
 
 #-----------------------------------------------------------------------------
 # Remove everthing that can be remade
 #-----------------------------------------------------------------------------
-realclean: 
+realclean:
 	-rm -f lib/*
 	-rm -f bin/*
 	cd src ; $(MAKE) realclean
@@ -93,7 +91,7 @@ realclean:
 #-----------------------------------------------------------------------------
 DISTR = ann_1.1.2
 
-distribution: realclean 
+distribution: realclean
 	cd .. ; mv -f $(DISTR) $(DISTR)-old; mkdir $(DISTR)
 	cp Copyright.txt ../$(DISTR)
 	cp License.txt ../$(DISTR)

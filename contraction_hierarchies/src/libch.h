@@ -102,10 +102,10 @@ struct Edge {
 typedef std::vector<std::pair<NodeID, unsigned> > ReachedNode;
 
 	//The CH Interface will have the following functions:
-#ifdef LINUX
-    class ContractionHierarchies {
+#ifdef WIN32
+    class DLLExport ContractionHierarchies {
 #else
-	class DLLExport ContractionHierarchies {
+    class ContractionHierarchies {
 #endif
 
 	public:
@@ -134,9 +134,9 @@ typedef std::vector<std::pair<NodeID, unsigned> > ReachedNode;
         void getNearestWithUpperBoundOnDistance(unsigned category, NodeID node, unsigned maxLocations, std::vector<BucketEntry>& resultingVenues);
         void getNearestWithUpperBoundOnDistance(unsigned category, NodeID node, unsigned maxLocations, std::vector<BucketEntry>& resultingVenues, unsigned threadID);
         void getNearestWithUpperBoundOnDistanceAndLocations(unsigned category, NodeID node, EdgeWeight maxDistance, unsigned maxLocations, std::vector<BucketEntry>& resultingVenues);
-        
+
         void getNearestWithUpperBoundOnDistanceAndLocations(unsigned category, NodeID node, EdgeWeight maxDistance, unsigned maxLocations, std::vector<BucketEntry>& resultingVenues, unsigned threadID);
-        
+
 	private:
 		unsigned numberOfThreads;
 		QueryGraph * BuildRangeGraph(const int nodes, const std::vector< Edge >& inputEdges);

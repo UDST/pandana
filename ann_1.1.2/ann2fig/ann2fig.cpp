@@ -6,12 +6,12 @@
 //----------------------------------------------------------------------
 // Copyright (c) 1997-2005 University of Maryland and Sunil Arya and
 // David Mount.  All Rights Reserved.
-// 
+//
 // This software and related documentation is part of the Approximate
 // Nearest Neighbor Library (ANN).  This software is provided under
 // the provisions of the Lesser GNU Public License (LGPL).  See the
 // file ../ReadMe.txt for further information.
-// 
+//
 // The University of Maryland (U.M.) and the authors make no
 // representations about the suitability or fitness of this software for
 // any purpose.  It is provided "as is" without express or implied
@@ -120,11 +120,11 @@ void set_slice_val(double val)
 // getArgs - get input arguments
 //
 //		Syntax:
-//		ann2fig [-upi scale] [-x low_x] [-y low_y] 
+//		ann2fig [-upi scale] [-x low_x] [-y low_y]
 //				[-sz size] [-dx dim_x] [-dy dim_y] [-sl dim value]*
 //				[-ps pointsize]
 //				file
-//		
+//
 //		where:
 //			-upi scale			fig units per inch (default = 1200)
 //			-x low_x			x and y offset of upper left corner (inches)
@@ -311,7 +311,7 @@ void writeCaption(								// write caption text
 {
 	if (!strcmp(caption, "\0")) return;			// null string?
 	int px = (int) TRANS_X(bnd_box.lo);			// put .5 in. lower left
-	int py = (int) (TRANS_Y(bnd_box.lo) + 0.50 * u_per_in); 
+	int py = (int) (TRANS_Y(bnd_box.lo) + 0.50 * u_per_in);
 	ofile << "4 0 -1 0 0 0 20 0.0000 4 255 2000 ";
 	ofile << px << " " << py << " " << caption << "\\001\n";
 }
@@ -391,7 +391,7 @@ void recReadTree(ANNorthRect &box)
 
 		ifile >> n_pts;							// input number of points
 												// check for overlap
-		if (dim == 2 || overlap(box)) { 
+		if (dim == 2 || overlap(box)) {
 			for (int i = 0; i < n_pts; i++) {	// yes, write the points
 				ifile >> idx;
 				writePoint(pts[idx]);
@@ -492,7 +492,7 @@ void readTree(ANNorthRect &bnd_box)
 //		<xxx> <xxx> ... <xxx>			(upper end of bounding box)
 //				If the tree is null, then a single line "null" is
 //				output.  Otherwise the nodes of the tree are printed
-//				one per line in preorder.  Leaves and splitting nodes 
+//				one per line in preorder.  Leaves and splitting nodes
 //				have the following formats:
 //		Leaf node:
 //				leaf <n_pts> <bkt[0]> <bkt[1]> ... <bkt[n-1]>
@@ -580,8 +580,9 @@ void readANN()
 // procedure.
 //----------------------------------------------------------------------
 
-main(int argc, char **argv)
+int main(int argc, char **argv)
 {
 	getArgs(argc, argv);						// get input arguments
 	readANN();									// read the dump file
+	return 0;
 }
