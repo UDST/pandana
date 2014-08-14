@@ -22,8 +22,6 @@
 
 #include <vector>
 
-#include <google/dense_hash_map>
-
 #include "../BasicDefinitions.h"
 #include "../DataStructures/BinaryHeap.h"
 

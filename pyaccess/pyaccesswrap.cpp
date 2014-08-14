@@ -7,7 +7,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include <iostream>
-#include <omp.h>
 
 #include "accessibility.h"
 #include "graphalg.h"

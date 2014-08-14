@@ -1,6 +1,5 @@
 #include "graphalg.h"
 #include <math.h>
-#include "omp.h"
 
 namespace MTC {
 	namespace accessibility {
