@@ -26,7 +26,6 @@ or see http://www.gnu.org/licenses/agpl.txt.
 #include <string>
 #include <vector>
 
-#include "google/dense_hash_map"
 #include "BasicDefinitions.h"
 #include "Contractor/ContractionCleanup.h"
 #include "Contractor/Contractor.h"

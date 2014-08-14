@@ -7,7 +7,6 @@ extension_version = '.1'
 
 include_dirs = [
     'ann_1.1.2/include',
-    'sparsehash-2.0.2/src',
     np.get_include(),
     '.'
 ]
@@ -33,6 +32,7 @@ extra_compile_args = [
     '-fopenmp',
     '-fpic',
     '-g',
+    '-static',
     '-Wno-deprecated',
 ]
 py_modules=['pyaccess/pyaccess', 'pyaccess/urbanaccess']

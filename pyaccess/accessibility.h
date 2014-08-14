@@ -6,7 +6,6 @@
 #include "shared.h"
 #include "nearestneighbor.h"
 #include "graphalg.h"
-#include "omp.h"
 
 using namespace std;
 
