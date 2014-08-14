@@ -1,9 +1,8 @@
 from setuptools import setup, Extension
 import numpy as np
-import os
 
 extension_name = '_pyaccess'
-extension_version = '.1'
+extension_version = '0.1dev'
 
 include_dirs = [
     'ann_1.1.2/include',
@@ -16,7 +15,7 @@ library_dirs = [
     'contraction_hierarchies'
 ]
 packages = ['pyaccess']
-libraries = [ 'ANN', 'ch', 'gomp']
+libraries = ['ANN', 'ch', 'gomp']
 source_files = [
     'pyaccess/accessibility.cpp',
     'pyaccess/graphalg.cpp',
@@ -35,7 +34,8 @@ extra_compile_args = [
     '-g',
     '-Wno-deprecated',
 ]
-py_modules=['pyaccess/pyaccess', 'pyaccess/urbanaccess']
+
+py_modules = ['pyaccess/pyaccess', 'pyaccess/urbanaccess']
 
 setup(
     packages=packages,
