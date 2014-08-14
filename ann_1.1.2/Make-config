@@ -71,7 +71,7 @@
 linux-g++:
 	$(MAKE) targets \
 	"ANNLIB = libANN.a" \
-	"C++ = g++" \
+	"C++ = $(CXX)" \
 	"CFLAGS = -O3 -fPIC" \
 	"MAKELIB = ar ruv" \
 	"RANLIB = true"
@@ -80,7 +80,7 @@ linux-g++:
 macosx-g++:
 	$(MAKE) targets \
 	"ANNLIB = libANN.a" \
-	"C++ = g++" \
+	"C++ = $(CXX)" \
 	"CFLAGS = -O3" \
 	"MAKELIB = libtool -static -o " \
 	"RANLIB = true"
@@ -107,7 +107,7 @@ sunos5-sl:
 sunos5-g++:
 	$(MAKE) targets \
 	"ANNLIB = libANN.a" \
-	"C++ = g++" \
+	"C++ = $(CXX)" \
 	"CFLAGS = -O3" \
 	"MAKELIB = ar ruv" \
 	"RANLIB = true"
@@ -116,7 +116,7 @@ sunos5-g++:
 sunos5-g++-sl:
 	$(MAKE) targets \
 	"ANNLIB = libANN.so" \
-	"C++ = g++" \
+	"C++ = $(CXX)" \
 	"CFLAGS = -fpic -O3" \
 	"MAKELIB = ld -G -o" \
 	"RANLIB = true"
@@ -129,7 +129,7 @@ sunos5-g++-sl:
 authors-debug:
 	$(MAKE) targets \
 	"ANNLIB = libANN.a" \
-	"C++ = g++" \
+	"C++ = $(CXX)" \
 	"CFLAGS = -g -DANN_PERF -Wall" \
 	"MAKELIB = ar ruv" \
 	"RANLIB = true"
@@ -138,7 +138,7 @@ authors-debug:
 authors-perf:
 	$(MAKE) targets \
 	"ANNLIB = libANN.a" \
-	"C++ = g++" \
+	"C++ = $(CXX)" \
 	"CFLAGS = -O3 -DANN_PERF -Wall" \
 	"MAKELIB = ar ruv" \
 	"RANLIB = true"
@@ -159,7 +159,7 @@ sgi:
 alpha-g++:
 	$(MAKE) targets \
 	"ANNLIB = libANN.a" \
-	"C++ = g++" \
+	"C++ = $(CXX)" \
 	"CFLAGS = -O3" \
 	"MAKELIB = ar ruv" \
 	"RANLIB = ranlib"
@@ -177,7 +177,7 @@ sunos4:
 sunos4-g++:
 	$(MAKE) targets \
 	"ANNLIB = libANN.a" \
-	"C++ = g++" \
+	"C++ = $(CXX)" \
 	"CFLAGS = -O3" \
 	"MAKELIB = ar ruv" \
 	"RANLIB = ranlib"
@@ -186,8 +186,8 @@ sunos4-g++:
 sunos4-g++-sl:
 	$(MAKE) targets \
 	"ANNLIB = libANN.so" \
-	"C++ = g++" \
-	"CC = g++" \
+	"C++ = $(CXX)" \
+	"CC = $(CXX)" \
 	"CFLAGS = -fPIC -O3" \
 	"MAKELIB = ld -assert pure-text -o" \
 	"RANLIB = true"
