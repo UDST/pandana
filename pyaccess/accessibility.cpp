@@ -15,7 +15,7 @@ namespace MTC {
 		}
         bool Accessibility::saveCSV(std::string filename)
         {
-	        std::ofstream ofs(filename);
+	        /*std::ofstream ofs(filename);
             ofs << "impno,node1,node2,dist\n";
             for(int i = 0 ; i < dms.size() ; i++) {
                 for(int j = 0 ; j < dms[i].size() ; j++) {
@@ -24,7 +24,7 @@ namespace MTC {
                                              (float)dms[i][j][k].second << "\n";
                     }
                 }
-            }
+            }*/
 			return true;
         }
 #if BOOST
