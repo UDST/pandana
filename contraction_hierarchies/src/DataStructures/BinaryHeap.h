@@ -35,6 +35,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <unordered_map>
 #include <vector>
 #include <cstring>
+#include <memory>
 
 template <typename NodeID, typename Key> class ArrayStorage
 {
