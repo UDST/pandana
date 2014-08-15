@@ -5,21 +5,33 @@ extension_name = '_pyaccess'
 extension_version = '0.1dev'
 
 include_dirs = [
-    'ann_1.1.2/include',
     np.get_include(),
     '.'
 ]
 library_dirs = [
-    'ann_1.1.2/lib',
-    'contraction_hierarchies'
 ]
 packages = ['pyaccess']
-libraries = ['ANN', 'ch'] #, 'gomp']
+libraries = [] #'ANN'] #, 'ch'] #, 'gomp']
 source_files = [
     'pyaccess/accessibility.cpp',
     'pyaccess/graphalg.cpp',
     'pyaccess/nearestneighbor.cpp',
-    'pyaccess/pyaccesswrap.cpp'
+    'pyaccess/pyaccesswrap.cpp',
+    'contraction_hierarchies/src/libch.cpp',
+    'ann_1.1.2/src/ANN.cpp',
+    'ann_1.1.2/src/brute.cpp',
+    'ann_1.1.2/src/kd_tree.cpp',
+    'ann_1.1.2/src/kd_util.cpp',
+    'ann_1.1.2/src/kd_split.cpp',
+    'ann_1.1.2/src/kd_dump.cpp',
+    'ann_1.1.2/src/kd_search.cpp',
+    'ann_1.1.2/src/kd_pr_search.cpp',
+    'ann_1.1.2/src/kd_fix_rad_search.cpp',
+    'ann_1.1.2/src/bd_tree.cpp',
+    'ann_1.1.2/src/bd_search.cpp',
+    'ann_1.1.2/src/bd_pr_search.cpp',
+    'ann_1.1.2/src/bd_fix_rad_search.cpp',
+    'ann_1.1.2/src/perf.cpp'
 ]
 extra_compile_args = [
     '-shared',
@@ -33,6 +45,7 @@ extra_compile_args = [
     '-g',
     '-static',
     '-Wno-deprecated',
+    '-Iann_1.1.2/include'
     #'-stdlib=libc++'
 ]
 
