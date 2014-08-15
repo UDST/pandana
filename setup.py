@@ -26,14 +26,14 @@ extra_compile_args = [
     '-DMACOSX',
     '-DLINUX',
     '-w',
-    '-std=c++11',
+    '-std=c++0x',
     '-O3',
     '-fopenmp',
     '-fpic',
     '-g',
     '-static',
     '-Wno-deprecated',
-    '-stdlib=libc++'
+    #'-stdlib=libc++'
 ]
 
 py_modules = ['pyaccess/pyaccess', 'pyaccess/urbanaccess']

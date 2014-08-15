@@ -31,8 +31,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <algorithm>
 #include <limits>
 #include <map>
-#include <type_traits>
-#include <unordered_map>
+//#include <type_traits>
+//#include <unordered_map>
 #include <vector>
 #include <cstring>
 #include <memory>
@@ -84,7 +84,8 @@ template <typename NodeID, typename Key> class UnorderedMapStorage
     void Clear() { nodes.clear(); }
 
   private:
-    std::unordered_map<NodeID, Key> nodes;
+    std::map<NodeID, Key> nodes;
+    //std::unordered_map<NodeID, Key> nodes;
 };
 
 template <typename NodeID,
@@ -122,8 +123,10 @@ class BinaryHeap
         element.index = static_cast<NodeID>(inserted_nodes.size());
         element.weight = weight;
         const Key key = static_cast<Key>(heap.size());
-        heap.emplace_back(element);
-        inserted_nodes.emplace_back(node, key, weight, data);
+        //heap.emplace_back(element);
+        heap.push_back(element);
+        //inserted_nodes.emplace_back(node, key, weight, data);
+        inserted_nodes.push_back(HeapNode(node, key, weight, data));
         node_index[node] = element.index;
         Upheap(key);
         CheckHeap();
