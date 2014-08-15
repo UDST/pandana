@@ -1,6 +1,8 @@
 from setuptools import setup, Extension
 import numpy as np
 
+OPENMP = False
+
 extension_name = '_pyaccess'
 extension_version = '0.1dev'
 
@@ -11,7 +13,7 @@ include_dirs = [
 library_dirs = [
 ]
 packages = ['pyaccess']
-libraries = [] #'ANN'] #, 'ch'] #, 'gomp']
+libraries = []
 source_files = [
     'pyaccess/accessibility.cpp',
     'pyaccess/graphalg.cpp',
@@ -40,7 +42,6 @@ extra_compile_args = [
     '-w',
     '-std=c++0x',
     '-O3',
-    '-fopenmp',
     '-fpic',
     '-g',
     '-static',
@@ -48,6 +49,8 @@ extra_compile_args = [
     '-Iann_1.1.2/include'
     #'-stdlib=libc++'
 ]
+if OPENMP:
+    extra_compile_args += ['-DOPENMP', '-fopenmp']
 
 py_modules = ['pyaccess/pyaccess', 'pyaccess/urbanaccess']
 
