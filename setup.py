@@ -14,7 +14,7 @@ library_dirs = [
     'contraction_hierarchies'
 ]
 packages = ['pyaccess']
-libraries = ['ANN', 'ch', 'gomp']
+libraries = ['ANN', 'ch'] #, 'gomp']
 source_files = [
     'pyaccess/accessibility.cpp',
     'pyaccess/graphalg.cpp',
@@ -26,13 +26,14 @@ extra_compile_args = [
     '-DMACOSX',
     '-DLINUX',
     '-w',
-    '-std=gnu++0x',
+    '-std=c++11',
     '-O3',
     '-fopenmp',
     '-fpic',
     '-g',
     '-static',
     '-Wno-deprecated',
+    '-stdlib=libc++'
 ]
 
 py_modules = ['pyaccess/pyaccess', 'pyaccess/urbanaccess']

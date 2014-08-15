@@ -8,5 +8,5 @@
     #define DLLExport
     #define DOTIMER 0
 #endif
-#include <omp.h>
+//#include <omp.h>
 #define FILE_LOG(logINFO) (std::cout)
