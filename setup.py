@@ -1,3 +1,4 @@
+import os
 import sys
 
 from setuptools import setup, Extension, find_packages
@@ -66,12 +67,15 @@ extra_compile_args = [
     '-g',
     '-static',
     '-Wno-deprecated',
-    '-fopenmp'
 ]
 
-extra_link_args = [
-    '-lgomp'
-]
+if os.environ.get('USEOPENMP') or not sys.platform.startswith('darwin'):
+    extra_compile_args += ['-fopenmp']
+    extra_link_args = [
+        '-lgomp'
+    ]
+else:
+    extra_link_args = None
 
 setup(
     packages=packages,
