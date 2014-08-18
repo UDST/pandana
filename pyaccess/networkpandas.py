@@ -5,10 +5,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import brewer2mpl
 
+MAX_NUM_NETWORKS = 0
 NUM_NETWORKS = 0
-NETWORKS = {}
-VAR_NAME_TO_IND = {}
-CAT_NAME_TO_IND = {}
 
 AGGREGATIONS = {
     "SUM": 0,
@@ -25,10 +23,11 @@ DECAYS = {
 
 
 def reserve_num_graphs(num):
-    global NUM_NETWORKS
-    assert NUM_NETWORKS == 0, "Global memory used so cannot initialize twice"
+    global NUM_NETWORKS, MAX_NUM_NETWORKS
+    assert MAX_NUM_NETWORKS == 0, "Global memory used so cannot initialize " \
+                                  "twice"
     assert num > 0
-    NUM_NETWORKS = num
+    MAX_NUM_NETWORKS = num
     _pyaccess.create_graphs(num)
 
 
@@ -38,7 +37,7 @@ def from_networkx(G):
     lons = []
     for n in G.nodes_iter():
         n = G.node[n]['data']
-        nids.append(n.id)
+        nids.append(int(n.id))
         lats.append(n.lat)
         lons.append(n.lon)
     nodes = pd.DataFrame({'x': lons, 'y': lats}, index=nids)
@@ -49,10 +48,10 @@ def from_networkx(G):
     for e in G.edges_iter():
         e = G.get_edge_data(*e)['data']
         #print e
-        froms.append(G.node[e.nds[0]]['data'].id)
-        tos.append(G.node[e.nds[1]]['data'].id)
+        froms.append(int(G.node[e.nds[0]]['data'].id))
+        tos.append(int(G.node[e.nds[1]]['data'].id))
         #print e.tags
-        weights.append(1)
+        weights.append(float(1))
     edges = pd.DataFrame({'from': froms, 'to': tos, 'weight': weights})
 
     return nodes, edges
@@ -61,6 +60,7 @@ def from_networkx(G):
 class Network:
 
     def _node_indexes(self, node_ids):
+        # for some reason, merge is must faster than .loc
         df = pd.merge(pd.DataFrame({"node_ids": node_ids}),
                       pd.DataFrame({"node_idx": self.node_idx}),
                       left_on="node_ids",
@@ -72,106 +72,179 @@ class Network:
     def node_ids(self):
         return self.node_idx.index
 
-    @property
-    def nodes(self):
-        return self.nodes
-
-    def __init__(self, name, nodes_df, edges_df, xcol='x', ycol='y',
-                 fromcol='from', tocol='to', weights_cols=['weight'],
+    def __init__(self, node_x, node_y, edge_from, edge_to, edge_weights,
                  twoway=False, mapping_distance=-1):
+        """
+        Create the transportation network in the city.  Typical data would be
+        distance based from OpenStreetMap or possibly using transit data from
+        GTFS.
 
-        if NUM_NETWORKS == 0:
+        Parameters
+        ----------
+        node_x: Pandas Series, flaot
+            Defines the x attribute for nodes in the network (e.g. longitude)
+        node_y: Pandas Series, float
+            Defines the y attribute for nodes in the network (e.g. latitude)
+            This param and the one above should have the *same* index which
+            should be the node_ids that are referred to in the edges below.
+        edge_from: Pandas Series, int
+            Defines the node id that begins an edge - should refer to the index
+            of the two series objects above
+        edge_to: Pandas Series, int
+            Defines the node id that ends an edge - should refer to the index
+            of the two series objects above
+        edge_weights: Pandas DataFrame, all floats
+            Specifies one or more *impedances* on the network which define the
+            distances between nodes.  Multiple impedances can be used to capture
+            travel times at different times of day, for instance
+
+        Returns
+        -------
+        Network object
+        """
+        global NUM_NETWORKS, MAX_NUM_NETWORKS
+
+        if MAX_NUM_NETWORKS == 0:
             reserve_num_graphs(1)
 
-        assert len(NETWORKS) < NUM_NETWORKS, "Adding more networks than have " \
-                                             "been reserved"
+        assert NUM_NETWORKS < MAX_NUM_NETWORKS, "Adding more networks than " \
+                                                "have been reserved"
+        self.graph_no = NUM_NETWORKS
+        NUM_NETWORKS += 1
 
-        self.graph_no = len(NETWORKS)
+        nodes_df = pd.DataFrame({'x': node_x, 'y': node_y})
+        edges_df = pd.DataFrame({'from': edge_from, 'to': edge_to}).\
+            join(edge_weights)
+        self.nodes_df = nodes_df
+        self.edges_df = edges_df
+
+        self.impedance_names = list(edge_weights.columns)
+        self.variable_names = []
+
+        # this maps ids to indexes which are used internally
         self.node_idx = pd.Series(np.arange(len(nodes_df)),
                                   index=nodes_df.index)
-        self.nodes = nodes_df[[xcol, ycol]]
+
         self.mapping_distance = mapping_distance
-        self.weights_cols = weights_cols
 
-        NETWORKS[name] = self.graph_no
-
-        edges = pd.concat([self._node_indexes(edges_df[fromcol]),
-                           self._node_indexes(edges_df[tocol])], axis=1)
+        edges = pd.concat([self._node_indexes(edges_df["from"]),
+                          self._node_indexes(edges_df["to"])], axis=1)
 
         _pyaccess.create_graph(self.graph_no,
                                nodes_df.index.astype('int32'),
-                               nodes_df[[xcol, ycol]].astype('float32'),
+                               nodes_df.astype('float32'),
                                edges.astype('int32'),
-                               edges_df[weights_cols].transpose()
+                               edges_df[edge_weights.columns].transpose()
                                    .astype('float32'),
                                twoway)
 
-    def initialize(self, df, node_id_col="node_id", col=None, name="tmp"):
+    def set(self, node_ids, variable=None, name="tmp"):
+        """
+        Characterize urban space with a variable that is related to nodes in
+        the network.
+
+        Parameters
+        ----------
+        node_id : Pandas Series, int
+            A series of node_ids which are usually computed using
+            get_node_ids on this object.
+        variable : Pandas Series, float, optional
+            A series which represents some variable defined in urban space.
+            It could be the location of buildings, or the income of all
+            households - just about anything can be aggregated using the
+            network queries provided here and this provides the api to set
+            the variable at its disaggregate locations.  Note that node_id
+            and variable should have the same index (although the index is
+            not actually used).  If variable is not set, then it is assumed
+            that the variable is all "ones" at the location specified by
+            node_ids.  This could be, for instance, the location of all
+            coffee shops which don't really have a variable to aggregate.
+        name : string, optional
+            Name the variable.  This is optional in the sense that if you don't
+            specify it, the default name will be used.  Since the same
+            default name is used by aggregate on this object, you can
+            alternate between characterize and aggregate calls without
+            setting names.
+
+        Returns
+        -------
+        Nothing
+        """
+
+        if variable is None:
+            variable = pd.Series(np.ones(len(node_ids)), index=node_ids.index)
+
+        df = pd.DataFrame({name: variable,
+                           "node_idx": self._node_indexes(node_ids)})
 
         t1 = time.time()
-        if col:
-            df = df.dropna(subset=[col])
+        l = len(df)
+        df = df.dropna(how="any")
+        newl = len(df)
+        if newl-l > 0:
+            print "Removed %d rows because they contain missing values" % \
+                (newl-l)
         print "up %.3f" % (time.time()-t1)
 
-        t1 = time.time()
-        if isinstance(node_id_col, str):
-            l = len(df)
-            df = df.dropna(subset=[node_id_col])
-            newl = len(df)
-            if newl-l > 0:
-                print "Removed %d rows because there are missing node_ids" % \
-                      (newl-l)
-            node_ids = df[node_id_col].astype("int32")
-        print "up %.3f" % (time.time()-t1)
+        if not name in self.variable_names:
+            self.variable_names.append(name)
+            _pyaccess.initialize_acc_vars(self.graph_no,
+                                          len(self.variable_names))
 
-        t1 = time.time()
-        # aggregating ones if there aren't actual values to aggregate
-        # like, could be lat/long for locations of coffee shops rather
-        # than a continuous floating point vector
-        aggvar = df[col].astype('float32') if col is not None else \
-            np.ones(len(df.index), dtype='float32')
-        print "up %.3f" % (time.time()-t1)
-
-        t1 = time.time()
-        if name in VAR_NAME_TO_IND:
-            varnum = VAR_NAME_TO_IND[name]
-        else:
-            _pyaccess.initialize_acc_vars(self.graph_no, len(VAR_NAME_TO_IND)+1)
-            varnum = VAR_NAME_TO_IND[name] = len(VAR_NAME_TO_IND)
-        print "up %.3f" % (time.time()-t1)
-
-        t1 = time.time()
-        node_idxs = self._node_indexes(node_ids).values.astype('int32')
-        print "%.3f" % (time.time()-t1)
+        print df.describe()
 
         t1 = time.time()
         _pyaccess.initialize_acc_var(self.graph_no,
-                                     varnum,
-                                     node_idxs,
-                                     aggvar)
+                                     self.variable_names.index(name),
+                                     df.node_idx.astype('int32'),
+                                     df[name].astype('float32'))
         print "%.3f" % (time.time()-t1)
 
     def precompute(self, distance):
+        """
+        Precomputes the range queries (the reachable nodes within this
+        maximum distance so as long as you use a smaller distance, cached
+        results will be used.
+
+        Parameters
+        ----------
+        distance : float
+            The maximum distance to use
+
+        Returns
+        -------
+        Nothing
+        """
         _pyaccess.precompute_range(distance, self.graph_no)
 
-    def compute(self, distance, agg="sum", decay="linear", imp_name=None,
-                name="tmp"):
+    def aggregate(self, distance, type="sum", decay="linear", imp_name=None,
+                  name="tmp"):
+        """
 
-        agg = AGGREGATIONS[agg.upper()]
+        :param distance:
+        :param type:
+        :param decay:
+        :param imp_name:
+        :param name:
+        :return:
+        """
+        agg = AGGREGATIONS[type.upper()]
         decay = DECAYS[decay.upper()]
 
         if imp_name is None:
-            assert len(self.weights_cols) == 1,\
+            assert len(self.impedance_names) == 1,\
                 "must pass impedance name if there are multiple impedances set"
-            imp_name = self.weights_cols[0]
+            imp_name = self.impedance_names[0]
 
-        imp_num = self.weights_cols.index(imp_name)
+        assert imp_name in self.impedance_names, "An impedance with that name" \
+                                                 "was not found"
+        imp_num = self.impedance_names.index(imp_name)
 
         gno = self.graph_no
 
-        assert name in VAR_NAME_TO_IND, "A variable with that name has not " \
-                                        "yet been initialized"
-        varnum = VAR_NAME_TO_IND[name]
+        assert name in self.variable_names, "A variable with that name " \
+                                            "has not yet been initialized"
+        varnum = self.variable_names.index(name)
 
         res = _pyaccess.get_all_aggregate_accessibility_variables(distance,
                                                                   varnum,
@@ -182,7 +255,7 @@ class Network:
 
         return pd.Series(res, index=self.node_ids)
 
-    def add_node_ids(self, df, xname='x', yname='y', node_id_col="node_id"):
+    def get_node_ids(self, x_col, y_col):
         xys = df[[xname, yname]]
         # no limit to the mapping distance
         node_ids = _pyaccess.xy_to_node(xys,
