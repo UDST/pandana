@@ -23,7 +23,7 @@ class PyTest(TestCommand):
         errno = pytest.main(self.pytest_args or '')
         sys.exit(errno)
 
-extension_name = '_pyaccess'
+extension_name = 'pyaccess._pyaccess'
 extension_version = '0.1dev'
 
 include_dirs = [
