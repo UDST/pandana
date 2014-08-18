@@ -1,19 +1,17 @@
 from setuptools import setup, Extension
 import numpy as np
 
-OPENMP = True
-
 extension_name = '_pyaccess'
 extension_version = '0.1dev'
 
 include_dirs = [
     np.get_include(),
-    '.'
+    '.',
+    'ann_1.1.2/include'
 ]
-library_dirs = [
-]
+
 packages = ['pyaccess']
-libraries = []
+
 source_files = [
     'pyaccess/accessibility.cpp',
     'pyaccess/graphalg.cpp',
@@ -35,6 +33,7 @@ source_files = [
     'ann_1.1.2/src/bd_fix_rad_search.cpp',
     'ann_1.1.2/src/perf.cpp'
 ]
+
 extra_compile_args = [
     '-DMACOSX',
     '-DLINUX',
@@ -45,13 +44,7 @@ extra_compile_args = [
     '-g',
     '-static',
     '-Wno-deprecated',
-    '-Iann_1.1.2/include'
-    #'-stdlib=libc++'
-]
-if OPENMP:
-    extra_compile_args += ['-DOPENMP', '-fopenmp']
-
-extra_link_args = [
+    '-fopenmp'
 ]
 
 py_modules = ['pyaccess/pyaccess', 'pyaccess/urbanaccess']
@@ -66,10 +59,7 @@ setup(
             extension_name,
             source_files,
             include_dirs=include_dirs,
-            library_dirs=library_dirs,
-            libraries=libraries,
-            extra_compile_args=extra_compile_args,
-            extra_link_args=extra_link_args
+            extra_compile_args=extra_compile_args
         )
     ]
 )
