@@ -1,15 +1,24 @@
-import pandas as pd
+import os.path
+
 import numpy as np
+import pandas as pd
 import pytest
-from .. import networkpandas as nwp
+
+import pyaccess.networkpandas as nwp
 
 
 @pytest.fixture(scope="module")
-def sample_osm():
-    store = pd.HDFStore('osm_sample.h5', "r")
+def sample_osm(request):
+    store = pd.HDFStore(
+        os.path.join(os.path.dirname(__file__), 'osm_sample.h5'), "r")
     nodes, edges = store.nodes, store.edges
     net = nwp.Network(nodes.x, nodes.y, edges["from"], edges.to,
                       edges[["weight"]])
+
+    def fin():
+        store.close()
+    request.addfinalizer(fin)
+
     return net
 
 
@@ -18,9 +27,8 @@ def random_node_ids(net):
 
 
 def test_create_network(sample_osm):
-    _ = sample_osm
-    # good enough
-    return
+    # smoke test
+    pass
 
 
 def test_agg_variables(sample_osm):
