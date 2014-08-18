@@ -6,7 +6,7 @@
     #define DLLImport
     #define DLLExport
 #endif
-#if OPENMP
+#ifdef _OPENMP
 #include <omp.h>
 #endif
 #define FILE_LOG(logINFO) (std::cout)
