@@ -13,8 +13,12 @@ def sample_osm():
     return net
 
 
-def random_node_ids(net):
-    return pd.Series(np.random.choice(net.node_ids, 50))
+def random_node_ids(net, ssize):
+    return pd.Series(np.random.choice(net.node_ids, ssize))
+
+
+def random_data(ssize):
+    return pd.Series(np.random.random(ssize))
 
 
 def test_create_network(sample_osm):
@@ -26,13 +30,26 @@ def test_create_network(sample_osm):
 def test_agg_variables(sample_osm):
     net = sample_osm
 
-    net.set(random_node_ids(sample_osm))
+    ssize = 50
+    net.set(random_node_ids(sample_osm, ssize),
+            variable=random_data(ssize))
 
-    s = net.aggregate(500, type="ave", decay="flat")
-    assert s.describe()['std'] > 0
+    for type in nwp.AGGREGATIONS:
+        for decay in nwp.DECAYS:
+            for distance in [500, 1000, 2000]:
+                s = net.aggregate(distance, type=type, decay=decay)
+                assert s.describe()['std'] > 0
 
-    t = net.aggregate(1000, type="ave", decay="flat")
-    assert t.describe()['std'] > 0
+    # testing w/o setting variable
+    ssize = 50
+    net.set(random_node_ids(sample_osm, ssize))
 
-    u = net.aggregate(2000, type="ave", decay="flat")
-    assert u.describe()['std'] > 0
+    for type in nwp.AGGREGATIONS:
+        for decay in nwp.DECAYS:
+            for distance in [500, 1000, 2000]:
+                s = net.aggregate(distance, type=type, decay=decay)
+                if type != "STD":
+                    assert s.describe()['std'] > 0
+                else:
+                    # no variance in data
+                    assert s.describe()['std'] == 0
