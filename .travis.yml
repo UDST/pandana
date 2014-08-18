@@ -5,7 +5,7 @@ install:
 - sudo pip install conda
 - sudo conda init
 - |
-  conda create -p $HOME/py --yes matplotlib numpy pandas pip "python=$TRAVIS_PYTHON_VERSION"
+  conda create -p $HOME/py --yes matplotlib numpy pandas pip pytables "python=$TRAVIS_PYTHON_VERSION"
 - export PATH=$HOME/py/bin:$PATH
 - pip install brewer2mpl
 - pip install pytest-cov coveralls pep8
