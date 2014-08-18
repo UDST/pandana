@@ -69,6 +69,10 @@ extra_compile_args = [
     '-fopenmp'
 ]
 
+extra_link_args = [
+    '-lgomp'
+]
+
 setup(
     packages=packages,
     name='pyaccess',
@@ -78,7 +82,8 @@ setup(
             extension_name,
             source_files,
             include_dirs=include_dirs,
-            extra_compile_args=extra_compile_args
+            extra_compile_args=extra_compile_args,
+            extra_link_args=extra_link_args
         )
     ],
     install_requires=[
