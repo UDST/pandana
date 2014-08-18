@@ -1,7 +1,7 @@
 from setuptools import setup, Extension
 import numpy as np
 
-OPENMP = False
+OPENMP = True
 
 extension_name = '_pyaccess'
 extension_version = '0.1dev'
@@ -36,7 +36,6 @@ source_files = [
     'ann_1.1.2/src/perf.cpp'
 ]
 extra_compile_args = [
-    '-shared',
     '-DMACOSX',
     '-DLINUX',
     '-w',
@@ -52,6 +51,9 @@ extra_compile_args = [
 if OPENMP:
     extra_compile_args += ['-DOPENMP', '-fopenmp']
 
+extra_link_args = [
+]
+
 py_modules = ['pyaccess/pyaccess', 'pyaccess/urbanaccess']
 
 setup(
@@ -66,7 +68,8 @@ setup(
             include_dirs=include_dirs,
             library_dirs=library_dirs,
             libraries=libraries,
-            extra_compile_args=extra_compile_args
+            extra_compile_args=extra_compile_args,
+            extra_link_args=extra_link_args
         )
     ]
 )

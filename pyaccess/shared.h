@@ -2,12 +2,11 @@
 #ifdef WIN32
     #define DLLImport __declspec(dllimport)
     #define DLLExport __declspec(dllexport)
-    #define DOTIMER 0
 #else
     #define DLLImport
     #define DLLExport
-    #define DOTIMER 0
 #endif
+#define DOTIMER 0
 #if OPENMP
 #include <omp.h>
 #endif
