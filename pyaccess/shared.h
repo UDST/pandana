@@ -6,7 +6,6 @@
     #define DLLImport
     #define DLLExport
 #endif
-#define DOTIMER 0
 #if OPENMP
 #include <omp.h>
 #endif
