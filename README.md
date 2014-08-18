@@ -1,7 +1,7 @@
-urbanaccess
-===========
+Pandana
+=======
 
-[![Build Status](https://travis-ci.org/synthicity/urbanaccess.svg?branch=master)](https://travis-ci.org/synthicity/urbanaccess) [![Coverage Status](https://coveralls.io/repos/synthicity/urbanaccess/badge.png?branch=master)](https://coveralls.io/r/synthicity/urbanaccess?branch=master)
+[![Build Status](https://travis-ci.org/synthicity/pandana.svg?branch=master)](https://travis-ci.org/synthicity/pandana) [![Coverage Status](https://img.shields.io/coveralls/synthicity/pandana.svg)](https://coveralls.io/r/synthicity/pandana)
 
 Accessibility as defined here is the ability to reach other specified locations in the city.
 
@@ -19,7 +19,7 @@ First, take the variable of interest.  In some cases it's discrete - like the nu
 
 3) perform the aggregation
 
-The main use case of UrbanAccess is to perform an aggregation.  The api is designed to perform the aggregations for all nodes in the network at the same time in a multi-threaded fashion.  Most accessibility queries can be performed in well under a second, even for hundreds of thousands of nodes.  To perform an aggregation, pass a radius, an aggregation type (min, max, sum, mean, stddev), and a decay (flat, linear, exponential).  Decays can be applied to the variable to that items further away have less of an impact on the node for which the query is being performed.  In other words, the aggregation is performed for the whole network - in the Bay Area this is 226K nodes - and a buffer query up to the radius, typically 500 meters to about 45 minutes travel time, is performed for each node.
+The main use case of Pandana is to perform an aggregation.  The api is designed to perform the aggregations for all nodes in the network at the same time in a multi-threaded fashion.  Most accessibility queries can be performed in well under a second, even for hundreds of thousands of nodes.  To perform an aggregation, pass a radius, an aggregation type (min, max, sum, mean, stddev), and a decay (flat, linear, exponential).  Decays can be applied to the variable to that items further away have less of an impact on the node for which the query is being performed.  In other words, the aggregation is performed for the whole network - in the Bay Area this is 226K nodes - and a buffer query up to the radius, typically 500 meters to about 45 minutes travel time, is performed for each node.
 
 4) perform other queries
 

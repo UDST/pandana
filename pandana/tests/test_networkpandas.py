@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-import pyaccess.networkpandas as nwp
+import pandana.networkpandas as nwp
 
 
 @pytest.fixture(scope="module")
