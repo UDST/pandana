@@ -1,11 +1,13 @@
 urbanaccess
 ===========
 
+[![Build Status](https://travis-ci.org/synthicity/urbanaccess.svg?branch=master)](https://travis-ci.org/synthicity/urbanaccess) [![Coverage Status](https://coveralls.io/repos/synthicity/urbanaccess/badge.png?branch=master)](https://coveralls.io/r/synthicity/urbanaccess?branch=master)
+
 Accessibility as defined here is the ability to reach other specified locations in the city.
 
 In practice, it's a bit more subtle than that.  This framework serves to aggregate data along the transportation network in a way that typically creates a smooth surface over the entire city of the variable of interest.
 
-How does this work.  
+How does this work.
 
 1) create and preprocess the network
 
@@ -28,9 +30,9 @@ Acknowledgments
 
 None of this would be possible without the help of Dennis Luxen (now at MapBox) and his OSRM (https://github.com/DennisOSRM/Project-OSRM).
 
-OSRM also has a dependency on Google's sparsehash project (https://code.google.com/p/sparsehash/).  
+OSRM also has a dependency on Google's sparsehash project (https://code.google.com/p/sparsehash/).
 
-Nearest neighbor queries are performed with the fastest k-d tree around, e.g. ANN (http://www.cs.umd.edu/~mount/ANN/).  
+Nearest neighbor queries are performed with the fastest k-d tree around, e.g. ANN (http://www.cs.umd.edu/~mount/ANN/).
 
 Install
 =====
