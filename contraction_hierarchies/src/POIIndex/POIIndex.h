@@ -21,8 +21,8 @@
 #define POIINDEX_H_INCLUDED
 
 #include <vector>
-
-#include <google/dense_hash_map>
+#include <tr1/memory>
+#define shared_ptr tr1::shared_ptr
 
 #include "../BasicDefinitions.h"
 #include "../DataStructures/BinaryHeap.h"

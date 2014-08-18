@@ -8,7 +8,7 @@
 libch.a: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	$(CXX) -DLINUX -DMAC -std=c++0x -c -fPIC -g -O3 -Wall -pedantic -fopenmp \
-		-I../sparsehash-2.0.2/src/ -I. -I.. -o libch.o src/libch.cpp
+		-I. -I.. -o libch.o src/libch.cpp #-stdlib=libc++
 	@echo 'Invoking: GCC Archiver'
 	ar -r  "libch.a" libch.o
 	@echo 'Finished building target: $@'
