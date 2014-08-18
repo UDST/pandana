@@ -73,7 +73,7 @@ class Network:
         return self.node_idx.index
 
     def __init__(self, node_x, node_y, edge_from, edge_to, edge_weights,
-                 twoway=False, mapping_distance=-1):
+                 twoway=False):
         """
         Create the transportation network in the city.  Typical data would be
         distance based from OpenStreetMap or possibly using transit data from
@@ -97,6 +97,10 @@ class Network:
             Specifies one or more *impedances* on the network which define the
             distances between nodes.  Multiple impedances can be used to capture
             travel times at different times of day, for instance
+        two_way : boolean, optional
+            Whether the edges in this network are two way edges or one way (
+            where the one direction is directed from the from node to the to
+            node)
 
         Returns
         -------
@@ -124,8 +128,6 @@ class Network:
         # this maps ids to indexes which are used internally
         self.node_idx = pd.Series(np.arange(len(nodes_df)),
                                   index=nodes_df.index)
-
-        self.mapping_distance = mapping_distance
 
         edges = pd.concat([self._node_indexes(edges_df["from"]),
                           self._node_indexes(edges_df["to"])], axis=1)
@@ -220,13 +222,43 @@ class Network:
     def aggregate(self, distance, type="sum", decay="linear", imp_name=None,
                   name="tmp"):
         """
+        Aggregate information for every source node in the network - this is
+        really the main purpose of this library.  This allows you to touch
+        the data specified by calling set and perform some aggregation on it
+        within the specified distance.  For instance, summing the population
+        within 1000 meters.
 
-        :param distance:
-        :param type:
-        :param decay:
-        :param imp_name:
-        :param name:
-        :return:
+        Parameters
+        ----------
+        distance : float
+            The maximum distance to aggregate data within
+        type : string
+            The type of aggregation, can be one of "ave", "sum", "std",
+            and "count"
+        decay : string
+            The type of decay to apply, which makes things that are further
+            away count less in the aggregation - must be one of "linear",
+            "exponential" or "flat" (which means no decay).  Linear is the
+            fastest computation to perform.  When performing an "ave",
+            the decay is typically "flat"
+        imp_name : string, optional
+            The impedance name to use for the aggregation on this network.
+            Must be one of the impedance names passed in the constructor of
+            this object.  If not specified, there must be only one impedance
+            passed in the constructor, which will be used.
+        name : string, optional
+            The variable to aggregate.  This variable will have been created
+            and named by a call to set.  If not specified, the default
+            variable name will be used so that the most recent call to set
+            without giving a name will be the variable used.
+
+        Returns
+        -------
+        agg : Pandas Series
+            Returns a Pandas Series for every origin node in the network,
+            with the index which is the same as the node_ids passed to the
+            init method and the values are the aggregations for each source
+            node in the network.
         """
         agg = AGGREGATIONS[type.upper()]
         decay = DECAYS[decay.upper()]
@@ -255,22 +287,55 @@ class Network:
 
         return pd.Series(res, index=self.node_ids)
 
-    def get_node_ids(self, x_col, y_col):
-        xys = df[[xname, yname]]
+    def get_node_ids(self, x_col, y_col, mapping_distance=-1):
+        """
+        Assign node_ids to data specified by x_col and y_col
+
+        Parameters
+        ----------
+        x_col : Pandas series (float)
+            A Pandas Series where values specify the x (e.g. longitude)
+            location of dataset.
+        y_col : Pandas series (float)
+            A Pandas Series where values specify the y (e.g. latitude)
+            location of dataset.  x_col and y_col should use the same index.
+        mapping_distance : float, optional
+            The maximum distance that will be considered a match between the
+            x, y data and the nearest node in the network.  If not specified,
+            every x, y coordinate will be mapped to the nearest node
+
+        Returns
+        -------
+        node_ids : Pandas series (int)
+            Returns a Pandas Series of node_ids for each x, y in the input data.
+            The index is the same as the indexes of the x, y input data,
+            and the values are the mapped node_ids. If mapping distance is
+            not passed and if there are no nans in the x, y data, this will
+            be the the same length as the x, y data.  If the mapping is
+            imperfect, this function returns all the input x, y's that were
+            successfully mapped to node_ids.
+        """
+        xys = pd.DataFrame({'x': x_col, 'y': y_col}).dropna(how='any')
+
         # no limit to the mapping distance
         node_ids = _pyaccess.xy_to_node(xys,
-                                        self.mapping_distance,
+                                        mapping_distance,
                                         self.graph_no)
-        df[node_id_col] = node_ids
-        return df
 
-    def plot(self, s, width=24, height=30, dpi=300, color='YlGn', numbins=7):
+        s = pd.Series(node_ids, index=xys.index)
+        return s[s != -1]
+
+    def plot(self, s, width=24, height=30, dpi=300,
+             scheme_type="sequential", color='YlGn', numbins=7):
+        """
+        Experimental method to write the network to a matplotlib image.
+        """
         df = pd.DataFrame({'x': self.nodes.x.values,
                            'y': self.nodes.y.values,
                            'z': s.values})
         plt.figure(num=None, figsize=(width, height), dpi=dpi, edgecolor='k')
         plt.scatter(df.x, df.y, c=df.z,
-                    cmap=brewer2mpl.get_map(color, 'sequential', numbins).
+                    cmap=brewer2mpl.get_map(color, scheme_type, numbins).
                     mpl_colormap,
                     edgecolors='grey',
                     linewidths=0.1)
