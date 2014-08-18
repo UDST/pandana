@@ -36,9 +36,8 @@ Nearest neighbor queries are performed with the fastest k-d tree around, e.g. AN
 
 Install
 =====
-All source code is included in this project with absolutely no other dependencies.  On Linux/Mac, simply run make.  Or build on Windows using the solution provided in the winaccess folder.  Once the project is built, you can install the Python wrappers to the system directory using distutils, e.g. "python setup.py install"
 
-UPDATE: On Mac, make sure to have actual gcc (not clang).  This works for my by installing macports and then running "port install gcc49" or whatever the latest version is.  I found it to be really tricky to get all the Makefiles to recognize g++-mp-4.9 as my g++ compiler.  In the end I created a symlink "ln -s /opt/local/bin/g++-mp-4.9 /opt/local/bin/g++" and made sure "g++ --version" gives me the gcc version rather than clang.  Once you get the right compiler set everything should compile correctly.
+Clone this repo and run `python setup.py install`. Requires C/C++ compilers.
 
 Docs
 ====
