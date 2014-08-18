@@ -1,6 +1,5 @@
 #include "graphalg.h"
 #include <math.h>
-#include "omp.h"
 
 namespace MTC {
 	namespace accessibility {
@@ -21,20 +20,7 @@ namespace MTC {
 							bool twoway) {
 
 			this->numnodes = numnodes;
-			this->usech = USECH;
-#if USEBGL
-			for(int i = 0 ; i < numedges ; i++) {
-				int srcVertex = edges[i*2+0];
-				int tgtVertex = edges[i*2+1];
-				std::pair<edge_descriptor, bool> tmp_pair
-					= boost::add_edge(srcVertex, tgtVertex, graph);
-				graph[tmp_pair.first].edge_weight = edgeweights[i];
-			}
-			for(int i = 0 ; i < numnodes ; i++) {
-				graph[i].x = nodesxy[i*2+0];
-				graph[i].y = nodesxy[i*2+1];
-			}
-#endif
+
 			int num = omp_get_max_threads();
 			FILE_LOG(logINFO) << "Generating contraction hierarchies with " << num << " threads.\n";
 			ch = CH::ContractionHierarchies(num);
@@ -61,30 +47,17 @@ namespace MTC {
 
 			FILE_LOG(logINFO) << "Setting CH edge vector of size " << ev.size() << "\n";
 			ch.SetEdgeVector(ev);
-#if DOTIMER
-			QTime dbTimer;
-			dbTimer.start();
-			FILE_LOG(logINFO) << "START -- Creating contraction hierarchies.\n";
-#endif
 
 			ch.RunPreprocessing();
-#if DOTIMER
-			FILE_LOG(logINFO) << "END ----- Creating contraction hierarchies " << 
-																	dbTimer.elapsed() <<" ms \n";
-#endif
 
 			nearestNeighbor.Expand(numnodes);
 			for(int i = 0 ; i < numnodes ; i++)
 			{
 				nearestNeighbor.setPoint(i,nodesxy[i*2+0],nodesxy[i*2+1]);
 			}
-#if DOTIMER
-			dbTimer.start();			
-#endif
+
 			nearestNeighbor.buildTree();
-#if DOTIMER
-			FILE_LOG(logINFO) << "Built quad tree in " << dbTimer.elapsed() <<" ms\n";
-#endif
+
 		}
 
 		int Graphalg::NearestNode(float x, float y, double *distance) {

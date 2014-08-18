@@ -1,21 +1,56 @@
-build
-dist
-*.egg-info
+.idea/
+.ipynb_checkpoints/
 
-ann_1.1.2/bin
-contraction_hierarchies/libch.a
-sparsehash-2.0.2/.deps/
-sparsehash-2.0.2/Makefile
-sparsehash-2.0.2/config.status
-sparsehash-2.0.2/hashtable_test
-sparsehash-2.0.2/libc_allocator_with_realloc_test
-sparsehash-2.0.2/libsparsehash.pc
-sparsehash-2.0.2/simple_compat_test
-sparsehash-2.0.2/simple_test
-sparsehash-2.0.2/sparsetable_unittest
-sparsehash-2.0.2/src/config.h
-sparsehash-2.0.2/src/sparsehash/internal/sparseconfig.h
-sparsehash-2.0.2/src/stamp-h1
-sparsehash-2.0.2/template_util_unittest
-sparsehash-2.0.2/time_hash_map
-sparsehash-2.0.2/type_traits_unittest
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+bin/
+build/
+develop-eggs/
+dist/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+
+# Translations
+*.mo
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+
+# Rope
+.ropeproject
+
+# Django stuff:
+*.log
+*.pot
+
+# Sphinx documentation
+docs/_build/
