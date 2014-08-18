@@ -74,12 +74,6 @@ create_graph(PyObject *self, PyObject *args)
         sa->ga.push_back(ptr);
         sa->ga[i]->Build(nodeids, nodexy, numnodes, edges, edgeweights+(numedges*i), numedges, twoway);
     }
-    for(int i = 0 ; i < numnodes ; i++) // need to set these for persistance
-	{
-        sa->xVec.push_back(nodexy[i*2+0]);
-        sa->yVec.push_back(nodexy[i*2+1]);
-        sa->ids.push_back(nodeids[i]);
-	}
 
     sa->numnodes = sa->ga[0]->numnodes;
 
@@ -141,7 +135,7 @@ find_nearest_pois(PyObject *self, PyObject *args)
     
     std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[0]; 
 
-    std::vector<float> nodes = sa->findNearestPOIs(id,r,num,(MTC::accessibility::POI_category_t)cat);
+    std::vector<float> nodes = sa->findNearestPOIs(id, r, num, cat);
     npy_intp len = nodes.size(); 
     PyArrayObject *returnobj = (PyArrayObject *)PyArray_SimpleNew(1, &len, NPY_FLOAT32);
     for(int i = 0 ; i < len ; i++) ((float*)PyArray_DATA(returnobj))[i] = nodes[i];
@@ -159,7 +153,7 @@ find_all_nearest_pois(PyObject *self, PyObject *args)
     
     std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[0]; 
 
-    std::vector<double> nodes = sa->findAllNearestPOIs(radius,(MTC::accessibility::POI_category_t)varind);
+    std::vector<double> nodes = sa->findAllNearestPOIs(radius, varind);
     
 	npy_intp len = nodes.size(); 
     PyArrayObject *returnobj = (PyArrayObject *)PyArray_SimpleNew(1, &len, 
@@ -279,31 +273,6 @@ xy_to_node(PyObject *self, PyObject *args)
 	return PyArray_Return(returnobj);
 }
 
-static PyObject *
-get_open_walkscore(PyObject *self, PyObject *args)
-{
-    int id;
-	if (!PyArg_ParseTuple(args, "i", &id)) return NULL;
-
-    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[0]; 
-
-    double score = sa->getOpenWalkscore(id);
-
-	return PyFloat_FromDouble(score);
-}
-
-static PyObject *
-get_all_open_walkscores(PyObject *self, PyObject *args)
-{
-    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[0]; 
-
-    std::vector<double> nodes = sa->getAllOpenWalkscores();
-    npy_intp len = nodes.size(); 
-    PyArrayObject *returnobj = (PyArrayObject *)PyArray_SimpleNew(1, &len, NPY_FLOAT32);
-    for(int i = 0 ; i < len ; i++) ((float*)PyArray_DATA(returnobj))[i] = (float)nodes[i];
-
-	return PyArray_Return(returnobj);
-}
 
 static PyObject *
 get_nodes_in_range(PyObject *self, PyObject *args)
@@ -611,90 +580,6 @@ precompute_range(PyObject *self, PyObject *args)
 }
 
 static PyObject *
-save_to_csv(PyObject *self, PyObject *args)
-{
-	const char *filename;
-    int gno;
-	if (!PyArg_ParseTuple(args, "si", &filename, &gno)) return NULL;
-
-    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[gno]; 
-    std::string str(filename);
-    sa->saveCSV(str);
-
-	Py_RETURN_NONE;
-}
-
-static PyObject *
-save_to_file(PyObject *self, PyObject *args)
-{
-	const char *filename;
-    int gno;
-	if (!PyArg_ParseTuple(args, "si", &filename, &gno)) return NULL;
-
-    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[gno]; 
-    std::string str(filename);
-    sa->saveFile(str);
-
-	Py_RETURN_NONE;
-}
-
-static PyObject *
-load_from_file(PyObject *self, PyObject *args)
-{
-	const char *filename;
-    int gno;
-	if (!PyArg_ParseTuple(args, "si", &filename, &gno)) return NULL;
-
-    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[gno]; 
-    std::string str(filename);
-    sa->loadFile(str);
-    std::shared_ptr<MTC::accessibility::Graphalg> ptr(new MTC::accessibility::Graphalg); 
-    sa->ga.push_back(ptr);
-    sa->ga[0]->BuildNN(sa->xVec,sa->yVec);
-
-	Py_RETURN_NONE;
-}
-
-static PyObject *
-get_node_xys(PyObject *self, PyObject *args)
-{
-    int gno;
-	if (!PyArg_ParseTuple(args, "i", &gno)) return NULL;
-
-    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[gno]; 
-
-	npy_intp num = sa->numnodes;
-    PyArrayObject *xvec = (PyArrayObject *)PyArray_SimpleNew(1, &num, 
-															NPY_FLOAT32);
-    PyArrayObject *yvec = (PyArrayObject *)PyArray_SimpleNew(1, &num, 
-															NPY_FLOAT32);
-    for(int i = 0 ; i < num ; i++) {
-        ((float*)PyArray_DATA(xvec))[i] = sa->xVec[i];
-        ((float*)PyArray_DATA(yvec))[i] = sa->yVec[i];
-    }
-
-    PyObject *returnobj = Py_BuildValue("(OO)",xvec,yvec);
-    return returnobj;
-}
-
-static PyObject *
-get_node_ids(PyObject *self, PyObject *args)
-{
-    int gno;
-	if (!PyArg_ParseTuple(args, "i", &gno)) return NULL;
-
-    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[gno]; 
-
-	npy_intp num = sa->numnodes;
-    PyArrayObject *vec = (PyArrayObject *)PyArray_SimpleNew(1, &num, 
-															NPY_INT32);
-    for(int i = 0 ; i < num ; i++) {
-        ((int*)PyArray_DATA(vec))[i] = sa->ids[i];
-    }
-    return PyArray_Return(vec);
-}
-
-static PyObject *
 route_distance(PyObject *self, PyObject *args)
 {
     int gno, impno, srcnode, destnode;
@@ -730,8 +615,6 @@ static PyMethodDef myMethods[] = {
     {"initialize_category", initialize_category, METH_VARARGS, "initialize_category"},
     {"find_nearest_pois", find_nearest_pois, METH_VARARGS, "find_nearest_pois"},
     {"find_all_nearest_pois", find_all_nearest_pois, METH_VARARGS, "find_all_nearest_pois"},
-    {"get_open_walkscore", get_open_walkscore, METH_VARARGS, "get_open_walkscore"},
-    {"get_all_open_walkscores", get_all_open_walkscores, METH_VARARGS, "get_all_open_walkscores"},
     {"get_all_model_results", get_all_model_results, METH_VARARGS, "get_all_model_results"},
     {"get_all_aggregate_accessibility_variables", get_all_aggregate_accessibility_variables, METH_VARARGS, "get_all_aggregate_accessibility_variables"},
     {"get_many_aggregate_accessibility_variables", get_many_aggregate_accessibility_variables, METH_VARARGS, "get_many_aggregate_accessibility_variables"},
@@ -742,11 +625,6 @@ static PyMethodDef myMethods[] = {
     {"initialize_acc_vars", initialize_acc_vars, METH_VARARGS, "initialize_acc_vars"},
     {"xy_to_node", xy_to_node, METH_VARARGS, "xy_to_node"},
 	{"precompute_range", precompute_range, METH_VARARGS, "precompute_range"},
-	{"save_to_csv", save_to_csv, METH_VARARGS, "save_to_csv"},
-	//{"save_to_file", save_to_file, METH_VARARGS, "save_to_file"},
-	//{"load_from_file", load_from_file, METH_VARARGS, "load_from_file"},
-	{"get_node_xys", get_node_xys, METH_VARARGS, "get_node_xys"},
-	{"get_node_ids", get_node_ids, METH_VARARGS, "get_node_ids"},
     {NULL, NULL, 0, NULL}        /* Sentinel */
 };
 
