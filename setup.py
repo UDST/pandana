@@ -24,9 +24,6 @@ class PyTest(TestCommand):
         errno = pytest.main(self.pytest_args or '')
         sys.exit(errno)
 
-extension_name = 'pyaccess._pyaccess'
-extension_version = '0.1dev'
-
 include_dirs = [
     np.get_include(),
     '.',
@@ -77,13 +74,15 @@ if os.environ.get('USEOPENMP') or not sys.platform.startswith('darwin'):
 else:
     extra_link_args = None
 
+version = '0.1dev'
+
 setup(
     packages=packages,
-    name='pyaccess',
-    version=extension_version,
+    name='pandana',
+    version=version,
     ext_modules=[
         Extension(
-            extension_name,
+            'pandana._pyaccess',
             source_files,
             include_dirs=include_dirs,
             extra_compile_args=extra_compile_args,
