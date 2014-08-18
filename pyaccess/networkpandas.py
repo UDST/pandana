@@ -1,9 +1,11 @@
-import _pyaccess
 import time
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
+
 import brewer2mpl
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+from . import _pyaccess
 
 MAX_NUM_NETWORKS = 0
 NUM_NETWORKS = 0
@@ -24,8 +26,8 @@ DECAYS = {
 
 def reserve_num_graphs(num):
     global NUM_NETWORKS, MAX_NUM_NETWORKS
-    assert MAX_NUM_NETWORKS == 0, "Global memory used so cannot initialize " \
-                                  "twice"
+    assert MAX_NUM_NETWORKS == 0, ("Global memory used so cannot initialize "
+                                   "twice")
     assert num > 0
     MAX_NUM_NETWORKS = num
     _pyaccess.create_graphs(num)
@@ -47,10 +49,8 @@ def from_networkx(G):
     weights = []
     for e in G.edges_iter():
         e = G.get_edge_data(*e)['data']
-        #print e
         froms.append(int(G.node[e.nds[0]]['data'].id))
         tos.append(int(G.node[e.nds[1]]['data'].id))
-        #print e.tags
         weights.append(float(1))
     edges = pd.DataFrame({'from': froms, 'to': tos, 'weight': weights})
 
@@ -95,8 +95,8 @@ class Network:
             of the two series objects above
         edge_weights: Pandas DataFrame, all floats
             Specifies one or more *impedances* on the network which define the
-            distances between nodes.  Multiple impedances can be used to capture
-            travel times at different times of day, for instance
+            distances between nodes.  Multiple impedances can be used to
+            capture travel times at different times of day, for instance.
 
         Returns
         -------
@@ -186,7 +186,7 @@ class Network:
                 (newl-l)
         print "up %.3f" % (time.time()-t1)
 
-        if not name in self.variable_names:
+        if name not in self.variable_names:
             self.variable_names.append(name)
             _pyaccess.initialize_acc_vars(self.graph_no,
                                           len(self.variable_names))
