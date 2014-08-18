@@ -1,0 +1,19 @@
+language: python
+python:
+- '2.7'
+install:
+- sudo pip install conda
+- sudo conda init
+- |
+  conda create -p $HOME/py --yes matplotlib numpy pandas pip "python=$TRAVIS_PYTHON_VERSION"
+- export PATH=$HOME/py/bin:$PATH
+- pip install brewer2mpl
+- pip install pytest-cov coveralls pep8
+script:
+- pep8 pyaccess
+- python setup.py test --pytest-args "--cov pyaccess --cov-report term-missing"
+after_success:
+- coveralls
+notifications:
+  slack:
+    secure: SjnNmZ8Xaz5fc+G6iYvMh1Zxw7YhFFcEIeJtxbr34pALC7yG7HlRomshpto+OU6nYwX9tulva62h3GkBNTgfaaacRICYCu/AmGVQGnkGDw+PPr0xe3gW1TEWBetR0BMolAUNsAP03hK+28f7am3pr/hXx57i7fjpEx1mvX6FKkc=
