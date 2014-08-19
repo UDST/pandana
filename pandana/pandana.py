@@ -73,7 +73,7 @@ class Network:
         return self.node_idx.index
 
     def __init__(self, node_x, node_y, edge_from, edge_to, edge_weights,
-                 twoway=False):
+                 twoway=True):
         """
         Create the transportation network in the city.  Typical data would be
         distance based from OpenStreetMap or possibly using transit data from
@@ -343,7 +343,7 @@ class Network:
         plt.scatter(df.xcol, df.ycol, c=df.zcol,
                     cmap=brewer2mpl.get_map(color, scheme_type, numbins).
                     mpl_colormap,
-                    norm=matplotlib.colors.SymLogNorm(.01),
+                    #norm=matplotlib.colors.SymLogNorm(.01),
                     edgecolors='grey',
                     linewidths=0.1)
 
