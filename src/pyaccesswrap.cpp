@@ -130,42 +130,29 @@ initialize_category(PyObject *self, PyObject *args)
 
 
 static PyObject *
-find_nearest_pois(PyObject *self, PyObject *args)
-{
-    int id, cat, num;
-    float r;
-	if (!PyArg_ParseTuple(args, "ifii", &id, &r, &num, &cat)) return NULL;
-    
-    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[0]; 
-
-    std::vector<float> nodes = sa->findNearestPOIs(id, r, num, cat);
-    npy_intp len = nodes.size(); 
-    PyArrayObject *returnobj = (PyArrayObject *)PyArray_SimpleNew(1, &len,
-        NPY_FLOAT32);
-    for(int i = 0 ; i < len ; i++)
-        ((float*)PyArray_DATA(returnobj))[i] = nodes[i];
-
-	return PyArray_Return(returnobj);
-}
-
-
-static PyObject *
 find_all_nearest_pois(PyObject *self, PyObject *args)
 {
-
     double radius;
-	int varind;
-	if (!PyArg_ParseTuple(args, "di", &radius, &varind)) return NULL;
+	int varind, num, gno, impno;
+	if (!PyArg_ParseTuple(args, "diiii", &radius, &num, &varind,
+	                        &gno, &impno))
+	    return NULL;
     
-    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[0]; 
+    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[gno];
 
-    std::vector<double> nodes = sa->findAllNearestPOIs(radius, varind);
-    
-	npy_intp len = nodes.size(); 
-    PyArrayObject *returnobj = (PyArrayObject *)PyArray_SimpleNew(1, &len, 
+    std::vector<std::vector<float> > nodes =
+        sa->findAllNearestPOIs(radius, num, varind, impno);
+
+	npy_intp dims[2];
+	dims[0] = nodes.size();
+	dims[1] = num;
+    PyArrayObject *returnobj = (PyArrayObject *)PyArray_SimpleNew(2, dims,
 															NPY_FLOAT32);
-    for(int i = 0 ; i < len ; i++) ((float*)PyArray_DATA(returnobj))[i] = 
-															(float)nodes[i];
+    for(int i = 0 ; i < dims[0] ; i++) {
+        for(int j = 0 ; j < dims[1] ; j++) {
+            ((float*)PyArray_DATA(returnobj))[i*dims[1]+j] = (float)nodes[i][j];
+        }
+    }
 
 	return PyArray_Return(returnobj);
 }
