@@ -48,6 +48,11 @@ class Network:
     def node_ids(self):
         return self.node_idx.index
 
+    @property
+    def bbox(self):
+        return [self.nodes_df.x.min(), self.nodes_df.y.min(),
+                self.nodes_df.x.max(), self.nodes_df.y.max()]
+
     def __init__(self, node_x, node_y, edge_from, edge_to, edge_weights,
                  twoway=True):
         """
@@ -161,9 +166,9 @@ class Network:
         l = len(df)
         df = df.dropna(how="any")
         newl = len(df)
-        if newl-l > 0:
+        if l-newl > 0:
             print "Removed %d rows because they contain missing values" % \
-                (newl-l)
+                (l-newl)
         print "check nans in %.3f" % (time.time()-t1)
 
         if name not in self.variable_names:
@@ -330,10 +335,22 @@ class Network:
                    edgecolors='grey',
                    linewidths=0.1)
 
-    def initialize_pois(self, numcategories, maxdist, maxitems):
+    def init_pois(self, numcategories, maxdist, maxitems):
+        """
+        Initialize the point of interest infrastructure.
+
+        Parameters
+        ----------
+        numcategories : int
+            Number of categories of points-of-interest
+        maxdist : float
+            Maximum distance
+        :param maxitems:
+        :return:
+        """
         _pyaccess.initialize_pois(numcategories, maxdist, maxitems)
 
-    def initialize_poi_category(self, category, xcol, ycol):
+    def set_pois(self, category, xcol, ycol):
         if category not in CAT_NAME_TO_IND:
             CAT_NAME_TO_IND[category] = len(CAT_NAME_TO_IND)
 
@@ -343,7 +360,7 @@ class Network:
         _pyaccess.initialize_category(CAT_NAME_TO_IND[category],
                                       df.as_matrix().astype('float32'))
 
-    def compute_nearest_pois(my, distance, category):
+    def nearest_pois(my, distance, category):
         assert category in CAT_NAME_TO_IND, "Category not initialized"
 
         return _pyaccess.find_all_nearest_pois(distance,
