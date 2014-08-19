@@ -33,30 +33,6 @@ def reserve_num_graphs(num):
     _pyaccess.create_graphs(num)
 
 
-def from_networkx(G):
-    nids = []
-    lats = []
-    lons = []
-    for n in G.nodes_iter():
-        n = G.node[n]['data']
-        nids.append(int(n.id))
-        lats.append(n.lat)
-        lons.append(n.lon)
-    nodes = pd.DataFrame({'x': lons, 'y': lats}, index=nids)
-
-    froms = []
-    tos = []
-    weights = []
-    for e in G.edges_iter():
-        e = G.get_edge_data(*e)['data']
-        froms.append(int(G.node[e.nds[0]]['data'].id))
-        tos.append(int(G.node[e.nds[1]]['data'].id))
-        weights.append(float(1))
-    edges = pd.DataFrame({'from': froms, 'to': tos, 'weight': weights})
-
-    return nodes, edges
-
-
 class Network:
 
     def _node_indexes(self, node_ids):
@@ -110,6 +86,8 @@ class Network:
 
         if MAX_NUM_NETWORKS == 0:
             reserve_num_graphs(1)
+
+        print NUM_NETWORKS, MAX_NUM_NETWORKS
 
         assert NUM_NETWORKS < MAX_NUM_NETWORKS, "Adding more networks than " \
                                                 "have been reserved"
@@ -186,7 +164,7 @@ class Network:
         if newl-l > 0:
             print "Removed %d rows because they contain missing values" % \
                 (newl-l)
-        print "up %.3f" % (time.time()-t1)
+        print "check nans in %.3f" % (time.time()-t1)
 
         if name not in self.variable_names:
             self.variable_names.append(name)
@@ -200,7 +178,7 @@ class Network:
                                      self.variable_names.index(name),
                                      df.node_idx.astype('int32'),
                                      df[name].astype('float32'))
-        print "%.3f" % (time.time()-t1)
+        print "init column in %.3f" % (time.time()-t1)
 
     def precompute(self, distance):
         """
@@ -326,8 +304,8 @@ class Network:
         return s[s != -1]
 
     def plot(self, s, width=24, height=30, dpi=300,
-             scheme_type="sequential", color='YlGn', numbins=7,
-             bbox=None):
+             scheme="sequential", color='YlGn', numbins=7,
+             bbox=None, log_scale=False):
         """
         Experimental method to write the network to a matplotlib image.
         """
@@ -339,13 +317,18 @@ class Network:
             df = df.query("xcol > %f and ycol > %f and xcol < %f and ycol < "
                           "%f" % tuple(bbox))
 
-        plt.figure(num=None, figsize=(width, height), dpi=dpi, edgecolor='k')
-        plt.scatter(df.xcol, df.ycol, c=df.zcol,
-                    cmap=brewer2mpl.get_map(color, scheme_type, numbins).
-                    mpl_colormap,
-                    # norm=matplotlib.colors.SymLogNorm(.01),
-                    edgecolors='grey',
-                    linewidths=0.1)
+        fig = plt.figure(num=None, figsize=(width, height), dpi=dpi,
+                         facecolor='b', edgecolor='k')
+        ax = fig.add_subplot(111, axisbg='black')
+
+        mpl_cmap = brewer2mpl.get_map(color, scheme, numbins).mpl_colormap
+        norm = matplotlib.colors.SymLogNorm(.01) if log_scale else None
+
+        ax.scatter(df.xcol, df.ycol, c=df.zcol,
+                   cmap=mpl_cmap,
+                   norm=norm,
+                   edgecolors='grey',
+                   linewidths=0.1)
 
     def initialize_pois(self, numcategories, maxdist, maxitems):
         _pyaccess.initialize_pois(numcategories, maxdist, maxitems)

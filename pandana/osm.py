@@ -16,6 +16,30 @@ import copy
 import networkx
 
 
+def from_networkx(G):
+    nids = []
+    lats = []
+    lons = []
+    for n in G.nodes_iter():
+        n = G.node[n]['data']
+        nids.append(int(n.id))
+        lats.append(n.lat)
+        lons.append(n.lon)
+    nodes = pd.DataFrame({'x': lons, 'y': lats}, index=nids)
+
+    froms = []
+    tos = []
+    weights = []
+    for e in G.edges_iter():
+        e = G.get_edge_data(*e)['data']
+        froms.append(int(G.node[e.nds[0]]['data'].id))
+        tos.append(int(G.node[e.nds[1]]['data'].id))
+        weights.append(float(1))
+    edges = pd.DataFrame({'from': froms, 'to': tos, 'weight': weights})
+
+    return nodes, edges
+
+
 def download_osm(left, bottom, right, top):
     """ Return a filehandle to the downloaded data."""
     from urllib import urlopen
