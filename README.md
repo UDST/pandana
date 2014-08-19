@@ -30,8 +30,6 @@ Acknowledgments
 
 None of this would be possible without the help of Dennis Luxen (now at MapBox) and his OSRM (https://github.com/DennisOSRM/Project-OSRM).
 
-OSRM also has a dependency on Google's sparsehash project (https://code.google.com/p/sparsehash/).
-
 Nearest neighbor queries are performed with the fastest k-d tree around, e.g. ANN (http://www.cs.umd.edu/~mount/ANN/).
 
 Install
