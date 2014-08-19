@@ -15,11 +15,15 @@ import xml.sax
 import copy
 import networkx
 
-def download_osm(left,bottom,right,top):
+
+def download_osm(left, bottom, right, top):
     """ Return a filehandle to the downloaded data."""
     from urllib import urlopen
-    fp = urlopen( "http://api.openstreetmap.org/api/0.6/map?bbox=%f,%f,%f,%f"%(left,bottom,right,top) )
+    fp = urlopen(
+        ("http://api.openstreetmap.org/api/0.6/map?bbox=%f,%f,%f,%f" %
+         (left, bottom, right, top)))
     return fp
+
 
 def read_osm(filename_or_stream, only_roads=True):
     """Read graph in OSM format from file specified by name or by stream object.
@@ -58,6 +62,7 @@ class Node:
         self.lat = lat
         self.tags = {}
 
+
 class Way:
     def __init__(self, id, osm):
         self.osm = osm
@@ -68,9 +73,8 @@ class Way:
     def split(self, dividers):
         # slice the node-array using this nifty recursive function
         def slice_array(ar, dividers):
-            for i in range(1,len(ar)-1):
-                if dividers[ar[i]]>1:
-                    #print "slice at %s"%ar[i]
+            for i in range(1, len(ar) - 1):
+                if dividers[ar[i]] > 1:
                     left = ar[:i+1]
                     right = ar[i:]
 
@@ -83,16 +87,15 @@ class Way:
 
         # create a way object for each node-array slice
         ret = []
-        i=0
+        i = 0
         for slice in slices:
-            littleway = copy.copy( self )
-            littleway.id += "-%d"%i
+            littleway = copy.copy(self)
+            littleway.id += "-%d" % i
             littleway.nds = slice
-            ret.append( littleway )
+            ret.append(littleway)
             i += 1
 
         return ret
-
 
 
 class OSM:
@@ -105,7 +108,7 @@ class OSM:
 
         class OSMHandler(xml.sax.ContentHandler):
             @classmethod
-            def setDocumentLocator(self,loc):
+            def setDocumentLocator(self, loc):
                 pass
 
             @classmethod
@@ -118,20 +121,21 @@ class OSM:
 
             @classmethod
             def startElement(self, name, attrs):
-                if name=='node':
-                    self.currElem = Node(attrs['id'], float(attrs['lon']), float(attrs['lat']))
-                elif name=='way':
+                if name == 'node':
+                    self.currElem = Node(
+                        attrs['id'], float(attrs['lon']), float(attrs['lat']))
+                elif name == 'way':
                     self.currElem = Way(attrs['id'], superself)
-                elif name=='tag':
+                elif name == 'tag':
                     self.currElem.tags[attrs['k']] = attrs['v']
-                elif name=='nd':
-                    self.currElem.nds.append( attrs['ref'] )
+                elif name == 'nd':
+                    self.currElem.nds.append(attrs['ref'])
 
             @classmethod
-            def endElement(self,name):
-                if name=='node':
+            def endElement(self, name):
+                if name == 'node':
                     nodes[self.currElem.id] = self.currElem
-                elif name=='way':
+                elif name == 'way':
                     ways[self.currElem.id] = self.currElem
 
             @classmethod
@@ -143,16 +147,18 @@ class OSM:
         self.nodes = nodes
         self.ways = ways
 
-        #count times each node is used
-        node_histogram = dict.fromkeys( self.nodes.keys(), 0 )
+        # count times each node is used
+        node_histogram = dict.fromkeys(self.nodes.keys(), 0)
         for way in self.ways.values():
-            if len(way.nds) < 2:       #if a way has only one node, delete it out of the osm collection
+            # if a way has only one node, delete it out of the osm collection
+            if len(way.nds) < 2:
                 del self.ways[way.id]
             else:
                 for node in way.nds:
                     node_histogram[node] += 1
 
-        #use that histogram to split all ways, replacing the member set of ways
+        # use that histogram to split all ways,
+        # replacing the member set of ways
         new_ways = {}
         for id, way in self.ways.iteritems():
             split_ways = way.split(node_histogram)
