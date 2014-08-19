@@ -1,5 +1,7 @@
 import time
 import matplotlib
+# this might fix the travis build
+matplotlib.use('Agg')
 import brewer2mpl
 import matplotlib.pyplot as plt
 import numpy as np
@@ -204,6 +206,17 @@ class Network:
         """
         _pyaccess.precompute_range(distance, self.graph_no)
 
+    def _imp_name_to_num(self, imp_name):
+        if imp_name is None:
+            assert len(self.impedance_names) == 1,\
+                "must pass impedance name if there are multiple impedances set"
+            imp_name = self.impedance_names[0]
+
+        assert imp_name in self.impedance_names, "An impedance with that name" \
+                                                 "was not found"
+
+        return self.impedance_names.index(imp_name)
+
     def aggregate(self, distance, type="sum", decay="linear", imp_name=None,
                   name="tmp"):
         """
@@ -248,14 +261,7 @@ class Network:
         agg = AGGREGATIONS[type.upper()]
         decay = DECAYS[decay.upper()]
 
-        if imp_name is None:
-            assert len(self.impedance_names) == 1,\
-                "must pass impedance name if there are multiple impedances set"
-            imp_name = self.impedance_names[0]
-
-        assert imp_name in self.impedance_names, "An impedance with that name" \
-                                                 "was not found"
-        imp_num = self.impedance_names.index(imp_name)
+        imp_num = self._imp_name_to_num(imp_name)
 
         gno = self.graph_no
 
@@ -339,9 +345,7 @@ class Network:
 
     def init_pois(self, numcategories, maxdist, maxitems):
         """
-        Initialize the point of interest infrastructure.  Note that the POI
-        infrastructure is all currently hard-coded to use the first impedance
-        if there are multiple impedances.
+        Initialize the point of interest infrastructure.
 
         Parameters
         ----------
@@ -359,7 +363,10 @@ class Network:
         if self.num_poi_categories != -1:
             print "Can't initialize twice"
             return
+
         self.num_poi_categories = numcategories
+        self.max_items = maxitems
+
         _pyaccess.initialize_pois(numcategories, maxdist, maxitems)
 
     def set_pois(self, category, x_col, y_col):
@@ -391,7 +398,8 @@ class Network:
         _pyaccess.initialize_category(self.poi_category_names.index(category),
                                       xys.astype('float32'))
 
-    def nearest_pois(self, distance, category, max_distance=None):
+    def nearest_pois(self, distance, category, max_num=1, max_distance=None,
+                     imp_name=None):
         """
         Find the distance to the nearest pois from each source node.  This
         bigger values in this case mean less accessibility.
@@ -402,16 +410,28 @@ class Network:
             The maximum distance to look for pois
         category : string
             The name of the category of poi to look for
+        max_num : int
+            The max number of pois to look for, this also sets the number of
+            columns in the DataFrame that gets returned
         max_distance : float, optional
             The value to set the distance to if there is NO poi within the
             specified distance - if not specified, gets set to distance
+        imp_name : string, optional
+            The impedance name to use for the aggregation on this network.
+            Must be one of the impedance names passed in the constructor of
+            this object.  If not specified, there must be only one impedance
+            passed in the constructor, which will be used.
 
         Returns
         -------
-        s : Pandas Series
+        d : Pandas DataFrame
             Like aggregate, this series has an index of all the node ids for
-            the network with a value which is the distance to the nearest of
-            the specified category of pois
+            the network.  Unlike aggregate, this method returns a dataframe
+            with the number of columns equal to the distances to the Nth
+            closest poi.  For instance, if you ask for the 10 closest poi to
+            each node, column d[1] wil be the distance to the 1st closest poi of
+            that category while column d[2] wil lbe the distance to the 2nd
+            closest poi, and so on.
         """
         if max_distance is None:
             max_distance = distance
@@ -422,9 +442,18 @@ class Network:
         if category not in self.poi_category_names:
             assert 0, "Need to call set_pois for this category"
 
+        if max_num > self.max_items:
+            assert 0, "Asking for more pois that set in init_pois"
+
+        imp_num = self._imp_name_to_num(imp_name)
+
         a = _pyaccess.find_all_nearest_pois(distance,
+                                            max_num,
                                             self.poi_category_names.index(
-                                                category))
+                                                category),
+                                            self.graph_no,
+                                            imp_num)
         a[a == -1] = max_distance
-        s = pd.Series(a, index=self.node_ids)
-        return s
+        df = pd.DataFrame(a, index=self.node_ids)
+        df.columns = range(1, max_num+1)
+        return df

@@ -96,9 +96,11 @@ namespace MTC {
 			void initializeCategory(int category, accessibility_vars_t &vars);
 
 			std::vector<float> findNearestPOIs(int srcnode,
-			    float maxradius, int maxnumber, unsigned cat, int graphno=0);
-			std::vector<double> findAllNearestPOIs(float maxradius,
-			    unsigned cat);
+			    float maxradius, unsigned maxnumber, unsigned cat,
+			    int graphno=0);
+			std::vector<std::vector<float> >
+			    findAllNearestPOIs(float maxradius, unsigned maxnumber,
+			            unsigned cat, int graphno=0);
 
             DistanceVec Range(int srcnode, float radius, int graphno=0);
 

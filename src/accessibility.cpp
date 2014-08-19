@@ -69,8 +69,8 @@ namespace MTC {
 		}
 
 		std::vector<float>
-		Accessibility::findNearestPOIs(int srcnode, float maxradius, int number,
-		    unsigned cat, int gno) {
+		Accessibility::findNearestPOIs(int srcnode, float maxradius,
+		    unsigned number, unsigned cat, int gno) {
 
 			assert(cat >= 0 && cat < POI_MAXVAL);
 
@@ -102,14 +102,19 @@ namespace MTC {
 			return ret;
 		}
 
-		std::vector<double>
-		Accessibility::findAllNearestPOIs(float maxradius, unsigned cat) {
-			std::vector<double> dists(numnodes);
+		std::vector<std::vector<float> >
+		Accessibility::findAllNearestPOIs(float maxradius,
+		    unsigned number, unsigned cat, int gno) {
+			std::vector<std::vector<float> > dists(numnodes,
+			            std::vector<float> ( number ));
 			#pragma omp parallel for
 			for(int i = 0 ; i < numnodes ; i++) {
-				std::vector<float> d = findNearestPOIs(i, maxradius, 1, cat);
-                if(d.size()) dists[i] = d[0];
-                else dists[i] = -1;
+				std::vector<float> d = findNearestPOIs(i, maxradius, number,
+				                                       cat, gno);
+				for(int j = 0 ; j < number ; j++) {
+                    if(j < d.size()) dists[i][j] = d[j];
+                    else dists[i][j] = -1;
+                }
 			}
 			return dists;
 		}
