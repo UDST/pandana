@@ -119,3 +119,32 @@ def test_plot(sample_osm):
     s = net.aggregate(500, type="sum", decay="linear")
 
     sample_osm.plot(s, bbox=net.bbox)
+
+
+def test_pois(sample_osm):
+    net = sample_osm
+
+    ssize = 50
+    np.random.seed(0)
+    x, y = random_x_y(sample_osm, ssize)
+
+    with pytest.raises(AssertionError):
+        net.set_pois("restaurants", x, y)
+
+    with pytest.raises(AssertionError):
+        _ = net.nearest_pois(2000, "restaurants", max_num=10)
+
+    net.init_pois(numcategories=1, maxdist=2000, maxitems=10)
+
+    with pytest.raises(AssertionError):
+        _ = net.nearest_pois(2000, "restaurants", max_num=10)
+
+    # boundary condition
+    net.init_pois(numcategories=1, maxdist=2000, maxitems=10)
+
+    net.set_pois("restaurants", x, y)
+
+    _ = net.nearest_pois(2000, "restaurants", max_num=10)
+
+    with pytest.raises(AssertionError):
+        _ = net.nearest_pois(2000, "restaurants", max_num=11)
