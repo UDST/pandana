@@ -303,7 +303,7 @@ class Network:
         s = pd.Series(node_ids, index=xys.index)
         return s[s != -1]
 
-    def plot(self, s, width=24, height=30, dpi=300,
+    def plot(self, s, width=24, height=30, dpi=150,
              scheme="sequential", color='YlGn', numbins=7,
              bbox=None, log_scale=False):
         """
