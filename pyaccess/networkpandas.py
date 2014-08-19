@@ -2,6 +2,7 @@ import _pyaccess
 import time
 import pandas as pd
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
 import brewer2mpl
 
@@ -318,7 +319,7 @@ class Network:
         xys = pd.DataFrame({'x': x_col, 'y': y_col}).dropna(how='any')
 
         # no limit to the mapping distance
-        node_ids = _pyaccess.xy_to_node(xys,
+        node_ids = _pyaccess.xy_to_node(xys.astype('float32'),
                                         mapping_distance,
                                         self.graph_no)
 
@@ -326,17 +327,24 @@ class Network:
         return s[s != -1]
 
     def plot(self, s, width=24, height=30, dpi=300,
-             scheme_type="sequential", color='YlGn', numbins=7):
+             scheme_type="sequential", color='YlGn', numbins=7,
+             bbox=None):
         """
         Experimental method to write the network to a matplotlib image.
         """
-        df = pd.DataFrame({'x': self.nodes.x.values,
-                           'y': self.nodes.y.values,
-                           'z': s.values})
+        df = pd.DataFrame({'xcol': self.nodes_df.x.values,
+                           'ycol': self.nodes_df.y.values,
+                           'zcol': s.values})
+
+        if bbox is not None:
+            df = df.query("xcol > %f and ycol > %f and xcol < %f and ycol < "
+                          "%f" % tuple(bbox))
+
         plt.figure(num=None, figsize=(width, height), dpi=dpi, edgecolor='k')
-        plt.scatter(df.x, df.y, c=df.z,
+        plt.scatter(df.xcol, df.ycol, c=df.zcol,
                     cmap=brewer2mpl.get_map(color, scheme_type, numbins).
                     mpl_colormap,
+                    norm=matplotlib.colors.SymLogNorm(.01),
                     edgecolors='grey',
                     linewidths=0.1)
 
