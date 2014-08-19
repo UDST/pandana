@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-import pandana.networkpandas as nwp
+import pandana.pandana as pdna
 
 
 @pytest.fixture(scope="module")
@@ -12,7 +12,7 @@ def sample_osm(request):
     store = pd.HDFStore(
         os.path.join(os.path.dirname(__file__), 'osm_sample.h5'), "r")
     nodes, edges = store.nodes, store.edges
-    net = nwp.Network(nodes.x, nodes.y, edges["from"], edges.to,
+    net = pdna.Network(nodes.x, nodes.y, edges["from"], edges.to,
                       edges[["weight"]])
 
     def fin():
@@ -42,8 +42,8 @@ def test_agg_variables(sample_osm):
     net.set(random_node_ids(sample_osm, ssize),
             variable=random_data(ssize))
 
-    for type in nwp.AGGREGATIONS:
-        for decay in nwp.DECAYS:
+    for type in pdna.AGGREGATIONS:
+        for decay in pdna.DECAYS:
             for distance in [500, 1000, 2000]:
                 s = net.aggregate(distance, type=type, decay=decay)
                 assert s.describe()['std'] > 0
@@ -52,8 +52,8 @@ def test_agg_variables(sample_osm):
     ssize = 50
     net.set(random_node_ids(sample_osm, ssize))
 
-    for type in nwp.AGGREGATIONS:
-        for decay in nwp.DECAYS:
+    for type in pdna.AGGREGATIONS:
+        for decay in pdna.DECAYS:
             for distance in [500, 1000, 2000]:
                 s = net.aggregate(distance, type=type, decay=decay)
                 if type != "STD":
