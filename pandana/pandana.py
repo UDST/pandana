@@ -107,6 +107,8 @@ class Network:
 
         self.impedance_names = list(edge_weights.columns)
         self.variable_names = []
+        self.poi_category_names = []
+        self.num_poi_categories = -1
 
         # this maps ids to indexes which are used internally
         self.node_idx = pd.Series(np.arange(len(nodes_df)),
@@ -337,31 +339,92 @@ class Network:
 
     def init_pois(self, numcategories, maxdist, maxitems):
         """
-        Initialize the point of interest infrastructure.
+        Initialize the point of interest infrastructure.  Note that the POI
+        infrastructure is all currently hard-coded to use the first impedance
+        if there are multiple impedances.
 
         Parameters
         ----------
         numcategories : int
-            Number of categories of points-of-interest
+            Number of categories of POIs
         maxdist : float
-            Maximum distance
-        :param maxitems:
-        :return:
+            Maximum distance that will be tested to nearest POIs
+        maxitems :
+            Maximum number of POIs to return in the nearest query
+
+        Returns
+        -------
+        Nothing
         """
+        if self.num_poi_categories != -1:
+            print "Can't initialize twice"
+            return
+        self.num_poi_categories = numcategories
         _pyaccess.initialize_pois(numcategories, maxdist, maxitems)
 
-    def set_pois(self, category, xcol, ycol):
-        if category not in CAT_NAME_TO_IND:
-            CAT_NAME_TO_IND[category] = len(CAT_NAME_TO_IND)
+    def set_pois(self, category, x_col, y_col):
+        """
+        Set the location of all the pois of this cateogry
 
-        df = pd.concat([xcol, ycol], axis=1)
-        print df.describe()
+        category : string
+            The name of the category for this set of pois
+        x_col : Pandas Series (float)
+            The x location (longitude) of pois in this category
+        y_col : Pandas Series (Float)
+            The y location (latitude) of pois in this category
 
-        _pyaccess.initialize_category(CAT_NAME_TO_IND[category],
-                                      df.as_matrix().astype('float32'))
+        Returns
+        -------
+        Nothing
+        """
+        if self.num_poi_categories == -1:
+            assert 0, "Need to call init_pois first"
 
-    def nearest_pois(my, distance, category):
-        assert category in CAT_NAME_TO_IND, "Category not initialized"
+        if category not in self.poi_category_names:
+            assert len(self.poi_category_names) < self.num_poi_categories, \
+                "Too many categories set - increase the number when calling " \
+                "init_pois"
+            self.poi_category_names.append(category)
 
-        return _pyaccess.find_all_nearest_pois(distance,
-                                               CAT_NAME_TO_IND[category])
+        xys = pd.DataFrame({'x': x_col, 'y': y_col}).dropna(how='any')
+
+        _pyaccess.initialize_category(self.poi_category_names.index(category),
+                                      xys.astype('float32'))
+
+    def nearest_pois(self, distance, category, max_distance=None):
+        """
+        Find the distance to the nearest pois from each source node.  This
+        bigger values in this case mean less accessibility.
+
+        Parameters
+        ----------
+        distance : float
+            The maximum distance to look for pois
+        category : string
+            The name of the category of poi to look for
+        max_distance : float, optional
+            The value to set the distance to if there is NO poi within the
+            specified distance - if not specified, gets set to distance
+
+        Returns
+        -------
+        s : Pandas Series
+            Like aggregate, this series has an index of all the node ids for
+            the network with a value which is the distance to the nearest of
+            the specified category of pois
+        """
+        if max_distance is None:
+            max_distance = distance
+
+        if self.num_poi_categories == -1:
+            assert 0, "Need to call init_pois first"
+
+        if category not in self.poi_category_names:
+            assert 0, "Need to call set_pois for this category"
+
+        a = _pyaccess.find_all_nearest_pois(distance,
+                                            self.poi_category_names.index(
+                                                category))
+        a[a == -1] = max_distance
+        s = pd.Series(a, index=self.node_ids)
+        return s
