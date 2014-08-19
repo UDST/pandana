@@ -12,6 +12,7 @@ set and aggregate with multiple impedances
 one way streets
 '''
 
+
 @pytest.fixture(scope="module")
 def sample_osm(request):
     store = pd.HDFStore(
