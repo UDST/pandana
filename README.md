@@ -1,11 +1,13 @@
-urbanaccess
-===========
+Pandana
+=======
+
+[![Build Status](https://travis-ci.org/synthicity/pandana.svg?branch=master)](https://travis-ci.org/synthicity/pandana) [![Coverage Status](https://img.shields.io/coveralls/synthicity/pandana.svg)](https://coveralls.io/r/synthicity/pandana)
 
 Accessibility as defined here is the ability to reach other specified locations in the city.
 
 In practice, it's a bit more subtle than that.  This framework serves to aggregate data along the transportation network in a way that typically creates a smooth surface over the entire city of the variable of interest.
 
-How does this work.  
+How does this work.
 
 1) create and preprocess the network
 
@@ -17,7 +19,7 @@ First, take the variable of interest.  In some cases it's discrete - like the nu
 
 3) perform the aggregation
 
-The main use case of UrbanAccess is to perform an aggregation.  The api is designed to perform the aggregations for all nodes in the network at the same time in a multi-threaded fashion.  Most accessibility queries can be performed in well under a second, even for hundreds of thousands of nodes.  To perform an aggregation, pass a radius, an aggregation type (min, max, sum, mean, stddev), and a decay (flat, linear, exponential).  Decays can be applied to the variable to that items further away have less of an impact on the node for which the query is being performed.  In other words, the aggregation is performed for the whole network - in the Bay Area this is 226K nodes - and a buffer query up to the radius, typically 500 meters to about 45 minutes travel time, is performed for each node.
+The main use case of Pandana is to perform an aggregation.  The api is designed to perform the aggregations for all nodes in the network at the same time in a multi-threaded fashion.  Most accessibility queries can be performed in well under a second, even for hundreds of thousands of nodes.  To perform an aggregation, pass a radius, an aggregation type (min, max, sum, mean, stddev), and a decay (flat, linear, exponential).  Decays can be applied to the variable to that items further away have less of an impact on the node for which the query is being performed.  In other words, the aggregation is performed for the whole network - in the Bay Area this is 226K nodes - and a buffer query up to the radius, typically 500 meters to about 45 minutes travel time, is performed for each node.
 
 4) perform other queries
 
@@ -28,15 +30,14 @@ Acknowledgments
 
 None of this would be possible without the help of Dennis Luxen (now at MapBox) and his OSRM (https://github.com/DennisOSRM/Project-OSRM).
 
-OSRM also has a dependency on Google's sparsehash project (https://code.google.com/p/sparsehash/).  
+OSRM also has a dependency on Google's sparsehash project (https://code.google.com/p/sparsehash/).
 
-Nearest neighbor queries are performed with the fastest k-d tree around, e.g. ANN (http://www.cs.umd.edu/~mount/ANN/).  
+Nearest neighbor queries are performed with the fastest k-d tree around, e.g. ANN (http://www.cs.umd.edu/~mount/ANN/).
 
 Install
 =====
-All source code is included in this project with absolutely no other dependencies.  On Linux/Mac, simply run make.  Or build on Windows using the solution provided in the winaccess folder.  Once the project is built, you can install the Python wrappers to the system directory using distutils, e.g. "python setup.py install"
 
-UPDATE: On Mac, make sure to have actual gcc (not clang).  This works for my by installing macports and then running "port install gcc49" or whatever the latest version is.  I found it to be really tricky to get all the Makefiles to recognize g++-mp-4.9 as my g++ compiler.  In the end I created a symlink "ln -s /opt/local/bin/g++-mp-4.9 /opt/local/bin/g++" and made sure "g++ --version" gives me the gcc version rather than clang.  Once you get the right compiler set everything should compile correctly.
+Clone this repo and run `python setup.py install`. Requires C/C++ compilers.
 
 Docs
 ====
