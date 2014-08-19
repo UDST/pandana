@@ -13,7 +13,7 @@ def sample_osm(request):
         os.path.join(os.path.dirname(__file__), 'osm_sample.h5'), "r")
     nodes, edges = store.nodes, store.edges
     net = pdna.Network(nodes.x, nodes.y, edges["from"], edges.to,
-                      edges[["weight"]])
+                       edges[["weight"]])
 
     def fin():
         store.close()
