@@ -343,7 +343,7 @@ class Network:
         plt.scatter(df.xcol, df.ycol, c=df.zcol,
                     cmap=brewer2mpl.get_map(color, scheme_type, numbins).
                     mpl_colormap,
-                    #norm=matplotlib.colors.SymLogNorm(.01),
+                    # norm=matplotlib.colors.SymLogNorm(.01),
                     edgecolors='grey',
                     linewidths=0.1)
 
