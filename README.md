@@ -3,44 +3,31 @@ Pandana
 
 [![Build Status](https://travis-ci.org/synthicity/pandana.svg?branch=master)](https://travis-ci.org/synthicity/pandana) [![Coverage Status](https://img.shields.io/coveralls/synthicity/pandana.svg)](https://coveralls.io/r/synthicity/pandana)
 
-The documentation is a long way from done, but good [API documentation](http://synthicity.github.io/pandana/network.html) is now available.
+![Distance to Restaurants](https://raw.githubusercontent.com/synthicity/pandana/master/docs/_static/distance_to_restaurants.png)
 
-Accessibility as defined here is the ability to reach other specified locations in the city.
+In this case, a picture is worth a thousand words.  Here is shown the distance to the *2nd* nearest restaurant in matplotlib.  With only a few lines of code, you can grab a network from OpenStreetMap, take the restaurants that users of OpenStreetMap have recorded, and in about half a second of compute time you can get back a Pandas Series of node_ids and computed values of various measures of access to destinations on the street network.
 
-In practice, it's a bit more subtle than that.  This framework serves to aggregate data along the transportation network in a way that typically creates a smooth surface over the entire city of the variable of interest.
-
-How does this work.
-
-1) create and preprocess the network
-
-Networks are completely abstract in that they have nodes, edges, and one or more impedances associated with each edge.  Impedances can be time or distance or an index of some kind, but there is a single number associated with each edge.  (If you pass multiple impedances for each edge, a different instance of the network is created for each network.  For instance, for congested travel time by time of day.  Pedestrian, auto, and local street networks have all been used in this framework successfully.
-
-2) assign the variable to the network
-
-First, take the variable of interest.  In some cases it's discrete - like the number of coffee shops, in other cases it's continuous like the income of people.  But you have observations of some kind tied to x-y coordinates in the city.  So you map these to the network, usually be doing a nearest neighbor on all the intersections in the network - i.e. each variable is abstracted to exist at one of the nodes of the network.  If this is a problem-  for instance a large parcel in the city - it might be necessary to split up the object to many nearby nodes, which is an extra step but fits within the same framework.
-
-3) perform the aggregation
-
-The main use case of Pandana is to perform an aggregation.  The api is designed to perform the aggregations for all nodes in the network at the same time in a multi-threaded fashion.  Most accessibility queries can be performed in well under a second, even for hundreds of thousands of nodes.  To perform an aggregation, pass a radius, an aggregation type (min, max, sum, mean, stddev), and a decay (flat, linear, exponential).  Decays can be applied to the variable to that items further away have less of an impact on the node for which the query is being performed.  In other words, the aggregation is performed for the whole network - in the Bay Area this is 226K nodes - and a buffer query up to the radius, typically 500 meters to about 45 minutes travel time, is performed for each node.
-
-4) perform other queries
-
-Because the underlying network operations are performed by the Open Source Routing Machine, "find nearest" queries are also possible as well as point-to-point travel times.
+Beyond simple access to destination queries, this library also implements more general aggregations along the street network (or any network).  For a given region, this produces hundreds of thousands of overlapping buffer queries (still performed in less than a second) that can be used to characterize the local neighborhood around each street intersection.  The result can then be mapped, or assigned to parcel or building records, or used in statistical models as we commonly do with [UrbanSim](https://github.com/synthicity/urbansim).  This is in stark contrast to the arbitrary non-overlapping geographies ubiquitous in GIS.  Although there are advantages to the GIS approach, we think network queries are a more accurate representation of how people interact with their environment.
 
 Acknowledgments
 ==============
 
-None of this would be possible without the help of Dennis Luxen (now at MapBox) and his OSRM (https://github.com/DennisOSRM/Project-OSRM).
+None of this would be possible without the help of Dennis Luxen (now at MapBox) and his OSRM (https://github.com/DennisOSRM/Project-OSRM).  Thank you Dennis!
 
-Nearest neighbor queries are performed with the fastest k-d tree around, e.g. ANN (http://www.cs.umd.edu/~mount/ANN/).
+Nearest neighbor queries are performed with the fastest k-d tree around, i.e. ANN (http://www.cs.umd.edu/~mount/ANN/).
+
+Academic Literature
+===================
+I'm currently working on getting a [complete description fo the methodology](https://github.com/fscottfoti/dissertation/blob/master/networks/Foti%20and%20Waddell%20-%20Accessibility%20Framework.pdf?raw=true) published in an academic journal.  Please cite this paper when referring to the methodology implemented by this library.
 
 Install
-=====
+=======
 
 Clone this repo and run `python setup.py install`. Requires C/C++ compilers.
 
 Docs
 ====
 
-Docs are on the wiki (or will be soon;)
+[Documentation](http://synthicity.github.io/pandana/network.html) for Pandana is now available.
 
+Thorough [API documentation](http://synthicity.github.io/pandana/network.html) for Pandana is also available.
