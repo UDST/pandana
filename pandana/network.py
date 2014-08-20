@@ -108,7 +108,7 @@ class Network:
                                edges_df[edge_weights.columns].transpose()
                                    .astype('float32'),
                                twoway)
-    
+
     def _node_indexes(self, node_ids):
         # for some reason, merge is must faster than .loc
         df = pd.merge(pd.DataFrame({"node_ids": node_ids}),
