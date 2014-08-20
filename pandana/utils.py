@@ -45,7 +45,7 @@ def anything_score(net, config, max_distance, decay, bbox):
             print "Adding contribution %f for number %d nearest" % \
                   (weight, idx)
             score += decay(df[idx])*weight
-            #print score.describe()
+            # print score.describe()
 
     assert score.min() > 0
     return score/score.max()*100
