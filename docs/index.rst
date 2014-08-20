@@ -6,14 +6,15 @@
 Pandana
 =======
 
-For starters, Pandana stands for Pandas Network Analysis.
+Pandana is a neologism representing Pandas Network Analysis.
 
 Pandana performs hundreds of thousands of network queries in under a second
 (for walking-scale distances) using a Pandas-like API.  The computations are
- then parallelized for use on multi-core computers using an underlying C
- library.
+parallelized for use on multi-core computers using an underlying C
+library.
 
-Contents:
+Contents
+--------
 
 .. toctree::
    :maxdepth: 2
