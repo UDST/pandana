@@ -1,5 +1,8 @@
+Getting Started
+---------------
+
 Introduction
-------------
+~~~~~~~~~~~~
 
 In this case, a picture is worth a thousand words. The image below shows the
 distance to the 2nd nearest restaurant (rendered by matplotlib). With only a few lines of code, you can grab a network from OpenStreetMap, take the restaurants that users of OpenStreetMap have recorded, and in about half a second of compute time you can get back a Pandas Series of node_ids and computed values of various measures of access to destinations on the street network.
@@ -13,7 +16,7 @@ interact with their environment.
 We look forward to creative uses of a general library like this - please let us know when you think you have a great use case with the hashtag ``#synthicity``.
 
 The General Workflow
---------------------
+~~~~~~~~~~~~~~~~~~~~
 
 Accessibility as defined here is the ability to reach other specified locations
 in the city, and this this framework is first and foremost designed to
@@ -87,7 +90,7 @@ variable using network queries.
   x, y, z and can be displayed with many visualization techniques,
   and a ``plot`` method is available for the network to display directly in
   matplotlib.
-  
+
   The framework can thus be used to map urban outcomes - e.g. access to health
   care, or urban predictive variables - e.g. average income in the local area,
   or simply for data exploration.  A common use case will be to write to
