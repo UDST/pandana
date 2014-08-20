@@ -349,17 +349,17 @@ class Network:
                    edgecolors='grey',
                    linewidths=0.1)
 
-    def init_pois(self, numcategories, maxdist, maxitems):
+    def init_pois(self, num_categories, max_dist, max_pois):
         """
         Initialize the point of interest infrastructure.
 
         Parameters
         ----------
-        numcategories : int
+        num_categories : int
             Number of categories of POIs
-        maxdist : float
+        max_dist : float
             Maximum distance that will be tested to nearest POIs
-        maxitems :
+        max_pois :
             Maximum number of POIs to return in the nearest query
 
         Returns
@@ -370,10 +370,10 @@ class Network:
             print "Can't initialize twice"
             return
 
-        self.num_poi_categories = numcategories
-        self.max_items = maxitems
+        self.num_poi_categories = num_categories
+        self.max_pois = max_pois
 
-        _pyaccess.initialize_pois(numcategories, maxdist, maxitems)
+        _pyaccess.initialize_pois(num_categories, max_dist, max_pois)
 
     def set_pois(self, category, x_col, y_col):
         """
@@ -406,7 +406,7 @@ class Network:
         _pyaccess.initialize_category(self.poi_category_names.index(category),
                                       xys.astype('float32'))
 
-    def nearest_pois(self, distance, category, max_num=1, max_distance=None,
+    def nearest_pois(self, distance, category, num_pois=1, max_distance=None,
                      imp_name=None):
         """
         Find the distance to the nearest pois from each source node.  This
@@ -418,8 +418,8 @@ class Network:
             The maximum distance to look for pois
         category : string
             The name of the category of poi to look for
-        max_num : int
-            The max number of pois to look for, this also sets the number of
+        num_pois : int
+            The number of pois to look for, this also sets the number of
             columns in the DataFrame that gets returned
         max_distance : float, optional
             The value to set the distance to if there is NO poi within the
@@ -450,13 +450,13 @@ class Network:
         if category not in self.poi_category_names:
             assert 0, "Need to call set_pois for this category"
 
-        if max_num > self.max_items:
+        if max_num > self.max_pois:
             assert 0, "Asking for more pois that set in init_pois"
 
         imp_num = self._imp_name_to_num(imp_name)
 
         a = _pyaccess.find_all_nearest_pois(distance,
-                                            max_num,
+                                            num_pois,
                                             self.poi_category_names.index(
                                                 category),
                                             self.graph_no,
