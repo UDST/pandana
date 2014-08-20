@@ -3,6 +3,8 @@ Pandana
 
 [![Build Status](https://travis-ci.org/synthicity/pandana.svg?branch=master)](https://travis-ci.org/synthicity/pandana) [![Coverage Status](https://img.shields.io/coveralls/synthicity/pandana.svg)](https://coveralls.io/r/synthicity/pandana)
 
+The documentation is a long way from done, but good [API documentation](http://synthicity.github.io/pandana/network.html) is now available.
+
 Accessibility as defined here is the ability to reach other specified locations in the city.
 
 In practice, it's a bit more subtle than that.  This framework serves to aggregate data along the transportation network in a way that typically creates a smooth surface over the entire city of the variable of interest.
