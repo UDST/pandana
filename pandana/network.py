@@ -450,7 +450,7 @@ class Network:
         if category not in self.poi_category_names:
             assert 0, "Need to call set_pois for this category"
 
-        if max_num > self.max_pois:
+        if num_pois > self.max_pois:
             assert 0, "Asking for more pois that set in init_pois"
 
         imp_num = self._imp_name_to_num(imp_name)
@@ -463,5 +463,5 @@ class Network:
                                             imp_num)
         a[a == -1] = max_distance
         df = pd.DataFrame(a, index=self.node_ids)
-        df.columns = range(1, max_num+1)
+        df.columns = range(1, num_pois+1)
         return df

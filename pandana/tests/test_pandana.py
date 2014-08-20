@@ -137,19 +137,19 @@ def test_pois(sample_osm):
         net.set_pois("restaurants", x, y)
 
     with pytest.raises(AssertionError):
-        _ = net.nearest_pois(2000, "restaurants", max_num=10)
+        _ = net.nearest_pois(2000, "restaurants", num_pois=10)
 
-    net.init_pois(numcategories=1, maxdist=2000, maxitems=10)
+    net.init_pois(num_categories=1, max_dist=2000, max_pois=10)
 
     with pytest.raises(AssertionError):
-        _ = net.nearest_pois(2000, "restaurants", max_num=10)
+        _ = net.nearest_pois(2000, "restaurants", num_pois=10)
 
     # boundary condition
-    net.init_pois(numcategories=1, maxdist=2000, maxitems=10)
+    net.init_pois(num_categories=1, max_dist=2000, max_pois=10)
 
     net.set_pois("restaurants", x, y)
 
-    _ = net.nearest_pois(2000, "restaurants", max_num=10)
+    _ = net.nearest_pois(2000, "restaurants", num_pois=10)
 
     with pytest.raises(AssertionError):
-        _ = net.nearest_pois(2000, "restaurants", max_num=11)
+        _ = net.nearest_pois(2000, "restaurants", num_pois=11)
