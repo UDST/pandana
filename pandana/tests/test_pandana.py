@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-import pandana.pandana as pdna
+import pandana.network as pdna
 
 
 ''' TODO - add tests for
@@ -21,6 +21,11 @@ def sample_osm(request):
     nodes, edges = store.nodes, store.edges
     net = pdna.Network(nodes.x, nodes.y, edges["from"], edges.to,
                        edges[["weight"]])
+
+    # try again to test for crash
+    with pytest.raises(AssertionError):
+        net = pdna.Network(nodes.x, nodes.y, edges["from"], edges.to,
+                           edges[["weight"]])
 
     net.precompute(2000)
 
