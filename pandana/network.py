@@ -317,11 +317,19 @@ class Network:
                                         mapping_distance,
                                         self.graph_no)
 
-        # convert from indexes to external ids
-        node_ids = self.nodes_df.reset_index().iloc[node_ids]["index"]
+        s = pd.Series(node_ids, index=xys.index)
+        # -1 marks did not get mapped ids
+        s = s[s != -1]
 
-        s = pd.Series(node_ids.values, index=xys.index)
-        return s[s != -1]
+        if len(s) == 0:
+            return pd.Series()
+
+        # this is not pandas finest moment - might have to revisit this at a
+        # later date - need to convert from internal to external ids
+        node_ids = pd.Series(self.nodes_df.reset_index().
+                             iloc[s]["index"].values,
+                             index=s.index)
+        return node_ids
 
     def plot(self, s, width=24, height=30, dpi=150,
              scheme="sequential", color='YlGn', numbins=7,
