@@ -14,7 +14,7 @@ We look forward to creative uses of a general library like this - please let us 
 Docs
 ----
 
-[Documentation](http://synthicity.github.io/pandana/network.html) for Pandana is now available.
+[Documentation](http://synthicity.github.io/pandana) for Pandana is now available.
 
 Thorough [API documentation](http://synthicity.github.io/pandana/network.html) for Pandana is also available.
 
