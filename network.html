@@ -1,0 +1,564 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Network API &mdash; pandana 0.1 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="pandana 0.1 documentation" href="index.html"/>
+        <link rel="prev" title="Tutorial" href="tutorial.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="index.html" class="fa fa-home"> pandana</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+        
+            <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Network API</a></li>
+</ul>
+
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">pandana</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Network API</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="_sources/network.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            
+  <div class="section" id="module-pandana.network">
+<span id="network-api"></span><h1>Network API<a class="headerlink" href="#module-pandana.network" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="pandana.network.Network">
+<em class="property">class </em><tt class="descclassname">pandana.network.</tt><tt class="descname">Network</tt><big>(</big><em>node_x</em>, <em>node_y</em>, <em>edge_from</em>, <em>edge_to</em>, <em>edge_weights</em>, <em>twoway=True</em><big>)</big><a class="headerlink" href="#pandana.network.Network" title="Permalink to this definition">¶</a></dt>
+<dd><p class="rubric">Attributes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#pandana.network.Network.bbox" title="pandana.network.Network.bbox"><tt class="xref py py-obj docutils literal"><span class="pre">bbox</span></tt></a></td>
+<td>The bounding box for nodes in this network [xmin, ymin, xmax, ymax]</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pandana.network.Network.node_ids" title="pandana.network.Network.node_ids"><tt class="xref py py-obj docutils literal"><span class="pre">node_ids</span></tt></a></td>
+<td>The node ids which will be used as the index of many return series</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#pandana.network.Network.aggregate" title="pandana.network.Network.aggregate"><tt class="xref py py-obj docutils literal"><span class="pre">aggregate</span></tt></a>(distance[,&nbsp;type,&nbsp;decay,&nbsp;imp_name,&nbsp;...])</td>
+<td>Aggregate information for every source node in the network - this is really the main purpose of this library.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pandana.network.Network.get_node_ids" title="pandana.network.Network.get_node_ids"><tt class="xref py py-obj docutils literal"><span class="pre">get_node_ids</span></tt></a>(x_col,&nbsp;y_col[,&nbsp;mapping_distance])</td>
+<td>Assign node_ids to data specified by x_col and y_col</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#pandana.network.Network.init_pois" title="pandana.network.Network.init_pois"><tt class="xref py py-obj docutils literal"><span class="pre">init_pois</span></tt></a>(numcategories,&nbsp;maxdist,&nbsp;maxitems)</td>
+<td>Initialize the point of interest infrastructure.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pandana.network.Network.nearest_pois" title="pandana.network.Network.nearest_pois"><tt class="xref py py-obj docutils literal"><span class="pre">nearest_pois</span></tt></a>(distance,&nbsp;category[,&nbsp;max_num,&nbsp;...])</td>
+<td>Find the distance to the nearest pois from each source node.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#pandana.network.Network.plot" title="pandana.network.Network.plot"><tt class="xref py py-obj docutils literal"><span class="pre">plot</span></tt></a>(s[,&nbsp;width,&nbsp;height,&nbsp;dpi,&nbsp;scheme,&nbsp;color,&nbsp;...])</td>
+<td>Experimental method to write the network to a matplotlib image.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pandana.network.Network.precompute" title="pandana.network.Network.precompute"><tt class="xref py py-obj docutils literal"><span class="pre">precompute</span></tt></a>(distance)</td>
+<td>Precomputes the range queries (the reachable nodes within this maximum distance so as long as you use a smaller distance, cached results will be used.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#pandana.network.Network.set" title="pandana.network.Network.set"><tt class="xref py py-obj docutils literal"><span class="pre">set</span></tt></a>(node_ids[,&nbsp;variable,&nbsp;name])</td>
+<td>Characterize urban space with a variable that is related to nodes in the network.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pandana.network.Network.set_pois" title="pandana.network.Network.set_pois"><tt class="xref py py-obj docutils literal"><span class="pre">set_pois</span></tt></a>(category,&nbsp;x_col,&nbsp;y_col)</td>
+<td>Set the location of all the pois of this cateogry</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="pandana.network.Network.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>node_x</em>, <em>node_y</em>, <em>edge_from</em>, <em>edge_to</em>, <em>edge_weights</em>, <em>twoway=True</em><big>)</big><a class="headerlink" href="#pandana.network.Network.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the transportation network in the city.  Typical data would be
+distance based from OpenStreetMap or possibly using transit data from
+GTFS.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>node_x: Pandas Series, flaot</strong></p>
+<blockquote>
+<div><p>Defines the x attribute for nodes in the network (e.g. longitude)</p>
+</div></blockquote>
+<p><strong>node_y: Pandas Series, float</strong></p>
+<blockquote>
+<div><p>Defines the y attribute for nodes in the network (e.g. latitude)
+This param and the one above should have the <em>same</em> index which
+should be the node_ids that are referred to in the edges below.</p>
+</div></blockquote>
+<p><strong>edge_from: Pandas Series, int</strong></p>
+<blockquote>
+<div><p>Defines the node id that begins an edge - should refer to the index
+of the two series objects above</p>
+</div></blockquote>
+<p><strong>edge_to: Pandas Series, int</strong></p>
+<blockquote>
+<div><p>Defines the node id that ends an edge - should refer to the index
+of the two series objects above</p>
+</div></blockquote>
+<p><strong>edge_weights: Pandas DataFrame, all floats</strong></p>
+<blockquote>
+<div><p>Specifies one or more <em>impedances</em> on the network which define the
+distances between nodes.  Multiple impedances can be used to
+capture travel times at different times of day, for instance</p>
+</div></blockquote>
+<p><strong>two_way</strong> : boolean, optional</p>
+<blockquote>
+<div><p>Whether the edges in this network are two way edges or one way (
+where the one direction is directed from the from node to the to
+node)</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Network object</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pandana.network.Network.aggregate">
+<tt class="descname">aggregate</tt><big>(</big><em>distance</em>, <em>type='sum'</em>, <em>decay='linear'</em>, <em>imp_name=None</em>, <em>name='tmp'</em><big>)</big><a class="headerlink" href="#pandana.network.Network.aggregate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Aggregate information for every source node in the network - this is
+really the main purpose of this library.  This allows you to touch
+the data specified by calling set and perform some aggregation on it
+within the specified distance.  For instance, summing the population
+within 1000 meters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>distance</strong> : float</p>
+<blockquote>
+<div><p>The maximum distance to aggregate data within</p>
+</div></blockquote>
+<p><strong>type</strong> : string</p>
+<blockquote>
+<div><p>The type of aggregation, can be one of &#8220;ave&#8221;, &#8220;sum&#8221;, &#8220;std&#8221;,
+and &#8220;count&#8221;</p>
+</div></blockquote>
+<p><strong>decay</strong> : string</p>
+<blockquote>
+<div><p>The type of decay to apply, which makes things that are further
+away count less in the aggregation - must be one of &#8220;linear&#8221;,
+&#8220;exponential&#8221; or &#8220;flat&#8221; (which means no decay).  Linear is the
+fastest computation to perform.  When performing an &#8220;ave&#8221;,
+the decay is typically &#8220;flat&#8221;</p>
+</div></blockquote>
+<p><strong>imp_name</strong> : string, optional</p>
+<blockquote>
+<div><p>The impedance name to use for the aggregation on this network.
+Must be one of the impedance names passed in the constructor of
+this object.  If not specified, there must be only one impedance
+passed in the constructor, which will be used.</p>
+</div></blockquote>
+<p><strong>name</strong> : string, optional</p>
+<blockquote>
+<div><p>The variable to aggregate.  This variable will have been created
+and named by a call to set.  If not specified, the default
+variable name will be used so that the most recent call to set
+without giving a name will be the variable used.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>agg</strong> : Pandas Series</p>
+<blockquote class="last">
+<div><p>Returns a Pandas Series for every origin node in the network,
+with the index which is the same as the node_ids passed to the
+init method and the values are the aggregations for each source
+node in the network.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pandana.network.Network.bbox">
+<tt class="descname">bbox</tt><a class="headerlink" href="#pandana.network.Network.bbox" title="Permalink to this definition">¶</a></dt>
+<dd><p>The bounding box for nodes in this network [xmin, ymin, xmax, ymax]</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pandana.network.Network.get_node_ids">
+<tt class="descname">get_node_ids</tt><big>(</big><em>x_col</em>, <em>y_col</em>, <em>mapping_distance=-1</em><big>)</big><a class="headerlink" href="#pandana.network.Network.get_node_ids" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assign node_ids to data specified by x_col and y_col</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x_col</strong> : Pandas series (float)</p>
+<blockquote>
+<div><p>A Pandas Series where values specify the x (e.g. longitude)
+location of dataset.</p>
+</div></blockquote>
+<p><strong>y_col</strong> : Pandas series (float)</p>
+<blockquote>
+<div><p>A Pandas Series where values specify the y (e.g. latitude)
+location of dataset.  x_col and y_col should use the same index.</p>
+</div></blockquote>
+<p><strong>mapping_distance</strong> : float, optional</p>
+<blockquote>
+<div><p>The maximum distance that will be considered a match between the
+x, y data and the nearest node in the network.  If not specified,
+every x, y coordinate will be mapped to the nearest node</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>node_ids</strong> : Pandas series (int)</p>
+<blockquote class="last">
+<div><p>Returns a Pandas Series of node_ids for each x, y in the input data.
+The index is the same as the indexes of the x, y input data,
+and the values are the mapped node_ids. If mapping distance is
+not passed and if there are no nans in the x, y data, this will
+be the the same length as the x, y data.  If the mapping is
+imperfect, this function returns all the input x, y&#8217;s that were
+successfully mapped to node_ids.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pandana.network.Network.init_pois">
+<tt class="descname">init_pois</tt><big>(</big><em>numcategories</em>, <em>maxdist</em>, <em>maxitems</em><big>)</big><a class="headerlink" href="#pandana.network.Network.init_pois" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the point of interest infrastructure.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>numcategories</strong> : int</p>
+<blockquote>
+<div><p>Number of categories of POIs</p>
+</div></blockquote>
+<p><strong>maxdist</strong> : float</p>
+<blockquote>
+<div><p>Maximum distance that will be tested to nearest POIs</p>
+</div></blockquote>
+<p><strong>maxitems :</strong></p>
+<blockquote>
+<div><p>Maximum number of POIs to return in the nearest query</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Nothing</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pandana.network.Network.nearest_pois">
+<tt class="descname">nearest_pois</tt><big>(</big><em>distance</em>, <em>category</em>, <em>max_num=1</em>, <em>max_distance=None</em>, <em>imp_name=None</em><big>)</big><a class="headerlink" href="#pandana.network.Network.nearest_pois" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the distance to the nearest pois from each source node.  This
+bigger values in this case mean less accessibility.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>distance</strong> : float</p>
+<blockquote>
+<div><p>The maximum distance to look for pois</p>
+</div></blockquote>
+<p><strong>category</strong> : string</p>
+<blockquote>
+<div><p>The name of the category of poi to look for</p>
+</div></blockquote>
+<p><strong>max_num</strong> : int</p>
+<blockquote>
+<div><p>The max number of pois to look for, this also sets the number of
+columns in the DataFrame that gets returned</p>
+</div></blockquote>
+<p><strong>max_distance</strong> : float, optional</p>
+<blockquote>
+<div><p>The value to set the distance to if there is NO poi within the
+specified distance - if not specified, gets set to distance</p>
+</div></blockquote>
+<p><strong>imp_name</strong> : string, optional</p>
+<blockquote>
+<div><p>The impedance name to use for the aggregation on this network.
+Must be one of the impedance names passed in the constructor of
+this object.  If not specified, there must be only one impedance
+passed in the constructor, which will be used.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>d</strong> : Pandas DataFrame</p>
+<blockquote class="last">
+<div><p>Like aggregate, this series has an index of all the node ids for
+the network.  Unlike aggregate, this method returns a dataframe
+with the number of columns equal to the distances to the Nth
+closest poi.  For instance, if you ask for the 10 closest poi to
+each node, column d[1] wil be the distance to the 1st closest poi of
+that category while column d[2] wil lbe the distance to the 2nd
+closest poi, and so on.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pandana.network.Network.node_ids">
+<tt class="descname">node_ids</tt><a class="headerlink" href="#pandana.network.Network.node_ids" title="Permalink to this definition">¶</a></dt>
+<dd><p>The node ids which will be used as the index of many return series</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pandana.network.Network.plot">
+<tt class="descname">plot</tt><big>(</big><em>s</em>, <em>width=24</em>, <em>height=30</em>, <em>dpi=150</em>, <em>scheme='sequential'</em>, <em>color='YlGn'</em>, <em>numbins=7</em>, <em>bbox=None</em>, <em>log_scale=False</em><big>)</big><a class="headerlink" href="#pandana.network.Network.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Experimental method to write the network to a matplotlib image.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pandana.network.Network.precompute">
+<tt class="descname">precompute</tt><big>(</big><em>distance</em><big>)</big><a class="headerlink" href="#pandana.network.Network.precompute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Precomputes the range queries (the reachable nodes within this
+maximum distance so as long as you use a smaller distance, cached
+results will be used.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>distance</strong> : float</p>
+<blockquote>
+<div><p>The maximum distance to use</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Nothing</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pandana.network.Network.set">
+<tt class="descname">set</tt><big>(</big><em>node_ids</em>, <em>variable=None</em>, <em>name='tmp'</em><big>)</big><a class="headerlink" href="#pandana.network.Network.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Characterize urban space with a variable that is related to nodes in
+the network.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>node_id</strong> : Pandas Series, int</p>
+<blockquote>
+<div><p>A series of node_ids which are usually computed using
+get_node_ids on this object.</p>
+</div></blockquote>
+<p><strong>variable</strong> : Pandas Series, float, optional</p>
+<blockquote>
+<div><p>A series which represents some variable defined in urban space.
+It could be the location of buildings, or the income of all
+households - just about anything can be aggregated using the
+network queries provided here and this provides the api to set
+the variable at its disaggregate locations.  Note that node_id
+and variable should have the same index (although the index is
+not actually used).  If variable is not set, then it is assumed
+that the variable is all &#8220;ones&#8221; at the location specified by
+node_ids.  This could be, for instance, the location of all
+coffee shops which don&#8217;t really have a variable to aggregate.</p>
+</div></blockquote>
+<p><strong>name</strong> : string, optional</p>
+<blockquote>
+<div><p>Name the variable.  This is optional in the sense that if you don&#8217;t
+specify it, the default name will be used.  Since the same
+default name is used by aggregate on this object, you can
+alternate between characterize and aggregate calls without
+setting names.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Nothing</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pandana.network.Network.set_pois">
+<tt class="descname">set_pois</tt><big>(</big><em>category</em>, <em>x_col</em>, <em>y_col</em><big>)</big><a class="headerlink" href="#pandana.network.Network.set_pois" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the location of all the pois of this cateogry</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>category</strong> : string</p>
+<blockquote>
+<div><p>The name of the category for this set of pois</p>
+</div></blockquote>
+<p><strong>x_col</strong> : Pandas Series (float)</p>
+<blockquote>
+<div><p>The x location (longitude) of pois in this category</p>
+</div></blockquote>
+<p><strong>y_col</strong> : Pandas Series (Float)</p>
+<blockquote>
+<div><p>The y location (latitude) of pois in this category</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Nothing</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="tutorial.html" class="btn btn-neutral" title="Tutorial"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014, Synthicity.
+    </p>
+  </div>
+
+  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
