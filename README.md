@@ -4,7 +4,7 @@ Pandana
 [![Build Status](https://travis-ci.org/synthicity/pandana.svg?branch=master)](https://travis-ci.org/synthicity/pandana) [![Coverage Status](https://img.shields.io/coveralls/synthicity/pandana.svg)](https://coveralls.io/r/synthicity/pandana)
 
 Docs
-====
+----
 
 [Documentation](http://synthicity.github.io/pandana/network.html) for Pandana is now available.
 
@@ -17,12 +17,12 @@ In this case, a picture is worth a thousand words.  Here is shown the distance t
 Beyond simple access to destination queries, this library also implements more general aggregations along the street network (or any network).  For a given region, this produces hundreds of thousands of overlapping buffer queries (still performed in less than a second) that can be used to characterize the local neighborhood around each street intersection.  The result can then be mapped, or assigned to parcel or building records, or used in statistical models as we commonly do with [UrbanSim](https://github.com/synthicity/urbansim).  This is in stark contrast to the arbitrary non-overlapping geographies ubiquitous in GIS.  Although there are advantages to the GIS approach, we think network queries are a more accurate representation of how people interact with their environment.
 
 Install
-=======
+-------
 
 Clone this repo and run `python setup.py install`. Requires C/C++ compilers.
 
 Acknowledgments
-==============
+---------------
 
 None of this would be possible without the help of Dennis Luxen (now at MapBox) and his OSRM (https://github.com/DennisOSRM/Project-OSRM).  Thank you Dennis!
 
