@@ -3,6 +3,8 @@ Pandana
 
 [![Build Status](https://travis-ci.org/synthicity/pandana.svg?branch=master)](https://travis-ci.org/synthicity/pandana) [![Coverage Status](https://img.shields.io/coveralls/synthicity/pandana.svg)](https://coveralls.io/r/synthicity/pandana)
 
+A nice slideshow showing how this all works is available [here](http://bit.ly/1tivyjw).
+
 In this case, a picture is worth a thousand words.  The image below shows the distance to the *2nd* nearest restaurant (rendered by  matplotlib) for the city of San Francisco.  With only a few lines of code, you can grab a network from OpenStreetMap, take the restaurants that users of OpenStreetMap have recorded, and in about half a second of compute time you can get back a Pandas Series of node_ids and computed values of various measures of access to destinations on the street network.
 
 ![Distance to Restaurants](https://raw.githubusercontent.com/synthicity/pandana/master/docs/_static/distance_to_restaurants.png)
