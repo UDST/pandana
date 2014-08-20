@@ -1,5 +1,7 @@
 import time
 import matplotlib
+# this might fix the travis build
+matplotlib.use('Agg')
 import brewer2mpl
 import matplotlib.pyplot as plt
 import numpy as np
@@ -33,30 +35,6 @@ def reserve_num_graphs(num):
     _pyaccess.create_graphs(num)
 
 
-def from_networkx(G):
-    nids = []
-    lats = []
-    lons = []
-    for n in G.nodes_iter():
-        n = G.node[n]['data']
-        nids.append(int(n.id))
-        lats.append(n.lat)
-        lons.append(n.lon)
-    nodes = pd.DataFrame({'x': lons, 'y': lats}, index=nids)
-
-    froms = []
-    tos = []
-    weights = []
-    for e in G.edges_iter():
-        e = G.get_edge_data(*e)['data']
-        froms.append(int(G.node[e.nds[0]]['data'].id))
-        tos.append(int(G.node[e.nds[1]]['data'].id))
-        weights.append(float(1))
-    edges = pd.DataFrame({'from': froms, 'to': tos, 'weight': weights})
-
-    return nodes, edges
-
-
 class Network:
 
     def _node_indexes(self, node_ids):
@@ -72,8 +50,13 @@ class Network:
     def node_ids(self):
         return self.node_idx.index
 
+    @property
+    def bbox(self):
+        return [self.nodes_df.x.min(), self.nodes_df.y.min(),
+                self.nodes_df.x.max(), self.nodes_df.y.max()]
+
     def __init__(self, node_x, node_y, edge_from, edge_to, edge_weights,
-                 twoway=False):
+                 twoway=True):
         """
         Create the transportation network in the city.  Typical data would be
         distance based from OpenStreetMap or possibly using transit data from
@@ -111,6 +94,8 @@ class Network:
         if MAX_NUM_NETWORKS == 0:
             reserve_num_graphs(1)
 
+        print NUM_NETWORKS, MAX_NUM_NETWORKS
+
         assert NUM_NETWORKS < MAX_NUM_NETWORKS, "Adding more networks than " \
                                                 "have been reserved"
         self.graph_no = NUM_NETWORKS
@@ -124,6 +109,8 @@ class Network:
 
         self.impedance_names = list(edge_weights.columns)
         self.variable_names = []
+        self.poi_category_names = []
+        self.num_poi_categories = -1
 
         # this maps ids to indexes which are used internally
         self.node_idx = pd.Series(np.arange(len(nodes_df)),
@@ -183,10 +170,10 @@ class Network:
         l = len(df)
         df = df.dropna(how="any")
         newl = len(df)
-        if newl-l > 0:
+        if l-newl > 0:
             print "Removed %d rows because they contain missing values" % \
-                (newl-l)
-        print "up %.3f" % (time.time()-t1)
+                (l-newl)
+        print "check nans in %.3f" % (time.time()-t1)
 
         if name not in self.variable_names:
             self.variable_names.append(name)
@@ -200,7 +187,7 @@ class Network:
                                      self.variable_names.index(name),
                                      df.node_idx.astype('int32'),
                                      df[name].astype('float32'))
-        print "%.3f" % (time.time()-t1)
+        print "init column in %.3f" % (time.time()-t1)
 
     def precompute(self, distance):
         """
@@ -218,6 +205,17 @@ class Network:
         Nothing
         """
         _pyaccess.precompute_range(distance, self.graph_no)
+
+    def _imp_name_to_num(self, imp_name):
+        if imp_name is None:
+            assert len(self.impedance_names) == 1,\
+                "must pass impedance name if there are multiple impedances set"
+            imp_name = self.impedance_names[0]
+
+        assert imp_name in self.impedance_names, "An impedance with that name" \
+                                                 "was not found"
+
+        return self.impedance_names.index(imp_name)
 
     def aggregate(self, distance, type="sum", decay="linear", imp_name=None,
                   name="tmp"):
@@ -263,14 +261,7 @@ class Network:
         agg = AGGREGATIONS[type.upper()]
         decay = DECAYS[decay.upper()]
 
-        if imp_name is None:
-            assert len(self.impedance_names) == 1,\
-                "must pass impedance name if there are multiple impedances set"
-            imp_name = self.impedance_names[0]
-
-        assert imp_name in self.impedance_names, "An impedance with that name" \
-                                                 "was not found"
-        imp_num = self.impedance_names.index(imp_name)
+        imp_num = self._imp_name_to_num(imp_name)
 
         gno = self.graph_no
 
@@ -325,9 +316,9 @@ class Network:
         s = pd.Series(node_ids, index=xys.index)
         return s[s != -1]
 
-    def plot(self, s, width=24, height=30, dpi=300,
-             scheme_type="sequential", color='YlGn', numbins=7,
-             bbox=None):
+    def plot(self, s, width=24, height=30, dpi=150,
+             scheme="sequential", color='YlGn', numbins=7,
+             bbox=None, log_scale=False):
         """
         Experimental method to write the network to a matplotlib image.
         """
@@ -339,29 +330,130 @@ class Network:
             df = df.query("xcol > %f and ycol > %f and xcol < %f and ycol < "
                           "%f" % tuple(bbox))
 
-        plt.figure(num=None, figsize=(width, height), dpi=dpi, edgecolor='k')
-        plt.scatter(df.xcol, df.ycol, c=df.zcol,
-                    cmap=brewer2mpl.get_map(color, scheme_type, numbins).
-                    mpl_colormap,
-                    norm=matplotlib.colors.SymLogNorm(.01),
-                    edgecolors='grey',
-                    linewidths=0.1)
+        fig = plt.figure(num=None, figsize=(width, height), dpi=dpi,
+                         facecolor='b', edgecolor='k')
+        ax = fig.add_subplot(111, axisbg='black')
 
-    def initialize_pois(self, numcategories, maxdist, maxitems):
+        mpl_cmap = brewer2mpl.get_map(color, scheme, numbins).mpl_colormap
+        norm = matplotlib.colors.SymLogNorm(.01) if log_scale else None
+
+        ax.scatter(df.xcol, df.ycol, c=df.zcol,
+                   cmap=mpl_cmap,
+                   norm=norm,
+                   edgecolors='grey',
+                   linewidths=0.1)
+
+    def init_pois(self, numcategories, maxdist, maxitems):
+        """
+        Initialize the point of interest infrastructure.
+
+        Parameters
+        ----------
+        numcategories : int
+            Number of categories of POIs
+        maxdist : float
+            Maximum distance that will be tested to nearest POIs
+        maxitems :
+            Maximum number of POIs to return in the nearest query
+
+        Returns
+        -------
+        Nothing
+        """
+        if self.num_poi_categories != -1:
+            print "Can't initialize twice"
+            return
+
+        self.num_poi_categories = numcategories
+        self.max_items = maxitems
+
         _pyaccess.initialize_pois(numcategories, maxdist, maxitems)
 
-    def initialize_poi_category(self, category, xcol, ycol):
-        if category not in CAT_NAME_TO_IND:
-            CAT_NAME_TO_IND[category] = len(CAT_NAME_TO_IND)
+    def set_pois(self, category, x_col, y_col):
+        """
+        Set the location of all the pois of this cateogry
 
-        df = pd.concat([xcol, ycol], axis=1)
-        print df.describe()
+        category : string
+            The name of the category for this set of pois
+        x_col : Pandas Series (float)
+            The x location (longitude) of pois in this category
+        y_col : Pandas Series (Float)
+            The y location (latitude) of pois in this category
 
-        _pyaccess.initialize_category(CAT_NAME_TO_IND[category],
-                                      df.as_matrix().astype('float32'))
+        Returns
+        -------
+        Nothing
+        """
+        if self.num_poi_categories == -1:
+            assert 0, "Need to call init_pois first"
 
-    def compute_nearest_pois(my, distance, category):
-        assert category in CAT_NAME_TO_IND, "Category not initialized"
+        if category not in self.poi_category_names:
+            assert len(self.poi_category_names) < self.num_poi_categories, \
+                "Too many categories set - increase the number when calling " \
+                "init_pois"
+            self.poi_category_names.append(category)
 
-        return _pyaccess.find_all_nearest_pois(distance,
-                                               CAT_NAME_TO_IND[category])
+        xys = pd.DataFrame({'x': x_col, 'y': y_col}).dropna(how='any')
+
+        _pyaccess.initialize_category(self.poi_category_names.index(category),
+                                      xys.astype('float32'))
+
+    def nearest_pois(self, distance, category, max_num=1, max_distance=None,
+                     imp_name=None):
+        """
+        Find the distance to the nearest pois from each source node.  This
+        bigger values in this case mean less accessibility.
+
+        Parameters
+        ----------
+        distance : float
+            The maximum distance to look for pois
+        category : string
+            The name of the category of poi to look for
+        max_num : int
+            The max number of pois to look for, this also sets the number of
+            columns in the DataFrame that gets returned
+        max_distance : float, optional
+            The value to set the distance to if there is NO poi within the
+            specified distance - if not specified, gets set to distance
+        imp_name : string, optional
+            The impedance name to use for the aggregation on this network.
+            Must be one of the impedance names passed in the constructor of
+            this object.  If not specified, there must be only one impedance
+            passed in the constructor, which will be used.
+
+        Returns
+        -------
+        d : Pandas DataFrame
+            Like aggregate, this series has an index of all the node ids for
+            the network.  Unlike aggregate, this method returns a dataframe
+            with the number of columns equal to the distances to the Nth
+            closest poi.  For instance, if you ask for the 10 closest poi to
+            each node, column d[1] wil be the distance to the 1st closest poi of
+            that category while column d[2] wil lbe the distance to the 2nd
+            closest poi, and so on.
+        """
+        if max_distance is None:
+            max_distance = distance
+
+        if self.num_poi_categories == -1:
+            assert 0, "Need to call init_pois first"
+
+        if category not in self.poi_category_names:
+            assert 0, "Need to call set_pois for this category"
+
+        if max_num > self.max_items:
+            assert 0, "Asking for more pois that set in init_pois"
+
+        imp_num = self._imp_name_to_num(imp_name)
+
+        a = _pyaccess.find_all_nearest_pois(distance,
+                                            max_num,
+                                            self.poi_category_names.index(
+                                                category),
+                                            self.graph_no,
+                                            imp_num)
+        a[a == -1] = max_distance
+        df = pd.DataFrame(a, index=self.node_ids)
+        df.columns = range(1, max_num+1)
+        return df
