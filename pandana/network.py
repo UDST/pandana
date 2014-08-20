@@ -76,7 +76,7 @@ class Network:
         if MAX_NUM_NETWORKS == 0:
             reserve_num_graphs(1)
 
-        print NUM_NETWORKS, MAX_NUM_NETWORKS
+        # print NUM_NETWORKS, MAX_NUM_NETWORKS
 
         assert NUM_NETWORKS < MAX_NUM_NETWORKS, "Adding more networks than " \
                                                 "have been reserved"
@@ -179,21 +179,19 @@ class Network:
         if l-newl > 0:
             print "Removed %d rows because they contain missing values" % \
                 (l-newl)
-        print "check nans in %.3f" % (time.time()-t1)
+        # print "check nans in %.3f" % (time.time()-t1)
 
         if name not in self.variable_names:
             self.variable_names.append(name)
             _pyaccess.initialize_acc_vars(self.graph_no,
                                           len(self.variable_names))
 
-        print df.describe()
-
         t1 = time.time()
         _pyaccess.initialize_acc_var(self.graph_no,
                                      self.variable_names.index(name),
                                      df.node_idx.astype('int32'),
                                      df[name].astype('float32'))
-        print "init column in %.3f" % (time.time()-t1)
+        # print "init column in %.3f" % (time.time()-t1)
 
     def precompute(self, distance):
         """
@@ -319,7 +317,10 @@ class Network:
                                         mapping_distance,
                                         self.graph_no)
 
-        s = pd.Series(node_ids, index=xys.index)
+        # convert from indexes to external ids
+        node_ids = self.nodes_df.reset_index().iloc[node_ids]["index"]
+
+        s = pd.Series(node_ids.values, index=xys.index)
         return s[s != -1]
 
     def plot(self, s, width=24, height=30, dpi=150,
