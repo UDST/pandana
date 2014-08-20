@@ -3,6 +3,7 @@ import os.path
 import numpy as np
 import pandas as pd
 import pytest
+from pandas.util import testing as pdt
 
 import pandana.network as pdna
 
@@ -97,11 +98,15 @@ def test_assign_nodeids(sample_osm):
     x, y = random_x_y(sample_osm, ssize)
     node_ids1 = sample_osm.get_node_ids(x, y)
     assert len(node_ids1) == ssize
+    pdt.assert_index_equal(x.index, node_ids1.index)
 
     # test with max distance - this max distance is in decimal degrees
-    node_ids2 = sample_osm.get_node_ids(x, y, .001)
+    node_ids2 = sample_osm.get_node_ids(x, y, 0.001)
     assert 0 < len(node_ids2) < ssize
     assert len(node_ids2) < len(node_ids1), "Max distance not working"
+
+    node_ids3 = sample_osm.get_node_ids(x, y, 0)
+    assert len(node_ids3) == 0
 
 
 def test_named_variable(sample_osm):
