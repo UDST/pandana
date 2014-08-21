@@ -76,7 +76,7 @@ class Network:
         if MAX_NUM_NETWORKS == 0:
             reserve_num_graphs(1)
 
-        print NUM_NETWORKS, MAX_NUM_NETWORKS
+        # print NUM_NETWORKS, MAX_NUM_NETWORKS
 
         assert NUM_NETWORKS < MAX_NUM_NETWORKS, "Adding more networks than " \
                                                 "have been reserved"
@@ -179,21 +179,19 @@ class Network:
         if l-newl > 0:
             print "Removed %d rows because they contain missing values" % \
                 (l-newl)
-        print "check nans in %.3f" % (time.time()-t1)
+        # print "check nans in %.3f" % (time.time()-t1)
 
         if name not in self.variable_names:
             self.variable_names.append(name)
             _pyaccess.initialize_acc_vars(self.graph_no,
                                           len(self.variable_names))
 
-        print df.describe()
-
         t1 = time.time()
         _pyaccess.initialize_acc_var(self.graph_no,
                                      self.variable_names.index(name),
                                      df.node_idx.astype('int32'),
                                      df[name].astype('float32'))
-        print "init column in %.3f" % (time.time()-t1)
+        # print "init column in %.3f" % (time.time()-t1)
 
     def precompute(self, distance):
         """
@@ -320,7 +318,18 @@ class Network:
                                         self.graph_no)
 
         s = pd.Series(node_ids, index=xys.index)
-        return s[s != -1]
+        # -1 marks did not get mapped ids
+        s = s[s != -1]
+
+        if len(s) == 0:
+            return pd.Series()
+
+        # this is not pandas finest moment - might have to revisit this at a
+        # later date - need to convert from internal to external ids
+        node_ids = pd.Series(self.nodes_df.reset_index().
+                             iloc[s]["index"].values,
+                             index=s.index)
+        return node_ids
 
     def plot(self, s, width=24, height=30, dpi=150,
              scheme="sequential", color='YlGn', numbins=7,
@@ -349,17 +358,17 @@ class Network:
                    edgecolors='grey',
                    linewidths=0.1)
 
-    def init_pois(self, numcategories, maxdist, maxitems):
+    def init_pois(self, num_categories, max_dist, max_pois):
         """
         Initialize the point of interest infrastructure.
 
         Parameters
         ----------
-        numcategories : int
+        num_categories : int
             Number of categories of POIs
-        maxdist : float
+        max_dist : float
             Maximum distance that will be tested to nearest POIs
-        maxitems :
+        max_pois :
             Maximum number of POIs to return in the nearest query
 
         Returns
@@ -370,10 +379,10 @@ class Network:
             print "Can't initialize twice"
             return
 
-        self.num_poi_categories = numcategories
-        self.max_items = maxitems
+        self.num_poi_categories = num_categories
+        self.max_pois = max_pois
 
-        _pyaccess.initialize_pois(numcategories, maxdist, maxitems)
+        _pyaccess.initialize_pois(num_categories, max_dist, max_pois)
 
     def set_pois(self, category, x_col, y_col):
         """
@@ -406,7 +415,7 @@ class Network:
         _pyaccess.initialize_category(self.poi_category_names.index(category),
                                       xys.astype('float32'))
 
-    def nearest_pois(self, distance, category, max_num=1, max_distance=None,
+    def nearest_pois(self, distance, category, num_pois=1, max_distance=None,
                      imp_name=None):
         """
         Find the distance to the nearest pois from each source node.  This
@@ -418,8 +427,8 @@ class Network:
             The maximum distance to look for pois
         category : string
             The name of the category of poi to look for
-        max_num : int
-            The max number of pois to look for, this also sets the number of
+        num_pois : int
+            The number of pois to look for, this also sets the number of
             columns in the DataFrame that gets returned
         max_distance : float, optional
             The value to set the distance to if there is NO poi within the
@@ -450,18 +459,18 @@ class Network:
         if category not in self.poi_category_names:
             assert 0, "Need to call set_pois for this category"
 
-        if max_num > self.max_items:
+        if num_pois > self.max_pois:
             assert 0, "Asking for more pois that set in init_pois"
 
         imp_num = self._imp_name_to_num(imp_name)
 
         a = _pyaccess.find_all_nearest_pois(distance,
-                                            max_num,
+                                            num_pois,
                                             self.poi_category_names.index(
                                                 category),
                                             self.graph_no,
                                             imp_num)
         a[a == -1] = max_distance
         df = pd.DataFrame(a, index=self.node_ids)
-        df.columns = range(1, max_num+1)
+        df.columns = range(1, num_pois+1)
         return df
