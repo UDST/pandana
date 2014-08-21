@@ -158,5 +158,68 @@ Here is a link to the docs: :py:meth:`pandana.network.Network.nearest_pois`
 Assign variables and perform computations for aggregation queries
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Performing a general network aggregation isn't much harder.  In this case,
+it is assumed that DataFrames are much larger and that queries have
+a lot more variety.
+
+For this reason, the workflow is typically to map the variables x and y to
+node_ids (which can then be cached or written to disk at a later date) and
+to call ``set`` for each data column, potentially several times.  For instance,
+if you have a DataFrame of buildings with x and y coordinates,
+you can use ``get_node_ids`` to set node_ids as an attribute on the
+buildings table and then ``set`` can be called many times with all the
+attributes of the buildings table and their associated column names. ::
+
+    x, y = buildings.x, buildings.y
+    buildings["node_ids"] = net.get_node_ids(x, y)
+    net.set(node_ids, variable=buildings.square_footage, name="square_footage")
+    net.set(node_ids, variable=buildings.residential_units,
+            name="residential_units")
+
+Here is a link to the docs: :py:meth:`pandana.network.Network.get_node_ids`
+and :py:meth:`pandana.network.Network.set`
+
+Once the variables have been assigned to the network, the user can query the
+network repeatedly with different parameters. ::
+
+    s = net.aggregate(500, type="sum", decay="linear", name="square_footage")
+    t = net.aggregate(1000, type="sum", decay="linear", name="square_footage")
+    u = net.aggregate(2000, type="sum", decay="linear", name="square_footage")
+    v = net.aggregate(3000, type="sum", decay="linear", name="square_footage")
+    w = net.aggregate(3000, type="ave", decay="flat",
+                      name="residential_units")
+
+Here is a link to the docs: :py:meth:`pandana.network.Network.aggregate`
+
+Note that if networks have been indexed and precomputed,
+the aggregations should take less than a second up to a distance of roughly
+three kilometers for a network with a few hundred thousand nodes.
+
 Display the results
 ~~~~~~~~~~~~~~~~~~~
+
+An experimental feature for displaying the points of the node_ids and their
+associated computed values using matplotlib (so that the entire workflow can
+happen in the notebook) is also available.
+
+Note that these have a bounding box for reducing the display window.
+Although the underlying library is computing values for all nodes in the
+region, it is extremely difficult to visualize this much data using
+matplotlib.  The GeoCanvas tool by Synthicity is expressly designed to join
+indicators at the node level to shapes of parcels and produces a much more
+professional output map.  For quick interactive checking of results,
+the bounding box can be used to reduce the number of points that are shown,
+and sample code and images are included below ::
+
+    bbox=[-122.539365,37.693047,-122.347698,37.816069]
+    net.plot(s, bbox=bbox, scheme="diverging",
+             color="BrBG", log_scale=True)
+
+.. image:: img/500metersum.png
+
+::
+
+    net.plot(u, bbox=bbox, scheme="diverging",
+             color="BrBG", log_scale=True)
+
+.. image:: img/2000metersum.png

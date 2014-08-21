@@ -22,6 +22,7 @@ Contents
    introduction
    tutorial
    network
+   futurework
 
 Indices and tables
 ==================
