@@ -3,6 +3,7 @@ import os.path
 import numpy as np
 import pandas as pd
 import pytest
+from pandas.util import testing as pdt
 
 import pandana.network as pdna
 
@@ -97,11 +98,15 @@ def test_assign_nodeids(sample_osm):
     x, y = random_x_y(sample_osm, ssize)
     node_ids1 = sample_osm.get_node_ids(x, y)
     assert len(node_ids1) == ssize
+    pdt.assert_index_equal(x.index, node_ids1.index)
 
     # test with max distance - this max distance is in decimal degrees
-    node_ids2 = sample_osm.get_node_ids(x, y, .001)
+    node_ids2 = sample_osm.get_node_ids(x, y, 0.001)
     assert 0 < len(node_ids2) < ssize
     assert len(node_ids2) < len(node_ids1), "Max distance not working"
+
+    node_ids3 = sample_osm.get_node_ids(x, y, 0)
+    assert len(node_ids3) == 0
 
 
 def test_named_variable(sample_osm):
@@ -137,19 +142,19 @@ def test_pois(sample_osm):
         net.set_pois("restaurants", x, y)
 
     with pytest.raises(AssertionError):
-        _ = net.nearest_pois(2000, "restaurants", max_num=10)
+        _ = net.nearest_pois(2000, "restaurants", num_pois=10)
 
-    net.init_pois(numcategories=1, maxdist=2000, maxitems=10)
+    net.init_pois(num_categories=1, max_dist=2000, max_pois=10)
 
     with pytest.raises(AssertionError):
-        _ = net.nearest_pois(2000, "restaurants", max_num=10)
+        _ = net.nearest_pois(2000, "restaurants", num_pois=10)
 
     # boundary condition
-    net.init_pois(numcategories=1, maxdist=2000, maxitems=10)
+    net.init_pois(num_categories=1, max_dist=2000, max_pois=10)
 
     net.set_pois("restaurants", x, y)
 
-    _ = net.nearest_pois(2000, "restaurants", max_num=10)
+    _ = net.nearest_pois(2000, "restaurants", num_pois=10)
 
     with pytest.raises(AssertionError):
-        _ = net.nearest_pois(2000, "restaurants", max_num=11)
+        _ = net.nearest_pois(2000, "restaurants", num_pois=11)

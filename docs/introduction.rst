@@ -1,24 +1,100 @@
+Getting Started
+---------------
+
 Introduction
-------------
+~~~~~~~~~~~~
 
-Accessibility as defined here is the ability to reach other specified locations in the city.
+In this case, a picture is worth a thousand words. The image below shows the
+distance to the 2nd nearest restaurant (rendered by matplotlib). With only a few lines of code, you can grab a network from OpenStreetMap, take the restaurants that users of OpenStreetMap have recorded, and in about half a second of compute time you can get back a Pandas Series of node_ids and computed values of various measures of access to destinations on the street network.
 
-In practice, it's a bit more subtle than that.  This framework serves to aggregate data along the transportation network in a way that typically creates a smooth surface over the entire city of the variable of interest.
+.. image:: img/distance_to_restaurants.png
 
-How does this work.
+Beyond simple access to destination queries, this library also implements more general aggregations along the street network (or any network). For a given region, this produces hundreds of thousands of overlapping buffer queries (still performed in less than a second) that can be used to characterize the local neighborhood around each street intersection. The result can then be mapped, or assigned to parcel and building records, or used in statistical models as we commonly do with UrbanSim. This is in stark contrast to the arbitrary non-overlapping geographies ubiquitous in GIS. Although there are advantages to the GIS approach,
+we think network queries are a more accurate representation of how people
+interact with their environment.
 
-1) create and preprocess the network
+We look forward to creative uses of a general library like this - please let us know when you think you have a great use case with the hashtag ``#synthicity``.
 
-Networks are completely abstract in that they have nodes, edges, and one or more impedances associated with each edge.  Impedances can be time or distance or an index of some kind, but there is a single number associated with each edge.  (If you pass multiple impedances for each edge, a different instance of the network is created for each network.  For instance, for congested travel time by time of day.  Pedestrian, auto, and local street networks have all been used in this framework successfully.
+The General Workflow
+~~~~~~~~~~~~~~~~~~~~
 
-2) assign the variable to the network
+Accessibility as defined here is the ability to reach other specified locations
+in the city, and this this framework is first and foremost designed to
+compute accessibility-to-destination queries of various kinds.
 
-First, take the variable of interest.  In some cases it's discrete - like the number of coffee shops, in other cases it's continuous like the income of people.  But you have observations of some kind tied to x-y coordinates in the city.  So you map these to the network, usually be doing a nearest neighbor on all the intersections in the network - i.e. each variable is abstracted to exist at one of the nodes of the network.  If this is a problem-  for instance a large parcel in the city - it might be necessary to split up the object to many nearby nodes, which is an extra step but fits within the same framework.
+In practice, this framework is a bit more flexible than that.  This
+framework can generally aggregate data along the transportation network in a way
+that creates a smooth surface over the entire city or region for the variable
+of interest.
 
-3) perform the aggregation
+There are a few general steps that are typically followed in measuring a
+variable using network queries.
 
-The main use case of Pandana is to perform an aggregation.  The api is designed to perform the aggregations for all nodes in the network at the same time in a multi-threaded fashion.  Most accessibility queries can be performed in well under a second, even for hundreds of thousands of nodes.  To perform an aggregation, pass a radius, an aggregation type (min, max, sum, mean, stddev), and a decay (flat, linear, exponential).  Decays can be applied to the variable to that items further away have less of an impact on the node for which the query is being performed.  In other words, the aggregation is performed for the whole network - in the Bay Area this is 226K nodes - and a buffer query up to the radius, typically 500 meters to about 45 minutes travel time, is performed for each node.
+* **Create and preprocess the network**
 
-4) perform other queries
+  Networks are completely abstract in that they have nodes, edges, and one or
+  more impedances associated with each edge.  Impedances can be time or distance
+  or a composite index of some kind, but there is a single number associated
+  with each edge to define the difficulty of getting between the associated
+  nodes.  (If you pass multiple impedances for each edge,
+  a different instance of the underlying data structures is created for each
+  network, but these are simply accessed by name for users of the API.  A great
+  use case for multiple impedances is congested travel times that vary by time
+  of day.  Pedestrian, auto, and local street networks have all been used in
+  this framework successfully.
 
-Because the underlying network operations are performed by the Open Source Routing Machine, "find nearest" queries are also possible as well as point-to-point travel times.
+* **Assign a variable to the network**
+
+  Next, create using Pandas the variable of interest to you.  In some cases it's
+  discrete - like the number of coffee shops, in other cases it's continuous
+  like the income of households.  But you must have observations of some
+  kind tied to x-y coordinates in the city.  These x-y coordinates are then
+  assigned a location in the network, usually be doing a nearest neighbor on
+  all the intersections in the network - i.e. each variable is abstracted to
+  exist at one of the nodes of the network.
+
+  If this is a problem - for instance a large parcel in the city - it might be
+  necessary to  split up the object to many nearby nodes, which is an extra step
+  but fits within the same
+  framework.  Other more flexible ways of assigning the variable to the
+  network can be added in the future.
+
+* **Perform the aggregation**
+
+  The main use case of Pandana is to perform an aggregation along the network
+  - i.e. a buffer query.  The api is designed to perform the aggregations for
+  all nodes in the network at the same time in a multi-threaded fashion
+  (using an underlying C library).  Most walking-scale accessibility queries
+  can be performed in well under a second, even for hundreds of thousands of
+  nodes.
+
+  To perform an aggregation, pass a maximum distance to aggregate,
+  an aggregation type (sum, mean, stddev), and a decay (flat, linear,
+  exponential).  Decays can be applied to
+  the variable so that items further away have less of an impact on the node
+  for which the query is being performed.
+
+  Thus the aggregation is performed for the whole network - in the Bay Area this
+  is 226K nodes - and a buffer query up to the *horizon* distance,
+  typically 500 meters to about 8000 meters, or 45 minutes travel time, is
+  performed for each node.
+
+  *Find nearest* queries are also available which is technically not an
+  aggregation, but is easily performed with a very similar workflow.
+
+* **Display, or reuse in other analysis, like UrbanSim statistical models**
+
+  Once the computation has been per performed, a DataFrame is constructed
+  that has the x, y location of nodes and a z value or many z values which is
+  the result of computations in the above workflow.  This data is of the form
+  x, y, z and can be displayed with many visualization techniques,
+  and a ``plot`` method is available for the network to display directly in
+  matplotlib.
+
+  The framework can thus be used to map urban outcomes - e.g. access to health
+  care, or urban predictive variables - e.g. average income in the local area,
+  or simply for data exploration.  A common use case will be to write to
+  shapefiles and use in further GIS analysis, or to relate to parcels and
+  buildings and use in further analysis within UrbanSim and the Urban Data
+  Science Toolkit.  There are many possibilities and we hope designing a
+  flexible and easy to use engine will serve many use cases.
