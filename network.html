@@ -29,6 +29,7 @@
 
   
     <link rel="top" title="pandana 0.1 documentation" href="index.html"/>
+        <link rel="next" title="Planned Improvements" href="futurework.html"/>
         <link rel="prev" title="Tutorial" href="tutorial.html"/> 
 
   
@@ -57,9 +58,20 @@
         
         
             <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#the-general-workflow">The General Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#create-the-network">Create the Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#assign-variables-and-perform-computations-for-nearest-queries">Assign variables and perform computations for nearest queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#assign-variables-and-perform-computations-for-aggregation-queries">Assign variables and perform computations for aggregation queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#display-the-results">Display the results</a></li>
+</ul>
+</li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Network API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="futurework.html">Planned Improvements</a></li>
 </ul>
 
         
@@ -127,10 +139,10 @@
 <tr class="row-even"><td><a class="reference internal" href="#pandana.network.Network.get_node_ids" title="pandana.network.Network.get_node_ids"><tt class="xref py py-obj docutils literal"><span class="pre">get_node_ids</span></tt></a>(x_col,&nbsp;y_col[,&nbsp;mapping_distance])</td>
 <td>Assign node_ids to data specified by x_col and y_col</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#pandana.network.Network.init_pois" title="pandana.network.Network.init_pois"><tt class="xref py py-obj docutils literal"><span class="pre">init_pois</span></tt></a>(numcategories,&nbsp;maxdist,&nbsp;maxitems)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#pandana.network.Network.init_pois" title="pandana.network.Network.init_pois"><tt class="xref py py-obj docutils literal"><span class="pre">init_pois</span></tt></a>(num_categories,&nbsp;max_dist,&nbsp;max_pois)</td>
 <td>Initialize the point of interest infrastructure.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#pandana.network.Network.nearest_pois" title="pandana.network.Network.nearest_pois"><tt class="xref py py-obj docutils literal"><span class="pre">nearest_pois</span></tt></a>(distance,&nbsp;category[,&nbsp;max_num,&nbsp;...])</td>
+<tr class="row-even"><td><a class="reference internal" href="#pandana.network.Network.nearest_pois" title="pandana.network.Network.nearest_pois"><tt class="xref py py-obj docutils literal"><span class="pre">nearest_pois</span></tt></a>(distance,&nbsp;category[,&nbsp;num_pois,&nbsp;...])</td>
 <td>Find the distance to the nearest pois from each source node.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#pandana.network.Network.plot" title="pandana.network.Network.plot"><tt class="xref py py-obj docutils literal"><span class="pre">plot</span></tt></a>(s[,&nbsp;width,&nbsp;height,&nbsp;dpi,&nbsp;scheme,&nbsp;color,&nbsp;...])</td>
@@ -306,21 +318,21 @@ successfully mapped to node_ids.</p>
 
 <dl class="method">
 <dt id="pandana.network.Network.init_pois">
-<tt class="descname">init_pois</tt><big>(</big><em>numcategories</em>, <em>maxdist</em>, <em>maxitems</em><big>)</big><a class="headerlink" href="#pandana.network.Network.init_pois" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">init_pois</tt><big>(</big><em>num_categories</em>, <em>max_dist</em>, <em>max_pois</em><big>)</big><a class="headerlink" href="#pandana.network.Network.init_pois" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize the point of interest infrastructure.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>numcategories</strong> : int</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>num_categories</strong> : int</p>
 <blockquote>
 <div><p>Number of categories of POIs</p>
 </div></blockquote>
-<p><strong>maxdist</strong> : float</p>
+<p><strong>max_dist</strong> : float</p>
 <blockquote>
 <div><p>Maximum distance that will be tested to nearest POIs</p>
 </div></blockquote>
-<p><strong>maxitems :</strong></p>
+<p><strong>max_pois :</strong></p>
 <blockquote>
 <div><p>Maximum number of POIs to return in the nearest query</p>
 </div></blockquote>
@@ -335,7 +347,7 @@ successfully mapped to node_ids.</p>
 
 <dl class="method">
 <dt id="pandana.network.Network.nearest_pois">
-<tt class="descname">nearest_pois</tt><big>(</big><em>distance</em>, <em>category</em>, <em>max_num=1</em>, <em>max_distance=None</em>, <em>imp_name=None</em><big>)</big><a class="headerlink" href="#pandana.network.Network.nearest_pois" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">nearest_pois</tt><big>(</big><em>distance</em>, <em>category</em>, <em>num_pois=1</em>, <em>max_distance=None</em>, <em>imp_name=None</em><big>)</big><a class="headerlink" href="#pandana.network.Network.nearest_pois" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find the distance to the nearest pois from each source node.  This
 bigger values in this case mean less accessibility.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -350,9 +362,9 @@ bigger values in this case mean less accessibility.</p>
 <blockquote>
 <div><p>The name of the category of poi to look for</p>
 </div></blockquote>
-<p><strong>max_num</strong> : int</p>
+<p><strong>num_pois</strong> : int</p>
 <blockquote>
-<div><p>The max number of pois to look for, this also sets the number of
+<div><p>The number of pois to look for, this also sets the number of
 columns in the DataFrame that gets returned</p>
 </div></blockquote>
 <p><strong>max_distance</strong> : float, optional</p>
@@ -502,6 +514,8 @@ setting names.</p>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="futurework.html" class="btn btn-neutral float-right" title="Planned Improvements"/>Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="tutorial.html" class="btn btn-neutral" title="Tutorial"><span class="fa fa-arrow-circle-left"></span> Previous</a>

@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Introduction &mdash; pandana 0.1 documentation</title>
+  <title>Getting Started &mdash; pandana 0.1 documentation</title>
   
 
   
@@ -58,9 +58,20 @@
         
         
             <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-general-workflow">The General Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#create-the-network">Create the Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#assign-variables-and-perform-computations-for-nearest-queries">Assign variables and perform computations for nearest queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#assign-variables-and-perform-computations-for-aggregation-queries">Assign variables and perform computations for aggregation queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#display-the-results">Display the results</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="network.html">Network API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="futurework.html">Planned Improvements</a></li>
 </ul>
 
         
@@ -84,7 +95,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Introduction</li>
+    <li>Getting Started</li>
       <li class="wy-breadcrumbs-aside">
         
           <a href="_sources/introduction.txt" rel="nofollow"> View page source</a>
@@ -95,9 +106,92 @@
 </div>
           <div role="main">
             
-  <div class="section" id="introduction">
-<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
-<p>This is the intro.</p>
+  <div class="section" id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>In this case, a picture is worth a thousand words. The image below shows the
+distance to the 2nd nearest restaurant (rendered by matplotlib). With only a few lines of code, you can grab a network from OpenStreetMap, take the restaurants that users of OpenStreetMap have recorded, and in about half a second of compute time you can get back a Pandas Series of node_ids and computed values of various measures of access to destinations on the street network.</p>
+<img alt="_images/distance_to_restaurants.png" src="_images/distance_to_restaurants.png" />
+<p>Beyond simple access to destination queries, this library also implements more general aggregations along the street network (or any network). For a given region, this produces hundreds of thousands of overlapping buffer queries (still performed in less than a second) that can be used to characterize the local neighborhood around each street intersection. The result can then be mapped, or assigned to parcel and building records, or used in statistical models as we commonly do with UrbanSim. This is in stark contrast to the arbitrary non-overlapping geographies ubiquitous in GIS. Although there are advantages to the GIS approach,
+we think network queries are a more accurate representation of how people
+interact with their environment.</p>
+<p>We look forward to creative uses of a general library like this - please let us know when you think you have a great use case with the hashtag <tt class="docutils literal"><span class="pre">#synthicity</span></tt>.</p>
+</div>
+<div class="section" id="the-general-workflow">
+<h2>The General Workflow<a class="headerlink" href="#the-general-workflow" title="Permalink to this headline">¶</a></h2>
+<p>Accessibility as defined here is the ability to reach other specified locations
+in the city, and this this framework is first and foremost designed to
+compute accessibility-to-destination queries of various kinds.</p>
+<p>In practice, this framework is a bit more flexible than that.  This
+framework can generally aggregate data along the transportation network in a way
+that creates a smooth surface over the entire city or region for the variable
+of interest.</p>
+<p>There are a few general steps that are typically followed in measuring a
+variable using network queries.</p>
+<ul>
+<li><p class="first"><strong>Create and preprocess the network</strong></p>
+<p>Networks are completely abstract in that they have nodes, edges, and one or
+more impedances associated with each edge.  Impedances can be time or distance
+or a composite index of some kind, but there is a single number associated
+with each edge to define the difficulty of getting between the associated
+nodes.  (If you pass multiple impedances for each edge,
+a different instance of the underlying data structures is created for each
+network, but these are simply accessed by name for users of the API.  A great
+use case for multiple impedances is congested travel times that vary by time
+of day.  Pedestrian, auto, and local street networks have all been used in
+this framework successfully.</p>
+</li>
+<li><p class="first"><strong>Assign a variable to the network</strong></p>
+<p>Next, create using Pandas the variable of interest to you.  In some cases it&#8217;s
+discrete - like the number of coffee shops, in other cases it&#8217;s continuous
+like the income of households.  But you must have observations of some
+kind tied to x-y coordinates in the city.  These x-y coordinates are then
+assigned a location in the network, usually be doing a nearest neighbor on
+all the intersections in the network - i.e. each variable is abstracted to
+exist at one of the nodes of the network.</p>
+<p>If this is a problem - for instance a large parcel in the city - it might be
+necessary to  split up the object to many nearby nodes, which is an extra step
+but fits within the same
+framework.  Other more flexible ways of assigning the variable to the
+network can be added in the future.</p>
+</li>
+<li><p class="first"><strong>Perform the aggregation</strong></p>
+<p>The main use case of Pandana is to perform an aggregation along the network
+- i.e. a buffer query.  The api is designed to perform the aggregations for
+all nodes in the network at the same time in a multi-threaded fashion
+(using an underlying C library).  Most walking-scale accessibility queries
+can be performed in well under a second, even for hundreds of thousands of
+nodes.</p>
+<p>To perform an aggregation, pass a maximum distance to aggregate,
+an aggregation type (sum, mean, stddev), and a decay (flat, linear,
+exponential).  Decays can be applied to
+the variable so that items further away have less of an impact on the node
+for which the query is being performed.</p>
+<p>Thus the aggregation is performed for the whole network - in the Bay Area this
+is 226K nodes - and a buffer query up to the <em>horizon</em> distance,
+typically 500 meters to about 8000 meters, or 45 minutes travel time, is
+performed for each node.</p>
+<p><em>Find nearest</em> queries are also available which is technically not an
+aggregation, but is easily performed with a very similar workflow.</p>
+</li>
+<li><p class="first"><strong>Display, or reuse in other analysis, like UrbanSim statistical models</strong></p>
+<p>Once the computation has been per performed, a DataFrame is constructed
+that has the x, y location of nodes and a z value or many z values which is
+the result of computations in the above workflow.  This data is of the form
+x, y, z and can be displayed with many visualization techniques,
+and a <tt class="docutils literal"><span class="pre">plot</span></tt> method is available for the network to display directly in
+matplotlib.</p>
+<p>The framework can thus be used to map urban outcomes - e.g. access to health
+care, or urban predictive variables - e.g. average income in the local area,
+or simply for data exploration.  A common use case will be to write to
+shapefiles and use in further GIS analysis, or to relate to parcels and
+buildings and use in further analysis within UrbanSim and the Urban Data
+Science Toolkit.  There are many possibilities and we hope designing a
+flexible and easy to use engine will serve many use cases.</p>
+</li>
+</ul>
+</div>
 </div>
 
 
