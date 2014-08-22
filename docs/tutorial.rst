@@ -58,7 +58,7 @@ longitude then latitude - either one will work.  Edges are then ids (which
 aren't used) and
 ``from`` node ids and ``to`` node_ids which should index directly to the node
 DataFrame.  A ``weight`` column (or multiple weight columns) is (are) required
-as the impedance for the network.  Here distance is used from OpenStreetMap
+as the impedance for the network.  Here, distance is used from OpenStreetMap
 edges.
 
 To create the network given the above DataFrames, simply call: ::
@@ -209,7 +209,7 @@ matplotlib.  The GeoCanvas tool by Synthicity is expressly designed to join
 indicators at the node level to shapes of parcels and produces a much more
 professional output map.  For quick interactive checking of results,
 the bounding box can be used to reduce the number of points that are shown,
-and sample code and images are included below ::
+and sample code and images are included below. ::
 
     bbox=[-122.539365,37.693047,-122.347698,37.816069]
     net.plot(s, bbox=bbox, scheme="diverging",

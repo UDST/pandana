@@ -19,7 +19,7 @@ The General Workflow
 ~~~~~~~~~~~~~~~~~~~~
 
 Accessibility as defined here is the ability to reach other specified locations
-in the city, and this this framework is first and foremost designed to
+in the city, and this framework is first and foremost designed to
 compute accessibility-to-destination queries of various kinds.
 
 In practice, this framework is a bit more flexible than that.  This
@@ -38,7 +38,7 @@ variable using network queries.
   with each edge to define the difficulty of getting between the associated
   nodes.  (If you pass multiple impedances for each edge,
   a different instance of the underlying data structures is created for each
-  network, but these are simply accessed by name for users of the API.  A great
+  network, but these are simply accessed by name for users of the API.)  A great
   use case for multiple impedances is congested travel times that vary by time
   of day.  Pedestrian, auto, and local street networks have all been used in
   this framework successfully.
@@ -49,7 +49,7 @@ variable using network queries.
   discrete - like the number of coffee shops, in other cases it's continuous
   like the income of households.  But you must have observations of some
   kind tied to x-y coordinates in the city.  These x-y coordinates are then
-  assigned a location in the network, usually be doing a nearest neighbor on
+  assigned a location in the network, usually by doing a nearest neighbor on
   all the intersections in the network - i.e. each variable is abstracted to
   exist at one of the nodes of the network.
 
@@ -79,12 +79,12 @@ variable using network queries.
   typically 500 meters to about 8000 meters, or 45 minutes travel time, is
   performed for each node.
 
-  *Find nearest* queries are also available which is technically not an
+  *Find nearest* queries are also available, which is technically not an
   aggregation, but is easily performed with a very similar workflow.
 
 * **Display, or reuse in other analysis, like UrbanSim statistical models**
 
-  Once the computation has been per performed, a DataFrame is constructed
+  Once the computation has been performed, a DataFrame is constructed
   that has the x, y location of nodes and a z value or many z values which is
   the result of computations in the above workflow.  This data is of the form
   x, y, z and can be displayed with many visualization techniques,
@@ -96,5 +96,5 @@ variable using network queries.
   or simply for data exploration.  A common use case will be to write to
   shapefiles and use in further GIS analysis, or to relate to parcels and
   buildings and use in further analysis within UrbanSim and the Urban Data
-  Science Toolkit.  There are many possibilities and we hope designing a
+  Science Toolkit.  There are many possibilities, and we hope designing a
   flexible and easy to use engine will serve many use cases.
