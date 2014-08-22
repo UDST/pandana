@@ -15,12 +15,15 @@ NUM_NETWORKS = 0
 AGGREGATIONS = {
     "SUM": 0,
     "AVE": 1,
+    "AVERAGE": 1,
     "STD": 5,
+    "STDDEV": 5,
     "COUNT": 6
 }
 
 DECAYS = {
     "EXP": 0,
+    "EXPONENTIAL": 0,
     "LINEAR": 1,
     "FLAT": 2
 }
