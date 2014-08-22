@@ -78,7 +78,7 @@ def test_agg_variables(sample_osm):
         for decay in pdna.DECAYS:
             for distance in [500, 1000, 2000]:
                 s = net.aggregate(distance, type=type, decay=decay)
-                if type != "STD":
+                if type != "STD" and type != "STDDEV":
                     assert s.describe()['std'] > 0
                 else:
                     # no variance in data
