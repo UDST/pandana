@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
@@ -70,7 +71,9 @@
 <li class="toctree-l2"><a class="reference internal" href="#display-the-results">Display the results</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="network.html">Network API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="network.html">Network API</a><ul class="simple">
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="futurework.html">Planned Improvements</a></li>
 </ul>
 
@@ -114,8 +117,7 @@ in the <tt class="docutils literal"><span class="pre">Pandana</span></tt> repo w
 but the discussion here will take things line-by-line with a sufficient
 summary of the functionality.</p>
 <p>Note that these code samples assume you have imported pandana as follows:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pandana</span> <span class="kn">as</span> <span class="nn">pdna</span>
-</pre></div>
+<div class="highlight-python"><pre>import pandana as pdna</pre>
 </div>
 <div class="section" id="create-the-network">
 <h2>Create the Network<a class="headerlink" href="#create-the-network" title="Permalink to this headline">¶</a></h2>
@@ -123,20 +125,19 @@ summary of the functionality.</p>
 this is likely to be the most difficult part of using Pandana.  In the future
 we will leverage the import functionality of tools like <tt class="docutils literal"><span class="pre">geopandas</span></tt> to
 directly access OpenStreetMap and networks via shapefiles,
-but for now the initialization <a class="reference internal" href="network.html#pandana.network.Network.__init__" title="pandana.network.Network.__init__"><tt class="xref py py-meth docutils literal"><span class="pre">pandana.network.Network.__init__()</span></tt></a>
+but for now the initialization <tt class="xref py py-meth docutils literal"><span class="pre">pandana.network.Network.__init__()</span></tt>
 takes a small number of Pandas Series objects.</p>
 <p>The network is comprised of a set of nodes and edges.  We store our nodes and
 edges as two Pandas DataFrames in an HDFStore object.  We can access them as
 follows:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">store</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">HDFStore</span><span class="p">(</span><span class="s">&#39;data/osm_bayarea.h5&#39;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span>
-<span class="n">nodes</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">nodes</span>
-<span class="n">edges</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">edges</span>
-<span class="k">print</span> <span class="n">nodes</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="k">print</span> <span class="n">edges</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-</pre></div>
+<div class="highlight-python"><pre>store = pd.HDFStore('data/osm_bayarea.h5', "r")
+nodes = store.nodes
+edges = store.edges
+print nodes.head(3)
+print edges.head(3)</pre>
 </div>
 <p>The output of the above code shows:</p>
-<div class="highlight-python"><div class="highlight"><pre>              x           y
+<div class="highlight-python"><pre>              x           y
 8   629310.1250  4095536.75
 9   629120.9375  4095816.75
 10  628951.5625  4096090.50
@@ -148,8 +149,7 @@ follows:</p>
 7     9  10  322.532990
 8    10  11  218.505997
 
-[3 rows x 3 columns]
-</pre></div>
+[3 rows x 3 columns]</pre>
 </div>
 <p>The data structure is very simple indeed.  Nodes have an index which is the
 id of the node and an x-y position.  Much like <tt class="docutils literal"><span class="pre">shapely</span></tt>, <tt class="docutils literal"><span class="pre">Pandana</span></tt> is
@@ -158,19 +158,17 @@ longitude then latitude - either one will work.  Edges are then ids (which
 aren&#8217;t used) and
 <tt class="docutils literal"><span class="pre">from</span></tt> node ids and <tt class="docutils literal"><span class="pre">to</span></tt> node_ids which should index directly to the node
 DataFrame.  A <tt class="docutils literal"><span class="pre">weight</span></tt> column (or multiple weight columns) is (are) required
-as the impedance for the network.  Here distance is used from OpenStreetMap
+as the impedance for the network.  Here, distance is used from OpenStreetMap
 edges.</p>
 <p>To create the network given the above DataFrames, simply call:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">net</span><span class="o">=</span><span class="n">pdna</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="n">nodes</span><span class="p">[</span><span class="s">&quot;x&quot;</span><span class="p">],</span> <span class="n">nodes</span><span class="p">[</span><span class="s">&quot;y&quot;</span><span class="p">],</span> <span class="n">edges</span><span class="p">[</span><span class="s">&quot;from&quot;</span><span class="p">],</span> <span class="n">edges</span><span class="p">[</span><span class="s">&quot;to&quot;</span><span class="p">],</span>
-                 <span class="n">edges</span><span class="p">[[</span><span class="s">&quot;weight&quot;</span><span class="p">]])</span>
-</pre></div>
+<div class="highlight-python"><pre>net=pdna.Network(nodes["x"], nodes["y"], edges["from"], edges["to"],
+                 edges[["weight"]])</pre>
 </div>
 <p>It&#8217;s probably a good idea (though not strictly required) to precompute a
 given horizon distance so that aggregations don&#8217;t perform the network queries
 unnecessarily.  This is done by calling the following code,
 where 3000 meters is used as the horizon distance:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">net</span><span class="o">.</span><span class="n">precompute</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span>
-</pre></div>
+<div class="highlight-python"><pre>net.precompute(3000)</pre>
 </div>
 <p>Note that a large amount of time is spent in the precomputations that take
 place for these two lines of code.  On my MacBook, these two lines of code
@@ -189,28 +187,25 @@ first.</p>
 strange for Python programmers, but because this code wraps a C++ API,
 you need to initialize the memory first.  This is not a strict requirement
 though, and future versions might remedy this.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">net</span><span class="o">.</span><span class="n">init_pois</span><span class="p">(</span><span class="n">num_categories</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_dist</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">max_pois</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-</pre></div>
+<div class="highlight-python"><pre>net.init_pois(num_categories=1, max_dist=2000, max_pois=10)</pre>
 </div>
 <p>This initializes one category, at a max distance of 2000 meters for up to the
 10 nearest points-of-interest.</p>
 <p>Here is a link to the docs: <a class="reference internal" href="network.html#pandana.network.Network.init_pois" title="pandana.network.Network.init_pois"><tt class="xref py py-meth docutils literal"><span class="pre">pandana.network.Network.init_pois()</span></tt></a></p>
 <p>Next initialize the category:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">net</span><span class="o">.</span><span class="n">set_pois</span><span class="p">(</span><span class="s">&quot;restaurants&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-</pre></div>
+<div class="highlight-python"><pre>net.set_pois("restaurants", x, y)</pre>
 </div>
 <p>This code initializes the &#8220;restaurants&#8221; category with the positions specified
 by the x and y columns (which are Pandas Series).  Next perform the query:</p>
 <p>Here is a link to the docs: <a class="reference internal" href="network.html#pandana.network.Network.set_pois" title="pandana.network.Network.set_pois"><tt class="xref py py-meth docutils literal"><span class="pre">pandana.network.Network.set_pois()</span></tt></a></p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">net</span><span class="o">.</span><span class="n">nearest_pois</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="s">&quot;restaurants&quot;</span><span class="p">,</span> <span class="n">num_pois</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-</pre></div>
+<div class="highlight-python"><pre>net.nearest_pois(2000, "restaurants", num_pois=10)</pre>
 </div>
 <p>This searches for the 10 nearest restaurants and is exactly the query that is
 displayed in the introduction.  This returns a DataFrame with the number of
 columns equal to the number of POIs that are requested. For instance,
 a describe of the output DataFrame look like this (note that the query
 executed in half a second:</p>
-<div class="highlight-python"><div class="highlight"><pre>CPU times: user 1.37 s, sys: 11 ms, total: 1.38 s
+<div class="highlight-python"><pre>CPU times: user 1.37 s, sys: 11 ms, total: 1.38 s
 Wall time: 498 ms
                   1              2              3              4   \
 count  226060.000000  226060.000000  226060.000000  226060.000000
@@ -242,8 +237,7 @@ min         0.000000      56.143002
 75%      2000.000000    2000.000000
 max      2000.000000    2000.000000
 
-[8 rows x 10 columns]
-</pre></div>
+[8 rows x 10 columns]</pre>
 </div>
 <p>Here is a link to the docs: <a class="reference internal" href="network.html#pandana.network.Network.nearest_pois" title="pandana.network.Network.nearest_pois"><tt class="xref py py-meth docutils literal"><span class="pre">pandana.network.Network.nearest_pois()</span></tt></a></p>
 </div>
@@ -259,24 +253,22 @@ if you have a DataFrame of buildings with x and y coordinates,
 you can use <tt class="docutils literal"><span class="pre">get_node_ids</span></tt> to set node_ids as an attribute on the
 buildings table and then <tt class="docutils literal"><span class="pre">set</span></tt> can be called many times with all the
 attributes of the buildings table and their associated column names.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">buildings</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">buildings</span><span class="o">.</span><span class="n">y</span>
-<span class="n">buildings</span><span class="p">[</span><span class="s">&quot;node_ids&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">get_node_ids</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="n">net</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">node_ids</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="n">buildings</span><span class="o">.</span><span class="n">square_footage</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;square_footage&quot;</span><span class="p">)</span>
-<span class="n">net</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">node_ids</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="n">buildings</span><span class="o">.</span><span class="n">residential_units</span><span class="p">,</span>
-        <span class="n">name</span><span class="o">=</span><span class="s">&quot;residential_units&quot;</span><span class="p">)</span>
-</pre></div>
+<div class="highlight-python"><pre>x, y = buildings.x, buildings.y
+buildings["node_ids"] = net.get_node_ids(x, y)
+net.set(node_ids, variable=buildings.square_footage, name="square_footage")
+net.set(node_ids, variable=buildings.residential_units,
+        name="residential_units")</pre>
 </div>
 <p>Here is a link to the docs: <a class="reference internal" href="network.html#pandana.network.Network.get_node_ids" title="pandana.network.Network.get_node_ids"><tt class="xref py py-meth docutils literal"><span class="pre">pandana.network.Network.get_node_ids()</span></tt></a>
 and <a class="reference internal" href="network.html#pandana.network.Network.set" title="pandana.network.Network.set"><tt class="xref py py-meth docutils literal"><span class="pre">pandana.network.Network.set()</span></tt></a></p>
 <p>Once the variables have been assigned to the network, the user can query the
 network repeatedly with different parameters.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">s</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s">&quot;sum&quot;</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="s">&quot;linear&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;square_footage&quot;</span><span class="p">)</span>
-<span class="n">t</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s">&quot;sum&quot;</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="s">&quot;linear&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;square_footage&quot;</span><span class="p">)</span>
-<span class="n">u</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s">&quot;sum&quot;</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="s">&quot;linear&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;square_footage&quot;</span><span class="p">)</span>
-<span class="n">v</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="mi">3000</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s">&quot;sum&quot;</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="s">&quot;linear&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;square_footage&quot;</span><span class="p">)</span>
-<span class="n">w</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="mi">3000</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s">&quot;ave&quot;</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="s">&quot;flat&quot;</span><span class="p">,</span>
-                  <span class="n">name</span><span class="o">=</span><span class="s">&quot;residential_units&quot;</span><span class="p">)</span>
-</pre></div>
+<div class="highlight-python"><pre>s = net.aggregate(500, type="sum", decay="linear", name="square_footage")
+t = net.aggregate(1000, type="sum", decay="linear", name="square_footage")
+u = net.aggregate(2000, type="sum", decay="linear", name="square_footage")
+v = net.aggregate(3000, type="sum", decay="linear", name="square_footage")
+w = net.aggregate(3000, type="ave", decay="flat",
+                  name="residential_units")</pre>
 </div>
 <p>Here is a link to the docs: <a class="reference internal" href="network.html#pandana.network.Network.aggregate" title="pandana.network.Network.aggregate"><tt class="xref py py-meth docutils literal"><span class="pre">pandana.network.Network.aggregate()</span></tt></a></p>
 <p>Note that if networks have been indexed and precomputed,
@@ -295,16 +287,14 @@ matplotlib.  The GeoCanvas tool by Synthicity is expressly designed to join
 indicators at the node level to shapes of parcels and produces a much more
 professional output map.  For quick interactive checking of results,
 the bounding box can be used to reduce the number of points that are shown,
-and sample code and images are included below</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">bbox</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">122.539365</span><span class="p">,</span><span class="mf">37.693047</span><span class="p">,</span><span class="o">-</span><span class="mf">122.347698</span><span class="p">,</span><span class="mf">37.816069</span><span class="p">]</span>
-<span class="n">net</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span><span class="n">bbox</span><span class="p">,</span> <span class="n">scheme</span><span class="o">=</span><span class="s">&quot;diverging&quot;</span><span class="p">,</span>
-         <span class="n">color</span><span class="o">=</span><span class="s">&quot;BrBG&quot;</span><span class="p">,</span> <span class="n">log_scale</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</pre></div>
+and sample code and images are included below.</p>
+<div class="highlight-python"><pre>bbox=[-122.539365,37.693047,-122.347698,37.816069]
+net.plot(s, bbox=bbox, scheme="diverging",
+         color="BrBG", log_scale=True)</pre>
 </div>
 <img alt="_images/500metersum.png" src="_images/500metersum.png" />
-<div class="highlight-python"><div class="highlight"><pre><span class="n">net</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span><span class="n">bbox</span><span class="p">,</span> <span class="n">scheme</span><span class="o">=</span><span class="s">&quot;diverging&quot;</span><span class="p">,</span>
-         <span class="n">color</span><span class="o">=</span><span class="s">&quot;BrBG&quot;</span><span class="p">,</span> <span class="n">log_scale</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</pre></div>
+<div class="highlight-python"><pre>net.plot(u, bbox=bbox, scheme="diverging",
+         color="BrBG", log_scale=True)</pre>
 </div>
 <img alt="_images/2000metersum.png" src="_images/2000metersum.png" />
 </div>
@@ -347,7 +337,7 @@ and sample code and images are included below</p>
 
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
+            URL_ROOT:'',
             VERSION:'0.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

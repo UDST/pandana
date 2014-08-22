@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
@@ -70,7 +71,9 @@
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#display-the-results">Display the results</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="network.html">Network API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="network.html">Network API</a><ul class="simple">
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="futurework.html">Planned Improvements</a></li>
 </ul>
 
@@ -121,7 +124,7 @@ interact with their environment.</p>
 <div class="section" id="the-general-workflow">
 <h2>The General Workflow<a class="headerlink" href="#the-general-workflow" title="Permalink to this headline">¶</a></h2>
 <p>Accessibility as defined here is the ability to reach other specified locations
-in the city, and this this framework is first and foremost designed to
+in the city, and this framework is first and foremost designed to
 compute accessibility-to-destination queries of various kinds.</p>
 <p>In practice, this framework is a bit more flexible than that.  This
 framework can generally aggregate data along the transportation network in a way
@@ -137,7 +140,7 @@ or a composite index of some kind, but there is a single number associated
 with each edge to define the difficulty of getting between the associated
 nodes.  (If you pass multiple impedances for each edge,
 a different instance of the underlying data structures is created for each
-network, but these are simply accessed by name for users of the API.  A great
+network, but these are simply accessed by name for users of the API.)  A great
 use case for multiple impedances is congested travel times that vary by time
 of day.  Pedestrian, auto, and local street networks have all been used in
 this framework successfully.</p>
@@ -147,7 +150,7 @@ this framework successfully.</p>
 discrete - like the number of coffee shops, in other cases it&#8217;s continuous
 like the income of households.  But you must have observations of some
 kind tied to x-y coordinates in the city.  These x-y coordinates are then
-assigned a location in the network, usually be doing a nearest neighbor on
+assigned a location in the network, usually by doing a nearest neighbor on
 all the intersections in the network - i.e. each variable is abstracted to
 exist at one of the nodes of the network.</p>
 <p>If this is a problem - for instance a large parcel in the city - it might be
@@ -172,11 +175,11 @@ for which the query is being performed.</p>
 is 226K nodes - and a buffer query up to the <em>horizon</em> distance,
 typically 500 meters to about 8000 meters, or 45 minutes travel time, is
 performed for each node.</p>
-<p><em>Find nearest</em> queries are also available which is technically not an
+<p><em>Find nearest</em> queries are also available, which is technically not an
 aggregation, but is easily performed with a very similar workflow.</p>
 </li>
 <li><p class="first"><strong>Display, or reuse in other analysis, like UrbanSim statistical models</strong></p>
-<p>Once the computation has been per performed, a DataFrame is constructed
+<p>Once the computation has been performed, a DataFrame is constructed
 that has the x, y location of nodes and a z value or many z values which is
 the result of computations in the above workflow.  This data is of the form
 x, y, z and can be displayed with many visualization techniques,
@@ -187,7 +190,7 @@ care, or urban predictive variables - e.g. average income in the local area,
 or simply for data exploration.  A common use case will be to write to
 shapefiles and use in further GIS analysis, or to relate to parcels and
 buildings and use in further analysis within UrbanSim and the Urban Data
-Science Toolkit.  There are many possibilities and we hope designing a
+Science Toolkit.  There are many possibilities, and we hope designing a
 flexible and easy to use engine will serve many use cases.</p>
 </li>
 </ul>
@@ -231,7 +234,7 @@ flexible and easy to use engine will serve many use cases.</p>
 
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
+            URL_ROOT:'',
             VERSION:'0.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
@@ -29,7 +30,6 @@
 
   
     <link rel="top" title="pandana 0.1 documentation" href="index.html"/>
-        <link rel="next" title="Planned Improvements" href="futurework.html"/>
         <link rel="prev" title="Tutorial" href="tutorial.html"/> 
 
   
@@ -70,7 +70,9 @@
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#display-the-results">Display the results</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Network API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Network API</a><ul class="simple">
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="futurework.html">Planned Improvements</a></li>
 </ul>
 
@@ -118,27 +120,27 @@ GTFS.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>node_x: Pandas Series, flaot</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>node_x: Pandas Series, flaot</strong> :</p>
 <blockquote>
 <div><p>Defines the x attribute for nodes in the network (e.g. longitude)</p>
 </div></blockquote>
-<p><strong>node_y: Pandas Series, float</strong></p>
+<p><strong>node_y: Pandas Series, float</strong> :</p>
 <blockquote>
 <div><p>Defines the y attribute for nodes in the network (e.g. latitude)
 This param and the one above should have the <em>same</em> index which
 should be the node_ids that are referred to in the edges below.</p>
 </div></blockquote>
-<p><strong>edge_from: Pandas Series, int</strong></p>
+<p><strong>edge_from: Pandas Series, int</strong> :</p>
 <blockquote>
 <div><p>Defines the node id that begins an edge - should refer to the index
 of the two series objects above</p>
 </div></blockquote>
-<p><strong>edge_to: Pandas Series, int</strong></p>
+<p><strong>edge_to: Pandas Series, int</strong> :</p>
 <blockquote>
 <div><p>Defines the node id that ends an edge - should refer to the index
 of the two series objects above</p>
 </div></blockquote>
-<p><strong>edge_weights: Pandas DataFrame, all floats</strong></p>
+<p><strong>edge_weights: Pandas DataFrame, all floats</strong> :</p>
 <blockquote>
 <div><p>Specifies one or more <em>impedances</em> on the network which define the
 distances between nodes.  Multiple impedances can be used to
@@ -152,23 +154,8 @@ node)</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Network object</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>Network object</strong> :</p>
 </td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Attributes</p>
-<table border="1" class="longtable docutils">
-<colgroup>
-<col width="10%" />
-<col width="90%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#pandana.network.Network.bbox" title="pandana.network.Network.bbox"><tt class="xref py py-obj docutils literal"><span class="pre">bbox</span></tt></a></td>
-<td>The bounding box for nodes in this network [xmin, ymin, xmax, ymax]</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#pandana.network.Network.node_ids" title="pandana.network.Network.node_ids"><tt class="xref py py-obj docutils literal"><span class="pre">node_ids</span></tt></a></td>
-<td>The node ids which will be used as the index of many return series</td>
 </tr>
 </tbody>
 </table>
@@ -195,13 +182,13 @@ node)</p>
 <td>Experimental method to write the network to a matplotlib image.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#pandana.network.Network.precompute" title="pandana.network.Network.precompute"><tt class="xref py py-obj docutils literal"><span class="pre">precompute</span></tt></a>(distance)</td>
-<td>Precomputes the range queries (the reachable nodes within this maximum distance so as long as you use a smaller distance, cached results will be used.</td>
+<td>Precomputes the range queries (the reachable nodes within this maximum distance.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#pandana.network.Network.set" title="pandana.network.Network.set"><tt class="xref py py-obj docutils literal"><span class="pre">set</span></tt></a>(node_ids[,&nbsp;variable,&nbsp;name])</td>
 <td>Characterize urban space with a variable that is related to nodes in the network.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#pandana.network.Network.set_pois" title="pandana.network.Network.set_pois"><tt class="xref py py-obj docutils literal"><span class="pre">set_pois</span></tt></a>(category,&nbsp;x_col,&nbsp;y_col)</td>
-<td>Set the location of all the pois of this cateogry</td>
+<td>Set the location of all the pois of this category</td>
 </tr>
 </tbody>
 </table>
@@ -217,7 +204,7 @@ within 1000 meters.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>distance</strong> : float</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>distance</strong> : float</p>
 <blockquote>
 <div><p>The maximum distance to aggregate data within</p>
 </div></blockquote>
@@ -250,7 +237,7 @@ without giving a name will be the variable used.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>agg</strong> : Pandas Series</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>agg</strong> : Pandas Series</p>
 <blockquote class="last">
 <div><p>Returns a Pandas Series for every origin node in the network,
 with the index which is the same as the node_ids passed to the
@@ -277,7 +264,7 @@ node in the network.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x_col</strong> : Pandas series (float)</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>x_col</strong> : Pandas series (float)</p>
 <blockquote>
 <div><p>A Pandas Series where values specify the x (e.g. longitude)
 location of dataset.</p>
@@ -295,13 +282,13 @@ every x, y coordinate will be mapped to the nearest node</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>node_ids</strong> : Pandas series (int)</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>node_ids</strong> : Pandas series (int)</p>
 <blockquote class="last">
 <div><p>Returns a Pandas Series of node_ids for each x, y in the input data.
 The index is the same as the indexes of the x, y input data,
 and the values are the mapped node_ids. If mapping distance is
 not passed and if there are no nans in the x, y data, this will
-be the the same length as the x, y data.  If the mapping is
+be the same length as the x, y data.  If the mapping is
 imperfect, this function returns all the input x, y&#8217;s that were
 successfully mapped to node_ids.</p>
 </div></blockquote>
@@ -319,7 +306,7 @@ successfully mapped to node_ids.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>num_categories</strong> : int</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>num_categories</strong> : int</p>
 <blockquote>
 <div><p>Number of categories of POIs</p>
 </div></blockquote>
@@ -327,13 +314,13 @@ successfully mapped to node_ids.</p>
 <blockquote>
 <div><p>Maximum distance that will be tested to nearest POIs</p>
 </div></blockquote>
-<p><strong>max_pois :</strong></p>
+<p><strong>max_pois :</strong> :</p>
 <blockquote>
 <div><p>Maximum number of POIs to return in the nearest query</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Nothing</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>Nothing</strong> :</p>
 </td>
 </tr>
 </tbody>
@@ -343,13 +330,13 @@ successfully mapped to node_ids.</p>
 <dl class="method">
 <dt id="pandana.network.Network.nearest_pois">
 <tt class="descname">nearest_pois</tt><big>(</big><em>distance</em>, <em>category</em>, <em>num_pois=1</em>, <em>max_distance=None</em>, <em>imp_name=None</em><big>)</big><a class="headerlink" href="#pandana.network.Network.nearest_pois" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find the distance to the nearest pois from each source node.  This
+<dd><p>Find the distance to the nearest pois from each source node.  The
 bigger values in this case mean less accessibility.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>distance</strong> : float</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>distance</strong> : float</p>
 <blockquote>
 <div><p>The maximum distance to look for pois</p>
 </div></blockquote>
@@ -376,7 +363,7 @@ passed in the constructor, which will be used.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>d</strong> : Pandas DataFrame</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>d</strong> : Pandas DataFrame</p>
 <blockquote class="last">
 <div><p>Like aggregate, this series has an index of all the node ids for
 the network.  Unlike aggregate, this method returns a dataframe
@@ -408,19 +395,19 @@ closest poi, and so on.</p>
 <dt id="pandana.network.Network.precompute">
 <tt class="descname">precompute</tt><big>(</big><em>distance</em><big>)</big><a class="headerlink" href="#pandana.network.Network.precompute" title="Permalink to this definition">¶</a></dt>
 <dd><p>Precomputes the range queries (the reachable nodes within this
-maximum distance so as long as you use a smaller distance, cached
-results will be used.</p>
+maximum distance.  So as long as you use a smaller distance, cached
+results will be used.)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>distance</strong> : float</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>distance</strong> : float</p>
 <blockquote>
 <div><p>The maximum distance to use</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Nothing</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>Nothing</strong> :</p>
 </td>
 </tr>
 </tbody>
@@ -436,7 +423,7 @@ the network.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>node_id</strong> : Pandas Series, int</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>node_id</strong> : Pandas Series, int</p>
 <blockquote>
 <div><p>A series of node_ids which are usually computed using
 get_node_ids on this object.</p>
@@ -464,7 +451,7 @@ setting names.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Nothing</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>Nothing</strong> :</p>
 </td>
 </tr>
 </tbody>
@@ -474,12 +461,12 @@ setting names.</p>
 <dl class="method">
 <dt id="pandana.network.Network.set_pois">
 <tt class="descname">set_pois</tt><big>(</big><em>category</em>, <em>x_col</em>, <em>y_col</em><big>)</big><a class="headerlink" href="#pandana.network.Network.set_pois" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the location of all the pois of this cateogry</p>
+<dd><p>Set the location of all the pois of this category</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>category</strong> : string</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>category</strong> : string</p>
 <blockquote>
 <div><p>The name of the category for this set of pois</p>
 </div></blockquote>
@@ -493,7 +480,7 @@ setting names.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Nothing</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>Nothing</strong> :</p>
 </td>
 </tr>
 </tbody>
@@ -512,27 +499,27 @@ GTFS.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>node_x: Pandas Series, flaot</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>node_x: Pandas Series, flaot</strong> :</p>
 <blockquote>
 <div><p>Defines the x attribute for nodes in the network (e.g. longitude)</p>
 </div></blockquote>
-<p><strong>node_y: Pandas Series, float</strong></p>
+<p><strong>node_y: Pandas Series, float</strong> :</p>
 <blockquote>
 <div><p>Defines the y attribute for nodes in the network (e.g. latitude)
 This param and the one above should have the <em>same</em> index which
 should be the node_ids that are referred to in the edges below.</p>
 </div></blockquote>
-<p><strong>edge_from: Pandas Series, int</strong></p>
+<p><strong>edge_from: Pandas Series, int</strong> :</p>
 <blockquote>
 <div><p>Defines the node id that begins an edge - should refer to the index
 of the two series objects above</p>
 </div></blockquote>
-<p><strong>edge_to: Pandas Series, int</strong></p>
+<p><strong>edge_to: Pandas Series, int</strong> :</p>
 <blockquote>
 <div><p>Defines the node id that ends an edge - should refer to the index
 of the two series objects above</p>
 </div></blockquote>
-<p><strong>edge_weights: Pandas DataFrame, all floats</strong></p>
+<p><strong>edge_weights: Pandas DataFrame, all floats</strong> :</p>
 <blockquote>
 <div><p>Specifies one or more <em>impedances</em> on the network which define the
 distances between nodes.  Multiple impedances can be used to
@@ -546,23 +533,8 @@ node)</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Network object</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>Network object</strong> :</p>
 </td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Attributes</p>
-<table border="1" class="longtable docutils">
-<colgroup>
-<col width="10%" />
-<col width="90%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#pandana.network.Network.bbox" title="pandana.network.Network.bbox"><tt class="xref py py-obj docutils literal"><span class="pre">bbox</span></tt></a></td>
-<td>The bounding box for nodes in this network [xmin, ymin, xmax, ymax]</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#pandana.network.Network.node_ids" title="pandana.network.Network.node_ids"><tt class="xref py py-obj docutils literal"><span class="pre">node_ids</span></tt></a></td>
-<td>The node ids which will be used as the index of many return series</td>
 </tr>
 </tbody>
 </table>
@@ -589,13 +561,13 @@ node)</p>
 <td>Experimental method to write the network to a matplotlib image.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#pandana.network.Network.precompute" title="pandana.network.Network.precompute"><tt class="xref py py-obj docutils literal"><span class="pre">precompute</span></tt></a>(distance)</td>
-<td>Precomputes the range queries (the reachable nodes within this maximum distance so as long as you use a smaller distance, cached results will be used.</td>
+<td>Precomputes the range queries (the reachable nodes within this maximum distance.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#pandana.network.Network.set" title="pandana.network.Network.set"><tt class="xref py py-obj docutils literal"><span class="pre">set</span></tt></a>(node_ids[,&nbsp;variable,&nbsp;name])</td>
 <td>Characterize urban space with a variable that is related to nodes in the network.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#pandana.network.Network.set_pois" title="pandana.network.Network.set_pois"><tt class="xref py py-obj docutils literal"><span class="pre">set_pois</span></tt></a>(category,&nbsp;x_col,&nbsp;y_col)</td>
-<td>Set the location of all the pois of this cateogry</td>
+<td>Set the location of all the pois of this category</td>
 </tr>
 </tbody>
 </table>
@@ -611,7 +583,7 @@ within 1000 meters.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>distance</strong> : float</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>distance</strong> : float</p>
 <blockquote>
 <div><p>The maximum distance to aggregate data within</p>
 </div></blockquote>
@@ -644,7 +616,7 @@ without giving a name will be the variable used.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>agg</strong> : Pandas Series</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>agg</strong> : Pandas Series</p>
 <blockquote class="last">
 <div><p>Returns a Pandas Series for every origin node in the network,
 with the index which is the same as the node_ids passed to the
@@ -671,7 +643,7 @@ node in the network.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x_col</strong> : Pandas series (float)</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>x_col</strong> : Pandas series (float)</p>
 <blockquote>
 <div><p>A Pandas Series where values specify the x (e.g. longitude)
 location of dataset.</p>
@@ -689,13 +661,13 @@ every x, y coordinate will be mapped to the nearest node</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>node_ids</strong> : Pandas series (int)</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>node_ids</strong> : Pandas series (int)</p>
 <blockquote class="last">
 <div><p>Returns a Pandas Series of node_ids for each x, y in the input data.
 The index is the same as the indexes of the x, y input data,
 and the values are the mapped node_ids. If mapping distance is
 not passed and if there are no nans in the x, y data, this will
-be the the same length as the x, y data.  If the mapping is
+be the same length as the x, y data.  If the mapping is
 imperfect, this function returns all the input x, y&#8217;s that were
 successfully mapped to node_ids.</p>
 </div></blockquote>
@@ -713,7 +685,7 @@ successfully mapped to node_ids.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>num_categories</strong> : int</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>num_categories</strong> : int</p>
 <blockquote>
 <div><p>Number of categories of POIs</p>
 </div></blockquote>
@@ -721,13 +693,13 @@ successfully mapped to node_ids.</p>
 <blockquote>
 <div><p>Maximum distance that will be tested to nearest POIs</p>
 </div></blockquote>
-<p><strong>max_pois :</strong></p>
+<p><strong>max_pois :</strong> :</p>
 <blockquote>
 <div><p>Maximum number of POIs to return in the nearest query</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Nothing</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>Nothing</strong> :</p>
 </td>
 </tr>
 </tbody>
@@ -737,13 +709,13 @@ successfully mapped to node_ids.</p>
 <dl class="method">
 <dt>
 <tt class="descname">nearest_pois</tt><big>(</big><em>distance</em>, <em>category</em>, <em>num_pois=1</em>, <em>max_distance=None</em>, <em>imp_name=None</em><big>)</big></dt>
-<dd><p>Find the distance to the nearest pois from each source node.  This
+<dd><p>Find the distance to the nearest pois from each source node.  The
 bigger values in this case mean less accessibility.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>distance</strong> : float</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>distance</strong> : float</p>
 <blockquote>
 <div><p>The maximum distance to look for pois</p>
 </div></blockquote>
@@ -770,7 +742,7 @@ passed in the constructor, which will be used.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>d</strong> : Pandas DataFrame</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>d</strong> : Pandas DataFrame</p>
 <blockquote class="last">
 <div><p>Like aggregate, this series has an index of all the node ids for
 the network.  Unlike aggregate, this method returns a dataframe
@@ -802,19 +774,19 @@ closest poi, and so on.</p>
 <dt>
 <tt class="descname">precompute</tt><big>(</big><em>distance</em><big>)</big></dt>
 <dd><p>Precomputes the range queries (the reachable nodes within this
-maximum distance so as long as you use a smaller distance, cached
-results will be used.</p>
+maximum distance.  So as long as you use a smaller distance, cached
+results will be used.)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>distance</strong> : float</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>distance</strong> : float</p>
 <blockquote>
 <div><p>The maximum distance to use</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Nothing</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>Nothing</strong> :</p>
 </td>
 </tr>
 </tbody>
@@ -830,7 +802,7 @@ the network.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>node_id</strong> : Pandas Series, int</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>node_id</strong> : Pandas Series, int</p>
 <blockquote>
 <div><p>A series of node_ids which are usually computed using
 get_node_ids on this object.</p>
@@ -858,7 +830,7 @@ setting names.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Nothing</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>Nothing</strong> :</p>
 </td>
 </tr>
 </tbody>
@@ -868,12 +840,12 @@ setting names.</p>
 <dl class="method">
 <dt>
 <tt class="descname">set_pois</tt><big>(</big><em>category</em>, <em>x_col</em>, <em>y_col</em><big>)</big></dt>
-<dd><p>Set the location of all the pois of this cateogry</p>
+<dd><p>Set the location of all the pois of this category</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>category</strong> : string</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>category</strong> : string</p>
 <blockquote>
 <div><p>The name of the category for this set of pois</p>
 </div></blockquote>
@@ -887,7 +859,7 @@ setting names.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Nothing</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>Nothing</strong> :</p>
 </td>
 </tr>
 </tbody>
@@ -903,8 +875,6 @@ setting names.</p>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="futurework.html" class="btn btn-neutral float-right" title="Planned Improvements"/>Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="tutorial.html" class="btn btn-neutral" title="Tutorial"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -935,7 +905,7 @@ setting names.</p>
 
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
+            URL_ROOT:'',
             VERSION:'0.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
