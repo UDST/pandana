@@ -331,11 +331,37 @@ class Network:
                              index=s.index)
         return node_ids
 
-    def plot(self, s, width=24, height=30, dpi=150,
-             scheme="sequential", color='YlGn', numbins=7,
-             bbox=None, log_scale=False):
+    def plot(self, s, log_scale=False, width=24, height=30, dpi=150,
+             type="contour", cmap='BrBG', bbox=None):
         """
         Experimental method to write the network to a matplotlib image.
+        There are three types that can be set - "hexbin," "points",
+        and "contour" but I'm sure there are many more options.  This gives
+        three good options and I would suggest stealing this code and using
+        matplotlib directly if you want custom themes.
+
+        Parameters
+        ----------
+        s : Pandas Series
+            probably returned by one of the methods of this class
+        log_scale : boolean
+            log normalize the color scheme when applied to s
+        width : float
+            Width of the output figure
+        height : float
+            Height of the output figure
+        dpi : float
+            dpi of the output figure
+        type : string, optional (contour is default)
+            type of the output figure - one of hexbin, dots, or contour
+        cmap : string, optional (BrBG is default)
+            one of the matplotlib color schemes
+        bbox : list of four floats
+            [xmin, xmax, ymin, ymax] for the subset of the network to display
+
+        Returns
+        -------
+        Nothing at this time
         """
         df = pd.DataFrame({'xcol': self.nodes_df.x.values,
                            'ycol': self.nodes_df.y.values,
@@ -344,19 +370,46 @@ class Network:
         if bbox is not None:
             df = df.query("xcol > %f and ycol > %f and xcol < %f and ycol < "
                           "%f" % tuple(bbox))
+        x, y, z = df.xcol, df.ycol, df.zcol
 
+        assert type in ["points", "hexbin", "contour"], "Only these sample " \
+                                                        "themes are available"
+
+        plt = matplotlib.pyplot
         fig = plt.figure(num=None, figsize=(width, height), dpi=dpi,
                          facecolor='b', edgecolor='k')
-        ax = fig.add_subplot(111, axisbg='black')
+        bgcolor = 'white' if type == "contour" else "white"
+        ax = fig.add_subplot(111, axisbg=bgcolor)
 
-        mpl_cmap = brewer2mpl.get_map(color, scheme, numbins).mpl_colormap
+        cmap = getattr(plt.cm, cmap)
         norm = matplotlib.colors.SymLogNorm(.01) if log_scale else None
 
-        ax.scatter(df.xcol, df.ycol, c=df.zcol,
-                   cmap=mpl_cmap,
-                   norm=norm,
-                   edgecolors='grey',
-                   linewidths=0.1)
+        if type == "contour":
+
+            xi = np.linspace(bbox[0], bbox[2], 100)
+            yi = np.linspace(bbox[1], bbox[3], 100)
+            # grid the data.
+            zi = matplotlib.mlab.griddata(x.values, y.values, z.values, xi, yi)
+            # contour the gridded data, plotting dots at the randomly spaced data
+            _ = plt.contour(xi, yi, zi, 15, linewidths=0.5, colors='k')
+            cb = plt.contourf(xi, yi, zi, 15, cmap=cmap, norm=norm)
+            plt.scatter(x, y, marker='o', c='b', s=5)
+            fig.colorbar(cb)
+
+        elif type == "points":
+
+            cb = ax.scatter(x, y, c=z, cmap=cmap,
+                            norm=norm,
+                            edgecolors='grey',
+                            linewidths=0.1)
+            fig.colorbar(cb)
+
+        elif type == "hexbin":
+
+            bins = "log" if log_scale is True else None
+            cb = ax.hexbin(x, y, C=z, gridsize=100, cmap=plt.cm.BrBG,
+                           bins=bins)
+            fig.colorbar(cb)
 
     def init_pois(self, num_categories, max_dist, max_pois):
         """
