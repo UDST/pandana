@@ -36,41 +36,42 @@ def reserve_num_graphs(num):
 
 
 class Network:
+    """
+    Create the transportation network in the city.  Typical data would be
+    distance based from OpenStreetMap or possibly using transit data from
+    GTFS.
+
+    Parameters
+    ----------
+    node_x: Pandas Series, flaot
+        Defines the x attribute for nodes in the network (e.g. longitude)
+    node_y: Pandas Series, float
+        Defines the y attribute for nodes in the network (e.g. latitude)
+        This param and the one above should have the *same* index which
+        should be the node_ids that are referred to in the edges below.
+    edge_from: Pandas Series, int
+        Defines the node id that begins an edge - should refer to the index
+        of the two series objects above
+    edge_to: Pandas Series, int
+        Defines the node id that ends an edge - should refer to the index
+        of the two series objects above
+    edge_weights: Pandas DataFrame, all floats
+        Specifies one or more *impedances* on the network which define the
+        distances between nodes.  Multiple impedances can be used to
+        capture travel times at different times of day, for instance
+    two_way : boolean, optional
+        Whether the edges in this network are two way edges or one way (
+        where the one direction is directed from the from node to the to
+        node)
+
+    Returns
+    -------
+    Network object
+    """
 
     def __init__(self, node_x, node_y, edge_from, edge_to, edge_weights,
                  twoway=True):
-        """
-        Create the transportation network in the city.  Typical data would be
-        distance based from OpenStreetMap or possibly using transit data from
-        GTFS.
 
-        Parameters
-        ----------
-        node_x: Pandas Series, flaot
-            Defines the x attribute for nodes in the network (e.g. longitude)
-        node_y: Pandas Series, float
-            Defines the y attribute for nodes in the network (e.g. latitude)
-            This param and the one above should have the *same* index which
-            should be the node_ids that are referred to in the edges below.
-        edge_from: Pandas Series, int
-            Defines the node id that begins an edge - should refer to the index
-            of the two series objects above
-        edge_to: Pandas Series, int
-            Defines the node id that ends an edge - should refer to the index
-            of the two series objects above
-        edge_weights: Pandas DataFrame, all floats
-            Specifies one or more *impedances* on the network which define the
-            distances between nodes.  Multiple impedances can be used to
-            capture travel times at different times of day, for instance
-        two_way : boolean, optional
-            Whether the edges in this network are two way edges or one way (
-            where the one direction is directed from the from node to the to
-            node)
-
-        Returns
-        -------
-        Network object
-        """
         global NUM_NETWORKS, MAX_NUM_NETWORKS
 
         if MAX_NUM_NETWORKS == 0:
