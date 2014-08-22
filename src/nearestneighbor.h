@@ -21,8 +21,12 @@ namespace MTC {
 			void setPoint(int ind, double x, double y);
 			void buildTree();
 			void dump();
-			int Query(double x, double y, int numberofneighbors, double distance,
-													int **retpIndexes, double **retpDistances);
+			int Query(double x,
+			          double y,
+			          int numberofneighbors,
+			          double distance,
+					  int **retpIndexes,
+					  double **retpDistances);
 
 			ANNpointArray		dataPts;
 			int					nPts;
