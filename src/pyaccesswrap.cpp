@@ -214,6 +214,35 @@ initialize_acc_var(PyObject *self, PyObject *args)
 
 
 static PyObject *
+get_all_aggregate_accessibility_variables(PyObject *self, PyObject *args)
+{
+
+    double radius;
+	int varind, aggtyp, decay, graphno, impno;
+	if (!PyArg_ParseTuple(args, "diiiii", &radius, &varind, &aggtyp, &decay,
+															&graphno, &impno))
+																return NULL;
+
+    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[graphno];
+
+
+    std::vector<double> nodes = sa->getAllAggregateAccessibilityVariables(
+                                radius,
+								varind,
+								(MTC::accessibility::aggregation_types_t)aggtyp,
+								(MTC::accessibility::decay_func_t)decay,
+								impno);
+    npy_intp len = nodes.size();
+    PyArrayObject *returnobj = (PyArrayObject *)PyArray_SimpleNew(1, &len,
+															NPY_FLOAT32);
+    for(int i = 0 ; i < len ; i++) ((float*)PyArray_DATA(returnobj))[i] =
+															(float)nodes[i];
+
+	return PyArray_Return(returnobj);
+}
+
+
+static PyObject *
 xy_to_node(PyObject *self, PyObject *args)
 {
 	PyObject *input1;
@@ -382,35 +411,6 @@ get_all_model_results(PyObject *self, PyObject *args)
     PyArrayObject *returnobj = (PyArrayObject *)PyArray_SimpleNew(1, &len, 
 															NPY_FLOAT32);
 
-    for(int i = 0 ; i < len ; i++) ((float*)PyArray_DATA(returnobj))[i] = 
-															(float)nodes[i];
-
-	return PyArray_Return(returnobj);
-}
-
-
-static PyObject *
-get_all_aggregate_accessibility_variables(PyObject *self, PyObject *args)
-{
-
-    double radius;
-	int varind, aggtyp, decay, graphno, impno;
-	if (!PyArg_ParseTuple(args, "diiiii", &radius, &varind, &aggtyp, &decay,
-															&graphno, &impno)) 
-																return NULL;
-    
-    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[graphno]; 
-    
-
-    std::vector<double> nodes = sa->getAllAggregateAccessibilityVariables(
-                                radius,
-								varind,
-								(MTC::accessibility::aggregation_types_t)aggtyp,
-								(MTC::accessibility::decay_func_t)decay,
-								impno);
-    npy_intp len = nodes.size(); 
-    PyArrayObject *returnobj = (PyArrayObject *)PyArray_SimpleNew(1, &len, 
-															NPY_FLOAT32);
     for(int i = 0 ; i < len ; i++) ((float*)PyArray_DATA(returnobj))[i] = 
 															(float)nodes[i];
 

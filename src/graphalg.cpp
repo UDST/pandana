@@ -5,9 +5,12 @@ namespace MTC {
 	namespace accessibility {
 
 		void Graphalg::BuildNN(std::vector<float> x, std::vector<float> y) {
+
 			assert(x.size() == y.size());
 			int numnodes = x.size();
+
 			nearestNeighbor.Expand(numnodes);
+
 			for(int i = 0 ; i < numnodes ; i++)
 			{
 				nearestNeighbor.setPoint(i,x[i],y[i]);
@@ -22,7 +25,8 @@ namespace MTC {
 			this->numnodes = numnodes;
 
 			int num = omp_get_max_threads();
-			FILE_LOG(logINFO) << "Generating contraction hierarchies with " << num << " threads.\n";
+			FILE_LOG(logINFO) << "Generating contraction hierarchies with "
+			                  << num << " threads.\n";
 			ch = CH::ContractionHierarchies(num);
 
 			vector<CH::Node> nv;
@@ -32,7 +36,8 @@ namespace MTC {
 				CH::Node n(nodeids[i],nodesxy[i*2+0],nodesxy[i*2+1]);
 				nv.push_back(n);
 			}
-			FILE_LOG(logINFO) << "Setting CH node vector of size " << nv.size() << "\n";
+			FILE_LOG(logINFO) << "Setting CH node vector of size "
+			                  << nv.size() << "\n";
 
 			ch.SetNodeVector(nv);
 
@@ -45,7 +50,8 @@ namespace MTC {
 				ev.push_back(e);
 			}
 
-			FILE_LOG(logINFO) << "Setting CH edge vector of size " << ev.size() << "\n";
+			FILE_LOG(logINFO) << "Setting CH edge vector of size "
+			                  << ev.size() << "\n";
 			ch.SetEdgeVector(ev);
 
 			ch.RunPreprocessing();
@@ -88,7 +94,8 @@ namespace MTC {
 			CH::Node src_node(src,0,0);
 			CH::Node tgt_node(tgt,0,0);
 			
-			unsigned int length = ch.computeLengthofShortestPath(src_node,tgt_node,threadNum);
+			unsigned int length = ch.computeLengthofShortestPath(src_node,
+                                    			tgt_node, threadNum);
 
 			return (double)length/(double)DISTANCEMULTFACT;
 		}
@@ -114,17 +121,20 @@ namespace MTC {
 		
 		DistanceMap
 		Graphalg::NearestPOI(int category, int src, double maxdist, int number,
-																				int threadNum) {
+						     int threadNum) {
 			DistanceMap dm;
 
 			std::vector<CH::BucketEntry> ResultingNodes;
-			ch.getNearestWithUpperBoundOnDistanceAndLocations(category,src,
-													maxdist*DISTANCEMULTFACT,number,ResultingNodes,
+			ch.getNearestWithUpperBoundOnDistanceAndLocations(category,
+			                                        src,
+													maxdist*DISTANCEMULTFACT,
+													number,
+													ResultingNodes,
 													threadNum);
 
 			for(int i = 0 ; i < ResultingNodes.size() ; i++) {
 				dm[ResultingNodes[i].node] = 
-									((float)ResultingNodes[i].distance)/(float)DISTANCEMULTFACT;
+				((float)ResultingNodes[i].distance)/(float)DISTANCEMULTFACT;
 			}
 
 			return dm;
