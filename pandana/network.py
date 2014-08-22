@@ -196,8 +196,8 @@ class Network:
     def precompute(self, distance):
         """
         Precomputes the range queries (the reachable nodes within this
-        maximum distance so as long as you use a smaller distance, cached
-        results will be used.
+        maximum distance.  So as long as you use a smaller distance, cached
+        results will be used.)
 
         Parameters
         ----------
@@ -306,7 +306,7 @@ class Network:
             The index is the same as the indexes of the x, y input data,
             and the values are the mapped node_ids. If mapping distance is
             not passed and if there are no nans in the x, y data, this will
-            be the the same length as the x, y data.  If the mapping is
+            be the same length as the x, y data.  If the mapping is
             imperfect, this function returns all the input x, y's that were
             successfully mapped to node_ids.
         """
@@ -386,7 +386,7 @@ class Network:
 
     def set_pois(self, category, x_col, y_col):
         """
-        Set the location of all the pois of this cateogry
+        Set the location of all the pois of this category
 
         Parameters
         ----------
@@ -418,7 +418,7 @@ class Network:
     def nearest_pois(self, distance, category, num_pois=1, max_distance=None,
                      imp_name=None):
         """
-        Find the distance to the nearest pois from each source node.  This
+        Find the distance to the nearest pois from each source node.  The
         bigger values in this case mean less accessibility.
 
         Parameters
