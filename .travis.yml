@@ -9,11 +9,16 @@ install:
 - export PATH=$HOME/py/bin:$PATH
 - pip install brewer2mpl
 - pip install pytest-cov coveralls pep8
+- python setup.py install
 script:
 - pep8 pandana
 - python setup.py test --pytest-args "--cov pandana --cov-report term-missing"
 after_success:
 - coveralls
+- bin/build_docs.sh
 notifications:
   slack:
     secure: SjnNmZ8Xaz5fc+G6iYvMh1Zxw7YhFFcEIeJtxbr34pALC7yG7HlRomshpto+OU6nYwX9tulva62h3GkBNTgfaaacRICYCu/AmGVQGnkGDw+PPr0xe3gW1TEWBetR0BMolAUNsAP03hK+28f7am3pr/hXx57i7fjpEx1mvX6FKkc=
+env:
+  global:
+    secure: CMG0rjBgDBNy5FdfXawaaCCJm9ChzHk7e21ywVhIc1jbVS6lMn6bqwKJUnLaJAyjDhhZuxXTcHy+SALJgbzqLrH4GM5hOOL+8Rf4Jf9ESZzTBryvypRecVnUnk63SpJiq2Ki8maNrOcK1IBUAoFhFzptSgE4MDkxZ0LjsDAums8=
