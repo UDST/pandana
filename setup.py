@@ -1,6 +1,9 @@
 import os
 import sys
 
+from ez_setup import use_setuptools
+use_setuptools()
+
 from setuptools import setup, Extension, find_packages
 from setuptools.command.test import test as TestCommand
 import numpy as np
