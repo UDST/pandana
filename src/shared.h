@@ -1,5 +1,5 @@
 #pragma once
-#ifdef WIN32
+#ifdef _WIN32
     #define DLLImport __declspec(dllimport)
     #define DLLExport __declspec(dllexport)
 #else

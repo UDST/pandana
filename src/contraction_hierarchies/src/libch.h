@@ -101,7 +101,7 @@ struct Edge {
 typedef std::vector<std::pair<NodeID, unsigned> > ReachedNode;
 
 	//The CH Interface will have the following functions:
-#ifdef WIN32
+#ifdef _WIN32
     class DLLExport ContractionHierarchies {
 #else
     class ContractionHierarchies {
