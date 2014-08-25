@@ -331,7 +331,7 @@ class Network:
                              index=s.index)
         return node_ids
 
-    def plot(self, s, log_scale=False, width=24, height=30, dpi=150,
+    def plot(self, s, log_scale=False, width=24, height=18, dpi=50,
              type="contour", cmap='BrBG', bbox=None):
         """
         Experimental method to write the network to a matplotlib image.
@@ -372,13 +372,47 @@ class Network:
                           "%f" % tuple(bbox))
         x, y, z = df.xcol, df.ycol, df.zcol
 
-        assert type in ["points", "hexbin", "contour"], "Only these sample " \
-                                                        "themes are available"
+        assert type in ["points", "hexbin", "bokeh", "contour"], \
+            "Only these sample themes are available"
+
+        if type == "bokeh":
+
+            from bokeh.plotting import image, show, output_file, scatter, \
+                figure, hold, output_notebook
+
+            output_notebook()
+
+            xi = np.linspace(bbox[0], bbox[2], 500)
+            yi = np.linspace(bbox[1], bbox[3], 500)
+
+            zi = matplotlib.mlab.griddata(x.values, y.values, z.values, xi, yi)
+
+            min_x, min_y, max_x, max_y = bbox
+
+            #output_file("test.html")
+            hold()
+            figure(plot_width=900, plot_height=900)
+
+            image(image=[zi],
+                  x=[min_x],
+                  y=[min_y],
+                  dw=[max_x-min_x],
+                  dh=[max_y-min_y],
+                  palette=["Spectral-11"],
+                  x_range=[min_x, max_x],
+                  y_range=[min_y, max_y],
+                  title="Node Indicator",
+                  tools="pan,wheel_zoom,box_zoom,reset,previewsave"
+                  )
+            scatter(x=x, y=y, fill_color="black", line_color=None)
+
+            show()
+            return
 
         plt = matplotlib.pyplot
         fig = plt.figure(num=None, figsize=(width, height), dpi=dpi,
                          facecolor='b', edgecolor='k')
-        bgcolor = 'white' if type == "contour" else "white"
+        bgcolor = 'black' if type == "points" else "white"
         ax = fig.add_subplot(111, axisbg=bgcolor)
 
         cmap = getattr(plt.cm, cmap)
