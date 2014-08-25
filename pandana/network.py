@@ -389,7 +389,7 @@ class Network:
 
             min_x, min_y, max_x, max_y = bbox
 
-            #output_file("test.html")
+            # output_file("test.html")
             hold()
             figure(plot_width=900, plot_height=900)
 
