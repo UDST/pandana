@@ -68,7 +68,6 @@ extra_compile_args = [
     '-fpic',
     '-g',
     '-static',
-    '-Wno-deprecated',
 ]
 
 if os.environ.get('USEOPENMP') or not sys.platform.startswith('darwin'):
