@@ -59,7 +59,7 @@
 #ifndef ANN_H
 #define ANN_H
 
-#ifdef _WIN32
+#ifdef WIN32
   //----------------------------------------------------------------------
   // For Microsoft Visual C++, externally accessible symbols must be
   // explicitly indicated with DLL_API, which is somewhat like "extern."

@@ -26,8 +26,8 @@
 #include <memory>
 #else
 #include <tr1/memory>
-#define shared_ptr tr1::shared_ptr
 #endif
+#define shared_ptr tr1::shared_ptr
 
 #include "../BasicDefinitions.h"
 #include "../DataStructures/BinaryHeap.h"
