@@ -190,7 +190,7 @@ class BinaryHeap
 
     void DeleteAll()
     {
-        auto iend = heap.end();
+        typename std::vector<HeapElement>::iterator iend = heap.end();
         for (typename std::vector<HeapElement>::iterator i = heap.begin() + 1; i != iend; ++i)
         {
             inserted_nodes[i->index].key = 0;
