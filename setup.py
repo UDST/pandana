@@ -67,14 +67,17 @@ extra_compile_args = [
     '-g',
     '-static',
 ]
+extra_link_args = None
 
-if os.environ.get('USEOPENMP') or not sys.platform.startswith('darwin'):
+# separate compiler options for Windows
+if sys.platform.startswith('win'):
+    extra_compile_args = ['/w', '/openmp']
+# Use OpenMP if directed or not on a Mac
+elif os.environ.get('USEOPENMP') or not sys.platform.startswith('darwin'):
     extra_compile_args += ['-fopenmp']
     extra_link_args = [
         '-lgomp'
     ]
-else:
-    extra_link_args = None
 
 version = '0.1dev'
 
