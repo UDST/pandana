@@ -14,9 +14,7 @@ class PyTest(TestCommand):
 
     def initialize_options(self):
         TestCommand.initialize_options(self)
-        self.pytest_args = ['--cov-report', 'term-missing', '--cov',
-                            '.']
-        # self.pytest_args = None
+        self.pytest_args = None
 
     def finalize_options(self):
         TestCommand.finalize_options(self)
@@ -68,16 +66,18 @@ extra_compile_args = [
     '-fpic',
     '-g',
     '-static',
-    '-Wno-deprecated',
 ]
+extra_link_args = None
 
-if os.environ.get('USEOPENMP') or not sys.platform.startswith('darwin'):
+# separate compiler options for Windows
+if sys.platform.startswith('win'):
+    extra_compile_args = ['/w', '/openmp']
+# Use OpenMP if directed or not on a Mac
+elif os.environ.get('USEOPENMP') or not sys.platform.startswith('darwin'):
     extra_compile_args += ['-fopenmp']
     extra_link_args = [
         '-lgomp'
     ]
-else:
-    extra_link_args = None
 
 version = '0.1dev'
 

@@ -35,7 +35,7 @@ namespace MTC {
 
 		typedef std::vector<std::vector<float> > accessibility_vars_t;
 
-		#ifdef WIN32
+		#ifdef _WIN32
 			class DLLExport Accessibility
 		#else
 			class Accessibility
