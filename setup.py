@@ -85,6 +85,7 @@ setup(
     packages=packages,
     name='pandana',
     version=version,
+    license='AGPL',
     ext_modules=[
         Extension(
             'pandana._pyaccess',
@@ -102,5 +103,10 @@ setup(
         'tables>=3.1.0'
     ],
     tests_require=['pytest'],
-    cmdclass={'test': PyTest}
+    cmdclass={'test': PyTest},
+    classifiers=[
+        'Development Status :: 3 - Alpha',
+        'Programming Language :: Python :: 2.7',
+        'License :: OSI Approved :: GNU Affero General Public License v3'
+    ],
 )
