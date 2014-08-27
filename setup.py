@@ -81,11 +81,19 @@ elif os.environ.get('USEOPENMP') or not sys.platform.startswith('darwin'):
 
 version = '0.1dev'
 
+# read long description from README
+fname = 'README' if os.path.exists('README') else 'README.md'
+with open(fname) as f:
+    long_description = f.read()
+
 setup(
     packages=packages,
     name='pandana',
     version=version,
     license='AGPL',
+    description=('Pandas Network Analysis - '
+                 'dataframes of network queries, quickly'),
+    long_description=long_description,
     ext_modules=[
         Extension(
             'pandana._pyaccess',
