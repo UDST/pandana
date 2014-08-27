@@ -95,6 +95,7 @@ setup(
     description=('Pandas Network Analysis - '
                  'dataframes of network queries, quickly'),
     long_description=long_description,
+    url='http://synthicity.github.io/pandana/',
     ext_modules=[
         Extension(
             'pandana._pyaccess',
