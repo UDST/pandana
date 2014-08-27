@@ -79,7 +79,7 @@ elif os.environ.get('USEOPENMP') or not sys.platform.startswith('darwin'):
         '-lgomp'
     ]
 
-version = '0.1dev'
+version = '0.1'
 
 setup(
     packages=packages,

@@ -1,2 +1,3 @@
 from network import Network
-# from utils import *
+
+version = '0.1'
