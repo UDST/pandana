@@ -14,14 +14,28 @@ Depending on whether your installed copy of pandana was built with OpenMP
 support it may be run with multiple threads or only 1.
 
 """
+from __future__ import print_function
+
 import os.path
+import sys
 
 import pandas as pd
 import pandana.network as pdna
 
-storef = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    '../pandana/tests/osm_sample.h5')
+if len(sys.argv) > 1:
+    # allow test file to be passed as an argument
+    storef = sys.argv[1]
+else:
+    # if no argument provided look for it in the test data
+    storef = os.path.normpath(os.path.join(
+        os.path.dirname(os.path.abspath(__file__)),
+        '../pandana/tests/osm_sample.h5'))
+
+if not os.path.isfile(storef):
+    raise IOError('Could not find test input file: {!r}'.format(storef))
+
+print('Building network from file: {!r}'.format(storef))
+
 store = pd.HDFStore(storef, "r")
 nodes, edges = store.nodes, store.edges
 net = pdna.Network(nodes.x, nodes.y, edges["from"], edges.to,
