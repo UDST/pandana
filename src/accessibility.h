@@ -12,7 +12,7 @@ using namespace std;
 namespace MTC {
 	namespace accessibility {
 
-		// XXX some of these agg types aren't implemented
+		// TODO some of these agg types aren't implemented
 		// aggregation types
 		enum aggregation_types_t {
 			AGG_SUM,
@@ -35,18 +35,7 @@ namespace MTC {
 
 		typedef std::vector<std::vector<float> > accessibility_vars_t;
 
-		typedef struct AccVarDef {
-			std::string tblname;
-			std::string varname;
-			inline bool operator==(const AccVarDef &ref)
-			{
-				if(tblname != ref.tblname) return false;
-				if(varname != ref.varname) return false;
-				return true;
-			}
-		} acc_var_def_t;
-
-		#ifdef WIN32
+		#ifdef _WIN32
 			class DLLExport Accessibility
 		#else
 			class Accessibility
@@ -109,8 +98,7 @@ namespace MTC {
 
 			std::vector<std::shared_ptr<Graphalg> > ga;
 
-			// a little hackish but you can precompute
-			// the range queries and reuse them
+			// precompute the range queries and reuse them
 			void precomputeRangeQueries(float radius);
 			float dmsradius;
 			std::vector<std::vector<DistanceVec> > dms;

@@ -15,12 +15,15 @@ NUM_NETWORKS = 0
 AGGREGATIONS = {
     "SUM": 0,
     "AVE": 1,
+    "AVERAGE": 1,
     "STD": 5,
+    "STDDEV": 5,
     "COUNT": 6
 }
 
 DECAYS = {
     "EXP": 0,
+    "EXPONENTIAL": 0,
     "LINEAR": 1,
     "FLAT": 2
 }
@@ -36,41 +39,42 @@ def reserve_num_graphs(num):
 
 
 class Network:
+    """
+    Create the transportation network in the city.  Typical data would be
+    distance based from OpenStreetMap or possibly using transit data from
+    GTFS.
+
+    Parameters
+    ----------
+    node_x: Pandas Series, flaot
+        Defines the x attribute for nodes in the network (e.g. longitude)
+    node_y: Pandas Series, float
+        Defines the y attribute for nodes in the network (e.g. latitude)
+        This param and the one above should have the *same* index which
+        should be the node_ids that are referred to in the edges below.
+    edge_from: Pandas Series, int
+        Defines the node id that begins an edge - should refer to the index
+        of the two series objects above
+    edge_to: Pandas Series, int
+        Defines the node id that ends an edge - should refer to the index
+        of the two series objects above
+    edge_weights: Pandas DataFrame, all floats
+        Specifies one or more *impedances* on the network which define the
+        distances between nodes.  Multiple impedances can be used to
+        capture travel times at different times of day, for instance
+    two_way : boolean, optional
+        Whether the edges in this network are two way edges or one way (
+        where the one direction is directed from the from node to the to
+        node)
+
+    Returns
+    -------
+    Network object
+    """
 
     def __init__(self, node_x, node_y, edge_from, edge_to, edge_weights,
                  twoway=True):
-        """
-        Create the transportation network in the city.  Typical data would be
-        distance based from OpenStreetMap or possibly using transit data from
-        GTFS.
 
-        Parameters
-        ----------
-        node_x: Pandas Series, flaot
-            Defines the x attribute for nodes in the network (e.g. longitude)
-        node_y: Pandas Series, float
-            Defines the y attribute for nodes in the network (e.g. latitude)
-            This param and the one above should have the *same* index which
-            should be the node_ids that are referred to in the edges below.
-        edge_from: Pandas Series, int
-            Defines the node id that begins an edge - should refer to the index
-            of the two series objects above
-        edge_to: Pandas Series, int
-            Defines the node id that ends an edge - should refer to the index
-            of the two series objects above
-        edge_weights: Pandas DataFrame, all floats
-            Specifies one or more *impedances* on the network which define the
-            distances between nodes.  Multiple impedances can be used to
-            capture travel times at different times of day, for instance
-        two_way : boolean, optional
-            Whether the edges in this network are two way edges or one way (
-            where the one direction is directed from the from node to the to
-            node)
-
-        Returns
-        -------
-        Network object
-        """
         global NUM_NETWORKS, MAX_NUM_NETWORKS
 
         if MAX_NUM_NETWORKS == 0:
@@ -196,8 +200,8 @@ class Network:
     def precompute(self, distance):
         """
         Precomputes the range queries (the reachable nodes within this
-        maximum distance so as long as you use a smaller distance, cached
-        results will be used.
+        maximum distance.  So as long as you use a smaller distance, cached
+        results will be used.)
 
         Parameters
         ----------
@@ -306,7 +310,7 @@ class Network:
             The index is the same as the indexes of the x, y input data,
             and the values are the mapped node_ids. If mapping distance is
             not passed and if there are no nans in the x, y data, this will
-            be the the same length as the x, y data.  If the mapping is
+            be the same length as the x, y data.  If the mapping is
             imperfect, this function returns all the input x, y's that were
             successfully mapped to node_ids.
         """
@@ -473,7 +477,7 @@ class Network:
 
     def set_pois(self, category, x_col, y_col):
         """
-        Set the location of all the pois of this cateogry
+        Set the location of all the pois of this category
 
         Parameters
         ----------
@@ -505,7 +509,7 @@ class Network:
     def nearest_pois(self, distance, category, num_pois=1, max_distance=None,
                      imp_name=None):
         """
-        Find the distance to the nearest pois from each source node.  This
+        Find the distance to the nearest pois from each source node.  The
         bigger values in this case mean less accessibility.
 
         Parameters

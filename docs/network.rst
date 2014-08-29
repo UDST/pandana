@@ -6,5 +6,3 @@ Network API
 
 .. autoclass:: Network
    :members:
-
-   .. automethod:: __init__

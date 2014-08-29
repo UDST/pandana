@@ -1,6 +1,9 @@
 import os
 import sys
 
+from ez_setup import use_setuptools
+use_setuptools()
+
 from setuptools import setup, Extension, find_packages
 from setuptools.command.test import test as TestCommand
 import numpy as np
@@ -11,9 +14,7 @@ class PyTest(TestCommand):
 
     def initialize_options(self):
         TestCommand.initialize_options(self)
-        self.pytest_args = ['--cov-report', 'term-missing', '--cov',
-                            '.']
-        # self.pytest_args = None
+        self.pytest_args = None
 
     def finalize_options(self):
         TestCommand.finalize_options(self)
@@ -65,23 +66,35 @@ extra_compile_args = [
     '-fpic',
     '-g',
     '-static',
-    '-Wno-deprecated',
 ]
+extra_link_args = None
 
-if os.environ.get('USEOPENMP') or not sys.platform.startswith('darwin'):
+# separate compiler options for Windows
+if sys.platform.startswith('win'):
+    extra_compile_args = ['/w', '/openmp']
+# Use OpenMP if directed or not on a Mac
+elif os.environ.get('USEOPENMP') or not sys.platform.startswith('darwin'):
     extra_compile_args += ['-fopenmp']
     extra_link_args = [
         '-lgomp'
     ]
-else:
-    extra_link_args = None
 
 version = '0.1dev'
+
+# read long description from README
+fname = 'README' if os.path.exists('README') else 'README.md'
+with open(fname) as f:
+    long_description = f.read()
 
 setup(
     packages=packages,
     name='pandana',
     version=version,
+    license='AGPL',
+    description=('Pandas Network Analysis - '
+                 'dataframes of network queries, quickly'),
+    long_description=long_description,
+    url='http://synthicity.github.io/pandana/',
     ext_modules=[
         Extension(
             'pandana._pyaccess',
@@ -99,5 +112,10 @@ setup(
         'tables>=3.1.0'
     ],
     tests_require=['pytest'],
-    cmdclass={'test': PyTest}
+    cmdclass={'test': PyTest},
+    classifiers=[
+        'Development Status :: 3 - Alpha',
+        'Programming Language :: Python :: 2.7',
+        'License :: OSI Approved :: GNU Affero General Public License v3'
+    ],
 )

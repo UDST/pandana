@@ -37,14 +37,11 @@ namespace MTC {
 												int number, int threadNum=0);
 
 			void initPOIs(int numcategories, double maxdist, int maxitems) {
-
 				ch.createPOIIndexArray(numcategories, maxdist*DISTANCEMULTFACT,
 									   maxitems);
 			}
 			void addPOIToIndex(int category, int i) {
-
 				ch.addPOIToIndex(category,i);
-
 			}
 
 			int numnodes;

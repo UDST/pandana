@@ -1,0 +1,4 @@
+include ez_setup.py
+recursive-include src *.h *.cpp
+prune src/ann_1.1.2/sample
+prune src/ann_1.1.2/test

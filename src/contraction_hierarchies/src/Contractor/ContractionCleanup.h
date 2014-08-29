@@ -26,7 +26,7 @@ or see http://www.gnu.org/licenses/agpl.txt.
 #else
 #include <algorithm>
 #endif
-#ifdef WIN32
+#ifdef _WIN32
 #include <time.h>
 #else
 #include <sys/time.h>
@@ -153,7 +153,7 @@ private:
     };
 
     double _Timestamp() {
-#ifdef WIN32
+#ifdef _WIN32
 		// not currently used
 		time_t t = time(NULL);
 		return (double)t;
