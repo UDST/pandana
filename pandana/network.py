@@ -332,7 +332,7 @@ class Network:
                              index=s.index)
         return node_ids
 
-    def plot(self, s, width=24, height=30, dpi=150,
+    def plot(self, s, width=12, height=15, dpi=50,
              scheme="sequential", color='YlGn', numbins=7,
              bbox=None, log_scale=False):
         """
