@@ -46,19 +46,19 @@ class Network:
 
     Parameters
     ----------
-    node_x: Pandas Series, flaot
+    node_x : Pandas Series, flaot
         Defines the x attribute for nodes in the network (e.g. longitude)
-    node_y: Pandas Series, float
+    node_y : Pandas Series, float
         Defines the y attribute for nodes in the network (e.g. latitude)
         This param and the one above should have the *same* index which
         should be the node_ids that are referred to in the edges below.
-    edge_from: Pandas Series, int
+    edge_from : Pandas Series, int
         Defines the node id that begins an edge - should refer to the index
         of the two series objects above
-    edge_to: Pandas Series, int
+    edge_to : Pandas Series, int
         Defines the node id that ends an edge - should refer to the index
         of the two series objects above
-    edge_weights: Pandas DataFrame, all floats
+    edge_weights : Pandas DataFrame, all floats
         Specifies one or more *impedances* on the network which define the
         distances between nodes.  Multiple impedances can be used to
         capture travel times at different times of day, for instance
@@ -67,9 +67,6 @@ class Network:
         where the one direction is directed from the from node to the to
         node)
 
-    Returns
-    -------
-    Network object
     """
 
     def __init__(self, node_x, node_y, edge_from, edge_to, edge_weights,
