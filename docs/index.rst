@@ -19,6 +19,7 @@ Contents
 .. toctree::
    :maxdepth: 2
 
+   installation
    introduction
    tutorial
    network
