@@ -20,11 +20,6 @@ Docs
 
 Thorough [API documentation](http://synthicity.github.io/pandana/network.html) for Pandana is also available.
 
-Install
--------
-
-Clone this repo and run `python setup.py install`. Requires C/C++ compilers.
-
 Acknowledgments
 ---------------
 
