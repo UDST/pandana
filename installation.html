@@ -1,0 +1,264 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Installation &mdash; pandana 0.1 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="pandana 0.1 documentation" href="index.html"/>
+        <link rel="next" title="Getting Started" href="introduction.html"/>
+        <link rel="prev" title="Pandana" href="index.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="index.html" class="fa fa-home"> pandana</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+        
+            <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#install-the-latest-release">Install the latest release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#development-installation">Development Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#multithreaded-installation-on-mac">Multithreaded Installation on Mac</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#the-general-workflow">The General Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#create-the-network">Create the Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#assign-variables-and-perform-computations-for-nearest-queries">Assign variables and perform computations for nearest queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#assign-variables-and-perform-computations-for-aggregation-queries">Assign variables and perform computations for aggregation queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#display-the-results">Display the results</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="network.html">Network API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="futurework.html">Planned Improvements</a></li>
+</ul>
+
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">pandana</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Installation</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="_sources/installation.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            
+  <div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>Pandana depends on a number of libraries from the scientific Python stack.
+The easiest way to get these is to use the <a class="reference external" href="http://docs.continuum.io/anaconda/">Anaconda</a> python distribution,
+and the instructions below will assume you are using Anaconda.</p>
+<div class="section" id="install-the-latest-release">
+<h2>Install the latest release<a class="headerlink" href="#install-the-latest-release" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="conda">
+<h3>conda<a class="headerlink" href="#conda" title="Permalink to this headline">¶</a></h3>
+<p>Pandana and some of its dependencies are hosted on
+<a class="reference external" href="https://binstar.org/synthicity">Synthicity&#8217;s binstar repository</a>.
+To add this as a default installation channel for conda run this code
+in a terminal:</p>
+<div class="highlight-python"><pre>conda config --add channels synthicity</pre>
+</div>
+<div class="section" id="mac-and-linux">
+<h4>Mac and Linux<a class="headerlink" href="#mac-and-linux" title="Permalink to this headline">¶</a></h4>
+<p>Mac and Linux can install binaries using&#8217;s Anaconda&#8217;s conda utility:</p>
+<div class="highlight-python"><pre>conda install pandana</pre>
+</div>
+</div>
+<div class="section" id="windows">
+<h4>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h4>
+<p>We will have conda builds available for Windows as soon as we can.
+In the meantime, please use <tt class="docutils literal"><span class="pre">pip</span></tt> to install Pandana.</p>
+</div>
+</div>
+<div class="section" id="pip">
+<h3>pip<a class="headerlink" href="#pip" title="Permalink to this headline">¶</a></h3>
+<p>Pandana is available on PyPI and can be installed with:</p>
+<div class="highlight-python"><pre>pip install -U pandana</pre>
+</div>
+<p>On Windows and Mac this will install binary builds, assuming you are using
+a recent version of <a class="reference external" href="https://pip.pypa.io/en/latest/">pip</a>. On Linux it will perform a source install.</p>
+</div>
+</div>
+<div class="section" id="development-installation">
+<h2>Development Installation<a class="headerlink" href="#development-installation" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Clone the <a class="reference external" href="https://github.com/synthicity/pandana">pandana repo</a></li>
+<li>Run <tt class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">develop</span></tt></li>
+</ul>
+<p>(This is a C extension so requires C/C++ compilers, but should compile on
+Linux, Windows, and Mac.)</p>
+</div>
+<div class="section" id="multithreaded-installation-on-mac">
+<h2>Multithreaded Installation on Mac<a class="headerlink" href="#multithreaded-installation-on-mac" title="Permalink to this headline">¶</a></h2>
+<p>The default compilers on Mac do not support <a class="reference external" href="http://openmp.org/wp/">OpenMP</a> (which we use to
+parallelize the computations).
+To get multithreaded Pandana on Mac you&#8217;ll need to install <a class="reference external" href="https://gcc.gnu.org/">GNU GCC</a>
+and then compile Pandana from source.
+The easiest way to get GCC is via <a class="reference external" href="http://brew.sh/">Homebrew</a> or <a class="reference external" href="https://www.macports.org/">MacPorts</a>:</p>
+<ul class="simple">
+<li>Homebrew: <tt class="docutils literal"><span class="pre">brew</span> <span class="pre">install</span> <span class="pre">gcc</span></tt></li>
+<li>MacPorts: <tt class="docutils literal"><span class="pre">port</span> <span class="pre">install</span> <span class="pre">gcc</span></tt></li>
+</ul>
+<p>Then you must specify the GCC compilers for use during compilation
+via environment variables and tell the <tt class="docutils literal"><span class="pre">setup.py</span></tt> script explicitly
+to build with OpenMP:</p>
+<div class="highlight-python"><pre>export CC=gcc-4.9
+export CXX=g++-4.9
+export USEOPENMP=1</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The value of the variables you set will depend on the
+exact version of GCC installed.</p>
+</div>
+<p>To install the latest release from source using <a class="reference external" href="https://pip.pypa.io/en/latest/">pip</a>:</p>
+<div class="highlight-python"><pre>pip install -U --no-use-wheel pandana</pre>
+</div>
+<p>Our you can get the <a class="reference external" href="https://github.com/synthicity/pandana">development repository</a>
+and run <tt class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></tt>.</p>
+<p>After installation, executing <tt class="code docutils literal"><span class="pre">examples/simple_example.py</span></tt> will print out the
+number of threads that are being utilized.  If Pandana says it is using 1
+thread, and your computer has multiple cores, Pandana is not installed
+correctly.  Check the compile output for the gcc compiler you specified
+with <tt class="code docutils literal"><span class="pre">CC</span></tt> and <tt class="code docutils literal"><span class="pre">CXX</span></tt> - you might need to change the name slightly depending
+on your platform - for instance <tt class="code docutils literal"><span class="pre">g++-mp-4.9</span></tt> or <tt class="code docutils literal"><span class="pre">g++-4.8</span></tt>.</p>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="introduction.html" class="btn btn-neutral float-right" title="Getting Started"/>Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Pandana"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014, Synthicity.
+    </p>
+  </div>
+
+  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
