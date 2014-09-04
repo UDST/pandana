@@ -79,11 +79,10 @@ elif os.environ.get('USEOPENMP') or not sys.platform.startswith('darwin'):
         '-lgomp'
     ]
 
-version = '0.1dev'
+version = '0.2dev'
 
 # read long description from README
-fname = 'README' if os.path.exists('README') else 'README.md'
-with open(fname) as f:
+with open('README.rst', 'r') as f:
     long_description = f.read()
 
 setup(
