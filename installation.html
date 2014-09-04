@@ -60,6 +60,7 @@
         
             <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#install-the-latest-release">Install the latest release</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#development-installation">Development Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#multithreaded-installation-on-mac">Multithreaded Installation on Mac</a></li>
@@ -118,8 +119,26 @@
 <p>Pandana depends on a number of libraries from the scientific Python stack.
 The easiest way to get these is to use the <a class="reference external" href="http://docs.continuum.io/anaconda/">Anaconda</a> python distribution,
 and the instructions below will assume you are using Anaconda.</p>
+<div class="section" id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<p>Pandana depends on the following libraries, most of which are in Anaconda:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/jiffyclub/brewer2mpl/wiki">brewer2mpl</a> &gt;= 1.4</li>
+<li><a class="reference external" href="http://matplotlib.org/">matplotlib</a> &gt;= 1.3.1</li>
+<li><a class="reference external" href="http://www.numpy.org/">numpy</a> &gt;= 1.8.0</li>
+<li><a class="reference external" href="http://pandas.pydata.org/">pandas</a> &gt;= 0.13.1</li>
+<li><a class="reference external" href="http://www.pytables.org/">tables</a> &gt;= 3.1.0</li>
+</ul>
+</div>
 <div class="section" id="install-the-latest-release">
 <h2>Install the latest release<a class="headerlink" href="#install-the-latest-release" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Installing via conda or pip on a Mac will install Pandana without
+multithreading support.
+See instructions below for installing on a Mac with multithreading
+support.</p>
+</div>
 <div class="section" id="conda">
 <h3>conda<a class="headerlink" href="#conda" title="Permalink to this headline">¶</a></h3>
 <p>Pandana and some of its dependencies are hosted on
@@ -128,16 +147,11 @@ To add this as a default installation channel for conda run this code
 in a terminal:</p>
 <div class="highlight-python"><pre>conda config --add channels synthicity</pre>
 </div>
-<div class="section" id="mac-and-linux">
-<h4>Mac and Linux<a class="headerlink" href="#mac-and-linux" title="Permalink to this headline">¶</a></h4>
-<p>Mac and Linux can install binaries using&#8217;s Anaconda&#8217;s conda utility:</p>
+<p>Then you can install pandana:</p>
 <div class="highlight-python"><pre>conda install pandana</pre>
 </div>
-</div>
-<div class="section" id="windows">
-<h4>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h4>
-<p>We will have conda builds available for Windows as soon as we can.
-In the meantime, please use <tt class="docutils literal"><span class="pre">pip</span></tt> to install Pandana.</p>
+<p>To update pandana to a new release, run:</p>
+<div class="highlight-python"><pre>conda update pandana</pre>
 </div>
 </div>
 <div class="section" id="pip">
