@@ -5,8 +5,25 @@ Pandana depends on a number of libraries from the scientific Python stack.
 The easiest way to get these is to use the `Anaconda`_ python distribution,
 and the instructions below will assume you are using Anaconda.
 
+Dependencies
+------------
+
+Pandana depends on the following libraries, most of which are in Anaconda:
+
+* `brewer2mpl`_ >= 1.4
+* `matplotlib`_ >= 1.3.1
+* `numpy`_ >= 1.8.0
+* `pandas`_ >= 0.13.1
+* `tables`_ >= 3.1.0
+
 Install the latest release
 --------------------------
+
+.. note::
+   Installing via conda or pip on a Mac will install Pandana without
+   multithreading support.
+   See instructions below for installing on a Mac with multithreading
+   support.
 
 conda
 ~~~~~
@@ -18,18 +35,13 @@ in a terminal::
 
     conda config --add channels synthicity
 
-Mac and Linux
-^^^^^^^^^^^^^
-
-Mac and Linux can install binaries using's Anaconda's conda utility::
+Then you can install pandana::
 
     conda install pandana
 
-Windows
-^^^^^^^
+To update pandana to a new release, run::
 
-We will have conda builds available for Windows as soon as we can.
-In the meantime, please use ``pip`` to install Pandana.
+    conda update pandana
 
 pip
 ~~~
@@ -95,3 +107,8 @@ on your platform - for instance :code:`g++-mp-4.9` or :code:`g++-4.8`.
 .. _GNU GCC: https://gcc.gnu.org/
 .. _Homebrew: http://brew.sh/
 .. _MacPorts: https://www.macports.org/
+.. _brewer2mpl: https://github.com/jiffyclub/brewer2mpl/wiki
+.. _matplotlib: http://matplotlib.org/
+.. _numpy: http://www.numpy.org/
+.. _pandas: http://pandas.pydata.org/
+.. _tables: http://www.pytables.org/
