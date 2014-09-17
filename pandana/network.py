@@ -30,6 +30,19 @@ DECAYS = {
 
 
 def reserve_num_graphs(num):
+    """
+    Make a call to this function if you want to run queries on more than
+    one Network object
+
+    Parameters
+    ----------
+    num : int
+        The number of networks you want to use
+
+    Returns
+    -------
+    Nothing
+    """
     global NUM_NETWORKS, MAX_NUM_NETWORKS
     assert MAX_NUM_NETWORKS == 0, ("Global memory used so cannot initialize "
                                    "twice")
