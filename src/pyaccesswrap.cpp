@@ -27,24 +27,24 @@ create_graph(PyObject *self, PyObject *args)
     int id, twoway;
 	PyObject *input1, *input2, *input3, *input4;
 	// this is node ids, node xys, edge ids, and edge weights
-	if (!PyArg_ParseTuple(args, "iOOOOi", &id, &input1, &input2, 
+	if (!PyArg_ParseTuple(args, "iOOOOi", &id, &input1, &input2,
 											&input3, &input4, &twoway))
 											return NULL;
 
 	PyArrayObject *pyo;
-	pyo = (PyArrayObject*)PyArray_ContiguousFromObject(input1, 
+	pyo = (PyArrayObject*)PyArray_ContiguousFromObject(input1,
 														NPY_INT32, 1, 1);
 	if (pyo == NULL) return NULL;
     int *nodeids = (int*)PyArray_DATA(pyo);
     int numnodes = PyArray_DIMS(pyo)[0];
 
-	pyo = (PyArrayObject*)PyArray_ContiguousFromObject(input2, 
+	pyo = (PyArrayObject*)PyArray_ContiguousFromObject(input2,
 														NPY_FLOAT32, 2, 2);
 	if (pyo == NULL) return NULL;
     float *nodexy = (float*)PyArray_DATA(pyo);
     assert(numnodes == PyArray_DIMS(pyo)[0]);
     assert(2 == PyArray_DIMS(pyo)[1]);
-    
+
 	pyo = (PyArrayObject*)PyArray_ContiguousFromObject(input3,
 														NPY_INT32, 2, 2);
 	if (pyo == NULL) return NULL;
@@ -64,8 +64,8 @@ create_graph(PyObject *self, PyObject *args)
 	}
 
     if(id>=sas.size()) return NULL;
-    
-    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[id]; 
+
+    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[id];
 
     for(int i = 0 ; i < numimpedances ; i++) {
         std::shared_ptr<MTC::accessibility::Graphalg>
@@ -88,8 +88,8 @@ initialize_pois(PyObject *self, PyObject *args)
     double md;
 	if (!PyArg_ParseTuple(args, "idi", &nc, &md, &mi)) return NULL;
 
-    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[0]; 
-    
+    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[0];
+
     sa->initializePOIs(nc,md,mi);
 
     Py_RETURN_NONE;
@@ -103,16 +103,16 @@ initialize_category(PyObject *self, PyObject *args)
 	PyObject *input1;
 	if (!PyArg_ParseTuple(args, "iO", &id, &input1)) return NULL;
 
-    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[0]; 
-	
+    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[0];
+
     PyArrayObject *pyo;
-	pyo = (PyArrayObject*)PyArray_ContiguousFromObject(input1, 
+	pyo = (PyArrayObject*)PyArray_ContiguousFromObject(input1,
 														NPY_FLOAT32, 2, 2);
 	if (pyo == NULL) return NULL;
     float *pois = (float*)PyArray_DATA(pyo);
     int numpois = PyArray_DIMS(pyo)[0];
     assert(2 == PyArray_DIMS(pyo)[1]);
-   
+
     MTC::accessibility::accessibility_vars_t av;
     av.resize(sa->numnodes);
     for(int i = 0 ; i < numpois ; i++) {
@@ -120,7 +120,7 @@ initialize_category(PyObject *self, PyObject *args)
 		// conversion function below
         int nodeid = sa->ga[0]->NearestNode(pois[i*2+0],pois[i*2+1],NULL);
 		//assert(nodeid < sa->ga[0].numpois);
-        av[nodeid].push_back(nodeid); 
+        av[nodeid].push_back(nodeid);
     }
 
     sa->initializeCategory(id,av);
@@ -137,7 +137,7 @@ find_all_nearest_pois(PyObject *self, PyObject *args)
 	if (!PyArg_ParseTuple(args, "diiii", &radius, &num, &varind,
 	                        &gno, &impno))
 	    return NULL;
-    
+
     std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[gno];
 
     std::vector<std::vector<float> > nodes =
@@ -147,10 +147,10 @@ find_all_nearest_pois(PyObject *self, PyObject *args)
 	dims[0] = nodes.size();
 	dims[1] = num;
     PyArrayObject *returnobj = (PyArrayObject *)PyArray_SimpleNew(2, dims,
-															NPY_FLOAT32);
+															NPY_FLOAT);
     for(int i = 0 ; i < dims[0] ; i++) {
         for(int j = 0 ; j < dims[1] ; j++) {
-            ((float*)PyArray_DATA(returnobj))[i*dims[1]+j] = (float)nodes[i][j];
+            *(npy_float *) PyArray_GETPTR2(returnobj, i, j) = (npy_float) nodes[i][j];
         }
     }
 
@@ -164,7 +164,7 @@ initialize_acc_vars(PyObject *self, PyObject *args)
     int gno, nc;
 	if (!PyArg_ParseTuple(args, "ii", &gno, &nc)) return NULL;
 
-    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[gno]; 
+    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[gno];
 
     sa->initializeAccVars(nc);
 
@@ -180,21 +180,21 @@ initialize_acc_var(PyObject *self, PyObject *args)
 	if (!PyArg_ParseTuple(args, "iiOO", &gno, &id, &input1, &input2))
 	    return NULL;
 
-    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[gno]; 
+    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[gno];
 
 	PyArrayObject *pyo;
-	pyo = (PyArrayObject*)PyArray_ContiguousFromObject(input1, 
+	pyo = (PyArrayObject*)PyArray_ContiguousFromObject(input1,
 														NPY_INT32, 1, 1);
 	if (pyo == NULL) return NULL;
     int *nodeids = (int*)PyArray_DATA(pyo);
     int num = PyArray_DIMS(pyo)[0];
-	
-	pyo = (PyArrayObject*)PyArray_ContiguousFromObject(input2, 
+
+	pyo = (PyArrayObject*)PyArray_ContiguousFromObject(input2,
 														NPY_FLOAT32, 1, 1);
 	if (pyo == NULL) return NULL;
     float *accvars = (float*)PyArray_DATA(pyo);
     assert(num == PyArray_DIMS(pyo)[0]);
-   
+
     MTC::accessibility::accessibility_vars_t av;
     av.resize(sa->numnodes);
 
@@ -204,11 +204,11 @@ initialize_acc_var(PyObject *self, PyObject *args)
              cnt++;
              continue;
         }
-        av[nodeids[i]].push_back(accvars[i]); 
+        av[nodeids[i]].push_back(accvars[i]);
     }
 
     sa->initializeAccVar(id,av);
-            
+
     Py_RETURN_NONE;
 }
 
@@ -250,16 +250,16 @@ xy_to_node(PyObject *self, PyObject *args)
     int gno;
 
 	if (!PyArg_ParseTuple(args, "Odi", &input1, &distance, &gno)) return NULL;
-    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[gno]; 
+    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[gno];
 
 	PyArrayObject *pyo;
-	pyo = (PyArrayObject*)PyArray_ContiguousFromObject(input1, 
+	pyo = (PyArrayObject*)PyArray_ContiguousFromObject(input1,
 														NPY_FLOAT32, 2, 2);
 	if (pyo == NULL) return NULL;
     float *xys = (float*)PyArray_DATA(pyo);
     npy_intp num = PyArray_DIMS(pyo)[0];
     assert(2 == PyArray_DIMS(pyo)[1]);
-    
+
 	PyArrayObject *returnobj = (PyArrayObject *)PyArray_SimpleNew(1, &num,
 	    NPY_INT32);
     int *nodes = (int*)PyArray_DATA(returnobj);
@@ -274,7 +274,7 @@ xy_to_node(PyObject *self, PyObject *args)
             nodes[i] = -1;
             continue;
         }
-        nodes[i] = nodeid; 
+        nodes[i] = nodeid;
     }
 	return PyArray_Return(returnobj);
 }
@@ -285,16 +285,16 @@ get_nodes_in_range(PyObject *self, PyObject *args)
 {
     double radius;
     int nodeid, gno, impno;
-	if (!PyArg_ParseTuple(args, "idii", &nodeid, &radius, &gno, &impno)) 
+	if (!PyArg_ParseTuple(args, "idii", &nodeid, &radius, &gno, &impno))
 																return NULL;
-    
-    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[gno]; 
+
+    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[gno];
 
     MTC::accessibility::DistanceVec dm = sa->Range(nodeid,radius,impno);
     npy_intp num = dm.size();
-    PyArrayObject *nodes = (PyArrayObject *)PyArray_SimpleNew(1, &num, 
+    PyArrayObject *nodes = (PyArrayObject *)PyArray_SimpleNew(1, &num,
 															NPY_INT32);
-    PyArrayObject *dists = (PyArrayObject *)PyArray_SimpleNew(1, &num, 
+    PyArrayObject *dists = (PyArrayObject *)PyArray_SimpleNew(1, &num,
 															NPY_FLOAT32);
     for(int i = 0 ; i < num ; i++) {
         ((int*)PyArray_DATA(nodes))[i] = dm[i].first;
@@ -309,7 +309,7 @@ get_nodes_in_range(PyObject *self, PyObject *args)
 PyObject *sample_nodes(int *inodes, int inumnodes, int samplesize,
     double radius, int *skipnodeids, int gno, int impno) {
 
-    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[gno]; 
+    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[gno];
 
 	npy_intp num = sa->numnodes;
     // if nodes is not null we do have a list of nodeids
@@ -318,11 +318,11 @@ PyObject *sample_nodes(int *inodes, int inumnodes, int samplesize,
     npy_intp dims[2];
     dims[0] = num;
     dims[1] = samplesize;
-    PyArrayObject *nodes = (PyArrayObject *)PyArray_SimpleNew(2, dims, 
+    PyArrayObject *nodes = (PyArrayObject *)PyArray_SimpleNew(2, dims,
 															NPY_INT32);
-    PyArrayObject *numnodes = (PyArrayObject *)PyArray_SimpleNew(1, &num, 
+    PyArrayObject *numnodes = (PyArrayObject *)PyArray_SimpleNew(1, &num,
 															NPY_INT32);
-    PyArrayObject *dists = (PyArrayObject *)PyArray_SimpleNew(2, dims, 
+    PyArrayObject *dists = (PyArrayObject *)PyArray_SimpleNew(2, dims,
 															NPY_FLOAT32);
     int nodeid;
     #pragma omp parallel for
@@ -347,7 +347,7 @@ PyObject *sample_nodes(int *inodes, int inumnodes, int samplesize,
                 ((int*)PyArray_DATA(nodes))[i*samplesize+j-skipped] = -1;
                 ((float*)PyArray_DATA(dists))[i*samplesize+j-skipped] = -1.0;
                 continue;
-            } 
+            }
 
             ((int*)PyArray_DATA(nodes))[i*samplesize+j-skipped] =
                 dm[j].first;
@@ -368,7 +368,7 @@ sample_all_nodes_in_range(PyObject *self, PyObject *args)
 {
     double radius;
     int samplesize, gno, impno;
-	if (!PyArg_ParseTuple(args, "idii", &samplesize, &radius, &gno, &impno)) 
+	if (!PyArg_ParseTuple(args, "idii", &samplesize, &radius, &gno, &impno))
 																return NULL;
     return sample_nodes(NULL,-1,samplesize,radius,NULL,gno,impno);
 }
@@ -386,32 +386,32 @@ get_all_model_results(PyObject *self, PyObject *args)
 		    return NULL;
 
 	PyArrayObject *pyo1, *pyo2;
-	pyo1 = (PyArrayObject*)PyArray_ContiguousFromObject(input1, 
+	pyo1 = (PyArrayObject*)PyArray_ContiguousFromObject(input1,
 														NPY_INT32, 1, 1);
     if(pyo1==NULL) return NULL;
     int *varindexes = (int*)PyArray_DATA(pyo1);
     npy_intp num = PyArray_DIMS(pyo1)[0];
-    
-	pyo2 = (PyArrayObject*)PyArray_ContiguousFromObject(input2, 
+
+	pyo2 = (PyArrayObject*)PyArray_ContiguousFromObject(input2,
 														NPY_FLOAT32, 1, 1);
     if(pyo2==NULL) return NULL;
     float *varcoeffs = (float*)PyArray_DATA(pyo2);
     npy_intp num2 = PyArray_DIMS(pyo2)[0];
-    
+
     if(num != num2) return NULL;
     else numvars = num;
 
-    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[graphno]; 
-    
+    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[graphno];
+
     std::vector<double> nodes = sa->getAllModelResults(radius, numvars,
         varindexes, varcoeffs, distcoeff, asc, denom, nestdenom, mu, impno);
 
     npy_intp len = nodes.size();
 
-    PyArrayObject *returnobj = (PyArrayObject *)PyArray_SimpleNew(1, &len, 
+    PyArrayObject *returnobj = (PyArrayObject *)PyArray_SimpleNew(1, &len,
 															NPY_FLOAT32);
 
-    for(int i = 0 ; i < len ; i++) ((float*)PyArray_DATA(returnobj))[i] = 
+    for(int i = 0 ; i < len ; i++) ((float*)PyArray_DATA(returnobj))[i] =
 															(float)nodes[i];
 
 	return PyArray_Return(returnobj);
@@ -426,13 +426,13 @@ compute_all_design_variables(PyObject *self, PyObject *args)
     int gno;
 	if (!PyArg_ParseTuple(args, "dsi", &radius, &type, &gno)) return NULL;
 
-    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[gno]; 
+    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[gno];
 
 	npy_intp num = sa->numnodes;
 	PyArrayObject *returnobj = (PyArrayObject *)PyArray_SimpleNew(1,
 	    &num, NPY_FLOAT32);
     float *nodes = (float*)PyArray_DATA(returnobj);
-	
+
     std::string str(type);
 
     #pragma omp parallel for
@@ -451,10 +451,10 @@ precompute_range(PyObject *self, PyObject *args)
     double radius;
 	if (!PyArg_ParseTuple(args, "di", &radius, &gno)) return NULL;
 
-    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[gno]; 
+    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[gno];
 
 	sa->precomputeRangeQueries((float)radius);
-    
+
 	Py_RETURN_NONE;
 }
 
@@ -466,7 +466,7 @@ route_distance(PyObject *self, PyObject *args)
 	if (!PyArg_ParseTuple(args, "iiii", &srcnode, &destnode, &gno, &impno))
 	    return NULL;
 
-    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[gno]; 
+    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[gno];
 
     double dist = sa->ga[impno]->Distance(srcnode,destnode);
 
