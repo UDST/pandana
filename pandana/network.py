@@ -116,11 +116,11 @@ class Network:
                           self._node_indexes(edges_df["to"])], axis=1)
 
         _pyaccess.create_graph(self.graph_no,
-                               nodes_df.index.astype('int32'),
-                               nodes_df.astype('float32'),
-                               edges.astype('int32'),
+                               nodes_df.index.values.astype('int32'),
+                               nodes_df.as_matrix().astype('float32'),
+                               edges.as_matrix().astype('int32'),
                                edges_df[edge_weights.columns].transpose()
-                                   .astype('float32'),
+                                   .as_matrix().astype('float32'),
                                twoway)
 
     def _node_indexes(self, node_ids):
@@ -484,6 +484,7 @@ class Network:
                                                 category),
                                             self.graph_no,
                                             imp_num)
+
         a[a == -1] = max_distance
         df = pd.DataFrame(a, index=self.node_ids)
         df.columns = range(1, num_pois+1)
