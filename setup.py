@@ -65,7 +65,6 @@ extra_compile_args = [
     '-O3',
     '-fpic',
     '-g',
-    '-static',
 ]
 extra_link_args = None
 
