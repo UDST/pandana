@@ -38,7 +38,7 @@ namespace MTC {
             for(int i = 0 ; i < ga.size() ; i++) {
 			    ga[i]->initPOIs(numcategories, maxdist, maxitems);
             }
-			accessibilityVarsForPOIs.resize(numcategories);	
+			accessibilityVarsForPOIs.resize(numcategories);
 		}
 
 		void Accessibility::initializeCategory(int category,
@@ -57,9 +57,9 @@ namespace MTC {
 				}
 			}
 		}
-		
+
 		void Accessibility::initializeAccVars(int numcategories) {
-			accessibilityVars.resize(numcategories);	
+			accessibilityVars.resize(numcategories);
 		}
 
 		void Accessibility::initializeAccVar(int category,
@@ -83,7 +83,7 @@ namespace MTC {
 
 			/* need to account for the possibility of having
 			   multiple locations at single node */
-			for (DistanceMap::const_iterator itDist = distances.begin(); 
+			for (DistanceMap::const_iterator itDist = distances.begin();
 				 itDist != distances.end(); ++itDist) {
 
 				int 	nodeid = itDist->first;
@@ -93,12 +93,10 @@ namespace MTC {
 
 					if(vars[nodeid][i] == 0) continue;
 					ret.push_back((float)distance);
-					if(ret.size()==number) break;
 				}
-				if(ret.size()==number) break;
 			}
 			std::sort(ret.begin(),ret.end());
-				
+
 			return ret;
 		}
 
@@ -118,7 +116,7 @@ namespace MTC {
 			}
 			return dists;
 		}
-		
+
 		void
 		Accessibility::precomputeRangeQueries(float radius) {
 			dms.resize(ga.size());
@@ -136,15 +134,15 @@ namespace MTC {
 			}
 			}
 			dmsradius = radius;
-		}				
+		}
 
 		std::vector<double>
-		Accessibility::getAllAggregateAccessibilityVariables(float radius, 
+		Accessibility::getAllAggregateAccessibilityVariables(float radius,
 						int ind,
 						aggregation_types_t aggtyp, decay_func_t decay,
 						int graphno) {
-						
-			if(ind == -1) assert(0); 
+
+			if(ind == -1) assert(0);
 
 			std::vector<double> scores(numnodes);
 
@@ -152,7 +150,7 @@ namespace MTC {
 			{
 			#pragma omp for schedule(guided)
 			for(int i = 0 ; i < numnodes ; i++) {
-				scores[i] = aggregateAccessibilityVariable(i, radius, 
+				scores[i] = aggregateAccessibilityVariable(i, radius,
 													accessibilityVars[ind],
 													aggtyp, decay,
 													graphno);
@@ -177,14 +175,14 @@ namespace MTC {
 		double
 		Accessibility::aggregateAccessibilityVariable(int srcnode, float radius,
 									accessibility_vars_t &vars,
-									aggregation_types_t aggtyp, 
+									aggregation_types_t aggtyp,
 									decay_func_t decay,
 									int gno) {
 
 			assert(aggtyp >= 0 && aggtyp < AGG_MAXVAL);
 			assert(decay >= 0 && decay < DECAY_MAXVAL);
 
-			// I don't know if this is the best way to do this but I 
+			// I don't know if this is the best way to do this but I
 			// I don't want to copy memory in the precompute case - sometimes
 			// I need a reference and sometimes not
 			DistanceVec tmp;
@@ -197,18 +195,18 @@ namespace MTC {
 
 			if(distances.size() == 0) return -1;
 		    if(aggtyp == AGG_STDDEV) decay = DECAY_FLAT;
-        	
+
 			int cnt = 0;
 			double sum = 0.0;
 			double sumsq = 0.0;
 
-			for (int i = 0 ; i < distances.size() ; i++) { 
+			for (int i = 0 ; i < distances.size() ; i++) {
 
 				int nodeid = distances[i].first;
 				double distance = distances[i].second;
-				
+
 				// this can now happen since we're precomputing
-				if(distance > radius) continue; 
+				if(distance > radius) continue;
 
 				for(int j = 0 ; j < vars[nodeid].size() ; j++) {
 
@@ -227,7 +225,7 @@ namespace MTC {
 						sum += vars[nodeid][j];
 
 					} else assert(0);
-						
+
                     // stddev is always flat
                     sumsq += vars[nodeid][j]*vars[nodeid][j];
 				}
@@ -236,8 +234,8 @@ namespace MTC {
 			if(aggtyp == AGG_COUNT) return cnt;
 
 			if(aggtyp == AGG_AVE && cnt != 0) sum /= cnt;
-			
-            if(aggtyp == AGG_STDDEV && cnt != 0) { 
+
+            if(aggtyp == AGG_STDDEV && cnt != 0) {
               double mean = sum / cnt;
               return sqrt(sumsq / cnt - mean * mean);
             }
@@ -249,7 +247,7 @@ namespace MTC {
 		Accessibility::getAllModelResults(float radius, int numvars,
 		    int *varindexes, float *varcoeffs, float distcoeff, float asc,
 		    float denom, float nestdenom, float mu, int graphno) {
-						
+
 			std::vector<double> scores(numnodes);
 
 			#pragma omp parallel
@@ -269,7 +267,7 @@ namespace MTC {
 		    int *varindexes, float *varcoeffs, float distcoeff, float asc,
 		    float denom, float nestdenom, float mu, int gno) {
 
-			// I don't know if this is the best way to do this but I 
+			// I don't know if this is the best way to do this but I
 			// I don't want to copy memory in the precompute case - sometimes
 			// I need a reference and sometimes not
 			DistanceVec tmp;
@@ -281,17 +279,17 @@ namespace MTC {
 			}
 
 			if(distances.size() == 0) return -1;
-			
+
 			double sum = 0.0;
 
-			for (int i = 0 ; i < distances.size() ; i++) { 
+			for (int i = 0 ; i < distances.size() ; i++) {
 
 				int nodeid = distances[i].first;
 				double distance = distances[i].second;
                 double utility = 0.0;
-				
+
 				// this can now happen since we're precomputing
-				if(distance > radius) continue; 
+				if(distance > radius) continue;
 
                 utility += asc;
                 utility += distance * distcoeff;
@@ -311,5 +309,5 @@ namespace MTC {
 
 			return log(sum);
 		}
-	}	
+	}
 }
