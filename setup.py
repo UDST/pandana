@@ -78,7 +78,7 @@ elif os.environ.get('USEOPENMP') or not sys.platform.startswith('darwin'):
         '-lgomp'
     ]
 
-version = '0.2dev'
+version = '0.1.1'
 
 # read long description from README
 with open('README.rst', 'r') as f:
