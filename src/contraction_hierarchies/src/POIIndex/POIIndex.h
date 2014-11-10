@@ -24,10 +24,14 @@
 
 #if defined _WIN32 || defined NO_TR1_MEMORY
 #include <memory>
- using std::shared_ptr;
 #else
 #include <tr1/memory>
-#define shared_ptr tr1::shared_ptr
+#endif
+
+#ifdef NO_TR1_MEMORY
+ using std::shared_ptr;
+#else
+ #define shared_ptr tr1::shared_ptr
 #endif
 
 #include "../BasicDefinitions.h"
