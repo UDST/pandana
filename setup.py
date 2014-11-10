@@ -1,6 +1,7 @@
 import os
 import platform
 import sys
+import sysconfig
 
 from ez_setup import use_setuptools
 use_setuptools()
@@ -77,10 +78,17 @@ elif os.environ.get('USEOPENMP') or not sys.platform.startswith('darwin'):
         '-lgomp'
     ]
 
+# recent versions of the OS X SDK don't have the tr1 namespace
+# and we need to flag that during compilation.
+# here we need to check what version of OS X is being targeted
+# for the installation.
+# this is potentially different than the version of OS X on the system.
 if platform.system() == 'Darwin':
-    mac_ver = [int(x) for x in platform.mac_ver()[0].split('.')]
-    if mac_ver >= [10, 9]:
-        extra_compile_args += ['-D NO_TR1_MEMORY']
+    mac_ver = sysconfig.get_config_var('MACOSX_DEPLOYMENT_TARGET')
+    if mac_ver:
+        mac_ver = [int(x) for x in mac_ver.split('.')]
+        if mac_ver >= [10, 9]:
+            extra_compile_args += ['-D NO_TR1_MEMORY']
 
 version = '0.2dev'
 
