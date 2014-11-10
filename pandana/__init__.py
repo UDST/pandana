@@ -1,4 +1,4 @@
-__version__ = '0.2dev'
+__version__ = '0.1.2'
 version = __version__
 
 from network import Network
