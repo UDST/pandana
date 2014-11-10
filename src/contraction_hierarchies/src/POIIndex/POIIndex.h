@@ -22,12 +22,12 @@
 
 #include <vector>
 
-#ifdef _WIN32
+#if defined _WIN32 || defined NO_TR1_MEMORY
 #include <memory>
 #else
 #include <tr1/memory>
-#endif
 #define shared_ptr tr1::shared_ptr
+#endif
 
 #include "../BasicDefinitions.h"
 #include "../DataStructures/BinaryHeap.h"

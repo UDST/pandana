@@ -1,4 +1,5 @@
 import os
+import platform
 import sys
 
 from ez_setup import use_setuptools
@@ -58,8 +59,6 @@ source_files = [
 ]
 
 extra_compile_args = [
-    '-DMACOSX',
-    '-DLINUX',
     '-w',
     '-std=c++0x',
     '-O3',
@@ -77,6 +76,11 @@ elif os.environ.get('USEOPENMP') or not sys.platform.startswith('darwin'):
     extra_link_args = [
         '-lgomp'
     ]
+
+if platform.system() == 'Darwin':
+    mac_ver = [int(x) for x in platform.mac_ver()[0].split('.')]
+    if mac_ver >= [10, 9]:
+        extra_compile_args += ['-D NO_TR1_MEMORY']
 
 version = '0.2dev'
 
