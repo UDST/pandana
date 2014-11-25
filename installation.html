@@ -1,6 +1,5 @@
 
 
-
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
@@ -145,19 +144,23 @@ support.</p>
 <a class="reference external" href="https://binstar.org/synthicity">Synthicity&#8217;s binstar repository</a>.
 To add this as a default installation channel for conda run this code
 in a terminal:</p>
-<div class="highlight-python"><pre>conda config --add channels synthicity</pre>
+<div class="highlight-python"><div class="highlight"><pre>conda config --add channels synthicity
+</pre></div>
 </div>
 <p>Then you can install pandana:</p>
-<div class="highlight-python"><pre>conda install pandana</pre>
+<div class="highlight-python"><div class="highlight"><pre>conda install pandana
+</pre></div>
 </div>
 <p>To update pandana to a new release, run:</p>
-<div class="highlight-python"><pre>conda update pandana</pre>
+<div class="highlight-python"><div class="highlight"><pre>conda update pandana
+</pre></div>
 </div>
 </div>
 <div class="section" id="pip">
 <h3>pip<a class="headerlink" href="#pip" title="Permalink to this headline">¶</a></h3>
 <p>Pandana is available on PyPI and can be installed with:</p>
-<div class="highlight-python"><pre>pip install -U pandana</pre>
+<div class="highlight-python"><div class="highlight"><pre>pip install -U pandana
+</pre></div>
 </div>
 <p>On Windows and Mac this will install binary builds, assuming you are using
 a recent version of <a class="reference external" href="https://pip.pypa.io/en/latest/">pip</a>. On Linux it will perform a source install.</p>
@@ -186,9 +189,10 @@ The easiest way to get GCC is via <a class="reference external" href="http://bre
 <p>Then you must specify the GCC compilers for use during compilation
 via environment variables and tell the <tt class="docutils literal"><span class="pre">setup.py</span></tt> script explicitly
 to build with OpenMP:</p>
-<div class="highlight-python"><pre>export CC=gcc-4.9
+<div class="highlight-python"><div class="highlight"><pre>export CC=gcc-4.9
 export CXX=g++-4.9
-export USEOPENMP=1</pre>
+export USEOPENMP=1
+</pre></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -196,7 +200,8 @@ export USEOPENMP=1</pre>
 exact version of GCC installed.</p>
 </div>
 <p>To install the latest release from source using <a class="reference external" href="https://pip.pypa.io/en/latest/">pip</a>:</p>
-<div class="highlight-python"><pre>pip install -U --no-use-wheel pandana</pre>
+<div class="highlight-python"><div class="highlight"><pre>pip install -U --no-use-wheel pandana
+</pre></div>
 </div>
 <p>Our you can get the <a class="reference external" href="https://github.com/synthicity/pandana">development repository</a>
 and run <tt class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></tt>.</p>
@@ -246,7 +251,7 @@ on your platform - for instance <tt class="code docutils literal"><span class="p
 
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'',
+            URL_ROOT:'./',
             VERSION:'0.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
