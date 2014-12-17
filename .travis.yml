@@ -18,7 +18,7 @@ install:
 - >
   conda create -q -c synthicity -n test-environment
   python=$TRAVIS_PYTHON_VERSION
-  matplotlib numpy pandas pip pytables
+  matplotlib numpy pandas pip pytables requests
 - source activate test-environment
 - pip install brewer2mpl
 - pip install pytest-cov coveralls pep8
