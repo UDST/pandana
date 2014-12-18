@@ -155,3 +155,19 @@ def parse_osm_query(data):
         pd.DataFrame.from_records(nodes, index='id'),
         pd.DataFrame.from_records(ways, index='id'),
         pd.DataFrame.from_records(waynodes, index='way_id'))
+
+
+def ways_in_bbox(lat_min, lng_min, lat_max, lng_max):
+    """
+    Get DataFrames of OSM data in a bounding box.
+
+    Parameters
+    ----------
+    lat_min, lng_min, lat_max, lng_max : float
+
+    Returns
+    -------
+    nodes, ways, waynodes : pandas.DataFrame
+
+    """
+    return parse_osm_query(make_osm_query(lat_min, lng_min, lat_max, lng_max))

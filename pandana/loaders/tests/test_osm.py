@@ -1,3 +1,4 @@
+import pandas.util.testing as pdt
 import pytest
 
 from pandana.loaders import osm
@@ -5,6 +6,7 @@ from pandana.loaders import osm
 
 @pytest.fixture(scope='module')
 def bbox():
+    # Intersection of Telegraph and Haste in Berkeley
     return 37.8659303546, -122.2588003879, 37.8661598571, -122.2585062512
 
 
@@ -88,3 +90,12 @@ def test_parse_osm_query(query_data):
     assert len(nodes) == 22
     assert len(ways) == 2
     assert len(waynodes.index.unique()) == 2
+
+
+def test_ways_in_bbox(bbox, query_data):
+    nodes, ways, waynodes = osm.ways_in_bbox(*bbox)
+    exp_nodes, exp_ways, exp_waynodes = osm.parse_osm_query(query_data)
+
+    pdt.assert_frame_equal(nodes, exp_nodes)
+    pdt.assert_frame_equal(ways, exp_ways)
+    pdt.assert_frame_equal(waynodes, exp_waynodes)
