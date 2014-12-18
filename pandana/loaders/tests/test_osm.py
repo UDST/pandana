@@ -15,10 +15,10 @@ def query_data(bbox):
 
 def test_make_osm_query(query_data):
     assert isinstance(query_data, dict)
-    assert len(query_data['elements']) == 37
+    assert len(query_data['elements']) == 24
     assert len(
-        [e for e in query_data['elements'] if e['type'] == 'node']) == 33
-    assert len([e for e in query_data['elements'] if e['type'] == 'way']) == 4
+        [e for e in query_data['elements'] if e['type'] == 'node']) == 22
+    assert len([e for e in query_data['elements'] if e['type'] == 'way']) == 2
 
 
 def test_process_node():
@@ -85,6 +85,6 @@ def test_process_way():
 def test_parse_osm_query(query_data):
     nodes, ways, waynodes = osm.parse_osm_query(query_data)
 
-    assert len(nodes) == 33
-    assert len(ways) == 4
-    assert len(waynodes.index.unique()) == 4
+    assert len(nodes) == 22
+    assert len(ways) == 2
+    assert len(waynodes.index.unique()) == 2

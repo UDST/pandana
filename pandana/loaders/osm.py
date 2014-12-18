@@ -33,7 +33,9 @@ def osm_query(lat_min, lng_min, lat_max, lng_max):
     query_fmt = (
         '[out:json];'
         '('
-        '  way({lat_min},{lng_min},{lat_max},{lng_max});'
+        '  way'
+        '  ["highway"]'
+        '  ({lat_min},{lng_min},{lat_max},{lng_max});'
         '  >;'  # the '>' makes it recurse so we get ways and way nodes
         ');'
         'out;')
