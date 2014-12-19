@@ -15,6 +15,11 @@ def query_data(bbox):
     return osm.make_osm_query(*bbox)
 
 
+@pytest.fixture(scope='module')
+def dataframes(query_data):
+    return osm.parse_osm_query(query_data)
+
+
 def test_make_osm_query(query_data):
     assert isinstance(query_data, dict)
     assert len(query_data['elements']) == 24
@@ -84,18 +89,25 @@ def test_process_way():
     assert waynodes == expected_waynodes
 
 
-def test_parse_osm_query(query_data):
-    nodes, ways, waynodes = osm.parse_osm_query(query_data)
+def test_parse_osm_query(dataframes):
+    nodes, ways, waynodes = dataframes
 
     assert len(nodes) == 22
     assert len(ways) == 2
     assert len(waynodes.index.unique()) == 2
 
 
-def test_ways_in_bbox(bbox, query_data):
+def test_ways_in_bbox(bbox, dataframes):
     nodes, ways, waynodes = osm.ways_in_bbox(*bbox)
-    exp_nodes, exp_ways, exp_waynodes = osm.parse_osm_query(query_data)
+    exp_nodes, exp_ways, exp_waynodes = dataframes
 
     pdt.assert_frame_equal(nodes, exp_nodes)
     pdt.assert_frame_equal(ways, exp_ways)
     pdt.assert_frame_equal(waynodes, exp_waynodes)
+
+
+def test_intersection_nodes(dataframes):
+    _, _, waynodes = dataframes
+    intersections = osm.intersection_nodes(waynodes)
+
+    assert intersections == {53041093}
