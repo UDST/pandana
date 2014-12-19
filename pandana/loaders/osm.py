@@ -2,8 +2,12 @@
 Tools for creating Pandana networks from Open Street Map.
 
 """
+from itertools import islice, izip
+
 import pandas as pd
 import requests
+
+from ..utils import great_circle_dist as gcd
 
 uninteresting_tags = {
     'source',
@@ -190,3 +194,67 @@ def intersection_nodes(waynodes):
     """
     counts = waynodes.node_id.value_counts()
     return set(counts[counts > 1].index.values)
+
+
+def node_pairs(nodes, ways, waynodes, two_way=True):
+    """
+    Create a table of node pairs with the distances between them.
+
+    Parameters
+    ----------
+    nodes : pandas.DataFrame
+        Must have 'lat' and 'lon' columns.
+    ways : pandas.DataFrame
+        Table of way metadata.
+    waynodes : pandas.DataFrame
+        Table linking way IDs to node IDs. Way IDs should be in the index,
+        with a column called 'node_ids'.
+    two_way : bool, optional
+        Whether the routes are two-way. If True, node pairs will only
+        occur once.
+
+    Returns
+    -------
+    pairs : pandas.DataFrame
+        Will have columns of 'from_id', 'to_id', and 'distance'.
+        The index will be a MultiIndex of (from id, to id).
+        The distance metric is in meters.
+
+    """
+    pairwise = lambda l: izip(islice(l, 0, len(l)), islice(l, 1, None))
+    intersections = intersection_nodes(waynodes)
+    waymap = waynodes.groupby(level=0, sort=False)
+    pairs = []
+
+    for id, row in ways.iterrows():
+        nodes_in_way = waymap.get_group(id).node_id.values
+        nodes_in_way = filter(lambda x: x in intersections, nodes_in_way)
+
+        if len(nodes_in_way) < 2:
+            # no nodes to connect in this way
+            continue
+
+        for from_node, to_node in pairwise(nodes_in_way):
+            fn = nodes.loc[from_node]
+            tn = nodes.loc[to_node]
+
+            distance = gcd(fn.lat, fn.lon, tn.lat, tn.lon)
+
+            pairs.append({
+                'from_id': from_node,
+                'to_id': to_node,
+                'distance': distance
+            })
+
+            if not two_way:
+                pairs.append({
+                    'from_id': to_node,
+                    'to_id': from_node,
+                    'distance': distance
+                })
+
+    pairs = pd.DataFrame.from_records(pairs)
+    pairs.index = pd.MultiIndex.from_arrays(
+        [pairs.from_id.values, pairs.to_id.values])
+
+    return pairs
