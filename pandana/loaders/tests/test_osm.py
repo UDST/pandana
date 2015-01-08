@@ -20,6 +20,15 @@ def bbox2():
 
 
 @pytest.fixture(scope='module')
+def bbox3():
+    # West Berkeley including highway 80, frontage roads, and foot paths
+    # Sample query: http://overpass-turbo.eu/s/6VE
+    return (
+        37.85225504880375, -122.30295896530151,
+        37.85776128099243, - 122.2954273223877)
+
+
+@pytest.fixture(scope='module')
 def query_data1(bbox1):
     return osm.make_osm_query(*bbox1)
 
@@ -123,6 +132,17 @@ def test_ways_in_bbox(bbox1, dataframes1):
     pdt.assert_frame_equal(nodes, exp_nodes)
     pdt.assert_frame_equal(ways, exp_ways)
     pdt.assert_frame_equal(waynodes, exp_waynodes)
+
+
+@pytest.mark.parametrize(
+    'network, noset',
+    [('walk', {'motorway', 'motorway_link'}),
+     ('drive', {'footway', 'cycleway'})])
+def test_ways_in_bbox_walk_network(bbox3, network, noset):
+    nodes, ways, waynodes = osm.ways_in_bbox(*bbox3, network=network)
+
+    for _, way in ways.iterrows():
+        assert way['highway'] not in noset
 
 
 def test_intersection_nodes1(dataframes1):

@@ -21,13 +21,18 @@ uninteresting_tags = {
 }
 
 
-def osm_query(lat_min, lng_min, lat_max, lng_max):
+def osm_query(lat_min, lng_min, lat_max, lng_max, network='walk'):
     """
     Construct an OSM way query for a bounding box.
 
     Parameters
     ----------
     lat_min, lng_min, lat_max, lng_max : float
+    network : {'walk', 'drive'}
+        Specify whether the network will be used for walking or driving.
+        A value of 'walk' attempts to exclude things like freeways,
+        while a value of 'drive' attempts to exclude things like
+        bike and walking paths.
 
     Returns
     -------
@@ -39,21 +44,36 @@ def osm_query(lat_min, lng_min, lat_max, lng_max):
         '('
         '  way'
         '  ["highway"]'
+        '  {filters}'
         '  ({lat_min},{lng_min},{lat_max},{lng_max});'
         '  >;'  # the '>' makes it recurse so we get ways and way nodes
         ');'
         'out;')
+
+    if network == 'walk':
+        filters = '["highway"!~"motor"]'
+    elif network == 'drive':
+        filters = '["highway"!~"foot|cycle"]'
+    else:
+        raise ValueError('Invalid network argument')
+
     return query_fmt.format(
-        lat_min=lat_min, lng_min=lng_min, lat_max=lat_max, lng_max=lng_max)
+        lat_min=lat_min, lng_min=lng_min, lat_max=lat_max, lng_max=lng_max,
+        filters=filters)
 
 
-def make_osm_query(lat_min, lng_min, lat_max, lng_max):
+def make_osm_query(lat_min, lng_min, lat_max, lng_max, network='walk'):
     """
     Make a request to OSM and return the parsed JSON.
 
     Parameters
     ----------
     lat_min, lng_min, lat_max, lng_max : float
+    network : {'walk', 'drive'}
+        Specify whether the network will be used for walking or driving.
+        A value of 'walk' attempts to exclude things like freeways,
+        while a value of 'drive' attempts to exclude things like
+        bike and walking paths.
 
     Returns
     -------
@@ -61,7 +81,7 @@ def make_osm_query(lat_min, lng_min, lat_max, lng_max):
 
     """
     osm_url = 'http://www.overpass-api.de/api/interpreter'
-    query = osm_query(lat_min, lng_min, lat_max, lng_max)
+    query = osm_query(lat_min, lng_min, lat_max, lng_max, network=network)
 
     req = requests.get(osm_url, params={'data': query})
     req.raise_for_status()
@@ -161,20 +181,26 @@ def parse_osm_query(data):
         pd.DataFrame.from_records(waynodes, index='way_id'))
 
 
-def ways_in_bbox(lat_min, lng_min, lat_max, lng_max):
+def ways_in_bbox(lat_min, lng_min, lat_max, lng_max, network='walk'):
     """
     Get DataFrames of OSM data in a bounding box.
 
     Parameters
     ----------
     lat_min, lng_min, lat_max, lng_max : float
+    network : {'walk', 'drive'}
+        Specify whether the network will be used for walking or driving.
+        A value of 'walk' attempts to exclude things like freeways,
+        while a value of 'drive' attempts to exclude things like
+        bike and walking paths.
 
     Returns
     -------
     nodes, ways, waynodes : pandas.DataFrame
 
     """
-    return parse_osm_query(make_osm_query(lat_min, lng_min, lat_max, lng_max))
+    return parse_osm_query(make_osm_query(
+        lat_min, lng_min, lat_max, lng_max, network=network))
 
 
 def intersection_nodes(waynodes):
