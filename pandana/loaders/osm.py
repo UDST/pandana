@@ -22,14 +22,14 @@ uninteresting_tags = {
 }
 
 
-def osm_query(lat_min, lng_min, lat_max, lng_max, network='walk'):
+def osm_query(lat_min, lng_min, lat_max, lng_max, network_type='walk'):
     """
     Construct an OSM way query for a bounding box.
 
     Parameters
     ----------
     lat_min, lng_min, lat_max, lng_max : float
-    network : {'walk', 'drive'}, optional
+    network_type : {'walk', 'drive'}, optional
         Specify whether the network will be used for walking or driving.
         A value of 'walk' attempts to exclude things like freeways,
         while a value of 'drive' attempts to exclude things like
@@ -51,26 +51,26 @@ def osm_query(lat_min, lng_min, lat_max, lng_max, network='walk'):
         ');'
         'out;')
 
-    if network == 'walk':
+    if network_type == 'walk':
         filters = '["highway"!~"motor"]'
-    elif network == 'drive':
+    elif network_type == 'drive':
         filters = '["highway"!~"foot|cycle"]'
     else:
-        raise ValueError('Invalid network argument')
+        raise ValueError('Invalid network_type argument')
 
     return query_fmt.format(
         lat_min=lat_min, lng_min=lng_min, lat_max=lat_max, lng_max=lng_max,
         filters=filters)
 
 
-def make_osm_query(lat_min, lng_min, lat_max, lng_max, network='walk'):
+def make_osm_query(lat_min, lng_min, lat_max, lng_max, network_type='walk'):
     """
     Make a request to OSM and return the parsed JSON.
 
     Parameters
     ----------
     lat_min, lng_min, lat_max, lng_max : float
-    network : {'walk', 'drive'}, optional
+    network_type : {'walk', 'drive'}, optional
         Specify whether the network will be used for walking or driving.
         A value of 'walk' attempts to exclude things like freeways,
         while a value of 'drive' attempts to exclude things like
@@ -82,7 +82,8 @@ def make_osm_query(lat_min, lng_min, lat_max, lng_max, network='walk'):
 
     """
     osm_url = 'http://www.overpass-api.de/api/interpreter'
-    query = osm_query(lat_min, lng_min, lat_max, lng_max, network=network)
+    query = osm_query(
+        lat_min, lng_min, lat_max, lng_max, network_type=network_type)
 
     req = requests.get(osm_url, params={'data': query})
     req.raise_for_status()
@@ -182,14 +183,14 @@ def parse_osm_query(data):
         pd.DataFrame.from_records(waynodes, index='way_id'))
 
 
-def ways_in_bbox(lat_min, lng_min, lat_max, lng_max, network='walk'):
+def ways_in_bbox(lat_min, lng_min, lat_max, lng_max, network_type='walk'):
     """
     Get DataFrames of OSM data in a bounding box.
 
     Parameters
     ----------
     lat_min, lng_min, lat_max, lng_max : float
-    network : {'walk', 'drive'}, optional
+    network_type : {'walk', 'drive'}, optional
         Specify whether the network will be used for walking or driving.
         A value of 'walk' attempts to exclude things like freeways,
         while a value of 'drive' attempts to exclude things like
@@ -201,7 +202,7 @@ def ways_in_bbox(lat_min, lng_min, lat_max, lng_max, network='walk'):
 
     """
     return parse_osm_query(make_osm_query(
-        lat_min, lng_min, lat_max, lng_max, network=network))
+        lat_min, lng_min, lat_max, lng_max, network_type=network_type))
 
 
 def intersection_nodes(waynodes):
@@ -288,14 +289,14 @@ def node_pairs(nodes, ways, waynodes, two_way=True):
 
 
 def network_from_bbox(
-        lat_min, lng_min, lat_max, lng_max, network='walk', two_way=True):
+        lat_min, lng_min, lat_max, lng_max, network_type='walk', two_way=True):
     """
     Make a Pandana network from a bounding lat/lon box.
 
     Parameters
     ----------
     lat_min, lng_min, lat_max, lng_max : float
-    network : {'walk', 'drive'}, optional
+    network_type : {'walk', 'drive'}, optional
         Specify whether the network will be used for walking or driving.
         A value of 'walk' attempts to exclude things like freeways,
         while a value of 'drive' attempts to exclude things like
@@ -310,7 +311,7 @@ def network_from_bbox(
 
     """
     nodes, ways, waynodes = ways_in_bbox(
-        lat_min, lng_min, lat_max, lng_max, network)
+        lat_min, lng_min, lat_max, lng_max, network_type)
     pairs = node_pairs(nodes, ways, waynodes, two_way=two_way)
 
     # make the unique set of nodes that ended up in pairs

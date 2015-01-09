@@ -136,11 +136,11 @@ def test_ways_in_bbox(bbox1, dataframes1):
 
 
 @pytest.mark.parametrize(
-    'network, noset',
+    'network_type, noset',
     [('walk', {'motorway', 'motorway_link'}),
      ('drive', {'footway', 'cycleway'})])
-def test_ways_in_bbox_walk_network(bbox3, network, noset):
-    nodes, ways, waynodes = osm.ways_in_bbox(*bbox3, network=network)
+def test_ways_in_bbox_walk_network(bbox3, network_type, noset):
+    nodes, ways, waynodes = osm.ways_in_bbox(*bbox3, network_type=network_type)
 
     for _, way in ways.iterrows():
         assert way['highway'] not in noset
