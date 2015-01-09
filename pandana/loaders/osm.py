@@ -7,6 +7,7 @@ from itertools import islice, izip
 import pandas as pd
 import requests
 
+from .. import Network
 from ..utils import great_circle_dist as gcd
 
 uninteresting_tags = {
@@ -28,7 +29,7 @@ def osm_query(lat_min, lng_min, lat_max, lng_max, network='walk'):
     Parameters
     ----------
     lat_min, lng_min, lat_max, lng_max : float
-    network : {'walk', 'drive'}
+    network : {'walk', 'drive'}, optional
         Specify whether the network will be used for walking or driving.
         A value of 'walk' attempts to exclude things like freeways,
         while a value of 'drive' attempts to exclude things like
@@ -69,7 +70,7 @@ def make_osm_query(lat_min, lng_min, lat_max, lng_max, network='walk'):
     Parameters
     ----------
     lat_min, lng_min, lat_max, lng_max : float
-    network : {'walk', 'drive'}
+    network : {'walk', 'drive'}, optional
         Specify whether the network will be used for walking or driving.
         A value of 'walk' attempts to exclude things like freeways,
         while a value of 'drive' attempts to exclude things like
@@ -188,7 +189,7 @@ def ways_in_bbox(lat_min, lng_min, lat_max, lng_max, network='walk'):
     Parameters
     ----------
     lat_min, lng_min, lat_max, lng_max : float
-    network : {'walk', 'drive'}
+    network : {'walk', 'drive'}, optional
         Specify whether the network will be used for walking or driving.
         A value of 'walk' attempts to exclude things like freeways,
         while a value of 'drive' attempts to exclude things like
@@ -281,6 +282,42 @@ def node_pairs(nodes, ways, waynodes, two_way=True):
 
     pairs = pd.DataFrame.from_records(pairs)
     pairs.index = pd.MultiIndex.from_arrays(
-        [pairs.from_id.values, pairs.to_id.values])
+        [pairs['from_id'].values, pairs['to_id'].values])
 
     return pairs
+
+
+def network_from_bbox(
+        lat_min, lng_min, lat_max, lng_max, network='walk', two_way=True):
+    """
+    Make a Pandana network from a bounding lat/lon box.
+
+    Parameters
+    ----------
+    lat_min, lng_min, lat_max, lng_max : float
+    network : {'walk', 'drive'}, optional
+        Specify whether the network will be used for walking or driving.
+        A value of 'walk' attempts to exclude things like freeways,
+        while a value of 'drive' attempts to exclude things like
+        bike and walking paths.
+    two_way : bool, optional
+        Whether the routes are two-way. If True, node pairs will only
+        occur once.
+
+    Returns
+    -------
+    network : pandana.Network
+
+    """
+    nodes, ways, waynodes = ways_in_bbox(
+        lat_min, lng_min, lat_max, lng_max, network)
+    pairs = node_pairs(nodes, ways, waynodes, two_way=two_way)
+
+    # make the unique set of nodes that ended up in pairs
+    node_ids = sorted(
+        set(pairs['from_id'].unique()).union(set(pairs['to_id'].unique())))
+    nodes = nodes.loc[node_ids]
+
+    return Network(
+        nodes['lon'], nodes['lat'],
+        pairs['from_id'], pairs['to_id'], pairs[['distance']])

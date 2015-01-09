@@ -2,6 +2,7 @@ import numpy.testing as npt
 import pandas.util.testing as pdt
 import pytest
 
+import pandana
 from pandana.loaders import osm
 
 
@@ -190,3 +191,8 @@ def test_node_pairs_one_way(dataframes2):
         assert pair.from_id == p1
         assert pair.to_id == p2
         npt.assert_allclose(pair.distance, 101.20535797547758)
+
+
+def test_network_from_bbox(bbox2):
+    net = osm.network_from_bbox(*bbox2)
+    assert isinstance(net, pandana.Network)
