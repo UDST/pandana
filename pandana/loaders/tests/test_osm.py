@@ -1,3 +1,5 @@
+import os
+
 import numpy.testing as npt
 import pandas.util.testing as pdt
 import pytest
@@ -193,6 +195,8 @@ def test_node_pairs_one_way(dataframes2):
         npt.assert_allclose(pair.distance, 101.20535797547758)
 
 
+@pytest.mark.skipif(
+    os.environ.get('TRAVIS') == 'true', reason='skip on Travis-CI')
 def test_network_from_bbox(bbox2):
     net = osm.network_from_bbox(*bbox2)
     assert isinstance(net, pandana.Network)
