@@ -32,12 +32,12 @@ def bbox3():
 
 @pytest.fixture(scope='module')
 def query_data1(bbox1):
-    return osm.make_network_osm_query(*bbox1)
+    return osm.make_osm_query(osm.build_network_osm_query(*bbox1))
 
 
 @pytest.fixture(scope='module')
 def query_data2(bbox2):
-    return osm.make_network_osm_query(*bbox2)
+    return osm.make_osm_query(osm.build_network_osm_query(*bbox2))
 
 
 @pytest.fixture(scope='module')
@@ -50,7 +50,7 @@ def dataframes2(query_data2):
     return osm.parse_network_osm_query(query_data2)
 
 
-def test_make_network_osm_query(query_data1):
+def test_make_osm_query(query_data1):
     assert isinstance(query_data1, dict)
     assert len(query_data1['elements']) == 24
     assert len(
@@ -198,3 +198,54 @@ def test_node_pairs_one_way(dataframes2):
 def test_network_from_bbox(bbox2):
     net = osm.network_from_bbox(*bbox2)
     assert isinstance(net, pandana.Network)
+
+
+def test_build_node_query_no_tags(bbox1):
+    query = osm.build_node_query(*bbox1)
+
+    assert query == (
+        '[out:json];'
+        '('
+        '  node'
+        '  '
+        '  ({},{},{},{});'
+        ');'
+        'out;').format(*bbox1)
+
+
+def test_build_node_query_str_tag(bbox1):
+    tag = '"tag"'
+    query = osm.build_node_query(*bbox1, tags=tag)
+
+    assert query == (
+        '[out:json];'
+        '('
+        '  node'
+        '  ["tag"]'
+        '  ({},{},{},{});'
+        ');'
+        'out;').format(*bbox1)
+
+
+def test_build_node_query_tag_list(bbox1):
+    tags = ['"tag1"="tag1"', '"tag2"!~"tag2|tag2"']
+    query = osm.build_node_query(*bbox1, tags=tags)
+
+    assert query == (
+        '[out:json];'
+        '('
+        '  node'
+        '  ["tag1"="tag1"]["tag2"!~"tag2|tag2"]'
+        '  ({},{},{},{});'
+        ');'
+        'out;').format(*bbox1)
+
+
+def test_node_query(bbox2):
+    tags = '"amenity"="restaurant"'
+    cafes = osm.node_query(*bbox2, tags=tags)
+
+    assert len(cafes) == 4
+    assert 'lat' in cafes.columns
+    assert 'lon' in cafes.columns
+    assert cafes['name'][2965338413] == 'Koja Kitchen'

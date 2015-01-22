@@ -22,7 +22,8 @@ uninteresting_tags = {
 }
 
 
-def network_osm_query(lat_min, lng_min, lat_max, lng_max, network_type='walk'):
+def build_network_osm_query(
+        lat_min, lng_min, lat_max, lng_max, network_type='walk'):
     """
     Construct an OSM way query for a bounding box.
 
@@ -63,19 +64,14 @@ def network_osm_query(lat_min, lng_min, lat_max, lng_max, network_type='walk'):
         filters=filters)
 
 
-def make_network_osm_query(
-        lat_min, lng_min, lat_max, lng_max, network_type='walk'):
+def make_osm_query(query):
     """
     Make a request to OSM and return the parsed JSON.
 
     Parameters
     ----------
-    lat_min, lng_min, lat_max, lng_max : float
-    network_type : {'walk', 'drive'}, optional
-        Specify whether the network will be used for walking or driving.
-        A value of 'walk' attempts to exclude things like freeways,
-        while a value of 'drive' attempts to exclude things like
-        bike and walking paths.
+    query : str
+        A string in the Overpass QL format.
 
     Returns
     -------
@@ -83,9 +79,6 @@ def make_network_osm_query(
 
     """
     osm_url = 'http://www.overpass-api.de/api/interpreter'
-    query = network_osm_query(
-        lat_min, lng_min, lat_max, lng_max, network_type=network_type)
-
     req = requests.get(osm_url, params={'data': query})
     req.raise_for_status()
 
@@ -202,8 +195,8 @@ def ways_in_bbox(lat_min, lng_min, lat_max, lng_max, network_type='walk'):
     nodes, ways, waynodes : pandas.DataFrame
 
     """
-    return parse_network_osm_query(make_network_osm_query(
-        lat_min, lng_min, lat_max, lng_max, network_type=network_type))
+    return parse_network_osm_query(make_osm_query(build_network_osm_query(
+        lat_min, lng_min, lat_max, lng_max, network_type=network_type)))
 
 
 def intersection_nodes(waynodes):
@@ -323,3 +316,71 @@ def network_from_bbox(
     return Network(
         nodes['lon'], nodes['lat'],
         pairs['from_id'], pairs['to_id'], pairs[['distance']])
+
+
+def build_node_query(lat_min, lng_min, lat_max, lng_max, tags=None):
+    """
+    Build the string for a node-based OSM query.
+
+    Parameters
+    ----------
+    lat_min, lng_min, lat_max, lng_max : float
+    tags : str or list of str, optional
+        Node tags that will be used to filter the search.
+        See http://wiki.openstreetmap.org/wiki/Overpass_API/Language_Guide
+        for information about OSM Overpass queries
+        and http://wiki.openstreetmap.org/wiki/Map_Features
+        for a list of tags.
+
+    Returns
+    -------
+    query : str
+
+    """
+    if tags is not None:
+        if isinstance(tags, str):
+            tags = [tags]
+        tags = ''.join('[{}]'.format(t) for t in tags)
+    else:
+        tags = ''
+
+    query_fmt = (
+        '[out:json];'
+        '('
+        '  node'
+        '  {tags}'
+        '  ({lat_min},{lng_min},{lat_max},{lng_max});'
+        ');'
+        'out;')
+
+    return query_fmt.format(
+        lat_min=lat_min, lng_min=lng_min, lat_max=lat_max, lng_max=lng_max,
+        tags=tags)
+
+
+def node_query(lat_min, lng_min, lat_max, lng_max, tags=None):
+    """
+    Search for OSM nodes within a bounding box that match given tags.
+
+    Parameters
+    ----------
+    lat_min, lng_min, lat_max, lng_max : float
+    tags : str or list of str, optional
+        Node tags that will be used to filter the search.
+        See http://wiki.openstreetmap.org/wiki/Overpass_API/Language_Guide
+        for information about OSM Overpass queries
+        and http://wiki.openstreetmap.org/wiki/Map_Features
+        for a list of tags.
+
+    Returns
+    -------
+    nodes : pandas.DataFrame
+        Will have 'lat' and 'lon' columns, plus other columns for the
+        tags associated with the node (these will vary based on the query).
+        Index will be the OSM node IDs.
+
+    """
+    node_data = make_osm_query(build_node_query(
+        lat_min, lng_min, lat_max, lng_max, tags=tags))
+    nodes = [process_node(n) for n in node_data['elements']]
+    return pd.DataFrame.from_records(nodes, index='id')
