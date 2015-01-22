@@ -1,7 +1,5 @@
 import pandas as pd
 
-from ..network import Network
-
 
 def remove_nodes(network, rm_nodes):
     """
@@ -55,12 +53,14 @@ def network_to_pandas_hdf5(network, filename, rm_nodes=None):
         store['impedance_names'] = pd.Series(network.impedance_names)
 
 
-def network_from_pandas_hdf5(filename):
+def network_from_pandas_hdf5(cls, filename):
     """
     Build a Network from data in a Pandas HDFStore.
 
     Parameters
     ----------
+    cls : class
+        Class to instantiate, usually pandana.Network.
     filename : str
 
     Returns
@@ -74,6 +74,6 @@ def network_from_pandas_hdf5(filename):
         two_way = store['two_way'][0]
         imp_names = store['impedance_names'].tolist()
 
-    return Network(
+    return cls(
         nodes['x'], nodes['y'], edges['from'], edges['to'], edges[imp_names],
         twoway=two_way)

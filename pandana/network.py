@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 
 from . import _pyaccess
+from .loaders import pandash5 as ph5
 
 MAX_NUM_NETWORKS = 0
 NUM_NETWORKS = 0
@@ -124,6 +125,36 @@ class Network:
                                twoway)
 
         self._twoway = twoway
+
+    @classmethod
+    def from_hdf5(cls, filename):
+        """
+        Load a previously saved Network from a Pandas HDF5 file.
+
+        Parameters
+        ----------
+        filename : str
+
+        Returns
+        -------
+        network : pandana.Network
+
+        """
+        return ph5.network_from_pandas_hdf5(cls, filename)
+
+    def save_hdf5(self, filename, rm_nodes=None):
+        """
+        Save network data to a Pandas HDF5 file.
+
+        Parameters
+        ----------
+        filename : str
+        rm_nodes : array_like
+            A list, array, Index, or Series of node IDs that should *not*
+            be saved as part of the Network.
+
+        """
+        ph5.network_to_pandas_hdf5(self, filename, rm_nodes)
 
     def _node_indexes(self, node_ids):
         # for some reason, merge is must faster than .loc

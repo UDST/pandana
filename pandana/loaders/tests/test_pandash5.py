@@ -129,9 +129,23 @@ def test_network_to_pandas_hdf5_removal(
 def test_network_from_pandas_hdf5(
         tmpfile, network, nodes, edges_df, impedance_names, two_way):
     ph5.network_to_pandas_hdf5(network, tmpfile)
-    new_net = ph5.network_from_pandas_hdf5(tmpfile)
+    new_net = ph5.network_from_pandas_hdf5(Network, tmpfile)
 
     pdt.assert_frame_equal(new_net.nodes_df, nodes)
     pdt.assert_frame_equal(new_net.edges_df, edges_df)
+    assert new_net._twoway == two_way
+    assert new_net.impedance_names == impedance_names
+
+
+@skipiftravis
+def test_network_save_load_hdf5(
+        tmpfile, network, impedance_names, two_way, rm_nodes):
+    network.save_hdf5(tmpfile, rm_nodes)
+    new_net = Network.from_hdf5(tmpfile)
+
+    nodes, edges = ph5.remove_nodes(network, rm_nodes)
+
+    pdt.assert_frame_equal(new_net.nodes_df, nodes)
+    pdt.assert_frame_equal(new_net.edges_df, edges)
     assert new_net._twoway == two_way
     assert new_net.impedance_names == impedance_names
