@@ -149,3 +149,11 @@ def test_network_save_load_hdf5(
     pdt.assert_frame_equal(new_net.edges_df, edges)
     assert new_net._twoway == two_way
     assert new_net.impedance_names == impedance_names
+
+
+# this is an odd place for this test because it's not related to HDF5,
+# but my test Network is perfect.
+@skipiftravis
+def test_network_low_connectivity_nodes(network, impedance_names):
+    nodes = network.low_connectivity_nodes(10, 3, imp_name=impedance_names[0])
+    assert list(nodes) == [7, 11]

@@ -522,3 +522,37 @@ class Network:
         df = pd.DataFrame(a, index=self.node_ids)
         df.columns = range(1, num_pois+1)
         return df
+
+    def low_connectivity_nodes(self, impedance, count, imp_name=None):
+        """
+        Identify nodes that are connected to fewer than some threshold
+        of other nodes within a given distance.
+
+        Parameters
+        ----------
+        impedance : float
+            Distance within which to search for other connected nodes.
+        count : int
+            Threshold for connectivity. If a node is connected to fewer
+            than this many nodes within `impedance` it will be identified
+            as "low connectivity".
+        imp_name : string, optional
+            The impedance name to use for the aggregation on this network.
+            Must be one of the impedance names passed in the constructor of
+            this object.  If not specified, there must be only one impedance
+            passed in the constructor, which will be used.
+
+        Returns
+        -------
+        node_ids : array
+            List of "low connectivity" node IDs.
+
+        """
+        # set a counter variable on all nodes
+        self.set(self.node_ids.to_series(), name='counter')
+
+        # count nodes within impedance range
+        agg = self.aggregate(
+            impedance, type='count', imp_name=imp_name, name='counter')
+
+        return np.array(agg[agg < count].index)
