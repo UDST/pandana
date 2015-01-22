@@ -22,7 +22,7 @@ uninteresting_tags = {
 }
 
 
-def osm_query(lat_min, lng_min, lat_max, lng_max, network_type='walk'):
+def network_osm_query(lat_min, lng_min, lat_max, lng_max, network_type='walk'):
     """
     Construct an OSM way query for a bounding box.
 
@@ -63,7 +63,8 @@ def osm_query(lat_min, lng_min, lat_max, lng_max, network_type='walk'):
         filters=filters)
 
 
-def make_osm_query(lat_min, lng_min, lat_max, lng_max, network_type='walk'):
+def make_network_osm_query(
+        lat_min, lng_min, lat_max, lng_max, network_type='walk'):
     """
     Make a request to OSM and return the parsed JSON.
 
@@ -82,7 +83,7 @@ def make_osm_query(lat_min, lng_min, lat_max, lng_max, network_type='walk'):
 
     """
     osm_url = 'http://www.overpass-api.de/api/interpreter'
-    query = osm_query(
+    query = network_osm_query(
         lat_min, lng_min, lat_max, lng_max, network_type=network_type)
 
     req = requests.get(osm_url, params={'data': query})
@@ -151,7 +152,7 @@ def process_way(e):
     return way, waynodes
 
 
-def parse_osm_query(data):
+def parse_network_osm_query(data):
     """
     Convert OSM query data to DataFrames of ways and way-nodes.
 
@@ -201,7 +202,7 @@ def ways_in_bbox(lat_min, lng_min, lat_max, lng_max, network_type='walk'):
     nodes, ways, waynodes : pandas.DataFrame
 
     """
-    return parse_osm_query(make_osm_query(
+    return parse_network_osm_query(make_network_osm_query(
         lat_min, lng_min, lat_max, lng_max, network_type=network_type))
 
 

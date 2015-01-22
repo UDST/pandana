@@ -32,25 +32,25 @@ def bbox3():
 
 @pytest.fixture(scope='module')
 def query_data1(bbox1):
-    return osm.make_osm_query(*bbox1)
+    return osm.make_network_osm_query(*bbox1)
 
 
 @pytest.fixture(scope='module')
 def query_data2(bbox2):
-    return osm.make_osm_query(*bbox2)
+    return osm.make_network_osm_query(*bbox2)
 
 
 @pytest.fixture(scope='module')
 def dataframes1(query_data1):
-    return osm.parse_osm_query(query_data1)
+    return osm.parse_network_osm_query(query_data1)
 
 
 @pytest.fixture(scope='module')
 def dataframes2(query_data2):
-    return osm.parse_osm_query(query_data2)
+    return osm.parse_network_osm_query(query_data2)
 
 
-def test_make_osm_query(query_data1):
+def test_make_network_osm_query(query_data1):
     assert isinstance(query_data1, dict)
     assert len(query_data1['elements']) == 24
     assert len(
@@ -119,7 +119,7 @@ def test_process_way():
     assert waynodes == expected_waynodes
 
 
-def test_parse_osm_query(dataframes1):
+def test_parse_network_osm_query(dataframes1):
     nodes, ways, waynodes = dataframes1
 
     assert len(nodes) == 22
