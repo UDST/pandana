@@ -23,6 +23,7 @@ Contents
    introduction
    tutorial
    network
+   loaders
    futurework
 
 Indices and tables

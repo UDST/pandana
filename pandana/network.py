@@ -146,6 +146,9 @@ class Network:
         """
         Save network data to a Pandas HDF5 file.
 
+        Only the nodes and edges of the actual network are saved,
+        points-of-interest and data attached to nodes are not saved.
+
         Parameters
         ----------
         filename : str
