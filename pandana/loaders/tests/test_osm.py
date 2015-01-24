@@ -127,6 +127,13 @@ def test_parse_network_osm_query(dataframes1):
     assert len(waynodes.index.unique()) == 2
 
 
+def test_parse_network_osm_query_raises():
+    data = osm.make_osm_query(osm.build_network_osm_query(
+        37.8, -122.252, 37.8, -122.252))
+    with pytest.raises(RuntimeError):
+        osm.parse_network_osm_query(data)
+
+
 def test_ways_in_bbox(bbox1, dataframes1):
     nodes, ways, waynodes = osm.ways_in_bbox(*bbox1)
     exp_nodes, exp_ways, exp_waynodes = dataframes1
@@ -249,3 +256,8 @@ def test_node_query(bbox2):
     assert 'lat' in cafes.columns
     assert 'lon' in cafes.columns
     assert cafes['name'][2965338413] == 'Koja Kitchen'
+
+
+def test_node_query_raises():
+    with pytest.raises(RuntimeError):
+        osm.node_query(37.8, -122.282, 37.8, -122.252)

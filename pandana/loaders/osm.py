@@ -159,6 +159,9 @@ def parse_network_osm_query(data):
     nodes, ways, waynodes : pandas.DataFrame
 
     """
+    if len(data['elements']) == 0:
+        raise RuntimeError('OSM query results contain no data.')
+
     nodes = []
     ways = []
     waynodes = []
@@ -382,5 +385,9 @@ def node_query(lat_min, lng_min, lat_max, lng_max, tags=None):
     """
     node_data = make_osm_query(build_node_query(
         lat_min, lng_min, lat_max, lng_max, tags=tags))
+
+    if len(node_data['elements']) == 0:
+        raise RuntimeError('OSM query results contain no data.')
+
     nodes = [process_node(n) for n in node_data['elements']]
     return pd.DataFrame.from_records(nodes, index='id')
