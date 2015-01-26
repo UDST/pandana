@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 
 from . import _pyaccess
+from .loaders import pandash5 as ph5
 
 MAX_NUM_NETWORKS = 0
 NUM_NETWORKS = 0
@@ -122,6 +123,41 @@ class Network:
                                edges_df[edge_weights.columns].transpose()
                                    .as_matrix().astype('float32'),
                                twoway)
+
+        self._twoway = twoway
+
+    @classmethod
+    def from_hdf5(cls, filename):
+        """
+        Load a previously saved Network from a Pandas HDF5 file.
+
+        Parameters
+        ----------
+        filename : str
+
+        Returns
+        -------
+        network : pandana.Network
+
+        """
+        return ph5.network_from_pandas_hdf5(cls, filename)
+
+    def save_hdf5(self, filename, rm_nodes=None):
+        """
+        Save network data to a Pandas HDF5 file.
+
+        Only the nodes and edges of the actual network are saved,
+        points-of-interest and data attached to nodes are not saved.
+
+        Parameters
+        ----------
+        filename : str
+        rm_nodes : array_like
+            A list, array, Index, or Series of node IDs that should *not*
+            be saved as part of the Network.
+
+        """
+        ph5.network_to_pandas_hdf5(self, filename, rm_nodes)
 
     def _node_indexes(self, node_ids):
         # for some reason, merge is must faster than .loc
@@ -489,3 +525,37 @@ class Network:
         df = pd.DataFrame(a, index=self.node_ids)
         df.columns = range(1, num_pois+1)
         return df
+
+    def low_connectivity_nodes(self, impedance, count, imp_name=None):
+        """
+        Identify nodes that are connected to fewer than some threshold
+        of other nodes within a given distance.
+
+        Parameters
+        ----------
+        impedance : float
+            Distance within which to search for other connected nodes.
+        count : int
+            Threshold for connectivity. If a node is connected to fewer
+            than this many nodes within `impedance` it will be identified
+            as "low connectivity".
+        imp_name : string, optional
+            The impedance name to use for the aggregation on this network.
+            Must be one of the impedance names passed in the constructor of
+            this object.  If not specified, there must be only one impedance
+            passed in the constructor, which will be used.
+
+        Returns
+        -------
+        node_ids : array
+            List of "low connectivity" node IDs.
+
+        """
+        # set a counter variable on all nodes
+        self.set(self.node_ids.to_series(), name='counter')
+
+        # count nodes within impedance range
+        agg = self.aggregate(
+            impedance, type='count', imp_name=imp_name, name='counter')
+
+        return np.array(agg[agg < count].index)
