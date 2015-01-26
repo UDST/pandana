@@ -29,7 +29,7 @@
 
   
     <link rel="top" title="pandana 0.1 documentation" href="index.html"/>
-        <link rel="next" title="Planned Improvements" href="futurework.html"/>
+        <link rel="next" title="Loaders" href="loaders.html"/>
         <link rel="prev" title="Tutorial" href="tutorial.html"/> 
 
   
@@ -78,6 +78,13 @@
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Network API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loaders.html">Loaders</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="loaders.html#openstreetmap">OpenStreetMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loaders.html#pandas-hdf5">Pandas HDF5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loaders.html#openstreetmap-api">OpenStreetMap API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loaders.html#pandas-hdf5-api">Pandas HDF5 API</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="futurework.html">Planned Improvements</a></li>
 </ul>
 
@@ -225,6 +232,22 @@ node in the network.</p>
 <dd><p>The bounding box for nodes in this network [xmin, ymin, xmax, ymax]</p>
 </dd></dl>
 
+<dl class="classmethod">
+<dt id="pandana.network.Network.from_hdf5">
+<em class="property">classmethod </em><tt class="descname">from_hdf5</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#pandana.network.Network.from_hdf5" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a previously saved Network from a Pandas HDF5 file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> : str</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>network</strong> : pandana.Network</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="method">
 <dt id="pandana.network.Network.get_node_ids">
 <tt class="descname">get_node_ids</tt><big>(</big><em>x_col</em>, <em>y_col</em>, <em>mapping_distance=-1</em><big>)</big><a class="headerlink" href="#pandana.network.Network.get_node_ids" title="Permalink to this definition">¶</a></dt>
@@ -290,6 +313,44 @@ successfully mapped to node_ids.</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Nothing</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pandana.network.Network.low_connectivity_nodes">
+<tt class="descname">low_connectivity_nodes</tt><big>(</big><em>impedance</em>, <em>count</em>, <em>imp_name=None</em><big>)</big><a class="headerlink" href="#pandana.network.Network.low_connectivity_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identify nodes that are connected to fewer than some threshold
+of other nodes within a given distance.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>impedance</strong> : float</p>
+<blockquote>
+<div><p>Distance within which to search for other connected nodes.</p>
+</div></blockquote>
+<p><strong>count</strong> : int</p>
+<blockquote>
+<div><p>Threshold for connectivity. If a node is connected to fewer
+than this many nodes within <cite>impedance</cite> it will be identified
+as &#8220;low connectivity&#8221;.</p>
+</div></blockquote>
+<p><strong>imp_name</strong> : string, optional</p>
+<blockquote>
+<div><p>The impedance name to use for the aggregation on this network.
+Must be one of the impedance names passed in the constructor of
+this object.  If not specified, there must be only one impedance
+passed in the constructor, which will be used.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>node_ids</strong> : array</p>
+<blockquote class="last">
+<div><p>List of &#8220;low connectivity&#8221; node IDs.</p>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -377,6 +438,28 @@ results will be used.)</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Nothing</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pandana.network.Network.save_hdf5">
+<tt class="descname">save_hdf5</tt><big>(</big><em>filename</em>, <em>rm_nodes=None</em><big>)</big><a class="headerlink" href="#pandana.network.Network.save_hdf5" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save network data to a Pandas HDF5 file.</p>
+<p>Only the nodes and edges of the actual network are saved,
+points-of-interest and data attached to nodes are not saved.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename</strong> : str</p>
+<p><strong>rm_nodes</strong> : array_like</p>
+<blockquote class="last">
+<div><p>A list, array, Index, or Series of node IDs that should <em>not</em>
+be saved as part of the Network.</p>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -488,7 +571,7 @@ one Network object</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="futurework.html" class="btn btn-neutral float-right" title="Planned Improvements"/>Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="loaders.html" class="btn btn-neutral float-right" title="Loaders"/>Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="tutorial.html" class="btn btn-neutral" title="Tutorial"><span class="fa fa-arrow-circle-left"></span> Previous</a>
