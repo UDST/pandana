@@ -20,7 +20,6 @@ install:
   python=$TRAVIS_PYTHON_VERSION
   matplotlib numpy pandas pip pytables requests
 - source activate test-environment
-- pip install brewer2mpl
 - pip install pytest-cov coveralls pep8
 - python setup.py install
 script:

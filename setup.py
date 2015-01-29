@@ -115,7 +115,6 @@ setup(
         )
     ],
     install_requires=[
-        'brewer2mpl>=1.4',
         'matplotlib>=1.3.1',
         'numpy>=1.8.0',
         'pandas>=0.13.1',
