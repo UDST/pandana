@@ -1,8 +1,8 @@
-import time
+from __future__ import division, print_function
+
 import matplotlib
 # this might fix the travis build
 matplotlib.use('Agg')
-import brewer2mpl
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -90,8 +90,6 @@ class Network:
 
         if MAX_NUM_NETWORKS == 0:
             reserve_num_graphs(1)
-
-        # print NUM_NETWORKS, MAX_NUM_NETWORKS
 
         assert NUM_NETWORKS < MAX_NUM_NETWORKS, "Adding more networks than " \
                                                 "have been reserved"
@@ -222,26 +220,23 @@ class Network:
         df = pd.DataFrame({name: variable,
                            "node_idx": self._node_indexes(node_ids)})
 
-        t1 = time.time()
         l = len(df)
         df = df.dropna(how="any")
         newl = len(df)
         if l-newl > 0:
-            print "Removed %d rows because they contain missing values" % \
-                (l-newl)
-        # print "check nans in %.3f" % (time.time()-t1)
+            print(
+                "Removed %d rows because they contain missing values" %
+                (l-newl))
 
         if name not in self.variable_names:
             self.variable_names.append(name)
             _pyaccess.initialize_acc_vars(self.graph_no,
                                           len(self.variable_names))
 
-        t1 = time.time()
         _pyaccess.initialize_acc_var(self.graph_no,
                                      self.variable_names.index(name),
                                      df.node_idx.astype('int32'),
                                      df[name].astype('float32'))
-        # print "init column in %.3f" % (time.time()-t1)
 
     def precompute(self, distance):
         """
@@ -352,13 +347,13 @@ class Network:
         Returns
         -------
         node_ids : Pandas series (int)
-            Returns a Pandas Series of node_ids for each x, y in the input data.
-            The index is the same as the indexes of the x, y input data,
-            and the values are the mapped node_ids. If mapping distance is
-            not passed and if there are no nans in the x, y data, this will
-            be the same length as the x, y data.  If the mapping is
-            imperfect, this function returns all the input x, y's that were
-            successfully mapped to node_ids.
+            Returns a Pandas Series of node_ids for each x, y in the
+            input data. The index is the same as the indexes of the
+            x, y input data, and the values are the mapped node_ids.
+            If mapping distance is not passed and if there are no nans in the
+            x, y data, this will be the same length as the x, y data.
+            If the mapping is imperfect, this function returns all the
+            input x, y's that were successfully mapped to node_ids.
         """
         xys = pd.DataFrame({'x': x_col, 'y': y_col}).dropna(how='any')
 
@@ -381,32 +376,78 @@ class Network:
                              index=s.index)
         return node_ids
 
-    def plot(self, s, width=12, height=15, dpi=50,
-             scheme="sequential", color='YlGn', numbins=7,
-             bbox=None, log_scale=False):
+    def plot(
+            self, data, bbox=None, plot_type='scatter',
+            fig_kwargs=None, bmap_kwargs=None, plot_kwargs=None,
+            cbar_kwargs=None):
         """
-        Experimental method to write the network to a matplotlib image.
+        Plot an array of data on a map using matplotlib and Basemap,
+        automatically matching the data to node positions.
+
+        Keyword arguments are passed to the plotting routine.
+
+        Parameters
+        ----------
+        data : pandas.Series
+            Numeric data with the same length and index as the nodes
+            in the network.
+        bbox : tuple, optional
+            (lat_min, lng_min, lat_max, lng_max)
+        plot_type : {'hexbin', 'scatter'}, optional
+        fig_kwargs : dict, optional
+            Keyword arguments that will be passed to
+            matplotlib.pyplot.subplots. Use this to specify things like
+            figure size or background color.
+        bmap_kwargs : dict, optional
+            Keyword arguments that will be passed to the Basemap constructor.
+            This can be used to specify a projection or coastline resolution.
+        plot_kwargs : dict, optional
+            Keyword arguments that will be passed to the matplotlib plotting
+            command used. Use this to control plot styles and color maps used.
+        cbar_kwargs : dict, optional
+            Keyword arguments passed to the Basemap.colorbar method.
+            Use this to control color bar location and label.
+
+        Returns
+        -------
+        bmap : Basemap
+        fig : matplotlib.Figure
+        ax : matplotlib.Axes
+
         """
-        df = pd.DataFrame({'xcol': self.nodes_df.x.values,
-                           'ycol': self.nodes_df.y.values,
-                           'zcol': s.values})
+        from mpl_toolkits.basemap import Basemap
 
-        if bbox is not None:
-            df = df.query("xcol > %f and ycol > %f and xcol < %f and ycol < "
-                          "%f" % tuple(bbox))
+        fig_kwargs = fig_kwargs or {}
+        bmap_kwargs = bmap_kwargs or {}
+        plot_kwargs = plot_kwargs or {}
+        cbar_kwargs = cbar_kwargs or {}
 
-        fig = plt.figure(num=None, figsize=(width, height), dpi=dpi,
-                         facecolor='b', edgecolor='k')
-        ax = fig.add_subplot(111, axisbg='black')
+        if not bbox:
+            bbox = (
+                self.nodes_df.y.min(),
+                self.nodes_df.x.min(),
+                self.nodes_df.y.max(),
+                self.nodes_df.x.max())
 
-        mpl_cmap = brewer2mpl.get_map(color, scheme, numbins).mpl_colormap
-        norm = matplotlib.colors.SymLogNorm(.01) if log_scale else None
+        fig, ax = plt.subplots(**fig_kwargs)
 
-        ax.scatter(df.xcol, df.ycol, c=df.zcol,
-                   cmap=mpl_cmap,
-                   norm=norm,
-                   edgecolors='grey',
-                   linewidths=0.1)
+        bmap = Basemap(
+            bbox[1], bbox[0], bbox[3], bbox[2], ax=ax, **bmap_kwargs)
+        bmap.drawcoastlines()
+        bmap.drawmapboundary()
+
+        x, y = bmap(self.nodes_df.x.values, self.nodes_df.y.values)
+
+        if plot_type == 'scatter':
+            plot = bmap.scatter(
+                x, y, c=data.values, **plot_kwargs)
+        elif plot_type == 'hexbin':
+            plot = bmap.hexbin(
+                x, y, C=data.values, **plot_kwargs)
+
+        bmap.colorbar(plot, **cbar_kwargs)
+
+        return bmap, fig, ax
 
     def init_pois(self, num_categories, max_dist, max_pois):
         """
@@ -426,7 +467,7 @@ class Network:
         Nothing
         """
         if self.num_poi_categories != -1:
-            print "Can't initialize twice"
+            print("Can't initialize twice")
             return
 
         self.num_poi_categories = num_categories
@@ -496,8 +537,8 @@ class Network:
             the network.  Unlike aggregate, this method returns a dataframe
             with the number of columns equal to the distances to the Nth
             closest poi.  For instance, if you ask for the 10 closest poi to
-            each node, column d[1] wil be the distance to the 1st closest poi of
-            that category while column d[2] wil lbe the distance to the 2nd
+            each node, column d[1] wil be the distance to the 1st closest poi
+            of that category while column d[2] will be the distance to the 2nd
             closest poi, and so on.
         """
         if max_distance is None:
