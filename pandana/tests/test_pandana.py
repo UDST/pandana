@@ -23,11 +23,6 @@ def sample_osm(request):
     net = pdna.Network(nodes.x, nodes.y, edges["from"], edges.to,
                        edges[["weight"]])
 
-    # try again to test for crash
-    with pytest.raises(AssertionError):
-        net = pdna.Network(nodes.x, nodes.y, edges["from"], edges.to,
-                           edges[["weight"]])
-
     net.precompute(2000)
 
     def fin():
@@ -116,7 +111,7 @@ def test_named_variable(sample_osm):
     net.set(random_node_ids(sample_osm, ssize),
             variable=random_data(ssize), name="foo")
 
-    s = net.aggregate(500, type="sum", decay="linear", name="foo")
+    net.aggregate(500, type="sum", decay="linear", name="foo")
 
 
 def test_plot(sample_osm):
@@ -128,7 +123,7 @@ def test_plot(sample_osm):
 
     s = net.aggregate(500, type="sum", decay="linear")
 
-    sample_osm.plot(s, bbox=net.bbox)
+    sample_osm.plot(s)
 
 
 def test_pois(sample_osm):
@@ -142,19 +137,19 @@ def test_pois(sample_osm):
         net.set_pois("restaurants", x, y)
 
     with pytest.raises(AssertionError):
-        _ = net.nearest_pois(2000, "restaurants", num_pois=10)
+        net.nearest_pois(2000, "restaurants", num_pois=10)
 
     net.init_pois(num_categories=1, max_dist=2000, max_pois=10)
 
     with pytest.raises(AssertionError):
-        _ = net.nearest_pois(2000, "restaurants", num_pois=10)
+        net.nearest_pois(2000, "restaurants", num_pois=10)
 
     # boundary condition
     net.init_pois(num_categories=1, max_dist=2000, max_pois=10)
 
     net.set_pois("restaurants", x, y)
 
-    _ = net.nearest_pois(2000, "restaurants", num_pois=10)
+    net.nearest_pois(2000, "restaurants", num_pois=10)
 
     with pytest.raises(AssertionError):
-        _ = net.nearest_pois(2000, "restaurants", num_pois=11)
+        net.nearest_pois(2000, "restaurants", num_pois=11)
