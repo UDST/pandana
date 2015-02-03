@@ -276,13 +276,13 @@ every x, y coordinate will be mapped to the nearest node</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>node_ids</strong> : Pandas series (int)</p>
 <blockquote class="last">
-<div><p>Returns a Pandas Series of node_ids for each x, y in the input data.
-The index is the same as the indexes of the x, y input data,
-and the values are the mapped node_ids. If mapping distance is
-not passed and if there are no nans in the x, y data, this will
-be the same length as the x, y data.  If the mapping is
-imperfect, this function returns all the input x, y&#8217;s that were
-successfully mapped to node_ids.</p>
+<div><p>Returns a Pandas Series of node_ids for each x, y in the
+input data. The index is the same as the indexes of the
+x, y input data, and the values are the mapped node_ids.
+If mapping distance is not passed and if there are no nans in the
+x, y data, this will be the same length as the x, y data.
+If the mapping is imperfect, this function returns all the
+input x, y&#8217;s that were successfully mapped to node_ids.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -399,8 +399,8 @@ passed in the constructor, which will be used.</p>
 the network.  Unlike aggregate, this method returns a dataframe
 with the number of columns equal to the distances to the Nth
 closest poi.  For instance, if you ask for the 10 closest poi to
-each node, column d[1] wil be the distance to the 1st closest poi of
-that category while column d[2] wil lbe the distance to the 2nd
+each node, column d[1] wil be the distance to the 1st closest poi
+of that category while column d[2] will be the distance to the 2nd
 closest poi, and so on.</p>
 </div></blockquote>
 </td>
@@ -417,8 +417,54 @@ closest poi, and so on.</p>
 
 <dl class="method">
 <dt id="pandana.network.Network.plot">
-<tt class="descname">plot</tt><big>(</big><em>s</em>, <em>width=12</em>, <em>height=15</em>, <em>dpi=50</em>, <em>scheme='sequential'</em>, <em>color='YlGn'</em>, <em>numbins=7</em>, <em>bbox=None</em>, <em>log_scale=False</em><big>)</big><a class="headerlink" href="#pandana.network.Network.plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Experimental method to write the network to a matplotlib image.</p>
+<tt class="descname">plot</tt><big>(</big><em>data</em>, <em>bbox=None</em>, <em>plot_type='scatter'</em>, <em>fig_kwargs=None</em>, <em>bmap_kwargs=None</em>, <em>plot_kwargs=None</em>, <em>cbar_kwargs=None</em><big>)</big><a class="headerlink" href="#pandana.network.Network.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot an array of data on a map using matplotlib and Basemap,
+automatically matching the data to node positions.</p>
+<p>Keyword arguments are passed to the plotting routine.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : pandas.Series</p>
+<blockquote>
+<div><p>Numeric data with the same length and index as the nodes
+in the network.</p>
+</div></blockquote>
+<p><strong>bbox</strong> : tuple, optional</p>
+<blockquote>
+<div><p>(lat_min, lng_min, lat_max, lng_max)</p>
+</div></blockquote>
+<p><strong>plot_type</strong> : {&#8216;hexbin&#8217;, &#8216;scatter&#8217;}, optional</p>
+<p><strong>fig_kwargs</strong> : dict, optional</p>
+<blockquote>
+<div><p>Keyword arguments that will be passed to
+matplotlib.pyplot.subplots. Use this to specify things like
+figure size or background color.</p>
+</div></blockquote>
+<p><strong>bmap_kwargs</strong> : dict, optional</p>
+<blockquote>
+<div><p>Keyword arguments that will be passed to the Basemap constructor.
+This can be used to specify a projection or coastline resolution.</p>
+</div></blockquote>
+<p><strong>plot_kwargs</strong> : dict, optional</p>
+<blockquote>
+<div><p>Keyword arguments that will be passed to the matplotlib plotting
+command used. Use this to control plot styles and color maps used.</p>
+</div></blockquote>
+<p><strong>cbar_kwargs</strong> : dict, optional</p>
+<blockquote>
+<div><p>Keyword arguments passed to the Basemap.colorbar method.
+Use this to control color bar location and label.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>bmap</strong> : Basemap</p>
+<p><strong>fig</strong> : matplotlib.Figure</p>
+<p class="last"><strong>ax</strong> : matplotlib.Axes</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
