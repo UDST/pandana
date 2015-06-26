@@ -371,9 +371,8 @@ class Network:
 
         # this is not pandas finest moment - might have to revisit this at a
         # later date - need to convert from internal to external ids
-        node_ids = pd.Series(self.nodes_df.reset_index().
-                             iloc[s]["index"].values,
-                             index=s.index)
+        node_ids = pd.Series(
+            self.nodes_df.index[s].values, index=s.index)
         return node_ids
 
     def plot(
