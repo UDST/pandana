@@ -21,9 +21,10 @@ directly access OpenStreetMap and networks via shapefiles,
 but for now the initialization :py:meth:`pandana.network.Network.__init__`
 takes a small number of Pandas Series objects.
 
-The network is comprised of a set of nodes and edges.  We store our nodes and
-edges as two Pandas DataFrames in an HDFStore object.  We can access them as
-follows: ::
+The network is comprised of a set of nodes and edges.
+We store our nodes and edges as two Pandas DataFrames in an HDFStore object.
+We can access them as follows (the demo data file can be
+`downloaded here <https://s3-us-west-2.amazonaws.com/urbandatascience/pandana/osm_bayarea.h5>`__)::
 
 
     store = pd.HDFStore('data/osm_bayarea.h5', "r")
