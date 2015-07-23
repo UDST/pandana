@@ -1,6 +1,8 @@
 from __future__ import division, print_function
 
 import matplotlib
+# this might fix the travis build
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -8,8 +10,6 @@ import pandas as pd
 from . import _pyaccess
 from .loaders import pandash5 as ph5
 
-# this might fix the travis build
-matplotlib.use('Agg')
 
 MAX_NUM_NETWORKS = 0
 NUM_NETWORKS = 0
