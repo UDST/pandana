@@ -14,7 +14,7 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 
   
   
@@ -25,6 +25,8 @@
   
   
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
   
 
   
@@ -44,9 +46,12 @@
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-nav-search">
-        <a href="index.html" class="fa fa-home"> pandana</a>
-        <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="search.html" method="get">
+        
+          <a href="index.html" class="fa fa-home"> pandana</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -56,8 +61,9 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
         
-        
-            <ul class="current">
+          
+          
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#dependencies">Dependencies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#install-the-latest-release">Install the latest release</a></li>
@@ -88,6 +94,7 @@
 <li class="toctree-l1"><a class="reference internal" href="futurework.html">Planned Improvements</a></li>
 </ul>
 
+          
         
       </div>
       &nbsp;
@@ -118,7 +125,7 @@
   </ul>
   <hr/>
 </div>
-          <div role="main">
+          <div role="main" class="document">
             
   <div class="section" id="tutorial">
 <h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
@@ -139,9 +146,10 @@ we will leverage the import functionality of tools like <tt class="docutils lite
 directly access OpenStreetMap and networks via shapefiles,
 but for now the initialization <tt class="xref py py-meth docutils literal"><span class="pre">pandana.network.Network.__init__()</span></tt>
 takes a small number of Pandas Series objects.</p>
-<p>The network is comprised of a set of nodes and edges.  We store our nodes and
-edges as two Pandas DataFrames in an HDFStore object.  We can access them as
-follows:</p>
+<p>The network is comprised of a set of nodes and edges.
+We store our nodes and edges as two Pandas DataFrames in an HDFStore object.
+We can access them as follows (the demo data file can be
+<a class="reference external" href="https://s3-us-west-2.amazonaws.com/urbandatascience/pandana/osm_bayarea.h5">downloaded here</a>):</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">store</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">HDFStore</span><span class="p">(</span><span class="s">&#39;data/osm_bayarea.h5&#39;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span>
 <span class="n">nodes</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">nodes</span>
 <span class="n">edges</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">edges</span>
@@ -330,7 +338,7 @@ and sample code and images are included below.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="network.html" class="btn btn-neutral float-right" title="Network API"/>Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="network.html" class="btn btn-neutral float-right" title="Network API">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="introduction.html" class="btn btn-neutral" title="Getting Started"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -346,7 +354,8 @@ and sample code and images are included below.</p>
     </p>
   </div>
 
-  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 </footer>
         </div>
       </div>
