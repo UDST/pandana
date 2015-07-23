@@ -3,22 +3,17 @@ sudo: false
 python:
 - '2.7'
 install:
-- if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
-    wget http://repo.continuum.io/miniconda/Miniconda-3.7.0-Linux-x86_64.sh -O miniconda.sh;
-  else
-    wget http://repo.continuum.io/miniconda/Miniconda3-3.7.0-Linux-x86_64.sh -O miniconda.sh;
-  fi
+- if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then wget http://repo.continuum.io/miniconda/Miniconda-3.7.0-Linux-x86_64.sh
+  -O miniconda.sh; else wget http://repo.continuum.io/miniconda/Miniconda3-3.7.0-Linux-x86_64.sh
+  -O miniconda.sh; fi
 - bash miniconda.sh -b -p $HOME/miniconda
 - export PATH="$HOME/miniconda/bin:$PATH"
 - hash -r
 - conda config --set always_yes yes --set changeps1 no
 - conda update -q conda
-# Useful for debugging any issues with conda
 - conda info -a
-- >
-  conda create -q -c synthicity -n test-environment
-  python=$TRAVIS_PYTHON_VERSION
-  basemap matplotlib numpy pandas pip pytables requests
+- |
+  conda create -q -c synthicity -n test-environment python=$TRAVIS_PYTHON_VERSION basemap matplotlib numpy pandas pip pytables requests
 - source activate test-environment
 - pip install pytest-cov coveralls pep8
 - python setup.py install
@@ -30,7 +25,7 @@ after_success:
 - bin/build_docs.sh
 notifications:
   slack:
-    secure: SjnNmZ8Xaz5fc+G6iYvMh1Zxw7YhFFcEIeJtxbr34pALC7yG7HlRomshpto+OU6nYwX9tulva62h3GkBNTgfaaacRICYCu/AmGVQGnkGDw+PPr0xe3gW1TEWBetR0BMolAUNsAP03hK+28f7am3pr/hXx57i7fjpEx1mvX6FKkc=
+    secure: a6RjANmfIyE0s3iAz4LPy2wS0bOd+ijGlhh7CJf4bRwVnQPuihDTwzQiT92Uje1rHZVUTY0r5A7QzBcg7QcACs/b3hLQ6nYQ0kIm/beC5DfZUqlyHQAuRl6eK76cEg9Le7bX8OXrjWyfTs9jgH7Z2mRGutMieNXVYQG5wMlEKlU=
 env:
   global:
     secure: CMG0rjBgDBNy5FdfXawaaCCJm9ChzHk7e21ywVhIc1jbVS6lMn6bqwKJUnLaJAyjDhhZuxXTcHy+SALJgbzqLrH4GM5hOOL+8Rf4Jf9ESZzTBryvypRecVnUnk63SpJiq2Ki8maNrOcK1IBUAoFhFzptSgE4MDkxZ0LjsDAums8=
