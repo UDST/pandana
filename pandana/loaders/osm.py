@@ -246,7 +246,8 @@ def node_pairs(nodes, ways, waynodes, two_way=True):
         The distance metric is in meters.
 
     """
-    pairwise = lambda l: izip(islice(l, 0, len(l)), islice(l, 1, None))
+    def pairwise(l):
+        return izip(islice(l, 0, len(l)), islice(l, 1, None))
     intersections = intersection_nodes(waynodes)
     waymap = waynodes.groupby(level=0, sort=False)
     pairs = []
