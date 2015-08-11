@@ -13,7 +13,7 @@ Beyond simple access to destination queries, this library also implements more g
 we think network queries are a more accurate representation of how people
 interact with their environment.
 
-We look forward to creative uses of a general library like this - please let us know when you think you have a great use case with the hashtag ``#synthicity``.
+We look forward to creative uses of a general library like this - please let us know when you think you have a great use case with the hashtag ``#udst``.
 
 The General Workflow
 ~~~~~~~~~~~~~~~~~~~~

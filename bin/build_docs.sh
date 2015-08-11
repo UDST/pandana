@@ -2,7 +2,7 @@
 
 # Copied from github.com/sympy/sympy
 #
-# This file automatically deploys changes to http://synthicity.github.io/pandana/.
+# This file automatically deploys changes to http://udst.github.io/pandana/.
 # This will only happen when building a non-pull request build on the master
 # branch of Pandana.
 # It requires an access token which should be present in .travis.yml file.
@@ -28,7 +28,7 @@ set -e
 
 ACTUAL_TRAVIS_JOB_NUMBER=`echo $TRAVIS_JOB_NUMBER| cut -d'.' -f 2`
 
-if [ "$TRAVIS_REPO_SLUG" == "synthicity/pandana" ] && \
+if [ "$TRAVIS_REPO_SLUG" == "udst/pandana" ] && \
         [ "$TRAVIS_BRANCH" == "master" ] && \
         [ "$TRAVIS_PULL_REQUEST" == "false" ] && \
         [ "$ACTUAL_TRAVIS_JOB_NUMBER" == "1" ]; then
@@ -48,7 +48,7 @@ if [ "$TRAVIS_REPO_SLUG" == "synthicity/pandana" ] && \
         git config --global user.name "Matt Davis"
 
         echo "Cloning repository"
-        git clone --quiet --single-branch --branch=gh-pages https://${GH_TOKEN}@github.com/synthicity/pandana.git  gh-pages > /dev/null 2>&1
+        git clone --quiet --single-branch --branch=gh-pages https://${GH_TOKEN}@github.com/udst/pandana.git  gh-pages > /dev/null 2>&1
 
         cd gh-pages
         rm -rf *

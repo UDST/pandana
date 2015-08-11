@@ -99,12 +99,13 @@ with open('README.rst', 'r') as f:
 setup(
     packages=packages,
     name='pandana',
+    author='Autodesk',
     version=version,
     license='AGPL',
     description=('Pandas Network Analysis - '
                  'dataframes of network queries, quickly'),
     long_description=long_description,
-    url='http://synthicity.github.io/pandana/',
+    url='https://udst.github.io/pandana/',
     ext_modules=[
         Extension(
             'pandana._pyaccess',
