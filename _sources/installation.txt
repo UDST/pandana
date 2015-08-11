@@ -29,7 +29,7 @@ conda
 ~~~~~
 
 Pandana and some of its dependencies are hosted on
-`Synthicity's binstar repository <https://binstar.org/synthicity>`__.
+`Autodesks's Anaconda repository <https://anaconda.org/synthicity>`__.
 To add this as a default installation channel for conda run this code
 in a terminal::
 
@@ -56,7 +56,7 @@ a recent version of `pip`_. On Linux it will perform a source install.
 Development Installation
 ------------------------
 
-* Clone the `pandana repo <https://github.com/synthicity/pandana>`__
+* Clone the `pandana repo <https://github.com/udst/pandana>`__
 * Run ``python setup.py develop``
 
 (This is a C extension so requires C/C++ compilers, but should compile on
@@ -91,7 +91,7 @@ To install the latest release from source using `pip`_::
 
     pip install -U --no-use-wheel pandana
 
-Our you can get the `development repository <https://github.com/synthicity/pandana>`__
+Our you can get the `development repository <https://github.com/udst/pandana>`__
 and run ``python setup.py install``.
 
 After installation, executing :code:`examples/simple_example.py` will print out the
