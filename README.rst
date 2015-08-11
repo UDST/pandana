@@ -5,7 +5,7 @@ Pandana
    :alt: Build Status
    :target: https://travis-ci.org/UDST/pandana
 
-.. image:: https://img.shields.io/coveralls/UDST/pandana.svg
+.. image:: https://coveralls.io/repos/UDST/pandana/badge.svg?branch=master&service=github
    :alt: Coverage Status
    :target: https://coveralls.io/r/UDST/pandana
 
