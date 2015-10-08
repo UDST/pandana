@@ -18,8 +18,10 @@ namespace MTC {
 			AGG_SUM,
 			AGG_AVE,
 			AGG_MIN,
-			AGG_MAX,
+			AGG_25PERCENTILE,
 			AGG_MEDIAN,
+			AGG_75PERCENTILE,
+			AGG_MAX,
 			AGG_STDDEV,
 			AGG_COUNT,
 			AGG_MAXVAL
@@ -48,6 +50,9 @@ namespace MTC {
 			double aggregateAccessibilityVariable(int srcnode, float radius,
 		        accessibility_vars_t &vars, aggregation_types_t aggtyp,
 		        decay_func_t gravity_func, int graphno=0);
+
+			double quantileAccessibilityVariable(DistanceVec &distances,
+				accessibility_vars_t &vars, float quantile, float radius)
 
 			// computes the accessibility for every node in the network
 			std::vector<double>

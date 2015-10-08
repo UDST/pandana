@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "accessibility.h"
 
 namespace MTC {
@@ -172,6 +173,49 @@ namespace MTC {
 			}
         }
 
+        double
+		Accessibility::quantileAccessibilityVariable(DistanceVec &distances,
+													 accessibility_vars_t &vars,
+													 float quantile, float radius) {
+
+			// first iterate through nodes in order to get count of items
+			int cnt = 0;
+
+			for (int i = 0 ; i < distances.size() ; i++) {
+
+				int nodeid = distances[i].first;
+				double distance = distances[i].second;
+
+				if(distance > radius) continue;
+
+				cnt += vars[nodeid].size();
+			}
+
+			std::vector<float> vals(cnt);
+
+			// make a second pass to put items in a single array for sorting
+			for (int i = 0, cnt = 0 ; i < distances.size() ; i++) {
+
+				int nodeid = distances[i].first;
+				double distance = distances[i].second;
+
+				if(distance > radius) continue;
+
+				// and then iterate through all items at the node
+				for(int j = 0 ; j < vars[nodeid].size() ; j++)
+					vals[cnt++] = vars[nodeid][j];
+			}
+
+			std::sort(vals.begin(), vals.end());
+
+			int ind = (int)(vals.size() * quantile);
+
+			if(quantile <= 0.0) ind = 0;
+			if(quantile >= 1.0) ind = vals.size()-1;
+			
+			return vals[ind];
+		}
+
 		double
 		Accessibility::aggregateAccessibilityVariable(int srcnode, float radius,
 									accessibility_vars_t &vars,
@@ -194,6 +238,19 @@ namespace MTC {
 			}
 
 			if(distances.size() == 0) return -1;
+
+			if(aggtyp == AGG_MIN) {
+				return this->quantileAccessibilityVariable(distances, vars, 0.0, radius);
+			} else if (aggtyp == AGG_25PERCENTILE) {
+				return this->quantileAccessibilityVariable(distances, vars, 0.25, radius);
+			} else if (aggtyp == AGG_MEDIAN) {
+				return this->quantileAccessibilityVariable(distances, vars, 0.5, radius);
+			} else if (aggtyp == AGG_75PERCENTILE) {
+				return this->quantileAccessibilityVariable(distances, vars, 0.75, radius);
+			} else if (aggtyp == AGG_MAX) {
+				return this->quantileAccessibilityVariable(distances, vars, 1.0, radius);
+			}
+
 		    if(aggtyp == AGG_STDDEV) decay = DECAY_FLAT;
 
 			int cnt = 0;
