@@ -101,7 +101,7 @@ def test_agg_variables_accuracy(sample_osm):
     assert np.isclose(s.mean(), r.iloc[37], atol=1e-2)
 
     s = net.aggregate(100000, type="SUM").loc[connected_nodes]
-    assert s.describe()['std'] < .01  # assert almost equal
+    assert s.describe()['std'] < .05  # assert almost equal
     assert np.isclose(s.mean(), r.sum(), atol=1e-2)
 
     s = net.aggregate(100000, type="STD").loc[connected_nodes]
