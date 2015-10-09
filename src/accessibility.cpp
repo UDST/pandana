@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "accessibility.h"
 
 namespace MTC {
@@ -9,8 +10,7 @@ namespace MTC {
 		}
 
 		double Accessibility::compute_centrality(
-										int srcnode, DistanceVec &distances,
-									    int gno) {
+			int srcnode, DistanceVec &distances, int gno) {
 			if(distances.size() < 3) return 0.0;
 			int cnt = 0;
 			for(int i = 0 ; i < distances.size() ; i++) {
@@ -20,7 +20,7 @@ namespace MTC {
 
 					if(target <= source) continue;
 					std::vector<NodeID> path = ga[gno]->Route(
-											source,target,omp_get_thread_num());
+						source, target, omp_get_thread_num());
 
 					for(int i = 0 ; i < path.size() ; i++) {
 						if(path[i] == srcnode) cnt++;
@@ -74,9 +74,8 @@ namespace MTC {
 
 			assert(cat >= 0 && cat < POI_MAXVAL);
 
-			DistanceMap distances = ga[gno]->NearestPOI(cat,srcnode,maxradius,
-			                                            number,
-														omp_get_thread_num());
+			DistanceMap distances = ga[gno]->NearestPOI(cat, srcnode,
+				maxradius, number, omp_get_thread_num());
 			std::vector<float> ret;
 
 			accessibility_vars_t &vars = accessibilityVarsForPOIs[cat];
@@ -107,12 +106,12 @@ namespace MTC {
 			            std::vector<float> ( number ));
 			#pragma omp parallel for
 			for(int i = 0 ; i < numnodes ; i++) {
-				std::vector<float> d = findNearestPOIs(i, maxradius, number,
-				                                       cat, gno);
+				std::vector<float> d = findNearestPOIs(i, maxradius,
+					number, cat, gno);
 				for(int j = 0 ; j < number ; j++) {
-                    if(j < d.size()) dists[i][j] = d[j];
-                    else dists[i][j] = -1;
-                }
+                    			if(j < d.size()) dists[i][j] = d[j];
+                    			else dists[i][j] = -1;
+                		}
 			}
 			return dists;
 		}
@@ -128,7 +127,7 @@ namespace MTC {
 			{
 			#pragma omp for schedule(guided)
 			for(int i = 0 ; i < numnodes ; i++) {
-                for(int j = 0 ; j < ga.size() ; j++) {
+                		for(int j = 0 ; j < ga.size() ; j++) {
 				    ga[j]->Range(i,radius,omp_get_thread_num(),dms[j][i]);
 				}
 			}
@@ -172,6 +171,50 @@ namespace MTC {
 			}
         }
 
+        double
+		Accessibility::quantileAccessibilityVariable(DistanceVec &distances,
+			accessibility_vars_t &vars, float quantile, float radius) {
+
+			// first iterate through nodes in order to get count of items
+			int cnt = 0;
+
+			for (int i = 0 ; i < distances.size() ; i++) {
+
+				int nodeid = distances[i].first;
+				double distance = distances[i].second;
+
+				if(distance > radius) continue;
+
+				cnt += vars[nodeid].size();
+			}
+
+			if(cnt == 0) return -1;
+
+			std::vector<float> vals(cnt);
+
+			// make a second pass to put items in a single array for sorting
+			for (int i = 0, cnt = 0 ; i < distances.size() ; i++) {
+
+				int nodeid = distances[i].first;
+				double distance = distances[i].second;
+
+				if(distance > radius) continue;
+
+				// and then iterate through all items at the node
+				for(int j = 0 ; j < vars[nodeid].size() ; j++)
+					vals[cnt++] = vars[nodeid][j];
+			}
+
+			std::sort(vals.begin(), vals.end());
+
+			int ind = (int)(vals.size() * quantile);
+
+			if(quantile <= 0.0) ind = 0;
+			if(quantile >= 1.0) ind = vals.size()-1;
+			
+			return vals[ind];
+		}
+
 		double
 		Accessibility::aggregateAccessibilityVariable(int srcnode, float radius,
 									accessibility_vars_t &vars,
@@ -194,6 +237,19 @@ namespace MTC {
 			}
 
 			if(distances.size() == 0) return -1;
+
+			if(aggtyp == AGG_MIN) {
+				return this->quantileAccessibilityVariable(distances, vars, 0.0, radius);
+			} else if (aggtyp == AGG_25PERCENTILE) {
+				return this->quantileAccessibilityVariable(distances, vars, 0.25, radius);
+			} else if (aggtyp == AGG_MEDIAN) {
+				return this->quantileAccessibilityVariable(distances, vars, 0.5, radius);
+			} else if (aggtyp == AGG_75PERCENTILE) {
+				return this->quantileAccessibilityVariable(distances, vars, 0.75, radius);
+			} else if (aggtyp == AGG_MAX) {
+				return this->quantileAccessibilityVariable(distances, vars, 1.0, radius);
+			}
+
 		    if(aggtyp == AGG_STDDEV) decay = DECAY_FLAT;
 
 			int cnt = 0;

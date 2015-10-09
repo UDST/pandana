@@ -18,9 +18,15 @@ AGGREGATIONS = {
     "SUM": 0,
     "AVE": 1,
     "AVERAGE": 1,
-    "STD": 5,
-    "STDDEV": 5,
-    "COUNT": 6
+    "MIN": 2,
+    "25PCT": 3,
+    "MEDIAN": 4,
+    "MED": 4,
+    "75PCT": 5,
+    "MAX": 6,
+    "STD": 7,
+    "STDDEV": 7,
+    "COUNT": 8
 }
 
 DECAYS = {
@@ -282,7 +288,9 @@ class Network:
             The maximum distance to aggregate data within
         type : string
             The type of aggregation, can be one of "ave", "sum", "std",
-            and "count"
+            "count", and now "min", "25pct", "median", "75pct", and "max" will
+            compute the associated quantiles.  (Quantiles are computed by
+            sorting so might be slower than the others.)
         decay : string
             The type of decay to apply, which makes things that are further
             away count less in the aggregation - must be one of "linear",
