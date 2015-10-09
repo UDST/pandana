@@ -10,8 +10,7 @@ namespace MTC {
 		}
 
 		double Accessibility::compute_centrality(
-										int srcnode, DistanceVec &distances,
-									    int gno) {
+			int srcnode, DistanceVec &distances, int gno) {
 			if(distances.size() < 3) return 0.0;
 			int cnt = 0;
 			for(int i = 0 ; i < distances.size() ; i++) {
@@ -21,7 +20,7 @@ namespace MTC {
 
 					if(target <= source) continue;
 					std::vector<NodeID> path = ga[gno]->Route(
-											source,target,omp_get_thread_num());
+						source, target, omp_get_thread_num());
 
 					for(int i = 0 ; i < path.size() ; i++) {
 						if(path[i] == srcnode) cnt++;
@@ -75,9 +74,8 @@ namespace MTC {
 
 			assert(cat >= 0 && cat < POI_MAXVAL);
 
-			DistanceMap distances = ga[gno]->NearestPOI(cat,srcnode,maxradius,
-			                                            number,
-														omp_get_thread_num());
+			DistanceMap distances = ga[gno]->NearestPOI(cat, srcnode,
+				maxradius, number, omp_get_thread_num());
 			std::vector<float> ret;
 
 			accessibility_vars_t &vars = accessibilityVarsForPOIs[cat];
@@ -108,12 +106,12 @@ namespace MTC {
 			            std::vector<float> ( number ));
 			#pragma omp parallel for
 			for(int i = 0 ; i < numnodes ; i++) {
-				std::vector<float> d = findNearestPOIs(i, maxradius, number,
-				                                       cat, gno);
+				std::vector<float> d = findNearestPOIs(i, maxradius,
+					number, cat, gno);
 				for(int j = 0 ; j < number ; j++) {
-                    if(j < d.size()) dists[i][j] = d[j];
-                    else dists[i][j] = -1;
-                }
+                    			if(j < d.size()) dists[i][j] = d[j];
+                    			else dists[i][j] = -1;
+                		}
 			}
 			return dists;
 		}
@@ -129,7 +127,7 @@ namespace MTC {
 			{
 			#pragma omp for schedule(guided)
 			for(int i = 0 ; i < numnodes ; i++) {
-                for(int j = 0 ; j < ga.size() ; j++) {
+                		for(int j = 0 ; j < ga.size() ; j++) {
 				    ga[j]->Range(i,radius,omp_get_thread_num(),dms[j][i]);
 				}
 			}
@@ -175,8 +173,7 @@ namespace MTC {
 
         double
 		Accessibility::quantileAccessibilityVariable(DistanceVec &distances,
-													 accessibility_vars_t &vars,
-													 float quantile, float radius) {
+			accessibility_vars_t &vars, float quantile, float radius) {
 
 			// first iterate through nodes in order to get count of items
 			int cnt = 0;
