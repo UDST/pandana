@@ -52,7 +52,7 @@ namespace MTC {
 		        decay_func_t gravity_func, int graphno=0);
 
 			double quantileAccessibilityVariable(DistanceVec &distances,
-				accessibility_vars_t &vars, float quantile, float radius)
+				accessibility_vars_t &vars, float quantile, float radius);
 
 			// computes the accessibility for every node in the network
 			std::vector<double>

@@ -191,6 +191,8 @@ namespace MTC {
 				cnt += vars[nodeid].size();
 			}
 
+			if(cnt == 0) return -1;
+
 			std::vector<float> vals(cnt);
 
 			// make a second pass to put items in a single array for sorting

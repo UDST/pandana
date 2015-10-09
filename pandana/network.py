@@ -18,9 +18,15 @@ AGGREGATIONS = {
     "SUM": 0,
     "AVE": 1,
     "AVERAGE": 1,
-    "STD": 5,
-    "STDDEV": 5,
-    "COUNT": 6
+    "MIN": 2,
+    "25PCT": 3,
+    "MEDIAN": 4,
+    "MED": 4,
+    "75PCT": 5,
+    "MAX": 6,
+    "STD": 7,
+    "STDDEV": 7,
+    "COUNT": 8
 }
 
 DECAYS = {
