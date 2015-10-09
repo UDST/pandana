@@ -5,6 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Network API &mdash; pandana 0.1 documentation</title>
@@ -14,7 +15,6 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 
   
   
@@ -35,7 +35,7 @@
         <link rel="prev" title="Tutorial" href="tutorial.html"/> 
 
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+  <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
@@ -45,11 +45,27 @@
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-nav-search">
-        
-          <a href="index.html" class="fa fa-home"> pandana</a>
-        
-        
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pandana
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -57,47 +73,27 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-      </div>
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-        
           
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
-              <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#dependencies">Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#install-the-latest-release">Install the latest release</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#development-installation">Development Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#multithreaded-installation-on-mac">Multithreaded Installation on Mac</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="introduction.html#introduction">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="introduction.html#the-general-workflow">The General Workflow</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#create-the-network">Create the Network</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#assign-variables-and-perform-computations-for-nearest-queries">Assign variables and perform computations for nearest queries</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#assign-variables-and-perform-computations-for-aggregation-queries">Assign variables and perform computations for aggregation queries</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#display-the-results">Display the results</a></li>
-</ul>
-</li>
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Network API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="loaders.html">Loaders</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="loaders.html#openstreetmap">OpenStreetMap</a></li>
-<li class="toctree-l2"><a class="reference internal" href="loaders.html#pandas-hdf5">Pandas HDF5</a></li>
-<li class="toctree-l2"><a class="reference internal" href="loaders.html#openstreetmap-api">OpenStreetMap API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="loaders.html#pandas-hdf5-api">Pandas HDF5 API</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="loaders.html">Loaders</a></li>
 <li class="toctree-l1"><a class="reference internal" href="futurework.html">Planned Improvements</a></li>
 </ul>
 
+            
           
-        
+        </div>
       </div>
-      &nbsp;
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
@@ -112,26 +108,35 @@
       
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
     <li>Network API</li>
       <li class="wy-breadcrumbs-aside">
         
-          <a href="_sources/network.txt" rel="nofollow"> View page source</a>
+          
+            <a href="_sources/network.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
   </ul>
   <hr/>
 </div>
-          <div role="main" class="document">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="module-pandana.network">
 <span id="network-api"></span><h1>Network API<a class="headerlink" href="#module-pandana.network" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="pandana.network.Network">
-<em class="property">class </em><tt class="descclassname">pandana.network.</tt><tt class="descname">Network</tt><big>(</big><em>node_x</em>, <em>node_y</em>, <em>edge_from</em>, <em>edge_to</em>, <em>edge_weights</em>, <em>twoway=True</em><big>)</big><a class="headerlink" href="#pandana.network.Network" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pandana.network.</code><code class="descname">Network</code><span class="sig-paren">(</span><em>node_x</em>, <em>node_y</em>, <em>edge_from</em>, <em>edge_to</em>, <em>edge_weights</em>, <em>twoway=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create the transportation network in the city.  Typical data would be
 distance based from OpenStreetMap or possibly using transit data from
 GTFS.</p>
@@ -177,7 +182,7 @@ node)</p>
 </table>
 <dl class="method">
 <dt id="pandana.network.Network.aggregate">
-<tt class="descname">aggregate</tt><big>(</big><em>distance</em>, <em>type='sum'</em>, <em>decay='linear'</em>, <em>imp_name=None</em>, <em>name='tmp'</em><big>)</big><a class="headerlink" href="#pandana.network.Network.aggregate" title="Permalink to this definition">¶</a></dt>
+<code class="descname">aggregate</code><span class="sig-paren">(</span><em>distance</em>, <em>type='sum'</em>, <em>decay='linear'</em>, <em>imp_name=None</em>, <em>name='tmp'</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.aggregate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Aggregate information for every source node in the network - this is
 really the main purpose of this library.  This allows you to touch
 the data specified by calling set and perform some aggregation on it
@@ -194,7 +199,9 @@ within 1000 meters.</p>
 <p><strong>type</strong> : string</p>
 <blockquote>
 <div><p>The type of aggregation, can be one of &#8220;ave&#8221;, &#8220;sum&#8221;, &#8220;std&#8221;,
-and &#8220;count&#8221;</p>
+&#8220;count&#8221;, and now &#8220;min&#8221;, &#8220;25pct&#8221;, &#8220;median&#8221;, &#8220;75pct&#8221;, and &#8220;max&#8221; will
+compute the associated quantiles.  (Quantiles are computed by
+sorting so might be slower than the others.)</p>
 </div></blockquote>
 <p><strong>decay</strong> : string</p>
 <blockquote>
@@ -235,13 +242,13 @@ node in the network.</p>
 
 <dl class="attribute">
 <dt id="pandana.network.Network.bbox">
-<tt class="descname">bbox</tt><a class="headerlink" href="#pandana.network.Network.bbox" title="Permalink to this definition">¶</a></dt>
+<code class="descname">bbox</code><a class="headerlink" href="#pandana.network.Network.bbox" title="Permalink to this definition">¶</a></dt>
 <dd><p>The bounding box for nodes in this network [xmin, ymin, xmax, ymax]</p>
 </dd></dl>
 
 <dl class="classmethod">
 <dt id="pandana.network.Network.from_hdf5">
-<em class="property">classmethod </em><tt class="descname">from_hdf5</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#pandana.network.Network.from_hdf5" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">from_hdf5</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.from_hdf5" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load a previously saved Network from a Pandas HDF5 file.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -257,7 +264,7 @@ node in the network.</p>
 
 <dl class="method">
 <dt id="pandana.network.Network.get_node_ids">
-<tt class="descname">get_node_ids</tt><big>(</big><em>x_col</em>, <em>y_col</em>, <em>mapping_distance=-1</em><big>)</big><a class="headerlink" href="#pandana.network.Network.get_node_ids" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_node_ids</code><span class="sig-paren">(</span><em>x_col</em>, <em>y_col</em>, <em>mapping_distance=-1</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.get_node_ids" title="Permalink to this definition">¶</a></dt>
 <dd><p>Assign node_ids to data specified by x_col and y_col</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -299,7 +306,7 @@ input x, y&#8217;s that were successfully mapped to node_ids.</p>
 
 <dl class="method">
 <dt id="pandana.network.Network.init_pois">
-<tt class="descname">init_pois</tt><big>(</big><em>num_categories</em>, <em>max_dist</em>, <em>max_pois</em><big>)</big><a class="headerlink" href="#pandana.network.Network.init_pois" title="Permalink to this definition">¶</a></dt>
+<code class="descname">init_pois</code><span class="sig-paren">(</span><em>num_categories</em>, <em>max_dist</em>, <em>max_pois</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.init_pois" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize the point of interest infrastructure.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -328,7 +335,7 @@ input x, y&#8217;s that were successfully mapped to node_ids.</p>
 
 <dl class="method">
 <dt id="pandana.network.Network.low_connectivity_nodes">
-<tt class="descname">low_connectivity_nodes</tt><big>(</big><em>impedance</em>, <em>count</em>, <em>imp_name=None</em><big>)</big><a class="headerlink" href="#pandana.network.Network.low_connectivity_nodes" title="Permalink to this definition">¶</a></dt>
+<code class="descname">low_connectivity_nodes</code><span class="sig-paren">(</span><em>impedance</em>, <em>count</em>, <em>imp_name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.low_connectivity_nodes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Identify nodes that are connected to fewer than some threshold
 of other nodes within a given distance.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -366,7 +373,7 @@ passed in the constructor, which will be used.</p>
 
 <dl class="method">
 <dt id="pandana.network.Network.nearest_pois">
-<tt class="descname">nearest_pois</tt><big>(</big><em>distance</em>, <em>category</em>, <em>num_pois=1</em>, <em>max_distance=None</em>, <em>imp_name=None</em><big>)</big><a class="headerlink" href="#pandana.network.Network.nearest_pois" title="Permalink to this definition">¶</a></dt>
+<code class="descname">nearest_pois</code><span class="sig-paren">(</span><em>distance</em>, <em>category</em>, <em>num_pois=1</em>, <em>max_distance=None</em>, <em>imp_name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.nearest_pois" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find the distance to the nearest pois from each source node.  The
 bigger values in this case mean less accessibility.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -418,13 +425,13 @@ closest poi, and so on.</p>
 
 <dl class="attribute">
 <dt id="pandana.network.Network.node_ids">
-<tt class="descname">node_ids</tt><a class="headerlink" href="#pandana.network.Network.node_ids" title="Permalink to this definition">¶</a></dt>
+<code class="descname">node_ids</code><a class="headerlink" href="#pandana.network.Network.node_ids" title="Permalink to this definition">¶</a></dt>
 <dd><p>The node ids which will be used as the index of many return series</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pandana.network.Network.plot">
-<tt class="descname">plot</tt><big>(</big><em>data</em>, <em>bbox=None</em>, <em>plot_type='scatter'</em>, <em>fig_kwargs=None</em>, <em>bmap_kwargs=None</em>, <em>plot_kwargs=None</em>, <em>cbar_kwargs=None</em><big>)</big><a class="headerlink" href="#pandana.network.Network.plot" title="Permalink to this definition">¶</a></dt>
+<code class="descname">plot</code><span class="sig-paren">(</span><em>data</em>, <em>bbox=None</em>, <em>plot_type='scatter'</em>, <em>fig_kwargs=None</em>, <em>bmap_kwargs=None</em>, <em>plot_kwargs=None</em>, <em>cbar_kwargs=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot an array of data on a map using matplotlib and Basemap,
 automatically matching the data to node positions.</p>
 <p>Keyword arguments are passed to the plotting routine.</p>
@@ -476,7 +483,7 @@ Use this to control color bar location and label.</p>
 
 <dl class="method">
 <dt id="pandana.network.Network.precompute">
-<tt class="descname">precompute</tt><big>(</big><em>distance</em><big>)</big><a class="headerlink" href="#pandana.network.Network.precompute" title="Permalink to this definition">¶</a></dt>
+<code class="descname">precompute</code><span class="sig-paren">(</span><em>distance</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.precompute" title="Permalink to this definition">¶</a></dt>
 <dd><p>Precomputes the range queries (the reachable nodes within this
 maximum distance.  So as long as you use a smaller distance, cached
 results will be used.)</p>
@@ -499,7 +506,7 @@ results will be used.)</p>
 
 <dl class="method">
 <dt id="pandana.network.Network.save_hdf5">
-<tt class="descname">save_hdf5</tt><big>(</big><em>filename</em>, <em>rm_nodes=None</em><big>)</big><a class="headerlink" href="#pandana.network.Network.save_hdf5" title="Permalink to this definition">¶</a></dt>
+<code class="descname">save_hdf5</code><span class="sig-paren">(</span><em>filename</em>, <em>rm_nodes=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.save_hdf5" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save network data to a Pandas HDF5 file.</p>
 <p>Only the nodes and edges of the actual network are saved,
 points-of-interest and data attached to nodes are not saved.</p>
@@ -521,7 +528,7 @@ be saved as part of the Network.</p>
 
 <dl class="method">
 <dt id="pandana.network.Network.set">
-<tt class="descname">set</tt><big>(</big><em>node_ids</em>, <em>variable=None</em>, <em>name='tmp'</em><big>)</big><a class="headerlink" href="#pandana.network.Network.set" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set</code><span class="sig-paren">(</span><em>node_ids</em>, <em>variable=None</em>, <em>name='tmp'</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.set" title="Permalink to this definition">¶</a></dt>
 <dd><p>Characterize urban space with a variable that is related to nodes in
 the network.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -565,7 +572,7 @@ setting names.</p>
 
 <dl class="method">
 <dt id="pandana.network.Network.set_pois">
-<tt class="descname">set_pois</tt><big>(</big><em>category</em>, <em>x_col</em>, <em>y_col</em><big>)</big><a class="headerlink" href="#pandana.network.Network.set_pois" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_pois</code><span class="sig-paren">(</span><em>category</em>, <em>x_col</em>, <em>y_col</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.set_pois" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the location of all the pois of this category</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -596,7 +603,7 @@ setting names.</p>
 
 <dl class="function">
 <dt id="pandana.network.reserve_num_graphs">
-<tt class="descclassname">pandana.network.</tt><tt class="descname">reserve_num_graphs</tt><big>(</big><em>num</em><big>)</big><a class="headerlink" href="#pandana.network.reserve_num_graphs" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pandana.network.</code><code class="descname">reserve_num_graphs</code><span class="sig-paren">(</span><em>num</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.reserve_num_graphs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a call to this function if you want to run queries on more than
 one Network object</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -619,15 +626,16 @@ one Network object</p>
 </div>
 
 
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="loaders.html" class="btn btn-neutral float-right" title="Loaders">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="loaders.html" class="btn btn-neutral float-right" title="Loaders" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="tutorial.html" class="btn btn-neutral" title="Tutorial"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="tutorial.html" class="btn btn-neutral" title="Tutorial" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -637,12 +645,13 @@ one Network object</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, Autodesk.
+
     </p>
   </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-  
 </footer>
+
         </div>
       </div>
 
@@ -666,7 +675,7 @@ one Network object</p>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

@@ -5,6 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Getting Started &mdash; pandana 0.1 documentation</title>
@@ -14,7 +15,6 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 
   
   
@@ -35,7 +35,7 @@
         <link rel="prev" title="Installation" href="installation.html"/> 
 
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+  <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
@@ -45,11 +45,27 @@
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-nav-search">
-        
-          <a href="index.html" class="fa fa-home"> pandana</a>
-        
-        
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pandana
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -57,47 +73,31 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-      </div>
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-        
           
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
-              <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#dependencies">Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#install-the-latest-release">Install the latest release</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#development-installation">Development Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#multithreaded-installation-on-mac">Multithreaded Installation on Mac</a></li>
-</ul>
-</li>
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-general-workflow">The General Workflow</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#create-the-network">Create the Network</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#assign-variables-and-perform-computations-for-nearest-queries">Assign variables and perform computations for nearest queries</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#assign-variables-and-perform-computations-for-aggregation-queries">Assign variables and perform computations for aggregation queries</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#display-the-results">Display the results</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="network.html">Network API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="loaders.html">Loaders</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="loaders.html#openstreetmap">OpenStreetMap</a></li>
-<li class="toctree-l2"><a class="reference internal" href="loaders.html#pandas-hdf5">Pandas HDF5</a></li>
-<li class="toctree-l2"><a class="reference internal" href="loaders.html#openstreetmap-api">OpenStreetMap API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="loaders.html#pandas-hdf5-api">Pandas HDF5 API</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="loaders.html">Loaders</a></li>
 <li class="toctree-l1"><a class="reference internal" href="futurework.html">Planned Improvements</a></li>
 </ul>
 
+            
           
-        
+        </div>
       </div>
-      &nbsp;
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
@@ -112,20 +112,29 @@
       
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
     <li>Getting Started</li>
       <li class="wy-breadcrumbs-aside">
         
-          <a href="_sources/introduction.txt" rel="nofollow"> View page source</a>
+          
+            <a href="_sources/introduction.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
   </ul>
   <hr/>
 </div>
-          <div role="main" class="document">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="getting-started">
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
@@ -137,7 +146,7 @@ distance to the 2nd nearest restaurant (rendered by matplotlib). With only a few
 <p>Beyond simple access to destination queries, this library also implements more general aggregations along the street network (or any network). For a given region, this produces hundreds of thousands of overlapping buffer queries (still performed in less than a second) that can be used to characterize the local neighborhood around each street intersection. The result can then be mapped, or assigned to parcel and building records, or used in statistical models as we commonly do with UrbanSim. This is in stark contrast to the arbitrary non-overlapping geographies ubiquitous in GIS. Although there are advantages to the GIS approach,
 we think network queries are a more accurate representation of how people
 interact with their environment.</p>
-<p>We look forward to creative uses of a general library like this - please let us know when you think you have a great use case with the hashtag <tt class="docutils literal"><span class="pre">#udst</span></tt>.</p>
+<p>We look forward to creative uses of a general library like this - please let us know when you think you have a great use case with the hashtag <code class="docutils literal"><span class="pre">#udst</span></code>.</p>
 </div>
 <div class="section" id="the-general-workflow">
 <h2>The General Workflow<a class="headerlink" href="#the-general-workflow" title="Permalink to this headline">¶</a></h2>
@@ -201,7 +210,7 @@ aggregation, but is easily performed with a very similar workflow.</p>
 that has the x, y location of nodes and a z value or many z values which is
 the result of computations in the above workflow.  This data is of the form
 x, y, z and can be displayed with many visualization techniques,
-and a <tt class="docutils literal"><span class="pre">plot</span></tt> method is available for the network to display directly in
+and a <code class="docutils literal"><span class="pre">plot</span></code> method is available for the network to display directly in
 matplotlib.</p>
 <p>The framework can thus be used to map urban outcomes - e.g. access to health
 care, or urban predictive variables - e.g. average income in the local area,
@@ -216,15 +225,16 @@ flexible and easy to use engine will serve many use cases.</p>
 </div>
 
 
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="tutorial.html" class="btn btn-neutral float-right" title="Tutorial">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="tutorial.html" class="btn btn-neutral float-right" title="Tutorial" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="installation.html" class="btn btn-neutral" title="Installation"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="installation.html" class="btn btn-neutral" title="Installation" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -234,12 +244,13 @@ flexible and easy to use engine will serve many use cases.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, Autodesk.
+
     </p>
   </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-  
 </footer>
+
         </div>
       </div>
 
@@ -263,7 +274,7 @@ flexible and easy to use engine will serve many use cases.</p>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

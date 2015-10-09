@@ -5,6 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Loaders &mdash; pandana 0.1 documentation</title>
@@ -14,7 +15,6 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 
   
   
@@ -35,7 +35,7 @@
         <link rel="prev" title="Network API" href="network.html"/> 
 
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+  <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
@@ -45,11 +45,27 @@
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-nav-search">
-        
-          <a href="index.html" class="fa fa-home"> pandana</a>
-        
-        
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pandana
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -57,32 +73,18 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-      </div>
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-        
           
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
-              <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#dependencies">Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#install-the-latest-release">Install the latest release</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#development-installation">Development Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#multithreaded-installation-on-mac">Multithreaded Installation on Mac</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="introduction.html#introduction">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="introduction.html#the-general-workflow">The General Workflow</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#create-the-network">Create the Network</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#assign-variables-and-perform-computations-for-nearest-queries">Assign variables and perform computations for nearest queries</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#assign-variables-and-perform-computations-for-aggregation-queries">Assign variables and perform computations for aggregation queries</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#display-the-results">Display the results</a></li>
-</ul>
-</li>
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="network.html">Network API</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Loaders</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#openstreetmap">OpenStreetMap</a></li>
@@ -94,10 +96,10 @@
 <li class="toctree-l1"><a class="reference internal" href="futurework.html">Planned Improvements</a></li>
 </ul>
 
+            
           
-        
+        </div>
       </div>
-      &nbsp;
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
@@ -112,41 +114,50 @@
       
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
     <li>Loaders</li>
       <li class="wy-breadcrumbs-aside">
         
-          <a href="_sources/loaders.txt" rel="nofollow"> View page source</a>
+          
+            <a href="_sources/loaders.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
   </ul>
   <hr/>
 </div>
-          <div role="main" class="document">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="loaders">
 <h1>Loaders<a class="headerlink" href="#loaders" title="Permalink to this headline">¶</a></h1>
 <p>Pandana has some support for creating a
-<a class="reference internal" href="network.html#pandana.network.Network" title="pandana.network.Network"><tt class="xref py py-class docutils literal"><span class="pre">Network</span></tt></a> from
+<a class="reference internal" href="network.html#pandana.network.Network" title="pandana.network.Network"><code class="xref py py-class docutils literal"><span class="pre">Network</span></code></a> from
 the <a class="reference external" href="http://www.openstreetmap.org/">OpenStreetMap</a> API,
-and for storing <tt class="docutils literal"><span class="pre">Network</span></tt> data to disk as HDF5 so that it can be
+and for storing <code class="docutils literal"><span class="pre">Network</span></code> data to disk as HDF5 so that it can be
 restored later.</p>
 <div class="section" id="openstreetmap">
 <h2>OpenStreetMap<a class="headerlink" href="#openstreetmap" title="Permalink to this headline">¶</a></h2>
-<p>A <a class="reference internal" href="network.html#pandana.network.Network" title="pandana.network.Network"><tt class="xref py py-class docutils literal"><span class="pre">Network</span></tt></a> is created from OpenStreetMap using
-the <a class="reference internal" href="#pandana.loaders.osm.network_from_bbox" title="pandana.loaders.osm.network_from_bbox"><tt class="xref py py-func docutils literal"><span class="pre">network_from_bbox()</span></tt></a> function:</p>
+<p>A <a class="reference internal" href="network.html#pandana.network.Network" title="pandana.network.Network"><code class="xref py py-class docutils literal"><span class="pre">Network</span></code></a> is created from OpenStreetMap using
+the <a class="reference internal" href="#pandana.loaders.osm.network_from_bbox" title="pandana.loaders.osm.network_from_bbox"><code class="xref py py-func docutils literal"><span class="pre">network_from_bbox()</span></code></a> function:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pandana.loaders</span> <span class="kn">import</span> <span class="n">osm</span>
 <span class="n">network</span> <span class="o">=</span> <span class="n">osm</span><span class="o">.</span><span class="n">network_from_bbox</span><span class="p">(</span><span class="mf">37.859</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.282</span><span class="p">,</span> <span class="mf">37.881</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.252</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>By default the generated network contains only walkable routes,
-specify <tt class="docutils literal"><span class="pre">type='drive'</span></tt> to get driveable routes.
-These networks have one impedance set, named <tt class="docutils literal"><span class="pre">'distance'</span></tt>,
+specify <code class="docutils literal"><span class="pre">type='drive'</span></code> to get driveable routes.
+These networks have one impedance set, named <code class="docutils literal"><span class="pre">'distance'</span></code>,
 which is the distance between nodes in meters.</p>
-<p>The OSM API also includes the <a class="reference internal" href="#pandana.loaders.osm.node_query" title="pandana.loaders.osm.node_query"><tt class="xref py py-func docutils literal"><span class="pre">node_query()</span></tt></a>
+<p>The OSM API also includes the <a class="reference internal" href="#pandana.loaders.osm.node_query" title="pandana.loaders.osm.node_query"><code class="xref py py-func docutils literal"><span class="pre">node_query()</span></code></a>
 function for getting specific nodes within a bounding box.
 This can be used to populate a network with points of interest:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">nodes</span> <span class="o">=</span> <span class="n">osm</span><span class="o">.</span><span class="n">node_query</span><span class="p">(</span>
@@ -162,29 +173,29 @@ and the list of
 </div>
 <div class="section" id="pandas-hdf5">
 <h2>Pandas HDF5<a class="headerlink" href="#pandas-hdf5" title="Permalink to this headline">¶</a></h2>
-<p>Saving a <tt class="docutils literal"><span class="pre">Network</span></tt> to HDF5 is a way to share a <tt class="docutils literal"><span class="pre">Network</span></tt> or to preserve
-it between sessions. For example. you can build a <tt class="docutils literal"><span class="pre">Network</span></tt> using the
-OpenStreetMap API, then save the <tt class="docutils literal"><span class="pre">Network</span></tt> to HDF5 so you can reuse it
+<p>Saving a <code class="docutils literal"><span class="pre">Network</span></code> to HDF5 is a way to share a <code class="docutils literal"><span class="pre">Network</span></code> or to preserve
+it between sessions. For example. you can build a <code class="docutils literal"><span class="pre">Network</span></code> using the
+OpenStreetMap API, then save the <code class="docutils literal"><span class="pre">Network</span></code> to HDF5 so you can reuse it
 without querying OSM again.
 Users will typically use the
-<a class="reference internal" href="network.html#pandana.network.Network.save_hdf5" title="pandana.network.Network.save_hdf5"><tt class="xref py py-meth docutils literal"><span class="pre">save_hdf5()</span></tt></a> and
-<a class="reference internal" href="network.html#pandana.network.Network.from_hdf5" title="pandana.network.Network.from_hdf5"><tt class="xref py py-meth docutils literal"><span class="pre">from_hdf5()</span></tt></a> methods.</p>
+<a class="reference internal" href="network.html#pandana.network.Network.save_hdf5" title="pandana.network.Network.save_hdf5"><code class="xref py py-meth docutils literal"><span class="pre">save_hdf5()</span></code></a> and
+<a class="reference internal" href="network.html#pandana.network.Network.from_hdf5" title="pandana.network.Network.from_hdf5"><code class="xref py py-meth docutils literal"><span class="pre">from_hdf5()</span></code></a> methods.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p>Only the nodes and edges of the network are saved.
 Points-of-interest and data attached to nodes via the
-<a class="reference internal" href="network.html#pandana.network.Network.set" title="pandana.network.Network.set"><tt class="xref py py-meth docutils literal"><span class="pre">set()</span></tt></a> method are not included.</p>
+<a class="reference internal" href="network.html#pandana.network.Network.set" title="pandana.network.Network.set"><code class="xref py py-meth docutils literal"><span class="pre">set()</span></code></a> method are not included.</p>
 <p class="last">You may find the
 <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/io.html#io-hdf5">Pandas HDFStore</a>
 useful to save POI and other data.</p>
 </div>
-<p>When saving a <tt class="docutils literal"><span class="pre">Network</span></tt> to HDF5 it&#8217;s possible to exclude certain nodes.
+<p>When saving a <code class="docutils literal"><span class="pre">Network</span></code> to HDF5 it&#8217;s possible to exclude certain nodes.
 This can be useful when refining a network so that it includes only
 validated nodes.
 (In the current design of Pandana it&#8217;s not possible to modify a
-<tt class="docutils literal"><span class="pre">Network</span></tt> in place.)
+<code class="docutils literal"><span class="pre">Network</span></code> in place.)
 As an example, you can use the
-<a class="reference internal" href="network.html#pandana.network.Network.low_connectivity_nodes" title="pandana.network.Network.low_connectivity_nodes"><tt class="xref py py-meth docutils literal"><span class="pre">low_connectivity_nodes()</span></tt></a> method
+<a class="reference internal" href="network.html#pandana.network.Network.low_connectivity_nodes" title="pandana.network.Network.low_connectivity_nodes"><code class="xref py py-meth docutils literal"><span class="pre">low_connectivity_nodes()</span></code></a> method
 to identify nodes that may not be connected to the larger network,
 then exclude those nodes when saving to HDF5:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">lcn</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">low_connectivity_nodes</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">imp_name</span><span class="o">=</span><span class="s">&#39;distance&#39;</span><span class="p">)</span>
@@ -196,7 +207,7 @@ then exclude those nodes when saving to HDF5:</p>
 <h2>OpenStreetMap API<a class="headerlink" href="#openstreetmap-api" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="pandana.loaders.osm.network_from_bbox">
-<tt class="descclassname">pandana.loaders.osm.</tt><tt class="descname">network_from_bbox</tt><big>(</big><em>lat_min</em>, <em>lng_min</em>, <em>lat_max</em>, <em>lng_max</em>, <em>network_type='walk'</em>, <em>two_way=True</em><big>)</big><a class="headerlink" href="#pandana.loaders.osm.network_from_bbox" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pandana.loaders.osm.</code><code class="descname">network_from_bbox</code><span class="sig-paren">(</span><em>lat_min</em>, <em>lng_min</em>, <em>lat_max</em>, <em>lng_max</em>, <em>network_type='walk'</em>, <em>two_way=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.loaders.osm.network_from_bbox" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a Pandana network from a bounding lat/lon box.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -226,7 +237,7 @@ occur once.</p>
 
 <dl class="function">
 <dt id="pandana.loaders.osm.node_query">
-<tt class="descclassname">pandana.loaders.osm.</tt><tt class="descname">node_query</tt><big>(</big><em>lat_min</em>, <em>lng_min</em>, <em>lat_max</em>, <em>lng_max</em>, <em>tags=None</em><big>)</big><a class="headerlink" href="#pandana.loaders.osm.node_query" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pandana.loaders.osm.</code><code class="descname">node_query</code><span class="sig-paren">(</span><em>lat_min</em>, <em>lng_min</em>, <em>lat_max</em>, <em>lng_max</em>, <em>tags=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.loaders.osm.node_query" title="Permalink to this definition">¶</a></dt>
 <dd><p>Search for OSM nodes within a bounding box that match given tags.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -260,7 +271,7 @@ Index will be the OSM node IDs.</p>
 <h2>Pandas HDF5 API<a class="headerlink" href="#pandas-hdf5-api" title="Permalink to this headline">¶</a></h2>
 <dl class="method">
 <dt>
-<tt class="descclassname">Network.</tt><tt class="descname">save_hdf5</tt><big>(</big><em>filename</em>, <em>rm_nodes=None</em><big>)</big></dt>
+<code class="descclassname">Network.</code><code class="descname">save_hdf5</code><span class="sig-paren">(</span><em>filename</em>, <em>rm_nodes=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Save network data to a Pandas HDF5 file.</p>
 <p>Only the nodes and edges of the actual network are saved,
 points-of-interest and data attached to nodes are not saved.</p>
@@ -282,7 +293,7 @@ be saved as part of the Network.</p>
 
 <dl class="classmethod">
 <dt>
-<em class="property">classmethod </em><tt class="descclassname">Network.</tt><tt class="descname">from_hdf5</tt><big>(</big><em>filename</em><big>)</big></dt>
+<em class="property">classmethod </em><code class="descclassname">Network.</code><code class="descname">from_hdf5</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span></dt>
 <dd><p>Load a previously saved Network from a Pandas HDF5 file.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -298,7 +309,7 @@ be saved as part of the Network.</p>
 
 <dl class="function">
 <dt id="pandana.loaders.pandash5.network_to_pandas_hdf5">
-<tt class="descclassname">pandana.loaders.pandash5.</tt><tt class="descname">network_to_pandas_hdf5</tt><big>(</big><em>network</em>, <em>filename</em>, <em>rm_nodes=None</em><big>)</big><a class="headerlink" href="#pandana.loaders.pandash5.network_to_pandas_hdf5" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pandana.loaders.pandash5.</code><code class="descname">network_to_pandas_hdf5</code><span class="sig-paren">(</span><em>network</em>, <em>filename</em>, <em>rm_nodes=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.loaders.pandash5.network_to_pandas_hdf5" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save a Network&#8217;s data to a Pandas HDFStore.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -319,7 +330,7 @@ be saved as part of the Network.</p>
 
 <dl class="function">
 <dt id="pandana.loaders.pandash5.network_from_pandas_hdf5">
-<tt class="descclassname">pandana.loaders.pandash5.</tt><tt class="descname">network_from_pandas_hdf5</tt><big>(</big><em>cls</em>, <em>filename</em><big>)</big><a class="headerlink" href="#pandana.loaders.pandash5.network_from_pandas_hdf5" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pandana.loaders.pandash5.</code><code class="descname">network_from_pandas_hdf5</code><span class="sig-paren">(</span><em>cls</em>, <em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.loaders.pandash5.network_from_pandas_hdf5" title="Permalink to this definition">¶</a></dt>
 <dd><p>Build a Network from data in a Pandas HDFStore.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -343,15 +354,16 @@ be saved as part of the Network.</p>
 </div>
 
 
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="futurework.html" class="btn btn-neutral float-right" title="Planned Improvements">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="futurework.html" class="btn btn-neutral float-right" title="Planned Improvements" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="network.html" class="btn btn-neutral" title="Network API"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="network.html" class="btn btn-neutral" title="Network API" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -361,12 +373,13 @@ be saved as part of the Network.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, Autodesk.
+
     </p>
   </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-  
 </footer>
+
         </div>
       </div>
 
@@ -390,7 +403,7 @@ be saved as part of the Network.</p>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
