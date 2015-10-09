@@ -288,7 +288,9 @@ class Network:
             The maximum distance to aggregate data within
         type : string
             The type of aggregation, can be one of "ave", "sum", "std",
-            and "count"
+            "count", and now "min", "25pct", "median", "75pct", and "max" will
+            compute the associated quantiles.  (Quantiles are computed by
+            sorting so might be slower than the others.)
         decay : string
             The type of decay to apply, which makes things that are further
             away count less in the aggregation - must be one of "linear",
