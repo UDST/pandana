@@ -75,29 +75,29 @@ def test_agg_variables_accuracy(sample_osm):
     assert s.iloc[0] == 50
 
     s = net.aggregate(100000, type="AVE").loc[connected_nodes]
-    assert s.describe()['std'] < .0001  # assert almost equal
+    assert s.describe()['std'] < .01  # assert almost equal
     assert np.isclose(s.mean(), r.mean(), atol=1e-3)
 
     s = net.aggregate(100000, type="MIN").loc[connected_nodes]
-    assert s.describe()['std'] < .0001  # assert almost equal
+    assert s.describe()['std'] < .01  # assert almost equal
     assert np.isclose(s.mean(), r.min(), atol=1e-3)
 
     s = net.aggregate(100000, type="MAX").loc[connected_nodes]
-    assert s.describe()['std'] < .0001  # assert almost equal
+    assert s.describe()['std'] < .01  # assert almost equal
     assert np.isclose(s.mean(), r.max(), atol=1e-3)
 
     r.sort()
 
     s = net.aggregate(100000, type="MEDIAN").loc[connected_nodes]
-    assert s.describe()['std'] < .0001  # assert almost equal
+    assert s.describe()['std'] < .01  # assert almost equal
     assert np.isclose(s.mean(), r.iloc[25], atol=1e-2)
 
     s = net.aggregate(100000, type="25PCT").loc[connected_nodes]
-    assert s.describe()['std'] < .0001  # assert almost equal
+    assert s.describe()['std'] < .01  # assert almost equal
     assert np.isclose(s.mean(), r.iloc[12], atol=1e-2)
 
     s = net.aggregate(100000, type="75PCT").loc[connected_nodes]
-    assert s.describe()['std'] < .0001  # assert almost equal
+    assert s.describe()['std'] < .01  # assert almost equal
     assert np.isclose(s.mean(), r.iloc[37], atol=1e-2)
 
     s = net.aggregate(100000, type="SUM").loc[connected_nodes]
