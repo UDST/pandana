@@ -90,7 +90,7 @@ if platform.system() == 'Darwin':
         if mac_ver >= [10, 9]:
             extra_compile_args += ['-D NO_TR1_MEMORY']
 
-version = '0.2dev'
+version = '0.2.0'
 
 # read long description from README
 with open('README.rst', 'r') as f:
