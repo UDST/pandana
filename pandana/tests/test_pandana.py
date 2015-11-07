@@ -153,3 +153,15 @@ def test_pois(sample_osm):
 
     with pytest.raises(AssertionError):
         net.nearest_pois(2000, "restaurants", num_pois=11)
+
+
+def test_pois_indexes(sample_osm):
+    net = sample_osm
+    x, y = random_x_y(sample_osm, 100)
+    x.index = ['lab%d' % i for i in range(len(x))]
+    y.index = x.index
+
+    net.set_pois("restaurants", x, y)
+
+    d = net.nearest_pois(2000, "restaurants", num_pois=10,
+                         include_poi_ids=True)

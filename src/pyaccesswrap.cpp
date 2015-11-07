@@ -120,7 +120,7 @@ initialize_category(PyObject *self, PyObject *args)
 		// conversion function below
         int nodeid = sa->ga[0]->NearestNode(pois[i*2+0],pois[i*2+1],NULL);
 		//assert(nodeid < sa->ga[0].numpois);
-        av[nodeid].push_back(nodeid);
+        av[nodeid].push_back(i);
     }
 
     sa->initializeCategory(id,av);
@@ -133,15 +133,15 @@ static PyObject *
 find_all_nearest_pois(PyObject *self, PyObject *args)
 {
     double radius;
-	int varind, num, gno, impno;
-	if (!PyArg_ParseTuple(args, "diiii", &radius, &num, &varind,
-	                        &gno, &impno))
+	int varind, num, gno, impno, return_nodeids;
+	if (!PyArg_ParseTuple(args, "diiiii", &radius, &num, &varind,
+	                        &gno, &impno, &return_nodeids))
 	    return NULL;
 
     std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[gno];
 
     std::vector<std::vector<float> > nodes =
-        sa->findAllNearestPOIs(radius, num, varind, impno);
+        sa->findAllNearestPOIs(radius, num, varind, impno, return_nodeids);
 
 	npy_intp dims[2];
 	dims[0] = nodes.size();
