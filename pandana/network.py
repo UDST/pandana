@@ -106,7 +106,7 @@ class Network:
         self.impedance_names = list(edge_weights.columns)
         self.variable_names = []
         self.poi_category_names = []
-        self.poi_category_indexes= {}
+        self.poi_category_indexes = {}
         self.num_poi_categories = -1
 
         # this maps ids to indexes which are used internally
