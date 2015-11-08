@@ -1,6 +1,7 @@
 import os.path
 
 import numpy as np
+from numpy.testing import assert_allclose
 import pandas as pd
 import pytest
 from pandas.util import testing as pdt
@@ -50,6 +51,63 @@ def random_x_y(sample_osm, ssize):
 def test_create_network(sample_osm):
     # smoke test
     pass
+
+
+def test_agg_variables_accuracy(sample_osm):
+    net = sample_osm
+
+    # test accuracy compared to pandas functions
+
+    net.set(pd.Series(net.node_ids))
+    s = net.aggregate(10000, type="COUNT")
+    # not all the nodes in the sample network are connected
+    # get the nodes in the largest connected subgraph
+    # from printing the result out I know the largest subgraph has
+    # 477 nodes in the sample data
+    connected_nodes = s[s == 477].index.values
+
+    ssize = 50
+    r = random_data(ssize)
+    nodes = pd.Series(np.random.choice(connected_nodes, ssize))
+    net.set(nodes, variable=r)
+
+    s = net.aggregate(100000, type="COUNT").loc[connected_nodes]
+    assert s.unique().size == 1
+    assert s.iloc[0] == 50
+
+    s = net.aggregate(100000, type="AVE").loc[connected_nodes]
+    assert s.describe()['std'] < .01  # assert almost equal
+    assert_allclose(s.mean(), r.mean(), atol=1e-3)
+
+    s = net.aggregate(100000, type="MIN").loc[connected_nodes]
+    assert s.describe()['std'] < .01  # assert almost equal
+    assert_allclose(s.mean(), r.min(), atol=1e-3)
+
+    s = net.aggregate(100000, type="MAX").loc[connected_nodes]
+    assert s.describe()['std'] < .01  # assert almost equal
+    assert_allclose(s.mean(), r.max(), atol=1e-3)
+
+    r.sort()
+
+    s = net.aggregate(100000, type="MEDIAN").loc[connected_nodes]
+    assert s.describe()['std'] < .01  # assert almost equal
+    assert_allclose(s.mean(), r.iloc[25], atol=1e-2)
+
+    s = net.aggregate(100000, type="25PCT").loc[connected_nodes]
+    assert s.describe()['std'] < .01  # assert almost equal
+    assert_allclose(s.mean(), r.iloc[12], atol=1e-2)
+
+    s = net.aggregate(100000, type="75PCT").loc[connected_nodes]
+    assert s.describe()['std'] < .01  # assert almost equal
+    assert_allclose(s.mean(), r.iloc[37], atol=1e-2)
+
+    s = net.aggregate(100000, type="SUM").loc[connected_nodes]
+    assert s.describe()['std'] < .05  # assert almost equal
+    assert_allclose(s.mean(), r.sum(), atol=1e-2)
+
+    s = net.aggregate(100000, type="STD").loc[connected_nodes]
+    assert s.describe()['std'] < .01  # assert almost equal
+    assert_allclose(s.mean(), r.std(), atol=1e-2)
 
 
 def test_agg_variables(sample_osm):
