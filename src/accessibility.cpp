@@ -68,9 +68,14 @@ namespace MTC {
 			accessibilityVars[category] = vars;
 		}
 
+        /* the return_nodeids parameter determines whether to
+           return the nodeids where the poi was found rather than
+           the distances - you can call this twice - once for the
+           distances and then again for the node ids */
 		std::vector<float>
 		Accessibility::findNearestPOIs(int srcnode, float maxradius,
-		    unsigned number, unsigned cat, int gno) {
+		    unsigned number, unsigned cat, int gno, 
+		    bool return_nodeids) {
 
 			assert(cat >= 0 && cat < POI_MAXVAL);
 
@@ -91,7 +96,12 @@ namespace MTC {
 				for(int i = 0 ; i < vars[nodeid].size() ; i++) {
 
 					if(vars[nodeid][i] == 0) continue;
-					ret.push_back((float)distance);
+
+					if(return_nodeids) {
+						ret.push_back((float)vars[nodeid][i]);
+					} else {
+						ret.push_back((float)distance);
+					}
 				}
 			}
 			std::sort(ret.begin(),ret.end());
@@ -99,15 +109,18 @@ namespace MTC {
 			return ret;
 		}
 
+
+		/* the return_nodeds param is described above */
 		std::vector<std::vector<float> >
 		Accessibility::findAllNearestPOIs(float maxradius,
-		    unsigned number, unsigned cat, int gno) {
+		    unsigned number, unsigned cat, int gno,
+		    bool return_nodeids) {
 			std::vector<std::vector<float> > dists(numnodes,
 			            std::vector<float> ( number ));
 			#pragma omp parallel for
 			for(int i = 0 ; i < numnodes ; i++) {
-				std::vector<float> d = findNearestPOIs(i, maxradius,
-					number, cat, gno);
+				std::vector<float> d = findNearestPOIs(i, maxradius, number,
+				                                       cat, gno, return_nodeids);
 				for(int j = 0 ; j < number ; j++) {
                     			if(j < d.size()) dists[i][j] = d[j];
                     			else dists[i][j] = -1;

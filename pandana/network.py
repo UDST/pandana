@@ -112,6 +112,7 @@ class Network:
         self.impedance_names = list(edge_weights.columns)
         self.variable_names = []
         self.poi_category_names = []
+        self.poi_category_indexes = {}
         self.num_poi_categories = -1
 
         # this maps ids to indexes which are used internally
@@ -511,11 +512,13 @@ class Network:
 
         xys = pd.DataFrame({'x': x_col, 'y': y_col}).dropna(how='any')
 
+        self.poi_category_indexes[category] = xys.index
+
         _pyaccess.initialize_category(self.poi_category_names.index(category),
                                       xys.astype('float32'))
 
     def nearest_pois(self, distance, category, num_pois=1, max_distance=None,
-                     imp_name=None):
+                     imp_name=None, include_poi_ids=False):
         """
         Find the distance to the nearest pois from each source node.  The
         bigger values in this case mean less accessibility.
@@ -537,6 +540,13 @@ class Network:
             Must be one of the impedance names passed in the constructor of
             this object.  If not specified, there must be only one impedance
             passed in the constructor, which will be used.
+        include_poi_ids : bool, optional
+            If this flag is set to true, the call will add columns to the
+            return DataFrame - instead of just returning the distance for
+            the nth POI, it will also return the id of that POI.  The names
+            of the columns with the poi ids will be poi1, poi2, etc - it
+            will take roughly twice as long to include these ids as to not
+            include them
 
         Returns
         -------
@@ -568,11 +578,36 @@ class Network:
                                             self.poi_category_names.index(
                                                 category),
                                             self.graph_no,
-                                            imp_num)
-
+                                            imp_num,
+                                            0)
         a[a == -1] = max_distance
         df = pd.DataFrame(a, index=self.node_ids)
         df.columns = range(1, num_pois+1)
+
+        if include_poi_ids:
+            b = _pyaccess.find_all_nearest_pois(distance,
+                                                num_pois,
+                                                self.poi_category_names.index(
+                                                    category),
+                                                self.graph_no,
+                                                imp_num,
+                                                1)
+            df2 = pd.DataFrame(b, index=self.node_ids)
+            df2.columns = ["poi%d" % i for i in range(1, num_pois+1)]
+            for col in df2.columns:
+                # if this is still all working according to plan at this point
+                # the great magic trick is now to turn the integer position of
+                # the poi, which is painstakingly returned from the c++ code,
+                # and turn it into the actual index that was used when it was
+                # initialized as a pandas series - this really is pandas-like
+                # thinking.  it's complicated on the inside, but quite
+                # intuitive to the user I think
+                s = df2[col]
+                df2[col] = self.poi_category_indexes[category].values[s]
+                df2[col][s == -1] = np.nan
+
+            df = pd.concat([df, df2], axis=1)
+
         return df
 
     def low_connectivity_nodes(self, impedance, count, imp_name=None):

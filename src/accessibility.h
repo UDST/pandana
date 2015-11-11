@@ -91,10 +91,11 @@ namespace MTC {
 
 			std::vector<float> findNearestPOIs(int srcnode,
 			    float maxradius, unsigned maxnumber, unsigned cat,
-			    int graphno=0);
+			    int graphno=0, bool return_nodeids=false);
 			std::vector<std::vector<float> >
 			    findAllNearestPOIs(float maxradius, unsigned maxnumber,
-			            unsigned cat, int graphno=0);
+			            unsigned cat, int graphno=0, 
+			            bool return_nodeids=false);
 
             DistanceVec Range(int srcnode, float radius, int graphno=0);
 
