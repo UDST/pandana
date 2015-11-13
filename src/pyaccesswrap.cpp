@@ -474,8 +474,36 @@ route_distance(PyObject *self, PyObject *args)
 }
 
 
+static PyObject *
+shortest_path(PyObject *self, PyObject *args)
+{
+    int gno, impno, srcnode, destnode;
+    if (!PyArg_ParseTuple(args, "iiii", &srcnode, &destnode, 
+        &gno, &impno))
+        return NULL;
+
+    std::shared_ptr<MTC::accessibility::Accessibility> sa = 
+        sas[gno];
+
+    std::vector<NodeID> ResultingPath = 
+        sa->ga[impno]->Route(srcnode, destnode);
+
+    npy_intp num = ResultingPath.size();
+
+    PyArrayObject *returnobj = 
+        (PyArrayObject *)PyArray_SimpleNew(1, &num, NPY_INT32);
+    int *nodes = (int*)PyArray_DATA(returnobj);
+
+    for(int i = 0 ; i < num ; i++)
+        nodes[i] = (int)ResultingPath[i];
+
+    return PyArray_Return(returnobj);
+}
+
+
 static PyMethodDef myMethods[] = {
     /*{"route_distance", route_distance, METH_VARARGS, "route_distance"},*/
+    {"shortest_path", shortest_path, METH_VARARGS, "shortest_path"},
     {"create_graphs", create_graphs, METH_VARARGS, "create_graphs"},
     {"create_graph", create_graph, METH_VARARGS, "create_graph"},
     /*{"get_nodes_in_range", get_nodes_in_range, METH_VARARGS,

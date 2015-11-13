@@ -41,6 +41,21 @@ def random_data(ssize):
     return pd.Series(np.random.random(ssize))
 
 
+def get_connected_nodes(net):
+    net.set(pd.Series(net.node_ids))
+    s = net.aggregate(10000, type="COUNT")
+    # not all the nodes in the sample network are connected
+    # get the nodes in the largest connected subgraph
+    # from printing the result out I know the largest subgraph has
+    # 477 nodes in the sample data
+    connected_nodes = s[s == 477].index.values
+    return connected_nodes
+
+
+def random_connected_nodes(net, ssize):
+    return pd.Series(np.random.choice(get_connected_nodes(net), ssize))
+
+
 def random_x_y(sample_osm, ssize):
     bbox = sample_osm.bbox
     x = pd.Series(np.random.uniform(bbox[0], bbox[2], ssize))
@@ -57,18 +72,10 @@ def test_agg_variables_accuracy(sample_osm):
     net = sample_osm
 
     # test accuracy compared to pandas functions
-
-    net.set(pd.Series(net.node_ids))
-    s = net.aggregate(10000, type="COUNT")
-    # not all the nodes in the sample network are connected
-    # get the nodes in the largest connected subgraph
-    # from printing the result out I know the largest subgraph has
-    # 477 nodes in the sample data
-    connected_nodes = s[s == 477].index.values
-
     ssize = 50
     r = random_data(ssize)
-    nodes = pd.Series(np.random.choice(connected_nodes, ssize))
+    connected_nodes = get_connected_nodes(net)
+    nodes = random_connected_nodes(net, ssize)
     net.set(nodes, variable=r)
 
     s = net.aggregate(100000, type="COUNT").loc[connected_nodes]
@@ -182,6 +189,16 @@ def test_plot(sample_osm):
     s = net.aggregate(500, type="sum", decay="linear")
 
     sample_osm.plot(s)
+
+
+def test_shortest_path(sample_osm):
+
+    for i in range(10):
+        ids = random_connected_nodes(sample_osm, 2)
+        path = sample_osm.shortest_path(ids[0], ids[1])
+        assert path.size >= 2
+        assert ids[0] == path[0]
+        assert ids[1] == path[-1]
 
 
 def test_pois(sample_osm):
