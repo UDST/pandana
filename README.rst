@@ -67,6 +67,6 @@ Academic Literature
 -------------------
 
 A `complete description of the
-methodology <http://http://onlinepubs.trb.org/onlinepubs/conferences/2012/4thITM/Papers-A/0117-000062.pdf>`__
+methodology <http://onlinepubs.trb.org/onlinepubs/conferences/2012/4thITM/Papers-A/0117-000062.pdf>`__
 was presented at the Transportation Research Board Annual Conference in 2012. Please cite this paper when referring
 to the methodology implemented by this library.
