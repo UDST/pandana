@@ -66,7 +66,7 @@ i.e. ANN (http://www.cs.umd.edu/~mount/ANN/).
 Academic Literature
 -------------------
 
-I'm currently working on getting a `complete description of the
-methodology <https://github.com/fscottfoti/dissertation/blob/master/networks/Foti%20and%20Waddell%20-%20Accessibility%20Framework.pdf?raw=true>`__
-published in an academic journal. Please cite this paper when referring
+A `complete description of the
+methodology <http://http://onlinepubs.trb.org/onlinepubs/conferences/2012/4thITM/Papers-A/0117-000062.pdf>`__
+was presented at the Transportation Research Board Annual Conference in 2012. Please cite this paper when referring
 to the methodology implemented by this library.
