@@ -52,10 +52,9 @@ def dataframes2(query_data2):
 
 def test_make_osm_query(query_data1):
     assert isinstance(query_data1, dict)
-    assert len(query_data1['elements']) == 24
-    assert len(
-        [e for e in query_data1['elements'] if e['type'] == 'node']) == 22
-    assert len([e for e in query_data1['elements'] if e['type'] == 'way']) == 2
+    assert len(query_data1['elements']) == 42
+    assert len([e for e in query_data1['elements'] if e['type'] == 'node']) == 39
+    assert len([e for e in query_data1['elements'] if e['type'] == 'way']) == 3
 
 
 def test_process_node():
@@ -122,9 +121,9 @@ def test_process_way():
 def test_parse_network_osm_query(dataframes1):
     nodes, ways, waynodes = dataframes1
 
-    assert len(nodes) == 22
-    assert len(ways) == 2
-    assert len(waynodes.index.unique()) == 2
+    assert len(nodes) == 39
+    assert len(ways) == 3
+    assert len(waynodes.index.unique()) == 3
 
 
 def test_parse_network_osm_query_raises():
@@ -181,7 +180,7 @@ def test_node_pairs_two_way(dataframes2):
 
     assert pair.from_id == fn
     assert pair.to_id == tn
-    npt.assert_allclose(pair.distance, 101.20535797547758)
+    npt.assert_allclose(pair.distance, 101.48279182499789)
 
 
 def test_node_pairs_one_way(dataframes2):
@@ -198,7 +197,7 @@ def test_node_pairs_one_way(dataframes2):
 
         assert pair.from_id == p1
         assert pair.to_id == p2
-        npt.assert_allclose(pair.distance, 101.20535797547758)
+        npt.assert_allclose(pair.distance, 101.48279182499789)
 
 
 @skipiftravis
