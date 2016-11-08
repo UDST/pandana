@@ -5,6 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Tutorial &mdash; pandana 0.1 documentation</title>
@@ -14,7 +15,6 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 
   
   
@@ -30,12 +30,15 @@
   
 
   
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="pandana 0.1 documentation" href="index.html"/>
         <link rel="next" title="Network API" href="network.html"/>
         <link rel="prev" title="Getting Started" href="introduction.html"/> 
 
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+  <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
@@ -45,11 +48,27 @@
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-nav-search">
-        
-          <a href="index.html" class="fa fa-home"> pandana</a>
-        
-        
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pandana
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -57,26 +76,18 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-      </div>
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-        
           
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
-              <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#dependencies">Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#install-the-latest-release">Install the latest release</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#development-installation">Development Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#multithreaded-installation-on-mac">Multithreaded Installation on Mac</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="introduction.html#introduction">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="introduction.html#the-general-workflow">The General Workflow</a></li>
-</ul>
-</li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Tutorial</a><ul>
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#create-the-network">Create the Network</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#assign-variables-and-perform-computations-for-nearest-queries">Assign variables and perform computations for nearest queries</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#assign-variables-and-perform-computations-for-aggregation-queries">Assign variables and perform computations for aggregation queries</a></li>
@@ -84,20 +95,14 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="network.html">Network API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="loaders.html">Loaders</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="loaders.html#openstreetmap">OpenStreetMap</a></li>
-<li class="toctree-l2"><a class="reference internal" href="loaders.html#pandas-hdf5">Pandas HDF5</a></li>
-<li class="toctree-l2"><a class="reference internal" href="loaders.html#openstreetmap-api">OpenStreetMap API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="loaders.html#pandas-hdf5-api">Pandas HDF5 API</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="loaders.html">Loaders</a></li>
 <li class="toctree-l1"><a class="reference internal" href="futurework.html">Planned Improvements</a></li>
 </ul>
 
+            
           
-        
+        </div>
       </div>
-      &nbsp;
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
@@ -112,20 +117,29 @@
       
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
     <li>Tutorial</li>
       <li class="wy-breadcrumbs-aside">
         
-          <a href="_sources/tutorial.txt" rel="nofollow"> View page source</a>
+          
+            <a href="_sources/tutorial.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
   </ul>
   <hr/>
 </div>
-          <div role="main" class="document">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="tutorial">
 <h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
@@ -135,7 +149,7 @@ in the <code class="docutils literal"><span class="pre">Pandana</span></code> re
 but the discussion here will take things line-by-line with a sufficient
 summary of the functionality.</p>
 <p>Note that these code samples assume you have imported pandana as follows:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pandana</span> <span class="kn">as</span> <span class="nn">pdna</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandana</span> <span class="k">as</span> <span class="nn">pdna</span>
 </pre></div>
 </div>
 <div class="section" id="create-the-network">
@@ -150,27 +164,27 @@ takes a small number of Pandas Series objects.</p>
 We store our nodes and edges as two Pandas DataFrames in an HDFStore object.
 We can access them as follows (the demo data file can be
 <a class="reference external" href="https://s3-us-west-2.amazonaws.com/urbandatascience/pandana/osm_bayarea.h5">downloaded here</a>):</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">store</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">HDFStore</span><span class="p">(</span><span class="s">&#39;data/osm_bayarea.h5&#39;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">store</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">HDFStore</span><span class="p">(</span><span class="s1">&#39;data/osm_bayarea.h5&#39;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
 <span class="n">nodes</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">nodes</span>
 <span class="n">edges</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">edges</span>
-<span class="k">print</span> <span class="n">nodes</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="k">print</span> <span class="n">edges</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">nodes</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">edges</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The output of the above code shows:</p>
-<div class="highlight-python"><div class="highlight"><pre>              x           y
-8   629310.1250  4095536.75
-9   629120.9375  4095816.75
-10  628951.5625  4096090.50
+<div class="highlight-default"><div class="highlight"><pre><span></span>              <span class="n">x</span>           <span class="n">y</span>
+<span class="mi">8</span>   <span class="mf">629310.1250</span>  <span class="mf">4095536.75</span>
+<span class="mi">9</span>   <span class="mf">629120.9375</span>  <span class="mf">4095816.75</span>
+<span class="mi">10</span>  <span class="mf">628951.5625</span>  <span class="mf">4096090.50</span>
 
-[3 rows x 2 columns]
+<span class="p">[</span><span class="mi">3</span> <span class="n">rows</span> <span class="n">x</span> <span class="mi">2</span> <span class="n">columns</span><span class="p">]</span>
 
-   from  to      weight
-6     8   9  338.255005
-7     9  10  322.532990
-8    10  11  218.505997
+   <span class="kn">from</span>  <span class="nn">to</span>      <span class="n">weight</span>
+<span class="mi">6</span>     <span class="mi">8</span>   <span class="mi">9</span>  <span class="mf">338.255005</span>
+<span class="mi">7</span>     <span class="mi">9</span>  <span class="mi">10</span>  <span class="mf">322.532990</span>
+<span class="mi">8</span>    <span class="mi">10</span>  <span class="mi">11</span>  <span class="mf">218.505997</span>
 
-[3 rows x 3 columns]
+<span class="p">[</span><span class="mi">3</span> <span class="n">rows</span> <span class="n">x</span> <span class="mi">3</span> <span class="n">columns</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>The data structure is very simple indeed.  Nodes have an index which is the
@@ -183,15 +197,15 @@ DataFrame.  A <code class="docutils literal"><span class="pre">weight</span></co
 as the impedance for the network.  Here, distance is used from OpenStreetMap
 edges.</p>
 <p>To create the network given the above DataFrames, simply call:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">net</span><span class="o">=</span><span class="n">pdna</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="n">nodes</span><span class="p">[</span><span class="s">&quot;x&quot;</span><span class="p">],</span> <span class="n">nodes</span><span class="p">[</span><span class="s">&quot;y&quot;</span><span class="p">],</span> <span class="n">edges</span><span class="p">[</span><span class="s">&quot;from&quot;</span><span class="p">],</span> <span class="n">edges</span><span class="p">[</span><span class="s">&quot;to&quot;</span><span class="p">],</span>
-                 <span class="n">edges</span><span class="p">[[</span><span class="s">&quot;weight&quot;</span><span class="p">]])</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">=</span><span class="n">pdna</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="n">nodes</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">nodes</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">],</span> <span class="n">edges</span><span class="p">[</span><span class="s2">&quot;from&quot;</span><span class="p">],</span> <span class="n">edges</span><span class="p">[</span><span class="s2">&quot;to&quot;</span><span class="p">],</span>
+                 <span class="n">edges</span><span class="p">[[</span><span class="s2">&quot;weight&quot;</span><span class="p">]])</span>
 </pre></div>
 </div>
 <p>It&#8217;s probably a good idea (though not strictly required) to precompute a
 given horizon distance so that aggregations don&#8217;t perform the network queries
 unnecessarily.  This is done by calling the following code,
 where 3000 meters is used as the horizon distance:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">net</span><span class="o">.</span><span class="n">precompute</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">precompute</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Note that a large amount of time is spent in the precomputations that take
@@ -211,20 +225,20 @@ first.</p>
 strange for Python programmers, but because this code wraps a C++ API,
 you need to initialize the memory first.  This is not a strict requirement
 though, and future versions might remedy this.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">net</span><span class="o">.</span><span class="n">init_pois</span><span class="p">(</span><span class="n">num_categories</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_dist</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">max_pois</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">init_pois</span><span class="p">(</span><span class="n">num_categories</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_dist</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">max_pois</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This initializes one category, at a max distance of 2000 meters for up to the
 10 nearest points-of-interest.</p>
 <p>Here is a link to the docs: <a class="reference internal" href="network.html#pandana.network.Network.init_pois" title="pandana.network.Network.init_pois"><code class="xref py py-meth docutils literal"><span class="pre">pandana.network.Network.init_pois()</span></code></a></p>
 <p>Next initialize the category:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">net</span><span class="o">.</span><span class="n">set_pois</span><span class="p">(</span><span class="s">&quot;restaurants&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">set_pois</span><span class="p">(</span><span class="s2">&quot;restaurants&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This code initializes the &#8220;restaurants&#8221; category with the positions specified
 by the x and y columns (which are Pandas Series).  Next perform the query:</p>
 <p>Here is a link to the docs: <a class="reference internal" href="network.html#pandana.network.Network.set_pois" title="pandana.network.Network.set_pois"><code class="xref py py-meth docutils literal"><span class="pre">pandana.network.Network.set_pois()</span></code></a></p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">net</span><span class="o">.</span><span class="n">nearest_pois</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="s">&quot;restaurants&quot;</span><span class="p">,</span> <span class="n">num_pois</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">nearest_pois</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="s2">&quot;restaurants&quot;</span><span class="p">,</span> <span class="n">num_pois</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This searches for the 10 nearest restaurants and is exactly the query that is
@@ -232,39 +246,39 @@ displayed in the introduction.  This returns a DataFrame with the number of
 columns equal to the number of POIs that are requested. For instance,
 a describe of the output DataFrame look like this (note that the query
 executed in half a second:</p>
-<div class="highlight-python"><div class="highlight"><pre>CPU times: user 1.37 s, sys: 11 ms, total: 1.38 s
-Wall time: 498 ms
-                  1              2              3              4   \
-count  226060.000000  226060.000000  226060.000000  226060.000000
-mean     1542.487481    1676.578324    1746.392002    1794.982571
-std       629.581983     543.853257     485.754919     440.356407
-min         0.000000       0.000000       0.000000       0.000000
-25%      1063.236542    1473.924011    1775.853271    2000.000000
-50%      2000.000000    2000.000000    2000.000000    2000.000000
-75%      2000.000000    2000.000000    2000.000000    2000.000000
-max      2000.000000    2000.000000    2000.000000    2000.000000
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">CPU</span> <span class="n">times</span><span class="p">:</span> <span class="n">user</span> <span class="mf">1.37</span> <span class="n">s</span><span class="p">,</span> <span class="n">sys</span><span class="p">:</span> <span class="mi">11</span> <span class="n">ms</span><span class="p">,</span> <span class="n">total</span><span class="p">:</span> <span class="mf">1.38</span> <span class="n">s</span>
+<span class="n">Wall</span> <span class="n">time</span><span class="p">:</span> <span class="mi">498</span> <span class="n">ms</span>
+                  <span class="mi">1</span>              <span class="mi">2</span>              <span class="mi">3</span>              <span class="mi">4</span>   \
+<span class="n">count</span>  <span class="mf">226060.000000</span>  <span class="mf">226060.000000</span>  <span class="mf">226060.000000</span>  <span class="mf">226060.000000</span>
+<span class="n">mean</span>     <span class="mf">1542.487481</span>    <span class="mf">1676.578324</span>    <span class="mf">1746.392002</span>    <span class="mf">1794.982571</span>
+<span class="n">std</span>       <span class="mf">629.581983</span>     <span class="mf">543.853257</span>     <span class="mf">485.754919</span>     <span class="mf">440.356407</span>
+<span class="nb">min</span>         <span class="mf">0.000000</span>       <span class="mf">0.000000</span>       <span class="mf">0.000000</span>       <span class="mf">0.000000</span>
+<span class="mi">25</span><span class="o">%</span>      <span class="mf">1063.236542</span>    <span class="mf">1473.924011</span>    <span class="mf">1775.853271</span>    <span class="mf">2000.000000</span>
+<span class="mi">50</span><span class="o">%</span>      <span class="mf">2000.000000</span>    <span class="mf">2000.000000</span>    <span class="mf">2000.000000</span>    <span class="mf">2000.000000</span>
+<span class="mi">75</span><span class="o">%</span>      <span class="mf">2000.000000</span>    <span class="mf">2000.000000</span>    <span class="mf">2000.000000</span>    <span class="mf">2000.000000</span>
+<span class="nb">max</span>      <span class="mf">2000.000000</span>    <span class="mf">2000.000000</span>    <span class="mf">2000.000000</span>    <span class="mf">2000.000000</span>
 
-                  5              6              7              8   \
-count  226060.000000  226060.000000  226060.000000  226060.000000
-mean     1825.214545    1846.061683    1864.423958    1879.123914
-std       407.388660     380.878320     353.350067     330.835422
-min         0.000000       0.000000       0.000000       0.000000
-25%      2000.000000    2000.000000    2000.000000    2000.000000
-50%      2000.000000    2000.000000    2000.000000    2000.000000
-75%      2000.000000    2000.000000    2000.000000    2000.000000
-max      2000.000000    2000.000000    2000.000000    2000.000000
+                  <span class="mi">5</span>              <span class="mi">6</span>              <span class="mi">7</span>              <span class="mi">8</span>   \
+<span class="n">count</span>  <span class="mf">226060.000000</span>  <span class="mf">226060.000000</span>  <span class="mf">226060.000000</span>  <span class="mf">226060.000000</span>
+<span class="n">mean</span>     <span class="mf">1825.214545</span>    <span class="mf">1846.061683</span>    <span class="mf">1864.423958</span>    <span class="mf">1879.123914</span>
+<span class="n">std</span>       <span class="mf">407.388660</span>     <span class="mf">380.878320</span>     <span class="mf">353.350067</span>     <span class="mf">330.835422</span>
+<span class="nb">min</span>         <span class="mf">0.000000</span>       <span class="mf">0.000000</span>       <span class="mf">0.000000</span>       <span class="mf">0.000000</span>
+<span class="mi">25</span><span class="o">%</span>      <span class="mf">2000.000000</span>    <span class="mf">2000.000000</span>    <span class="mf">2000.000000</span>    <span class="mf">2000.000000</span>
+<span class="mi">50</span><span class="o">%</span>      <span class="mf">2000.000000</span>    <span class="mf">2000.000000</span>    <span class="mf">2000.000000</span>    <span class="mf">2000.000000</span>
+<span class="mi">75</span><span class="o">%</span>      <span class="mf">2000.000000</span>    <span class="mf">2000.000000</span>    <span class="mf">2000.000000</span>    <span class="mf">2000.000000</span>
+<span class="nb">max</span>      <span class="mf">2000.000000</span>    <span class="mf">2000.000000</span>    <span class="mf">2000.000000</span>    <span class="mf">2000.000000</span>
 
-                  9              10
-count  226060.000000  226060.000000
-mean     1893.909935    1908.403787
-std       306.340819     283.554353
-min         0.000000      56.143002
-25%      2000.000000    2000.000000
-50%      2000.000000    2000.000000
-75%      2000.000000    2000.000000
-max      2000.000000    2000.000000
+                  <span class="mi">9</span>              <span class="mi">10</span>
+<span class="n">count</span>  <span class="mf">226060.000000</span>  <span class="mf">226060.000000</span>
+<span class="n">mean</span>     <span class="mf">1893.909935</span>    <span class="mf">1908.403787</span>
+<span class="n">std</span>       <span class="mf">306.340819</span>     <span class="mf">283.554353</span>
+<span class="nb">min</span>         <span class="mf">0.000000</span>      <span class="mf">56.143002</span>
+<span class="mi">25</span><span class="o">%</span>      <span class="mf">2000.000000</span>    <span class="mf">2000.000000</span>
+<span class="mi">50</span><span class="o">%</span>      <span class="mf">2000.000000</span>    <span class="mf">2000.000000</span>
+<span class="mi">75</span><span class="o">%</span>      <span class="mf">2000.000000</span>    <span class="mf">2000.000000</span>
+<span class="nb">max</span>      <span class="mf">2000.000000</span>    <span class="mf">2000.000000</span>
 
-[8 rows x 10 columns]
+<span class="p">[</span><span class="mi">8</span> <span class="n">rows</span> <span class="n">x</span> <span class="mi">10</span> <span class="n">columns</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>Here is a link to the docs: <a class="reference internal" href="network.html#pandana.network.Network.nearest_pois" title="pandana.network.Network.nearest_pois"><code class="xref py py-meth docutils literal"><span class="pre">pandana.network.Network.nearest_pois()</span></code></a></p>
@@ -281,23 +295,23 @@ if you have a DataFrame of buildings with x and y coordinates,
 you can use <code class="docutils literal"><span class="pre">get_node_ids</span></code> to set node_ids as an attribute on the
 buildings table and then <code class="docutils literal"><span class="pre">set</span></code> can be called many times with all the
 attributes of the buildings table and their associated column names.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">buildings</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">buildings</span><span class="o">.</span><span class="n">y</span>
-<span class="n">buildings</span><span class="p">[</span><span class="s">&quot;node_ids&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">get_node_ids</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="n">net</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">node_ids</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="n">buildings</span><span class="o">.</span><span class="n">square_footage</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;square_footage&quot;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">buildings</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">buildings</span><span class="o">.</span><span class="n">y</span>
+<span class="n">buildings</span><span class="p">[</span><span class="s2">&quot;node_ids&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">get_node_ids</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">net</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">node_ids</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="n">buildings</span><span class="o">.</span><span class="n">square_footage</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;square_footage&quot;</span><span class="p">)</span>
 <span class="n">net</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">node_ids</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="n">buildings</span><span class="o">.</span><span class="n">residential_units</span><span class="p">,</span>
-        <span class="n">name</span><span class="o">=</span><span class="s">&quot;residential_units&quot;</span><span class="p">)</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;residential_units&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Here is a link to the docs: <a class="reference internal" href="network.html#pandana.network.Network.get_node_ids" title="pandana.network.Network.get_node_ids"><code class="xref py py-meth docutils literal"><span class="pre">pandana.network.Network.get_node_ids()</span></code></a>
 and <a class="reference internal" href="network.html#pandana.network.Network.set" title="pandana.network.Network.set"><code class="xref py py-meth docutils literal"><span class="pre">pandana.network.Network.set()</span></code></a></p>
 <p>Once the variables have been assigned to the network, the user can query the
 network repeatedly with different parameters.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">s</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s">&quot;sum&quot;</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="s">&quot;linear&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;square_footage&quot;</span><span class="p">)</span>
-<span class="n">t</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s">&quot;sum&quot;</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="s">&quot;linear&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;square_footage&quot;</span><span class="p">)</span>
-<span class="n">u</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s">&quot;sum&quot;</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="s">&quot;linear&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;square_footage&quot;</span><span class="p">)</span>
-<span class="n">v</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="mi">3000</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s">&quot;sum&quot;</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="s">&quot;linear&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;square_footage&quot;</span><span class="p">)</span>
-<span class="n">w</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="mi">3000</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s">&quot;ave&quot;</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="s">&quot;flat&quot;</span><span class="p">,</span>
-                  <span class="n">name</span><span class="o">=</span><span class="s">&quot;residential_units&quot;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;sum&quot;</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;square_footage&quot;</span><span class="p">)</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;sum&quot;</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;square_footage&quot;</span><span class="p">)</span>
+<span class="n">u</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;sum&quot;</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;square_footage&quot;</span><span class="p">)</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="mi">3000</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;sum&quot;</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;square_footage&quot;</span><span class="p">)</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="mi">3000</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;ave&quot;</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="s2">&quot;flat&quot;</span><span class="p">,</span>
+                  <span class="n">name</span><span class="o">=</span><span class="s2">&quot;residential_units&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Here is a link to the docs: <a class="reference internal" href="network.html#pandana.network.Network.aggregate" title="pandana.network.Network.aggregate"><code class="xref py py-meth docutils literal"><span class="pre">pandana.network.Network.aggregate()</span></code></a></p>
@@ -318,14 +332,14 @@ indicators at the node level to shapes of parcels and produces a much more
 professional output map.  For quick interactive checking of results,
 the bounding box can be used to reduce the number of points that are shown,
 and sample code and images are included below.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">bbox</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">122.539365</span><span class="p">,</span><span class="mf">37.693047</span><span class="p">,</span><span class="o">-</span><span class="mf">122.347698</span><span class="p">,</span><span class="mf">37.816069</span><span class="p">]</span>
-<span class="n">net</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span><span class="n">bbox</span><span class="p">,</span> <span class="n">scheme</span><span class="o">=</span><span class="s">&quot;diverging&quot;</span><span class="p">,</span>
-         <span class="n">color</span><span class="o">=</span><span class="s">&quot;BrBG&quot;</span><span class="p">,</span> <span class="n">log_scale</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">bbox</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">122.539365</span><span class="p">,</span><span class="mf">37.693047</span><span class="p">,</span><span class="o">-</span><span class="mf">122.347698</span><span class="p">,</span><span class="mf">37.816069</span><span class="p">]</span>
+<span class="n">net</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span><span class="n">bbox</span><span class="p">,</span> <span class="n">scheme</span><span class="o">=</span><span class="s2">&quot;diverging&quot;</span><span class="p">,</span>
+         <span class="n">color</span><span class="o">=</span><span class="s2">&quot;BrBG&quot;</span><span class="p">,</span> <span class="n">log_scale</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <img alt="_images/500metersum.png" src="_images/500metersum.png" />
-<div class="highlight-python"><div class="highlight"><pre><span class="n">net</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span><span class="n">bbox</span><span class="p">,</span> <span class="n">scheme</span><span class="o">=</span><span class="s">&quot;diverging&quot;</span><span class="p">,</span>
-         <span class="n">color</span><span class="o">=</span><span class="s">&quot;BrBG&quot;</span><span class="p">,</span> <span class="n">log_scale</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span><span class="n">bbox</span><span class="p">,</span> <span class="n">scheme</span><span class="o">=</span><span class="s2">&quot;diverging&quot;</span><span class="p">,</span>
+         <span class="n">color</span><span class="o">=</span><span class="s2">&quot;BrBG&quot;</span><span class="p">,</span> <span class="n">log_scale</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <img alt="_images/2000metersum.png" src="_images/2000metersum.png" />
@@ -333,15 +347,16 @@ and sample code and images are included below.</p>
 </div>
 
 
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="network.html" class="btn btn-neutral float-right" title="Network API">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="network.html" class="btn btn-neutral float-right" title="Network API" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="introduction.html" class="btn btn-neutral" title="Getting Started"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="introduction.html" class="btn btn-neutral" title="Getting Started" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -351,12 +366,13 @@ and sample code and images are included below.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, Autodesk.
+
     </p>
   </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-  
 </footer>
+
         </div>
       </div>
 
