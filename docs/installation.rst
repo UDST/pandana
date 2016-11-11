@@ -29,7 +29,7 @@ conda
 ~~~~~
 
 Pandana and some of its dependencies are hosted on
-`Autodesks's Anaconda repository <https://anaconda.org/synthicity>`__.
+`UrbanSim Inc's Anaconda repository <https://anaconda.org/synthicity>`__.
 To add this as a default installation channel for conda run this code
 in a terminal::
 

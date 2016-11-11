@@ -99,7 +99,7 @@ with open('README.rst', 'r') as f:
 setup(
     packages=packages,
     name='pandana',
-    author='Autodesk',
+    author='UrbanSim Inc.',
     version=version,
     license='AGPL',
     description=('Pandas Network Analysis - '
