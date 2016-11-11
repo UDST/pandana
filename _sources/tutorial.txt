@@ -206,7 +206,7 @@ happen in the notebook) is also available.
 Note that these have a bounding box for reducing the display window.
 Although the underlying library is computing values for all nodes in the
 region, it is extremely difficult to visualize this much data using
-matplotlib.  The GeoCanvas tool by Autodesk is expressly designed to join
+matplotlib.  The GeoCanvas tool by UrbanSim Inc. is expressly designed to join
 indicators at the node level to shapes of parcels and produces a much more
 professional output map.  For quick interactive checking of results,
 the bounding box can be used to reduce the number of points that are shown,
