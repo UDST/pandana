@@ -11,10 +11,10 @@ OpenStreetMap
 -------------
 
 A :py:class:`~pandana.network.Network` is created from OpenStreetMap using
-the :py:func:`~pandana.loaders.osm.network_from_bbox` function::
+the :py:func:`~pandana.loaders.osm.pdna_network_from_bbox` function::
 
     from pandana.loaders import osm
-    network = osm.network_from_bbox(37.859, -122.282, 37.881, -122.252)
+    network = osm.pdna_network_from_bbox(37.859, -122.282, 37.881, -122.252)
 
 By default the generated network contains only walkable routes,
 specify ``type='drive'`` to get driveable routes.
@@ -71,7 +71,7 @@ then exclude those nodes when saving to HDF5::
 OpenStreetMap API
 -----------------
 
-.. autofunction:: pandana.loaders.osm.network_from_bbox
+.. autofunction:: pandana.loaders.osm.pdna_network_from_bbox
 
 .. autofunction:: pandana.loaders.osm.node_query
 
