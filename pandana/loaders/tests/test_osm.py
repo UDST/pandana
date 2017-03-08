@@ -19,18 +19,6 @@ def bbox2():
     return 37.8668405874, -122.2590948685, 37.8679028054, -122.2586363885
 
 
-@pytest.fixture(scope='module')
-def query_data1(bbox1):
-    return osm.make_osm_query(osm.build_network_osm_query(*bbox1))
-
-
-def test_make_osm_query(query_data1):
-    assert isinstance(query_data1, dict)
-    assert len(query_data1['elements']) == 42
-    assert len([e for e in query_data1['elements'] if e['type'] == 'node']) == 39
-    assert len([e for e in query_data1['elements'] if e['type'] == 'way']) == 3
-
-
 def test_process_node():
     test_node = {
         'id': 'id',
