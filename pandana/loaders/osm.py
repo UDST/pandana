@@ -12,7 +12,7 @@ from .. import Network
 
 def pdna_network_from_bbox(
         lat_min=None, lng_min=None, lat_max=None, lng_max=None, bbox=None, network_type='walk', two_way=True,
-        timeout=180, memory=None, max_query_area_size=50*1000*50*1000):
+        timeout=180, memory=None, max_query_area_size=50 * 1000 * 50 * 1000):
     """
     Make a Pandana network from a bounding lat/lon box request to the Overpass API
 
@@ -42,8 +42,9 @@ def pdna_network_from_bbox(
 
     """
 
-    nodes, edges = network_from_bbox(lat_min=lat_min, lng_min=lng_min, lat_max=lat_max, lng_max=lng_max, bbox=bbox, network_type=network_type,
-                          two_way=two_way, timeout=timeout, memory=memory, max_query_area_size=max_query_area_size)
+    nodes, edges = network_from_bbox(lat_min=lat_min, lng_min=lng_min, lat_max=lat_max, lng_max=lng_max,
+                                     bbox=bbox, network_type=network_type, two_way=two_way, timeout=timeout,
+                                     memory=memory, max_query_area_size=max_query_area_size)
 
     return Network(
         nodes['x'], nodes['y'],
