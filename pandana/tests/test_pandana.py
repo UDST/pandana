@@ -14,6 +14,7 @@ set and aggregate with multiple impedances
 multiple graphs
 one way streets
 '''
+pdna.reserve_num_graphs(2)
 
 
 @pytest.fixture(scope="module")
