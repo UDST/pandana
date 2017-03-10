@@ -603,6 +603,8 @@ class Network:
                 # thinking.  it's complicated on the inside, but quite
                 # intuitive to the user I think
                 s = df2[col]
+                print(category)
+                print(s)
                 df2[col] = self.poi_category_indexes[category].values[s]
                 df2[col][s == -1] = np.nan
 
