@@ -243,7 +243,7 @@ def test_pois(sample_osm):
 
 
 @skipiftravis
-def test_pois(second_sample_osm):
+def test_pois2(second_sample_osm):
     net2 = second_sample_osm
 
     ssize = 50
