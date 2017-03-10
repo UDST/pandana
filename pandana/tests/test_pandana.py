@@ -5,6 +5,7 @@ from numpy.testing import assert_allclose
 import pandas as pd
 import pytest
 from pandas.util import testing as pdt
+from pandana.testing import skipiftravis
 
 import pandana.network as pdna
 
@@ -14,7 +15,6 @@ set and aggregate with multiple impedances
 multiple graphs
 one way streets
 '''
-pdna.reserve_num_graphs(2)
 
 
 @pytest.fixture(scope="module")
@@ -203,9 +203,8 @@ def test_plot(sample_osm):
     sample_osm.plot(s)
 
 
-def test_pois(sample_osm, second_sample_osm):
+def test_pois(sample_osm):
     net = sample_osm
-    net2 = second_sample_osm
 
     ssize = 50
     np.random.seed(0)
@@ -232,15 +231,6 @@ def test_pois(sample_osm, second_sample_osm):
     with pytest.raises(AssertionError):
         net.nearest_pois(2000, "restaurants", num_pois=11)
 
-    # make sure poi searches work on second graph
-    net2.init_pois(num_categories=1, max_dist=2000, max_pois=10)
-
-    net2.set_pois("restaurants", x, y)
-
-    print net2.nearest_pois(2000, "restaurants", num_pois=10)
-
-
-def test_pois_indexes(sample_osm):
     net = sample_osm
     x, y = random_x_y(sample_osm, 100)
     x.index = ['lab%d' % i for i in range(len(x))]
@@ -250,3 +240,19 @@ def test_pois_indexes(sample_osm):
 
     d = net.nearest_pois(2000, "restaurants", num_pois=10,
                          include_poi_ids=True)
+
+
+@skipiftravis
+def test_pois(second_sample_osm):
+    net2 = second_sample_osm
+
+    ssize = 50
+    np.random.seed(0)
+    x, y = random_x_y(second_sample_osm, ssize)
+
+    # make sure poi searches work on second graph
+    net2.init_pois(num_categories=1, max_dist=2000, max_pois=10)
+
+    net2.set_pois("restaurants", x, y)
+
+    print net2.nearest_pois(2000, "restaurants", num_pois=10)
