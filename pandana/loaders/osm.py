@@ -11,16 +11,19 @@ from .. import Network
 
 
 def pdna_network_from_bbox(
-        lat_min=None, lng_min=None, lat_max=None, lng_max=None, bbox=None, network_type='walk', two_way=True,
+        lat_min=None, lng_min=None, lat_max=None, lng_max=None, bbox=None,
+        network_type='walk', two_way=True,
         timeout=180, memory=None, max_query_area_size=50 * 1000 * 50 * 1000):
     """
-    Make a Pandana network from a bounding lat/lon box request to the Overpass API
+    Make a Pandana network from a bounding lat/lon box
+    request to the Overpass API
 
     Parameters
     ----------
     lat_min, lng_min, lat_max, lng_max : float
     bbox : tuple
-        Bounding box formatted as a 4 element tuple: (lng_max, lat_min, lng_min, lat_max)
+        Bounding box formatted as a 4 element tuple:
+        (lng_max, lat_min, lng_min, lat_max)
     network_type : {'walk', 'drive'}, optional
         Specify whether the network will be used for walking or driving.
         A value of 'walk' attempts to exclude things like freeways,
@@ -32,7 +35,8 @@ def pdna_network_from_bbox(
     timeout : int, optional
         the timeout interval for requests and to pass to Overpass API
     memory : int, optional
-        server memory allocation size for the query, in bytes. If none, server will use its default allocation size
+        server memory allocation size for the query, in bytes.
+        If none, server will use its default allocation size
     max_query_area_size : float, optional
         max area for any part of the geometry, in the units the geometry is in
 
@@ -42,9 +46,12 @@ def pdna_network_from_bbox(
 
     """
 
-    nodes, edges = network_from_bbox(lat_min=lat_min, lng_min=lng_min, lat_max=lat_max, lng_max=lng_max,
-                                     bbox=bbox, network_type=network_type, two_way=two_way, timeout=timeout,
-                                     memory=memory, max_query_area_size=max_query_area_size)
+    nodes, edges = network_from_bbox(lat_min=lat_min, lng_min=lng_min,
+                                     lat_max=lat_max, lng_max=lng_max,
+                                     bbox=bbox, network_type=network_type,
+                                     two_way=two_way, timeout=timeout,
+                                     memory=memory,
+                                     max_query_area_size=max_query_area_size)
 
     return Network(
         nodes['x'], nodes['y'],
