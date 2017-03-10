@@ -84,11 +84,11 @@ create_graph(PyObject *self, PyObject *args)
 static PyObject *
 initialize_pois(PyObject *self, PyObject *args)
 {
-    int nc, mi;
+    int nc, mi, gno;
     double md;
-	if (!PyArg_ParseTuple(args, "idi", &nc, &md, &mi)) return NULL;
+	if (!PyArg_ParseTuple(args, "idii", &nc, &md, &mi, &gno)) return NULL;
 
-    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[0];
+    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[gno];
 
     sa->initializePOIs(nc,md,mi);
 
@@ -99,11 +99,11 @@ initialize_pois(PyObject *self, PyObject *args)
 static PyObject *
 initialize_category(PyObject *self, PyObject *args)
 {
-    int id;
+    int id, gno;
 	PyObject *input1;
-	if (!PyArg_ParseTuple(args, "iO", &id, &input1)) return NULL;
+	if (!PyArg_ParseTuple(args, "iOi", &id, &input1, &gno)) return NULL;
 
-    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[0];
+    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[gno];
 
     PyArrayObject *pyo;
 	pyo = (PyArrayObject*)PyArray_ContiguousFromObject(input1,

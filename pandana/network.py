@@ -482,7 +482,7 @@ class Network:
         self.num_poi_categories = num_categories
         self.max_pois = max_pois
 
-        _pyaccess.initialize_pois(num_categories, max_dist, max_pois)
+        _pyaccess.initialize_pois(num_categories, max_dist, max_pois, self.graph_no)
 
     def set_pois(self, category, x_col, y_col):
         """
@@ -515,7 +515,7 @@ class Network:
         self.poi_category_indexes[category] = xys.index
 
         _pyaccess.initialize_category(self.poi_category_names.index(category),
-                                      xys.astype('float32'))
+                                      xys.astype('float32'), self.graph_no)
 
     def nearest_pois(self, distance, category, num_pois=1, max_distance=None,
                      imp_name=None, include_poi_ids=False):
@@ -602,7 +602,7 @@ class Network:
                 # initialized as a pandas series - this really is pandas-like
                 # thinking.  it's complicated on the inside, but quite
                 # intuitive to the user I think
-                s = df2[col]
+                s = df2[col].astype('int')
                 df2[col] = self.poi_category_indexes[category].values[s]
                 df2[col][s == -1] = np.nan
 
