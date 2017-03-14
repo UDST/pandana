@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -44,6 +46,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -84,7 +87,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
@@ -109,8 +115,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">pandana</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pandana</a>
+        
       </nav>
 
 
@@ -119,23 +127,40 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
-    <li>Loaders</li>
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Loaders</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
-            <a href="_sources/loaders.txt" rel="nofollow"> View page source</a>
+            
+            <a href="_sources/loaders.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -151,9 +176,9 @@ restored later.</p>
 <div class="section" id="openstreetmap">
 <h2>OpenStreetMap<a class="headerlink" href="#openstreetmap" title="Permalink to this headline">¶</a></h2>
 <p>A <a class="reference internal" href="network.html#pandana.network.Network" title="pandana.network.Network"><code class="xref py py-class docutils literal"><span class="pre">Network</span></code></a> is created from OpenStreetMap using
-the <a class="reference internal" href="#pandana.loaders.osm.network_from_bbox" title="pandana.loaders.osm.network_from_bbox"><code class="xref py py-func docutils literal"><span class="pre">network_from_bbox()</span></code></a> function:</p>
+the <a class="reference internal" href="#pandana.loaders.osm.pdna_network_from_bbox" title="pandana.loaders.osm.pdna_network_from_bbox"><code class="xref py py-func docutils literal"><span class="pre">pdna_network_from_bbox()</span></code></a> function:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pandana.loaders</span> <span class="k">import</span> <span class="n">osm</span>
-<span class="n">network</span> <span class="o">=</span> <span class="n">osm</span><span class="o">.</span><span class="n">network_from_bbox</span><span class="p">(</span><span class="mf">37.859</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.282</span><span class="p">,</span> <span class="mf">37.881</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.252</span><span class="p">)</span>
+<span class="n">network</span> <span class="o">=</span> <span class="n">osm</span><span class="o">.</span><span class="n">pdna_network_from_bbox</span><span class="p">(</span><span class="mf">37.859</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.282</span><span class="p">,</span> <span class="mf">37.881</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.252</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>By default the generated network contains only walkable routes,
@@ -209,14 +234,20 @@ then exclude those nodes when saving to HDF5:</p>
 <div class="section" id="openstreetmap-api">
 <h2>OpenStreetMap API<a class="headerlink" href="#openstreetmap-api" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="pandana.loaders.osm.network_from_bbox">
-<code class="descclassname">pandana.loaders.osm.</code><code class="descname">network_from_bbox</code><span class="sig-paren">(</span><em>lat_min</em>, <em>lng_min</em>, <em>lat_max</em>, <em>lng_max</em>, <em>network_type='walk'</em>, <em>two_way=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.loaders.osm.network_from_bbox" title="Permalink to this definition">¶</a></dt>
-<dd><p>Make a Pandana network from a bounding lat/lon box.</p>
+<dt id="pandana.loaders.osm.pdna_network_from_bbox">
+<code class="descclassname">pandana.loaders.osm.</code><code class="descname">pdna_network_from_bbox</code><span class="sig-paren">(</span><em>lat_min=None</em>, <em>lng_min=None</em>, <em>lat_max=None</em>, <em>lng_max=None</em>, <em>bbox=None</em>, <em>network_type='walk'</em>, <em>two_way=True</em>, <em>timeout=180</em>, <em>memory=None</em>, <em>max_query_area_size=2500000000</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.loaders.osm.pdna_network_from_bbox" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a Pandana network from a bounding lat/lon box
+request to the Overpass API</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>lat_min, lng_min, lat_max, lng_max</strong> : float</p>
+<p><strong>bbox</strong> : tuple</p>
+<blockquote>
+<div><p>Bounding box formatted as a 4 element tuple:
+(lng_max, lat_min, lng_min, lat_max)</p>
+</div></blockquote>
 <p><strong>network_type</strong> : {&#8216;walk&#8217;, &#8216;drive&#8217;}, optional</p>
 <blockquote>
 <div><p>Specify whether the network will be used for walking or driving.
@@ -228,6 +259,19 @@ bike and walking paths.</p>
 <blockquote>
 <div><p>Whether the routes are two-way. If True, node pairs will only
 occur once.</p>
+</div></blockquote>
+<p><strong>timeout</strong> : int, optional</p>
+<blockquote>
+<div><p>the timeout interval for requests and to pass to Overpass API</p>
+</div></blockquote>
+<p><strong>memory</strong> : int, optional</p>
+<blockquote>
+<div><p>server memory allocation size for the query, in bytes.
+If none, server will use its default allocation size</p>
+</div></blockquote>
+<p><strong>max_query_area_size</strong> : float, optional</p>
+<blockquote>
+<div><p>max area for any part of the geometry, in the units the geometry is in</p>
 </div></blockquote>
 </td>
 </tr>
@@ -358,15 +402,18 @@ be saved as part of the Network.</p>
 
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="futurework.html" class="btn btn-neutral float-right" title="Planned Improvements" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="futurework.html" class="btn btn-neutral float-right" title="Planned Improvements" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="network.html" class="btn btn-neutral" title="Network API" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="network.html" class="btn btn-neutral" title="Network API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -400,7 +447,8 @@ be saved as part of the Network.</p>
             VERSION:'0.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>
