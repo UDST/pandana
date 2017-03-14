@@ -602,7 +602,7 @@ class Network:
                 # initialized as a pandas series - this really is pandas-like
                 # thinking.  it's complicated on the inside, but quite
                 # intuitive to the user I think
-                s = df2[col]
+                s = df2[col].astype('int')
                 df2[col] = self.poi_category_indexes[category].values[s]
                 df2[col][s == -1] = np.nan
 
