@@ -88,7 +88,7 @@ def process_node(e):
     }
 
     if 'tags' in e:
-        for t, v in e['tags'].items():
+        for t, v in list(e['tags'].items()):
             if t not in uninteresting_tags:
                 node[t] = v
 

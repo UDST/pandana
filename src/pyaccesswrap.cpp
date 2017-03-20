@@ -504,11 +504,69 @@ static PyMethodDef myMethods[] = {
 };
 
 
-PyMODINIT_FUNC init_pyaccess(void)
+#if PY_MAJOR_VERSION >= 3
+struct module_state {
+    PyObject *error;
+};
+#endif
+
+#if PY_MAJOR_VERSION >= 3
+#define GETSTATE(m) ((struct module_state*)PyModule_GetState(m))
+#else
+#define GETSTATE(m) (&_state)
+static struct module_state _state;
+#endif
+
+#if PY_MAJOR_VERSION >= 3
+static PyObject *
+error_out(PyObject *m) {
+    struct module_state *st = GETSTATE(m);
+    PyErr_SetString(st->error, "something bad happened");
+    return NULL;
+}
+
+static int pyaccess_traverse(PyObject *m, visitproc visit, void *arg) {
+    Py_VISIT(GETSTATE(m)->error);
+    return 0;
+}
+
+static int pyaccess_clear(PyObject *m) {
+    Py_CLEAR(GETSTATE(m)->error);
+    return 0;
+}
+
+static struct PyModuleDef moduledef = {
+        PyModuleDef_HEAD_INIT,
+        "_pyaccess",
+        NULL,
+        sizeof(struct module_state),
+        myMethods,
+        NULL,
+        pyaccess_traverse,
+        pyaccess_clear,
+        NULL
+};
+#endif
+
+
+PyMODINIT_FUNC
+#if PY_MAJOR_VERSION >= 3
+PyInit__pyaccess(void)
+#else
+init_pyaccess(void)
+#endif
 {
+#if PY_MAJOR_VERSION >= 3
+	PyObject *m = PyModule_Create(&moduledef);
+#else
 	PyObject *m=Py_InitModule("_pyaccess", myMethods);
+#endif
 	import_array();
 	PyObject *pyError = PyErr_NewException((char*)"pyaccess.error", NULL, NULL);
-    Py_INCREF(pyError);
-    PyModule_AddObject(m, "error", pyError);
+	Py_INCREF(pyError);
+	PyModule_AddObject(m, "error", pyError);
+
+#if PY_MAJOR_VERSION >= 3
+	return m;
+#endif
 }

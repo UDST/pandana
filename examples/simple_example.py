@@ -14,7 +14,7 @@ Depending on whether your installed copy of pandana was built with OpenMP
 support it may be run with multiple threads or only 1.
 
 """
-from __future__ import print_function
+
 
 import os.path
 import sys

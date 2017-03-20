@@ -1,4 +1,4 @@
-from __future__ import division, print_function
+
 
 import matplotlib
 # this might fix the travis build
@@ -582,7 +582,7 @@ class Network:
                                             0)
         a[a == -1] = max_distance
         df = pd.DataFrame(a, index=self.node_ids)
-        df.columns = range(1, num_pois+1)
+        df.columns = list(range(1, num_pois+1))
 
         if include_poi_ids:
             b = _pyaccess.find_all_nearest_pois(distance,
