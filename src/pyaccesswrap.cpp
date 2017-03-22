@@ -504,11 +504,9 @@ static PyMethodDef myMethods[] = {
 };
 
 
-#if PY_MAJOR_VERSION >= 3
 struct module_state {
     PyObject *error;
 };
-#endif
 
 #if PY_MAJOR_VERSION >= 3
 #define GETSTATE(m) ((struct module_state*)PyModule_GetState(m))
