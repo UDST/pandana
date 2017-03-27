@@ -17,6 +17,8 @@ def reindex(series1, series2):
     df.right : pandas.DataFrame
     """
 
+    # this function is identical to the reindex function found in UrbanSim in
+    # urbansim/utils/misc.py
     df = pd.merge(pd.DataFrame({"left": series2}),
                   pd.DataFrame({"right": series1}),
                   left_on="left",

@@ -5,7 +5,7 @@ from pandana.utils import reindex
 
 
 @pytest.fixture
-def dataframe():
+def node_df():
     data = {'node_id': [44, 55, 33, 22, 11],
             'x': [-122, -123, -124, -125, -126],
             'y': [37, 38, 39, 40, 41]}
@@ -16,7 +16,7 @@ def dataframe():
 
 
 @pytest.fixture
-def series():
+def result_series():
     data = {'value': [10, 20, 30, 40, 50]}
     index = [11, 22, 33, 44, 55]
     df = pd.DataFrame(data, index)
@@ -25,10 +25,11 @@ def series():
     return s
 
 
-def test_reindex(dataframe, series):
+def test_reindex(node_df, result_series):
 
-    results = pd.DataFrame({'value': reindex(series, dataframe.node_id)})
+    reindexed_results = pd.DataFrame({'value': reindex(result_series,
+                                                       node_df.node_id)})
 
-    assert len(results) == 5
-    assert results['value'][1] == 40
-    assert results['value'][5] == 10
+    assert len(reindexed_results) == 5
+    assert reindexed_results['value'][1] == 40
+    assert reindexed_results['value'][5] == 10
