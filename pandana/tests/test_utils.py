@@ -18,7 +18,7 @@ def dataframe():
 @pytest.fixture
 def series():
     data = {'value': [10, 20, 30, 40, 50]}
-    index = [11,22,33,44,55]
+    index = [11, 22, 33, 44, 55]
     df = pd.DataFrame(data, index)
     df.index.name = 'id'
     s = pd.Series(df.value, df.index)

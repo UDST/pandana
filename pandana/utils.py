@@ -7,10 +7,14 @@ def reindex(series1, series2):
 
     Parameters
     ----------
-    series1 : pd.Series
+    series1 : pandas.Series
         Pandas series to reindex
-    series2 : pd.Series
+    series2 : pandas.Series
         Pandas series to set the index of series1 by
+
+    Returns
+    -------
+    df.right : pandas.DataFrame
     """
 
     df = pd.merge(pd.DataFrame({"left": series2}),
