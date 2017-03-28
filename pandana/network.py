@@ -1,4 +1,4 @@
-
+from __future__ import division, print_function
 
 import matplotlib
 # this might fix the travis build
