@@ -18,10 +18,10 @@ install:
 - |
   conda create -q -c synthicity -n test-environment python=$TRAVIS_PYTHON_VERSION basemap matplotlib numpy pandas pip pytables requests
 - source activate test-environment
-- pip install pytest-cov coveralls pep8 osmnet
+- pip install pytest-cov coveralls pycodestyle osmnet
 - python setup.py install
 script:
-- pep8 pandana
+- pycodestyle pandana
 - python setup.py test --pytest-args "--cov pandana --cov-report term-missing"
 after_success:
 - coveralls
