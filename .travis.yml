@@ -18,8 +18,7 @@ install:
 - |
   conda create -q -c synthicity -n test-environment python=$TRAVIS_PYTHON_VERSION basemap matplotlib numpy pandas pip pytables requests
 - source activate test-environment
-- pip install https://github.com/UDST/osmnet/archive/master.zip
-- pip install pytest-cov coveralls pep8
+- pip install pytest-cov coveralls pep8 osmnet
 - python setup.py install
 script:
 - pep8 pandana
