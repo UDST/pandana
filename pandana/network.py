@@ -228,13 +228,13 @@ class Network:
         df = pd.DataFrame({name: variable,
                            "node_idx": self._node_indexes(node_ids)})
 
-        l = len(df)
+        length = len(df)
         df = df.dropna(how="any")
         newl = len(df)
-        if l-newl > 0:
+        if length-newl > 0:
             print(
                 "Removed %d rows because they contain missing values" %
-                (l-newl))
+                (length-newl))
 
         if name not in self.variable_names:
             self.variable_names.append(name)

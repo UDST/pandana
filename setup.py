@@ -29,6 +29,7 @@ class PyTest(TestCommand):
         errno = pytest.main(self.pytest_args or '')
         sys.exit(errno)
 
+
 include_dirs = [
     np.get_include(),
     '.',
