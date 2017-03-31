@@ -121,7 +121,7 @@ setup(
         'pandas>=0.13.1',
         'requests>=2.0',
         'tables>=3.1.0',
-        'osmnet>=0.1a',
+        'osmnet>=0.1.2',
     ],
     tests_require=['pytest'],
     cmdclass={'test': PyTest},
