@@ -58,3 +58,6 @@ docs/_build/
 
 # OSMnet logs
 logs
+
+# Example data
+examples/data
