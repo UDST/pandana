@@ -93,4 +93,4 @@ Pandas HDF5 API
 
 .. autofunction:: pandana.loaders.pandash5.network_from_pandas_hdf5
 
-.. _OSMnet repo: https://github.com/udst/osmnet
+.. _OSMnet: https://github.com/udst/osmnet

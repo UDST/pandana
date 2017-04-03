@@ -78,5 +78,5 @@ Related UDST libraries
 -  `UrbanAccess`_
 
 .. _forum: http://discussion.urbansim.com/
-.. _OSMnet repo: https://github.com/udst/osmnet
+.. _OSMnet: https://github.com/udst/osmnet
 .. _UrbanAccess: https://github.com/UDST/urbanaccess

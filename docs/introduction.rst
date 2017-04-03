@@ -125,5 +125,5 @@ Related UDST libraries
 .. _forum: http://discussion.urbansim.com/
 .. _UrbanSim: https://github.com/UDST/urbansim
 .. _Urban Data Science Toolkit: https://github.com/UDST
-.. _OSMnet repo: https://github.com/udst/osmnet
+.. _OSMnet: https://github.com/udst/osmnet
 .. _UrbanAccess: https://github.com/UDST/urbanaccess
