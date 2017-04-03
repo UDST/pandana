@@ -29,6 +29,7 @@ class PyTest(TestCommand):
         errno = pytest.main(self.pytest_args or '')
         sys.exit(errno)
 
+
 include_dirs = [
     np.get_include(),
     '.',
@@ -90,7 +91,7 @@ if platform.system() == 'Darwin':
         if mac_ver >= [10, 9]:
             extra_compile_args += ['-D NO_TR1_MEMORY']
 
-version = '0.2dev'
+version = '0.3.0'
 
 # read long description from README
 with open('README.rst', 'r') as f:
@@ -121,13 +122,14 @@ setup(
         'pandas>=0.13.1',
         'requests>=2.0',
         'tables>=3.1.0',
-        'osmnet>=0.1a',
+        'osmnet>=0.1.2',
     ],
     tests_require=['pytest'],
     cmdclass={'test': PyTest},
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.5',
         'License :: OSI Approved :: GNU Affero General Public License v3'
     ],
 )
