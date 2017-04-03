@@ -16,7 +16,7 @@ def pdna_network_from_bbox(
         timeout=180, memory=None, max_query_area_size=50 * 1000 * 50 * 1000):
     """
     Make a Pandana network from a bounding lat/lon box
-    request to the Overpass API
+    request to the Overpass API. Distance will be in the default units meters.
 
     Parameters
     ----------
@@ -62,6 +62,7 @@ def process_node(e):
     """
     Process a node element entry into a dict suitable for going into
     a Pandas DataFrame.
+
     Parameters
     ----------
     e : dict

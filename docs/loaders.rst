@@ -21,6 +21,11 @@ specify ``type='drive'`` to get driveable routes.
 These networks have one impedance set, named ``'distance'``,
 which is the distance between nodes in meters.
 
+.. note::
+   `pdna_network_from_bbox` uses the UDST library OSMnet to download and
+   process OpenStreetMap (OSM) street network data. Please see
+   the `OSMnet`_ repo for any OSM loader questions, bugs, or features.
+
 The OSM API also includes the :py:func:`~pandana.loaders.osm.node_query`
 function for getting specific nodes within a bounding box.
 This can be used to populate a network with points of interest::
@@ -87,3 +92,5 @@ Pandas HDF5 API
 .. autofunction:: pandana.loaders.pandash5.network_to_pandas_hdf5
 
 .. autofunction:: pandana.loaders.pandash5.network_from_pandas_hdf5
+
+.. _OSMnet repo: https://github.com/udst/osmnet

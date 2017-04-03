@@ -40,8 +40,8 @@ queries are a more accurate representation of how people interact with
 their environment.
 
 We look forward to creative uses of a general library like this - please
-let us know when you think you have a great use case with the hashtag
-``#udst``.
+let us know if you think you have a great use case by tweeting us at
+``@urbansim`` or post on the UrbanSim `forum`_.
 
 Docs
 ----
@@ -70,3 +70,13 @@ A `complete description of the
 methodology <http://onlinepubs.trb.org/onlinepubs/conferences/2012/4thITM/Papers-A/0117-000062.pdf>`__
 was presented at the Transportation Research Board Annual Conference in 2012. Please cite this paper when referring
 to the methodology implemented by this library.
+
+Related UDST libraries
+----------------------
+
+-  `OSMnet`_
+-  `UrbanAccess`_
+
+.. _forum: http://discussion.urbansim.com/
+.. _OSMnet repo: https://github.com/udst/osmnet
+.. _UrbanAccess: https://github.com/UDST/urbanaccess
