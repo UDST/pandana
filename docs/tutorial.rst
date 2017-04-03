@@ -24,7 +24,7 @@ takes a small number of Pandas Series objects.
 The network is comprised of a set of nodes and edges.
 We store our nodes and edges as two Pandas DataFrames in an HDFStore object.
 We can access them as follows (the demo data file can be
-`downloaded here <https://s3-us-west-2.amazonaws.com/urbandatascience/pandana/osm_bayarea.h5>`__)::
+`downloaded here <https://s3-us-west-1.amazonaws.com/synthpop-data2/pandana/osm_bayarea.h5>`__)::
 
 
     store = pd.HDFStore('data/osm_bayarea.h5', "r")
