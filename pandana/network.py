@@ -506,7 +506,10 @@ class Network:
 
     def set_pois(self, category, x_col, y_col):
         """
-        Set the location of all the pois of this category
+        Set the location of all the pois of this category. The pois are
+        connected to the closest node in the Pandana network which assumes
+        no impedance between the location of the variable and the location
+        of the closest network node.
 
         Parameters
         ----------
