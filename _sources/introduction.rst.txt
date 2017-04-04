@@ -117,7 +117,7 @@ License
 Pandana is licensed under the AGPL license.
 
 Related UDST libraries
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 -  `OSMnet`_
 -  `UrbanAccess`_
