@@ -50,7 +50,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'pandana'
-copyright = '2015, UrbanSim Inc.'
+copyright = '2017, UrbanSim Inc.'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

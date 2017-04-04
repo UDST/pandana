@@ -7,8 +7,9 @@ in the ``Pandana`` repo which gives the entire workflow,
 but the discussion here will take things line-by-line with a sufficient
 summary of the functionality.
 
-Note that these code samples assume you have imported pandana as follows::
+Note that these code samples assume you have imported pandas and pandana as follows::
 
+    import pandas as pd
     import pandana as pdna
 
 Create the Network
