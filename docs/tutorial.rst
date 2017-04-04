@@ -210,22 +210,21 @@ matplotlib.  For quick interactive checking of results,
 the bounding box can be used to reduce the number of points that are shown,
 and sample code and images are included below. ::
 
-    bbox=[-122.539365,37.693047,-122.347698,37.816069]
+    bbox = [-122.539365, 37.693047, -122.347698, 37.816069]
     net.plot(s, bbox=bbox,
-    fig_kwargs={'figsize':[20,20]},
-    bmap_kwargs={'suppress_ticks':False,
-    'resolution':'h'},
-    plot_kwargs={'cmap':'BrBG','s':8,'edgecolor':'none'})
-
+             fig_kwargs={'figsize': [20, 20]},
+             bmap_kwargs={'suppress_ticks': False,
+                          'resolution': 'h', 'epsg': '26943'},
+             plot_kwargs={'cmap': 'BrBG', 's': 8, 'edgecolor': 'none'})
 
 .. image:: img/500metersum.png
 
 ::
 
     net.plot(u, bbox=bbox,
-    fig_kwargs={'figsize':[20,20]},
-    bmap_kwargs={'suppress_ticks':False,
-    'resolution':'h'},
-    plot_kwargs={'cmap':'BrBG','s':8,'edgecolor':'none'}
+             fig_kwargs={'figsize': [20, 20]},
+             bmap_kwargs={'suppress_ticks': False,
+                          'resolution': 'h', 'epsg': '26943'},
+             plot_kwargs={'cmap': 'BrBG', 's': 8, 'edgecolor': 'none'}
 
 .. image:: img/2000metersum.png
