@@ -201,7 +201,7 @@ class Network:
 
         Parameters
         ----------
-        node_id : Pandas Series, int
+        node_ids : Pandas Series, int
             A series of node_ids which are usually computed using
             get_node_ids on this object.
         variable : Pandas Series, float, optional

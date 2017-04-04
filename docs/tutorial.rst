@@ -210,8 +210,7 @@ matplotlib.  For quick interactive checking of results,
 the bounding box can be used to reduce the number of points that are shown,
 and sample code and images are included below. ::
 
-    sf_tmp = [-122.524338, 37.707794, -122.34993, 37.834192]
-    sf_bbox = [sf_tmp[1], sf_tmp[0], sf_tmp[3], sf_tmp[2]]
+    sf_bbox = [37.707794, -122.524338, 37.834192, -122.34993]
 
     net.plot(s, bbox=sf_bbox,
              fig_kwargs={'figsize': [20, 20]},

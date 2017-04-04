@@ -9,8 +9,6 @@ Pandana
    :alt: Coverage Status
    :target: https://coveralls.io/r/UDST/pandana
 
-A nice slideshow showing example code is available
-`here <http://bit.ly/1tivyjw>`__.
 
 In this case, a picture is worth a thousand words. The image below shows
 the distance to the *2nd* nearest restaurant (rendered by matplotlib)
