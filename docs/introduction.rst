@@ -95,9 +95,9 @@ variable using network queries.
   care, or urban predictive variables - e.g. average income in the local area,
   or simply for data exploration.  A common use case will be to write to
   shapefiles and use in further GIS analysis, or to relate to parcels and
-  buildings and use in further analysis within `UrbanSim`_ and the
-`Urban Data Science Toolkit`_.  There are many possibilities, and we hope designing a
-  flexible and easy to use engine will serve many use cases.
+  buildings and use in further analysis within `UrbanSim`_ and the `Urban Data Science Toolkit`_.
+  There are many possibilities, and we hope designing a flexible and easy to
+  use engine will serve many use cases.
 
 
 Reporting bugs
