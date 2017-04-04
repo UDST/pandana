@@ -13,7 +13,7 @@ Beyond simple access to destination queries, this library also implements more g
 we think network queries are a more accurate representation of how people
 interact with their environment.
 
-We look forward to creative uses of a general library like this - please let us know when you think you have a great use case with the hashtag ``#udst``.
+We look forward to creative uses of a general library like this - please let us know when you think you have a great use case by tweeting us at ``@urbansim`` or post on the UrbanSim `forum`_.
 
 The General Workflow
 ~~~~~~~~~~~~~~~~~~~~
@@ -95,6 +95,35 @@ variable using network queries.
   care, or urban predictive variables - e.g. average income in the local area,
   or simply for data exploration.  A common use case will be to write to
   shapefiles and use in further GIS analysis, or to relate to parcels and
-  buildings and use in further analysis within UrbanSim and the Urban Data
-  Science Toolkit.  There are many possibilities, and we hope designing a
-  flexible and easy to use engine will serve many use cases.
+  buildings and use in further analysis within `UrbanSim`_ and the `Urban Data Science Toolkit`_.
+  There are many possibilities, and we hope designing a flexible and easy to
+  use engine will serve many use cases.
+
+
+Reporting bugs
+~~~~~~~~~~~~~~~~~~~~~~~~
+Please report any bugs you encounter via `GitHub Issues <https://github.com/UDST/pandana/issues>`__.
+
+Contributing to Pandana
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+If you have improvements or new features you would like to see in Pandana:
+
+1. Open a feature request via `GitHub Issues <https://github.com/UDST/pandana/issues>`__.
+2. Contribute your code from a fork or branch by using a Pull Request and request a review so it can be considered as an addition to the codebase.
+
+License
+~~~~~~~~
+
+Pandana is licensed under the AGPL license.
+
+Related UDST libraries
+----------------------
+
+-  `OSMnet`_
+-  `UrbanAccess`_
+
+.. _forum: http://discussion.urbansim.com/
+.. _UrbanSim: https://github.com/UDST/urbansim
+.. _Urban Data Science Toolkit: https://github.com/UDST
+.. _OSMnet: https://github.com/udst/osmnet
+.. _UrbanAccess: https://github.com/UDST/urbanaccess

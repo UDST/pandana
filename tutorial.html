@@ -93,6 +93,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html#related-udst-libraries">Related UDST libraries</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#create-the-network">Create the Network</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#assign-variables-and-perform-computations-for-nearest-queries">Assign variables and perform computations for nearest queries</a></li>
@@ -102,6 +103,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="network.html">Network API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loaders.html">Loaders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="futurework.html">Planned Improvements</a></li>
 </ul>
 
@@ -182,7 +184,7 @@ summary of the functionality.</p>
 <p>First create the network.  Although the API is incredibly simple,
 this is likely to be the most difficult part of using Pandana.  In the future
 we will leverage the import functionality of tools like <code class="docutils literal"><span class="pre">geopandas</span></code> to
-directly access OpenStreetMap and networks via shapefiles,
+directly access networks via shapefiles,
 but for now the initialization <code class="xref py py-meth docutils literal"><span class="pre">pandana.network.Network.__init__()</span></code>
 takes a small number of Pandas Series objects.</p>
 <p>The network is comprised of a set of nodes and edges.
@@ -234,9 +236,9 @@ where 3000 meters is used as the horizon distance:</p>
 </pre></div>
 </div>
 <p>Note that a large amount of time is spent in the precomputations that take
-place for these two lines of code.  On my MacBook, these two lines of code
+place for these two lines of code.  On a MacBook, these two lines of code
 take 4 seconds and 8.5 seconds respectively.</p>
-<p><strong>I also have a 4-core cpu, so if your precomputation is much slower,
+<p><strong>This was done on a 4-core cpu, so if your precomputation is much slower,
 check the IPython Notebook output (on the console) for a statement that says</strong>
 <code class="docutils literal"><span class="pre">Generating</span> <span class="pre">contraction</span> <span class="pre">hierarchies</span> <span class="pre">with</span> <span class="pre">4</span> <span class="pre">threads.</span></code> <strong>If your output says
 1 instead of 4 you are running single threaded.  If you are running on
@@ -351,20 +353,25 @@ associated computed values using matplotlib (so that the entire workflow can
 happen in the notebook) is also available.</p>
 <p>Note that these have a bounding box for reducing the display window.
 Although the underlying library is computing values for all nodes in the
-region, it is extremely difficult to visualize this much data using
-matplotlib.  The GeoCanvas tool by UrbanSim Inc. is expressly designed to join
-indicators at the node level to shapes of parcels and produces a much more
-professional output map.  For quick interactive checking of results,
+region, it is difficult to visualize this much data using
+matplotlib.  For quick interactive checking of results,
 the bounding box can be used to reduce the number of points that are shown,
 and sample code and images are included below.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">bbox</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">122.539365</span><span class="p">,</span><span class="mf">37.693047</span><span class="p">,</span><span class="o">-</span><span class="mf">122.347698</span><span class="p">,</span><span class="mf">37.816069</span><span class="p">]</span>
-<span class="n">net</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span><span class="n">bbox</span><span class="p">,</span> <span class="n">scheme</span><span class="o">=</span><span class="s2">&quot;diverging&quot;</span><span class="p">,</span>
-         <span class="n">color</span><span class="o">=</span><span class="s2">&quot;BrBG&quot;</span><span class="p">,</span> <span class="n">log_scale</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sf_bbox</span> <span class="o">=</span> <span class="p">[</span><span class="mf">37.707794</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.524338</span><span class="p">,</span> <span class="mf">37.834192</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.34993</span><span class="p">]</span>
+
+<span class="n">net</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span><span class="n">sf_bbox</span><span class="p">,</span>
+         <span class="n">fig_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;figsize&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">]},</span>
+         <span class="n">bmap_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;suppress_ticks&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                      <span class="s1">&#39;resolution&#39;</span><span class="p">:</span> <span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;epsg&#39;</span><span class="p">:</span> <span class="s1">&#39;26943&#39;</span><span class="p">},</span>
+         <span class="n">plot_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;cmap&#39;</span><span class="p">:</span> <span class="s1">&#39;BrBG&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;edgecolor&#39;</span><span class="p">:</span> <span class="s1">&#39;none&#39;</span><span class="p">})</span>
 </pre></div>
 </div>
 <img alt="_images/500metersum.png" src="_images/500metersum.png" />
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span><span class="n">bbox</span><span class="p">,</span> <span class="n">scheme</span><span class="o">=</span><span class="s2">&quot;diverging&quot;</span><span class="p">,</span>
-         <span class="n">color</span><span class="o">=</span><span class="s2">&quot;BrBG&quot;</span><span class="p">,</span> <span class="n">log_scale</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span><span class="n">sf_bbox</span><span class="p">,</span>
+         <span class="n">fig_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;figsize&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">]},</span>
+         <span class="n">bmap_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;suppress_ticks&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                      <span class="s1">&#39;resolution&#39;</span><span class="p">:</span> <span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;epsg&#39;</span><span class="p">:</span> <span class="s1">&#39;26943&#39;</span><span class="p">},</span>
+         <span class="n">plot_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;cmap&#39;</span><span class="p">:</span> <span class="s1">&#39;BrBG&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;edgecolor&#39;</span><span class="p">:</span> <span class="s1">&#39;none&#39;</span><span class="p">}</span>
 </pre></div>
 </div>
 <img alt="_images/2000metersum.png" src="_images/2000metersum.png" />

@@ -24,6 +24,7 @@ Contents
    tutorial
    network
    loaders
+   utilities
    futurework
 
 Indices and tables

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Search &mdash; pandana 0.3.0 documentation</title>
+  <title>Utilities &mdash; pandana 0.3.0 documentation</title>
   
 
   
@@ -34,8 +34,10 @@
   
         <link rel="index" title="Index"
               href="genindex.html"/>
-        <link rel="search" title="Search" href="#"/>
-    <link rel="top" title="pandana 0.3.0 documentation" href="index.html"/> 
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="pandana 0.3.0 documentation" href="index.html"/>
+        <link rel="next" title="Planned Improvements" href="futurework.html"/>
+        <link rel="prev" title="Loaders" href="loaders.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -71,7 +73,7 @@
 
           
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="#" method="get">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -88,14 +90,14 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html#related-udst-libraries">Related UDST libraries</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="network.html">Network API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loaders.html">Loaders</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="futurework.html">Planned Improvements</a></li>
 </ul>
 
@@ -141,10 +143,14 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Search</li>
+      <li>Utilities</li>
     
     
       <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/utilities.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -156,19 +162,35 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <noscript>
-  <div id="fallback" class="admonition warning">
-    <p class="last">
-      Please activate JavaScript to enable the search
-      functionality.
-    </p>
-  </div>
-  </noscript>
+  <div class="section" id="utilities">
+<h1>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="pandana.utils.reindex">
+<code class="descclassname">pandana.utils.</code><code class="descname">reindex</code><span class="sig-paren">(</span><em>series1</em>, <em>series2</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.utils.reindex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reindex the first series by the second series.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>series1</strong> : pandas.Series</p>
+<blockquote>
+<div><p>Pandas series to reindex</p>
+</div></blockquote>
+<p><strong>series2</strong> : pandas.Series</p>
+<blockquote>
+<div><p>Pandas series to set the index of series1 by</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>df.right</strong> : pandas.DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
-  
-  <div id="search-results">
-  
-  </div>
+</div>
+
 
            </div>
            <div class="articleComments">
@@ -176,6 +198,15 @@
            </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="futurework.html" class="btn btn-neutral float-right" title="Planned Improvements" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="loaders.html" class="btn btn-neutral" title="Loaders" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
@@ -215,7 +246,6 @@
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
       <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-      <script type="text/javascript" src="_static/searchtools.js"></script>
 
   
 
@@ -231,14 +261,7 @@
           SphinxRtdTheme.StickyNav.enable();
       });
   </script>
-  
-  <script type="text/javascript">
-    jQuery(function() { Search.loadIndex("searchindex.js"); });
-  </script>
-  
-  <script type="text/javascript" id="searchindexloader"></script>
    
-
 
 </body>
 </html>

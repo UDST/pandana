@@ -95,11 +95,16 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-general-workflow">The General Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reporting-bugs">Reporting bugs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#contributing-to-pandana">Contributing to Pandana</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#license">License</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="#related-udst-libraries">Related UDST libraries</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="network.html">Network API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loaders.html">Loaders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="futurework.html">Planned Improvements</a></li>
 </ul>
 
@@ -174,7 +179,7 @@ distance to the 2nd nearest restaurant (rendered by matplotlib). With only a few
 <p>Beyond simple access to destination queries, this library also implements more general aggregations along the street network (or any network). For a given region, this produces hundreds of thousands of overlapping buffer queries (still performed in less than a second) that can be used to characterize the local neighborhood around each street intersection. The result can then be mapped, or assigned to parcel and building records, or used in statistical models as we commonly do with UrbanSim. This is in stark contrast to the arbitrary non-overlapping geographies ubiquitous in GIS. Although there are advantages to the GIS approach,
 we think network queries are a more accurate representation of how people
 interact with their environment.</p>
-<p>We look forward to creative uses of a general library like this - please let us know when you think you have a great use case with the hashtag <code class="docutils literal"><span class="pre">#udst</span></code>.</p>
+<p>We look forward to creative uses of a general library like this - please let us know when you think you have a great use case by tweeting us at <code class="docutils literal"><span class="pre">&#64;urbansim</span></code> or post on the UrbanSim <a class="reference external" href="http://discussion.urbansim.com/">forum</a>.</p>
 </div>
 <div class="section" id="the-general-workflow">
 <h2>The General Workflow<a class="headerlink" href="#the-general-workflow" title="Permalink to this headline">¶</a></h2>
@@ -244,12 +249,35 @@ matplotlib.</p>
 care, or urban predictive variables - e.g. average income in the local area,
 or simply for data exploration.  A common use case will be to write to
 shapefiles and use in further GIS analysis, or to relate to parcels and
-buildings and use in further analysis within UrbanSim and the Urban Data
-Science Toolkit.  There are many possibilities, and we hope designing a
-flexible and easy to use engine will serve many use cases.</p>
+buildings and use in further analysis within <a class="reference external" href="https://github.com/UDST/urbansim">UrbanSim</a> and the <a class="reference external" href="https://github.com/UDST">Urban Data Science Toolkit</a>.
+There are many possibilities, and we hope designing a flexible and easy to
+use engine will serve many use cases.</p>
 </li>
 </ul>
 </div>
+<div class="section" id="reporting-bugs">
+<h2>Reporting bugs<a class="headerlink" href="#reporting-bugs" title="Permalink to this headline">¶</a></h2>
+<p>Please report any bugs you encounter via <a class="reference external" href="https://github.com/UDST/pandana/issues">GitHub Issues</a>.</p>
+</div>
+<div class="section" id="contributing-to-pandana">
+<h2>Contributing to Pandana<a class="headerlink" href="#contributing-to-pandana" title="Permalink to this headline">¶</a></h2>
+<p>If you have improvements or new features you would like to see in Pandana:</p>
+<ol class="arabic simple">
+<li>Open a feature request via <a class="reference external" href="https://github.com/UDST/pandana/issues">GitHub Issues</a>.</li>
+<li>Contribute your code from a fork or branch by using a Pull Request and request a review so it can be considered as an addition to the codebase.</li>
+</ol>
+</div>
+<div class="section" id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<p>Pandana is licensed under the AGPL license.</p>
+</div>
+</div>
+<div class="section" id="related-udst-libraries">
+<h1>Related UDST libraries<a class="headerlink" href="#related-udst-libraries" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/udst/osmnet">OSMnet</a></li>
+<li><a class="reference external" href="https://github.com/UDST/urbanaccess">UrbanAccess</a></li>
+</ul>
 </div>
 
 

@@ -36,7 +36,7 @@
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="pandana 0.3.0 documentation" href="index.html"/>
-        <link rel="next" title="Planned Improvements" href="futurework.html"/>
+        <link rel="next" title="Utilities" href="utilities.html"/>
         <link rel="prev" title="Network API" href="network.html"/> 
 
   
@@ -93,6 +93,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html#related-udst-libraries">Related UDST libraries</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="network.html">Network API</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Loaders</a><ul>
@@ -102,6 +103,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#pandas-hdf5-api">Pandas HDF5 API</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="futurework.html">Planned Improvements</a></li>
 </ul>
 
@@ -185,6 +187,12 @@ the <a class="reference internal" href="#pandana.loaders.osm.pdna_network_from_b
 specify <code class="docutils literal"><span class="pre">type='drive'</span></code> to get driveable routes.
 These networks have one impedance set, named <code class="docutils literal"><span class="pre">'distance'</span></code>,
 which is the distance between nodes in meters.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><cite>pdna_network_from_bbox</cite> uses the UDST library OSMnet to download and
+process OpenStreetMap (OSM) street network data. Please see
+the <a class="reference external" href="https://github.com/udst/osmnet">OSMnet</a> repo for any OSM loader questions, bugs, or features.</p>
+</div>
 <p>The OSM API also includes the <a class="reference internal" href="#pandana.loaders.osm.node_query" title="pandana.loaders.osm.node_query"><code class="xref py py-func docutils literal"><span class="pre">node_query()</span></code></a>
 function for getting specific nodes within a bounding box.
 This can be used to populate a network with points of interest:</p>
@@ -237,7 +245,7 @@ then exclude those nodes when saving to HDF5:</p>
 <dt id="pandana.loaders.osm.pdna_network_from_bbox">
 <code class="descclassname">pandana.loaders.osm.</code><code class="descname">pdna_network_from_bbox</code><span class="sig-paren">(</span><em>lat_min=None</em>, <em>lng_min=None</em>, <em>lat_max=None</em>, <em>lng_max=None</em>, <em>bbox=None</em>, <em>network_type='walk'</em>, <em>two_way=True</em>, <em>timeout=180</em>, <em>memory=None</em>, <em>max_query_area_size=2500000000</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.loaders.osm.pdna_network_from_bbox" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a Pandana network from a bounding lat/lon box
-request to the Overpass API</p>
+request to the Overpass API. Distance will be in the default units meters.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -410,7 +418,7 @@ be saved as part of the Network.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="futurework.html" class="btn btn-neutral float-right" title="Planned Improvements" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="utilities.html" class="btn btn-neutral float-right" title="Utilities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="network.html" class="btn btn-neutral" title="Network API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

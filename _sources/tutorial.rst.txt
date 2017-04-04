@@ -17,7 +17,7 @@ Create the Network
 First create the network.  Although the API is incredibly simple,
 this is likely to be the most difficult part of using Pandana.  In the future
 we will leverage the import functionality of tools like ``geopandas`` to
-directly access OpenStreetMap and networks via shapefiles,
+directly access networks via shapefiles,
 but for now the initialization :py:meth:`pandana.network.Network.__init__`
 takes a small number of Pandas Series objects.
 
@@ -76,10 +76,10 @@ where 3000 meters is used as the horizon distance: ::
     net.precompute(3000)
 
 Note that a large amount of time is spent in the precomputations that take
-place for these two lines of code.  On my MacBook, these two lines of code
+place for these two lines of code.  On a MacBook, these two lines of code
 take 4 seconds and 8.5 seconds respectively.
 
-**I also have a 4-core cpu, so if your precomputation is much slower,
+**This was done on a 4-core cpu, so if your precomputation is much slower,
 check the IPython Notebook output (on the console) for a statement that says**
 ``Generating contraction hierarchies with 4 threads.`` **If your output says
 1 instead of 4 you are running single threaded.  If you are running on
@@ -205,22 +205,27 @@ happen in the notebook) is also available.
 
 Note that these have a bounding box for reducing the display window.
 Although the underlying library is computing values for all nodes in the
-region, it is extremely difficult to visualize this much data using
-matplotlib.  The GeoCanvas tool by UrbanSim Inc. is expressly designed to join
-indicators at the node level to shapes of parcels and produces a much more
-professional output map.  For quick interactive checking of results,
+region, it is difficult to visualize this much data using
+matplotlib.  For quick interactive checking of results,
 the bounding box can be used to reduce the number of points that are shown,
 and sample code and images are included below. ::
 
-    bbox=[-122.539365,37.693047,-122.347698,37.816069]
-    net.plot(s, bbox=bbox, scheme="diverging",
-             color="BrBG", log_scale=True)
+    sf_bbox = [37.707794, -122.524338, 37.834192, -122.34993]
+
+    net.plot(s, bbox=sf_bbox,
+             fig_kwargs={'figsize': [20, 20]},
+             bmap_kwargs={'suppress_ticks': False,
+                          'resolution': 'h', 'epsg': '26943'},
+             plot_kwargs={'cmap': 'BrBG', 's': 8, 'edgecolor': 'none'})
 
 .. image:: img/500metersum.png
 
 ::
 
-    net.plot(u, bbox=bbox, scheme="diverging",
-             color="BrBG", log_scale=True)
+    net.plot(u, bbox=sf_bbox,
+             fig_kwargs={'figsize': [20, 20]},
+             bmap_kwargs={'suppress_ticks': False,
+                          'resolution': 'h', 'epsg': '26943'},
+             plot_kwargs={'cmap': 'BrBG', 's': 8, 'edgecolor': 'none'}
 
 .. image:: img/2000metersum.png

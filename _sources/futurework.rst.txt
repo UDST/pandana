@@ -14,11 +14,7 @@ includes:
 * Batch (multi-threaded) routing between a large number of pairs of nodes in
   the network
 
-* Additional OpenStreetMap, ESRI ShapeFile and Geodatabase,
-  and GTFS (General Transit Feed Service) importing
-
-* Unification of multiple networks, like combining the pedestrian
-  OpenStreetMap network with the GTFS transit schedules
+* Additional OpenStreetMap, ESRI ShapeFile and Geodatabase importing
 
 * Returning a DataFrame of all source-destination nodes within a certain
   distance (and including the distance)

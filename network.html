@@ -93,9 +93,11 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html#related-udst-libraries">Related UDST libraries</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Network API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loaders.html">Loaders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="futurework.html">Planned Improvements</a></li>
 </ul>
 
@@ -166,13 +168,12 @@
 <dt id="pandana.network.Network">
 <em class="property">class </em><code class="descclassname">pandana.network.</code><code class="descname">Network</code><span class="sig-paren">(</span><em>node_x</em>, <em>node_y</em>, <em>edge_from</em>, <em>edge_to</em>, <em>edge_weights</em>, <em>twoway=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create the transportation network in the city.  Typical data would be
-distance based from OpenStreetMap or possibly using transit data from
-GTFS.</p>
+distance based from OpenStreetMap or travel time from GTFS transit data.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>node_x</strong> : Pandas Series, flaot</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>node_x</strong> : Pandas Series, float</p>
 <blockquote>
 <div><p>Defines the x attribute for nodes in the network (e.g. longitude)</p>
 </div></blockquote>
@@ -198,11 +199,17 @@ of the two series objects above</p>
 distances between nodes.  Multiple impedances can be used to
 capture travel times at different times of day, for instance</p>
 </div></blockquote>
-<p><strong>two_way</strong> : boolean, optional</p>
+<p><strong>twoway</strong> : boolean, optional</p>
 <blockquote class="last">
 <div><p>Whether the edges in this network are two way edges or one way (
 where the one direction is directed from the from node to the to
-node)</p>
+node). If twoway = True, it is assumed that the from and to id in the
+edge table occurs once and that travel can occur in both directions
+on the single edge record. Pandana will internally flip and append
+the from and to ids to the original edges to create a two direction
+network. If twoway = False, it is assumed that travel can only occur
+in the explicit direction indicated by the from and to id in the edge
+table.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -222,7 +229,11 @@ within 1000 meters.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>distance</strong> : float</p>
 <blockquote>
-<div><p>The maximum distance to aggregate data within</p>
+<div><p>The maximum distance to aggregate data within. &#8216;distance&#8217; can
+represent any impedance unit that you have set as your edge
+weight. This will usually be a distance unit in meters however
+if you have customized the impedance this could be in other
+units such as utility or time etc.</p>
 </div></blockquote>
 <p><strong>type</strong> : string</p>
 <blockquote>
@@ -311,8 +322,11 @@ location of dataset.  x_col and y_col should use the same index.</p>
 <p><strong>mapping_distance</strong> : float, optional</p>
 <blockquote>
 <div><p>The maximum distance that will be considered a match between the
-x, y data and the nearest node in the network.  If not specified,
-every x, y coordinate will be mapped to the nearest node</p>
+x, y data and the nearest node in the network.  This will usually
+be a distance unit in meters however if you have customized the
+impedance this could be in other units such as utility or time
+etc. If not specified, every x, y coordinate will be mapped to
+the nearest node.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -346,7 +360,10 @@ input x, y&#8217;s that were successfully mapped to node_ids.</p>
 </div></blockquote>
 <p><strong>max_dist</strong> : float</p>
 <blockquote>
-<div><p>Maximum distance that will be tested to nearest POIs</p>
+<div><p>Maximum distance that will be tested to nearest POIs. This will
+usually be a distance unit in meters however if you have
+customized the impedance this could be in other
+units such as utility or time etc.</p>
 </div></blockquote>
 <p><strong>max_pois :</strong></p>
 <blockquote>
@@ -372,7 +389,10 @@ of other nodes within a given distance.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>impedance</strong> : float</p>
 <blockquote>
-<div><p>Distance within which to search for other connected nodes.</p>
+<div><p>Distance within which to search for other connected nodes. This
+will usually be a distance unit in meters however if you have
+customized the impedance this could be in other units such as
+utility or time etc.</p>
 </div></blockquote>
 <p><strong>count</strong> : int</p>
 <blockquote>
@@ -410,7 +430,10 @@ bigger values in this case mean less accessibility.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>distance</strong> : float</p>
 <blockquote>
-<div><p>The maximum distance to look for pois</p>
+<div><p>The maximum distance to look for pois. This will usually be a
+distance unit in meters however if you have customized the
+impedance this could be in other units such as utility or time
+etc.</p>
 </div></blockquote>
 <p><strong>category</strong> : string</p>
 <blockquote>
@@ -424,7 +447,10 @@ columns in the DataFrame that gets returned</p>
 <p><strong>max_distance</strong> : float, optional</p>
 <blockquote>
 <div><p>The value to set the distance to if there is NO poi within the
-specified distance - if not specified, gets set to distance</p>
+specified distance - if not specified, gets set to distance. This
+will usually be a distance unit in meters however if you have
+customized the impedance this could be in other units such as
+utility or time etc.</p>
 </div></blockquote>
 <p><strong>imp_name</strong> : string, optional</p>
 <blockquote>
@@ -470,7 +496,7 @@ closest poi, and so on.</p>
 <dt id="pandana.network.Network.plot">
 <code class="descname">plot</code><span class="sig-paren">(</span><em>data</em>, <em>bbox=None</em>, <em>plot_type='scatter'</em>, <em>fig_kwargs=None</em>, <em>bmap_kwargs=None</em>, <em>plot_kwargs=None</em>, <em>cbar_kwargs=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot an array of data on a map using matplotlib and Basemap,
-automatically matching the data to node positions.</p>
+automatically matching the data to the Pandana network node positions.</p>
 <p>Keyword arguments are passed to the plotting routine.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -530,7 +556,9 @@ results will be used.)</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>distance</strong> : float</p>
 <blockquote>
-<div><p>The maximum distance to use</p>
+<div><p>The maximum distance to use. This will usually be a distance unit
+in meters however if you have customized the impedance this could
+be in other units such as utility or time etc.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -572,7 +600,7 @@ the network.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>node_id</strong> : Pandas Series, int</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>node_ids</strong> : Pandas Series, int</p>
 <blockquote>
 <div><p>A series of node_ids which are usually computed using
 get_node_ids on this object.</p>
@@ -588,7 +616,10 @@ and variable should have the same index (although the index is
 not actually used).  If variable is not set, then it is assumed
 that the variable is all &#8220;ones&#8221; at the location specified by
 node_ids.  This could be, for instance, the location of all
-coffee shops which don&#8217;t really have a variable to aggregate.</p>
+coffee shops which don&#8217;t really have a variable to aggregate. The
+variable is connected to the closest node in the Pandana network
+which assumes no impedance between the location of the variable
+and the location of the closest network node.</p>
 </div></blockquote>
 <p><strong>name</strong> : string, optional</p>
 <blockquote>
@@ -610,7 +641,10 @@ setting names.</p>
 <dl class="method">
 <dt id="pandana.network.Network.set_pois">
 <code class="descname">set_pois</code><span class="sig-paren">(</span><em>category</em>, <em>x_col</em>, <em>y_col</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.set_pois" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the location of all the pois of this category</p>
+<dd><p>Set the location of all the pois of this category. The pois are
+connected to the closest node in the Pandana network which assumes
+no impedance between the location of the variable and the location
+of the closest network node.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
