@@ -22,7 +22,12 @@ import pandana.network as pdna
 # You'll also need to increment the non-Travis number of tests below
 # to match the number of Networks created while running tests locally.
 
-if os.environ.get('TRAVIS') == 'true':
+travis = os.environ.get('TRAVIS') == 'true'
+appveyor = os.environ.get('APPVEYOR') == 'True'
+
+ci_condition = travis or appveyor
+
+if ci_condition:
     num_networks_tested = 1
 else:
     num_networks_tested = 6
