@@ -24,4 +24,4 @@ install:
 
 test_script:
   - pycodestyle pandana
-  - py.test
+  - pytest
