@@ -1,0 +1,26 @@
+build: false
+
+environment:
+  matrix:
+    - PYTHON_VERSION: 2.7
+      MINICONDA: C:\Miniconda
+    - PYTHON_VERSION: 3.5
+      MINICONDA: C:\Miniconda3
+
+init:
+  - "ECHO %PYTHON_VERSION% %MINICONDA%"
+
+install:
+  - "set PATH=%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update -q conda
+  - conda info -a
+  - "conda create -q -n test-environment python=%PYTHON_VERSION% basemap matplotlib numpy pandas pytables requests"
+  - activate test-environment
+  - conda install -c udst osmnet
+  - pip install pycodestyle
+  - pip install .
+
+test_script:
+  - pycodestyle pandana
+  - py.test
