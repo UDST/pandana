@@ -15,12 +15,11 @@ install:
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
   - conda info -a
-  - "conda create -q -n test-environment python=%PYTHON_VERSION% basemap matplotlib numpy pandas pytables requests pytest"
+  - conda config --add channels conda-forge
+  - "conda create -n test-environment python=%PYTHON_VERSION% basemap matplotlib numpy pandas pytables requests pytest shapely geopandas"
   - activate test-environment
-  # osmnet dependencies
-  - conda install -c conda-forge shapely geopandas
   - pip install pycodestyle osmnet
-  - pip install .
+  - python setup.py install
 
 test_script:
   - pycodestyle pandana
