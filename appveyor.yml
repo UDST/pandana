@@ -24,3 +24,10 @@ install:
 test_script:
   - pycodestyle pandana
   - pytest
+
+after_test:
+  - python setup.py bdist_wheel
+
+artifacts:
+  # bdist_wheel puts your built wheel in the dist directory
+  - path: dist\*
