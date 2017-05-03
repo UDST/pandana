@@ -9,8 +9,6 @@ Pandana
    :alt: Coverage Status
    :target: https://coveralls.io/r/UDST/pandana
 
-A nice slideshow showing example code is available
-`here <http://bit.ly/1tivyjw>`__.
 
 In this case, a picture is worth a thousand words. The image below shows
 the distance to the *2nd* nearest restaurant (rendered by matplotlib)
@@ -40,8 +38,8 @@ queries are a more accurate representation of how people interact with
 their environment.
 
 We look forward to creative uses of a general library like this - please
-let us know when you think you have a great use case with the hashtag
-``#udst``.
+let us know if you think you have a great use case by tweeting us at
+``@urbansim`` or post on the UrbanSim `forum`_.
 
 Docs
 ----
@@ -56,9 +54,8 @@ Pandana is also available.
 Acknowledgments
 ---------------
 
-None of this would be possible without the help of Dennis Luxen (now at
-MapBox) and his OSRM (https://github.com/DennisOSRM/Project-OSRM). Thank
-you Dennis!
+None of this would be possible without the help of Dennis Luxen and
+his OSRM (https://github.com/DennisOSRM/Project-OSRM). Thank you Dennis!
 
 Nearest neighbor queries are performed with the fastest k-d tree around,
 i.e. ANN (http://www.cs.umd.edu/~mount/ANN/).
@@ -66,7 +63,17 @@ i.e. ANN (http://www.cs.umd.edu/~mount/ANN/).
 Academic Literature
 -------------------
 
-I'm currently working on getting a `complete description of the
-methodology <https://github.com/fscottfoti/dissertation/blob/master/networks/Foti%20and%20Waddell%20-%20Accessibility%20Framework.pdf?raw=true>`__
-published in an academic journal. Please cite this paper when referring
+A `complete description of the
+methodology <http://onlinepubs.trb.org/onlinepubs/conferences/2012/4thITM/Papers-A/0117-000062.pdf>`__
+was presented at the Transportation Research Board Annual Conference in 2012. Please cite this paper when referring
 to the methodology implemented by this library.
+
+Related UDST libraries
+----------------------
+
+-  `OSMnet`_
+-  `UrbanAccess`_
+
+.. _forum: http://discussion.urbansim.com/
+.. _OSMnet: https://github.com/udst/osmnet
+.. _UrbanAccess: https://github.com/UDST/urbanaccess

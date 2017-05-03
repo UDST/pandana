@@ -15,6 +15,7 @@ Pandana depends on the following libraries, most of which are in Anaconda:
 * `numpy`_ >= 1.8.0
 * `pandas`_ >= 0.13.1
 * `tables`_ >= 3.1.0
+* `osmnet`_ >= 0.1.0
 
 Install the latest release
 --------------------------
@@ -29,7 +30,7 @@ conda
 ~~~~~
 
 Pandana and some of its dependencies are hosted on
-`Autodesks's Anaconda repository <https://anaconda.org/synthicity>`__.
+`UrbanSim Inc's Anaconda repository <https://anaconda.org/synthicity>`__.
 To add this as a default installation channel for conda run this code
 in a terminal::
 
@@ -112,3 +113,4 @@ on your platform - for instance :code:`g++-mp-4.9` or :code:`g++-4.8`.
 .. _numpy: http://www.numpy.org/
 .. _pandas: http://pandas.pydata.org/
 .. _tables: http://www.pytables.org/
+.. _osmnet: http://github.com/udst/osmnet

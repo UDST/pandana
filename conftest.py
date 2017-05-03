@@ -25,6 +25,6 @@ import pandana.network as pdna
 if os.environ.get('TRAVIS') == 'true':
     num_networks_tested = 1
 else:
-    num_networks_tested = 5
+    num_networks_tested = 6
 
 pdna.reserve_num_graphs(num_networks_tested)

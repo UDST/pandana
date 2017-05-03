@@ -34,7 +34,7 @@ def impedance_names():
 def edge_weights(edges, impedance_names):
     return pd.DataFrame(
         {impedance_names[0]: [1] * len(edges),
-         impedance_names[1]: range(1, len(edges) + 1)})
+         impedance_names[1]: list(range(1, len(edges) + 1))})
 
 
 @pytest.fixture(scope='module')

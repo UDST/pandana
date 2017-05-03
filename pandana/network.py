@@ -62,12 +62,11 @@ def reserve_num_graphs(num):
 class Network:
     """
     Create the transportation network in the city.  Typical data would be
-    distance based from OpenStreetMap or possibly using transit data from
-    GTFS.
+    distance based from OpenStreetMap or travel time from GTFS transit data.
 
     Parameters
     ----------
-    node_x : Pandas Series, flaot
+    node_x : Pandas Series, float
         Defines the x attribute for nodes in the network (e.g. longitude)
     node_y : Pandas Series, float
         Defines the y attribute for nodes in the network (e.g. latitude)
@@ -83,10 +82,16 @@ class Network:
         Specifies one or more *impedances* on the network which define the
         distances between nodes.  Multiple impedances can be used to
         capture travel times at different times of day, for instance
-    two_way : boolean, optional
+    twoway : boolean, optional
         Whether the edges in this network are two way edges or one way (
         where the one direction is directed from the from node to the to
-        node)
+        node). If twoway = True, it is assumed that the from and to id in the
+        edge table occurs once and that travel can occur in both directions
+        on the single edge record. Pandana will internally flip and append
+        the from and to ids to the original edges to create a two direction
+        network. If twoway = False, it is assumed that travel can only occur
+        in the explicit direction indicated by the from and to id in the edge
+        table.
 
     """
 
@@ -227,7 +232,7 @@ class Network:
 
         Parameters
         ----------
-        node_id : Pandas Series, int
+        node_ids : Pandas Series, int
             A series of node_ids which are usually computed using
             get_node_ids on this object.
         variable : Pandas Series, float, optional
@@ -240,7 +245,10 @@ class Network:
             not actually used).  If variable is not set, then it is assumed
             that the variable is all "ones" at the location specified by
             node_ids.  This could be, for instance, the location of all
-            coffee shops which don't really have a variable to aggregate.
+            coffee shops which don't really have a variable to aggregate. The
+            variable is connected to the closest node in the Pandana network
+            which assumes no impedance between the location of the variable
+            and the location of the closest network node.
         name : string, optional
             Name the variable.  This is optional in the sense that if you don't
             specify it, the default name will be used.  Since the same
@@ -259,13 +267,13 @@ class Network:
         df = pd.DataFrame({name: variable,
                            "node_idx": self._node_indexes(node_ids)})
 
-        l = len(df)
+        length = len(df)
         df = df.dropna(how="any")
         newl = len(df)
-        if l-newl > 0:
+        if length-newl > 0:
             print(
                 "Removed %d rows because they contain missing values" %
-                (l-newl))
+                (length-newl))
 
         if name not in self.variable_names:
             self.variable_names.append(name)
@@ -286,7 +294,9 @@ class Network:
         Parameters
         ----------
         distance : float
-            The maximum distance to use
+            The maximum distance to use. This will usually be a distance unit
+            in meters however if you have customized the impedance this could
+            be in other units such as utility or time etc.
 
         Returns
         -------
@@ -317,7 +327,11 @@ class Network:
         Parameters
         ----------
         distance : float
-            The maximum distance to aggregate data within
+            The maximum distance to aggregate data within. 'distance' can
+            represent any impedance unit that you have set as your edge
+            weight. This will usually be a distance unit in meters however
+            if you have customized the impedance this could be in other
+            units such as utility or time etc.
         type : string
             The type of aggregation, can be one of "ave", "sum", "std",
             "count", and now "min", "25pct", "median", "75pct", and "max" will
@@ -382,8 +396,11 @@ class Network:
             location of dataset.  x_col and y_col should use the same index.
         mapping_distance : float, optional
             The maximum distance that will be considered a match between the
-            x, y data and the nearest node in the network.  If not specified,
-            every x, y coordinate will be mapped to the nearest node
+            x, y data and the nearest node in the network.  This will usually
+            be a distance unit in meters however if you have customized the
+            impedance this could be in other units such as utility or time
+            etc. If not specified, every x, y coordinate will be mapped to
+            the nearest node.
 
         Returns
         -------
@@ -422,7 +439,7 @@ class Network:
             cbar_kwargs=None):
         """
         Plot an array of data on a map using matplotlib and Basemap,
-        automatically matching the data to node positions.
+        automatically matching the data to the Pandana network node positions.
 
         Keyword arguments are passed to the plotting routine.
 
@@ -498,7 +515,10 @@ class Network:
         num_categories : int
             Number of categories of POIs
         max_dist : float
-            Maximum distance that will be tested to nearest POIs
+            Maximum distance that will be tested to nearest POIs. This will
+            usually be a distance unit in meters however if you have
+            customized the impedance this could be in other
+            units such as utility or time etc.
         max_pois :
             Maximum number of POIs to return in the nearest query
 
@@ -513,11 +533,14 @@ class Network:
         self.num_poi_categories = num_categories
         self.max_pois = max_pois
 
-        _pyaccess.initialize_pois(num_categories, max_dist, max_pois)
+        _pyaccess.initialize_pois(num_categories, max_dist, max_pois, self.graph_no)
 
     def set_pois(self, category, x_col, y_col):
         """
-        Set the location of all the pois of this category
+        Set the location of all the pois of this category. The pois are
+        connected to the closest node in the Pandana network which assumes
+        no impedance between the location of the variable and the location
+        of the closest network node.
 
         Parameters
         ----------
@@ -546,7 +569,7 @@ class Network:
         self.poi_category_indexes[category] = xys.index
 
         _pyaccess.initialize_category(self.poi_category_names.index(category),
-                                      xys.astype('float32'))
+                                      xys.astype('float32'), self.graph_no)
 
     def nearest_pois(self, distance, category, num_pois=1, max_distance=None,
                      imp_name=None, include_poi_ids=False):
@@ -557,7 +580,10 @@ class Network:
         Parameters
         ----------
         distance : float
-            The maximum distance to look for pois
+            The maximum distance to look for pois. This will usually be a
+            distance unit in meters however if you have customized the
+            impedance this could be in other units such as utility or time
+            etc.
         category : string
             The name of the category of poi to look for
         num_pois : int
@@ -565,7 +591,10 @@ class Network:
             columns in the DataFrame that gets returned
         max_distance : float, optional
             The value to set the distance to if there is NO poi within the
-            specified distance - if not specified, gets set to distance
+            specified distance - if not specified, gets set to distance. This
+            will usually be a distance unit in meters however if you have
+            customized the impedance this could be in other units such as
+            utility or time etc.
         imp_name : string, optional
             The impedance name to use for the aggregation on this network.
             Must be one of the impedance names passed in the constructor of
@@ -613,7 +642,7 @@ class Network:
                                             0)
         a[a == -1] = max_distance
         df = pd.DataFrame(a, index=self.node_ids)
-        df.columns = range(1, num_pois+1)
+        df.columns = list(range(1, num_pois+1))
 
         if include_poi_ids:
             b = _pyaccess.find_all_nearest_pois(distance,
@@ -633,7 +662,7 @@ class Network:
                 # initialized as a pandas series - this really is pandas-like
                 # thinking.  it's complicated on the inside, but quite
                 # intuitive to the user I think
-                s = df2[col]
+                s = df2[col].astype('int')
                 df2[col] = self.poi_category_indexes[category].values[s]
                 df2[col][s == -1] = np.nan
 
@@ -649,7 +678,10 @@ class Network:
         Parameters
         ----------
         impedance : float
-            Distance within which to search for other connected nodes.
+            Distance within which to search for other connected nodes. This
+            will usually be a distance unit in meters however if you have
+            customized the impedance this could be in other units such as
+            utility or time etc.
         count : int
             Threshold for connectivity. If a node is connected to fewer
             than this many nodes within `impedance` it will be identified

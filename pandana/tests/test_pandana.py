@@ -5,6 +5,7 @@ from numpy.testing import assert_allclose
 import pandas as pd
 import pytest
 from pandas.util import testing as pdt
+from pandana.testing import skipiftravis
 
 import pandana.network as pdna
 
@@ -18,6 +19,24 @@ one way streets
 
 @pytest.fixture(scope="module")
 def sample_osm(request):
+    store = pd.HDFStore(
+        os.path.join(os.path.dirname(__file__), 'osm_sample.h5'), "r")
+    nodes, edges = store.nodes, store.edges
+    net = pdna.Network(nodes.x, nodes.y, edges["from"], edges.to,
+                       edges[["weight"]])
+
+    net.precompute(2000)
+
+    def fin():
+        store.close()
+    request.addfinalizer(fin)
+
+    return net
+
+
+# initialize a second network
+@pytest.fixture(scope="module")
+def second_sample_osm(request):
     store = pd.HDFStore(
         os.path.join(os.path.dirname(__file__), 'osm_sample.h5'), "r")
     nodes, edges = store.nodes, store.edges
@@ -229,8 +248,6 @@ def test_pois(sample_osm):
     with pytest.raises(AssertionError):
         net.nearest_pois(2000, "restaurants", num_pois=11)
 
-
-def test_pois_indexes(sample_osm):
     net = sample_osm
     x, y = random_x_y(sample_osm, 100)
     x.index = ['lab%d' % i for i in range(len(x))]
@@ -240,3 +257,19 @@ def test_pois_indexes(sample_osm):
 
     d = net.nearest_pois(2000, "restaurants", num_pois=10,
                          include_poi_ids=True)
+
+
+@skipiftravis
+def test_pois2(second_sample_osm):
+    net2 = second_sample_osm
+
+    ssize = 50
+    np.random.seed(0)
+    x, y = random_x_y(second_sample_osm, ssize)
+
+    # make sure poi searches work on second graph
+    net2.init_pois(num_categories=1, max_dist=2000, max_pois=10)
+
+    net2.set_pois("restaurants", x, y)
+
+    print(net2.nearest_pois(2000, "restaurants", num_pois=10))
