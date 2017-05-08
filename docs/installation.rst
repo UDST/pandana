@@ -29,12 +29,14 @@ Install the latest release
 conda
 ~~~~~
 
-Pandana and some of its dependencies are hosted on
-`UrbanSim Inc's Anaconda repository <https://anaconda.org/synthicity>`__.
-To add this as a default installation channel for conda run this code
+Pandana is hosted on
+`UDST's Anaconda repository <https://anaconda.org/udst>`__. Other dependencies
+can be installed through the `conda-forge` channel.
+To add these as default installation channels for conda, run this code
 in a terminal::
 
-    conda config --add channels synthicity
+    conda config --add channels udst
+    conda config --add channels conda-forge
 
 Then you can install pandana::
 
