@@ -199,11 +199,13 @@ support.</p>
 </div>
 <div class="section" id="conda">
 <h3>conda<a class="headerlink" href="#conda" title="Permalink to this headline">¶</a></h3>
-<p>Pandana and some of its dependencies are hosted on
-<a class="reference external" href="https://anaconda.org/synthicity">UrbanSim Inc&#8217;s Anaconda repository</a>.
-To add this as a default installation channel for conda run this code
+<p>Pandana is hosted on
+<a class="reference external" href="https://anaconda.org/udst">UDST&#8217;s Anaconda repository</a>. Other dependencies
+can be installed through the <code class="docutils literal"><span class="pre">conda-forge</span></code> channel.
+To add these as default installation channels for conda, run this code
 in a terminal:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">config</span> <span class="o">--</span><span class="n">add</span> <span class="n">channels</span> <span class="n">synthicity</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">config</span> <span class="o">--</span><span class="n">add</span> <span class="n">channels</span> <span class="n">udst</span>
+<span class="n">conda</span> <span class="n">config</span> <span class="o">--</span><span class="n">add</span> <span class="n">channels</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 </pre></div>
 </div>
 <p>Then you can install pandana:</p>
