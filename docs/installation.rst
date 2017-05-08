@@ -31,7 +31,7 @@ conda
 
 Pandana is hosted on
 `UDST's Anaconda repository <https://anaconda.org/udst>`__. Other dependencies
-can be installed through the `conda-forge` channel.
+can be installed through the ``conda-forge`` channel.
 To add these as default installation channels for conda, run this code
 in a terminal::
 
