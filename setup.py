@@ -119,7 +119,7 @@ setup(
     install_requires=[
         'matplotlib>=1.3.1',
         'numpy>=1.8.0',
-        'pandas>=0.13.1',
+        'pandas>=0.17.0',
         'requests>=2.0',
         'tables>=3.1.0',
         'osmnet>=0.1.2',
