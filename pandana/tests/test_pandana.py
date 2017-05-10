@@ -184,6 +184,31 @@ def test_plot(sample_osm):
     sample_osm.plot(s)
 
 
+def test_repeat_pois(sample_osm):
+    net = sample_osm
+
+    # this test is inspired by this issue
+    # https://github.com/UDST/pandana/issues/73
+
+    ssize = 100000
+    x, y = random_x_y(sample_osm, ssize)
+    x2, y2 = random_x_y(sample_osm, ssize)
+
+    # set two categories
+    net.init_pois(num_categories=2, max_dist=2000, max_pois=10)
+    net.set_pois("restaurants", x, y)
+    net.set_pois("parks", x2, y2)
+
+    # fetch the first
+    s1 = net.nearest_pois(2000, "restaurants", num_pois=10)
+    # the second
+    s2 = net.nearest_pois(2000, "parks", num_pois=10)
+    # and the first again
+    s3 = net.nearest_pois(2000, "restaurants", num_pois=10)
+
+    assert s1.equals(s3)
+
+
 def test_pois(sample_osm):
     net = sample_osm
 
