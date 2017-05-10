@@ -55,3 +55,9 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
+
+# OSMnet logs
+logs
+
+# Example data
+examples/data

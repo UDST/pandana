@@ -84,11 +84,11 @@ create_graph(PyObject *self, PyObject *args)
 static PyObject *
 initialize_pois(PyObject *self, PyObject *args)
 {
-    int nc, mi;
+    int nc, mi, gno;
     double md;
-	if (!PyArg_ParseTuple(args, "idi", &nc, &md, &mi)) return NULL;
+	if (!PyArg_ParseTuple(args, "idii", &nc, &md, &mi, &gno)) return NULL;
 
-    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[0];
+    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[gno];
 
     sa->initializePOIs(nc,md,mi);
 
@@ -99,11 +99,11 @@ initialize_pois(PyObject *self, PyObject *args)
 static PyObject *
 initialize_category(PyObject *self, PyObject *args)
 {
-    int id;
+    int id, gno;
 	PyObject *input1;
-	if (!PyArg_ParseTuple(args, "iO", &id, &input1)) return NULL;
+	if (!PyArg_ParseTuple(args, "iOi", &id, &input1, &gno)) return NULL;
 
-    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[0];
+    std::shared_ptr<MTC::accessibility::Accessibility> sa = sas[gno];
 
     PyArrayObject *pyo;
 	pyo = (PyArrayObject*)PyArray_ContiguousFromObject(input1,
@@ -504,11 +504,67 @@ static PyMethodDef myMethods[] = {
 };
 
 
-PyMODINIT_FUNC init_pyaccess(void)
+struct module_state {
+    PyObject *error;
+};
+
+#if PY_MAJOR_VERSION >= 3
+#define GETSTATE(m) ((struct module_state*)PyModule_GetState(m))
+#else
+#define GETSTATE(m) (&_state)
+static struct module_state _state;
+#endif
+
+#if PY_MAJOR_VERSION >= 3
+static PyObject *
+error_out(PyObject *m) {
+    struct module_state *st = GETSTATE(m);
+    PyErr_SetString(st->error, "something bad happened");
+    return NULL;
+}
+
+static int pyaccess_traverse(PyObject *m, visitproc visit, void *arg) {
+    Py_VISIT(GETSTATE(m)->error);
+    return 0;
+}
+
+static int pyaccess_clear(PyObject *m) {
+    Py_CLEAR(GETSTATE(m)->error);
+    return 0;
+}
+
+static struct PyModuleDef moduledef = {
+        PyModuleDef_HEAD_INIT,
+        "_pyaccess",
+        NULL,
+        sizeof(struct module_state),
+        myMethods,
+        NULL,
+        pyaccess_traverse,
+        pyaccess_clear,
+        NULL
+};
+#endif
+
+
+PyMODINIT_FUNC
+#if PY_MAJOR_VERSION >= 3
+PyInit__pyaccess(void)
+#else
+init_pyaccess(void)
+#endif
 {
+#if PY_MAJOR_VERSION >= 3
+	PyObject *m = PyModule_Create(&moduledef);
+#else
 	PyObject *m=Py_InitModule("_pyaccess", myMethods);
+#endif
 	import_array();
 	PyObject *pyError = PyErr_NewException((char*)"pyaccess.error", NULL, NULL);
-    Py_INCREF(pyError);
-    PyModule_AddObject(m, "error", pyError);
+	Py_INCREF(pyError);
+	PyModule_AddObject(m, "error", pyError);
+
+#if PY_MAJOR_VERSION >= 3
+	return m;
+#endif
 }
