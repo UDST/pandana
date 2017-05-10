@@ -106,7 +106,7 @@ def test_agg_variables_accuracy(sample_osm):
     assert s.describe()['std'] < .01  # assert almost equal
     assert_allclose(s.mean(), r.max(), atol=1e-3)
 
-    r.sort()
+    r.sort_values(inplace=True)
 
     s = net.aggregate(100000, type="MEDIAN").loc[connected_nodes]
     assert s.describe()['std'] < .01  # assert almost equal
