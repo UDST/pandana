@@ -13,7 +13,7 @@ Pandana depends on the following libraries, most of which are in Anaconda:
 * `brewer2mpl`_ >= 1.4
 * `matplotlib`_ >= 1.3.1
 * `numpy`_ >= 1.8.0
-* `pandas`_ >= 0.13.1
+* `pandas`_ >= 0.17.0
 * `tables`_ >= 3.1.0
 * `osmnet`_ >= 0.1.0
 
