@@ -203,31 +203,6 @@ def test_plot(sample_osm):
     sample_osm.plot(s)
 
 
-def test_repeat_pois(sample_osm):
-    net = sample_osm
-
-    # this test is inspired by this issue
-    # https://github.com/UDST/pandana/issues/73
-
-    ssize = 100000
-    x, y = random_x_y(sample_osm, ssize)
-    x2, y2 = random_x_y(sample_osm, ssize)
-
-    # set two categories
-    net.init_pois(num_categories=2, max_dist=2000, max_pois=10)
-    net.set_pois("restaurants", x, y)
-    net.set_pois("parks", x2, y2)
-
-    # fetch the first
-    s1 = net.nearest_pois(2000, "restaurants", num_pois=10)
-    # the second
-    s2 = net.nearest_pois(2000, "parks", num_pois=10)
-    # and the first again
-    s3 = net.nearest_pois(2000, "restaurants", num_pois=10)
-
-    assert s1.equals(s3)
-
-
 def test_pois(sample_osm):
     net = sample_osm
 
@@ -241,13 +216,13 @@ def test_pois(sample_osm):
     with pytest.raises(AssertionError):
         net.nearest_pois(2000, "restaurants", num_pois=10)
 
-    net.init_pois(num_categories=1, max_dist=2000, max_pois=10)
+    net.init_pois(num_categories=2, max_dist=2000, max_pois=10)
 
     with pytest.raises(AssertionError):
         net.nearest_pois(2000, "restaurants", num_pois=10)
 
     # boundary condition
-    net.init_pois(num_categories=1, max_dist=2000, max_pois=10)
+    net.init_pois(num_categories=2, max_dist=2000, max_pois=10)
 
     net.set_pois("restaurants", x, y)
 
@@ -267,6 +242,30 @@ def test_pois(sample_osm):
                          include_poi_ids=True)
 
 
+def test_repeat_pois(sample_osm):
+    net = sample_osm
+
+    # this test is inspired by this issue
+    # https://github.com/UDST/pandana/issues/73
+
+    ssize = 100000
+    x, y = random_x_y(sample_osm, ssize)
+    x2, y2 = random_x_y(sample_osm, ssize)
+
+    # set two categories
+    net.set_pois("restaurants", x, y)
+    net.set_pois("parks", x2, y2)
+
+    # fetch the first
+    s1 = net.nearest_pois(2000, "restaurants", num_pois=10)
+    # the second
+    s2 = net.nearest_pois(2000, "parks", num_pois=10)
+    # and the first again
+    s3 = net.nearest_pois(2000, "restaurants", num_pois=10)
+
+    assert s1.equals(s3)
+
+
 @skipiftravis
 def test_pois2(second_sample_osm):
     net2 = second_sample_osm
@@ -276,7 +275,7 @@ def test_pois2(second_sample_osm):
     x, y = random_x_y(second_sample_osm, ssize)
 
     # make sure poi searches work on second graph
-    net2.init_pois(num_categories=1, max_dist=2000, max_pois=10)
+    net2.init_pois(num_categories=2, max_dist=2000, max_pois=10)
 
     net2.set_pois("restaurants", x, y)
 
