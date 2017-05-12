@@ -112,6 +112,8 @@ namespace MTC {
 			int numnodes;
 
 		private:
+			double maxdist;
+			int maxitems;
 			double compute_centrality(int srcnode, DistanceVec &distances,
 											 int graphno=0);
 			double compute_street_design_var(DistanceVec &distances,

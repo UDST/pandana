@@ -37,6 +37,8 @@ namespace MTC {
             // initialize for all subgraphs
             for(int i = 0 ; i < ga.size() ; i++) {
 			    ga[i]->initPOIs(numcategories, maxdist, maxitems);
+			    this->maxdist = maxdist;
+			    this->maxitems = maxitems;
             }
 			accessibilityVarsForPOIs.resize(numcategories);
 		}
@@ -46,6 +48,15 @@ namespace MTC {
 
 			assert(vars.size() == numnodes);
 			accessibilityVarsForPOIs[category] = vars;
+
+			// initializePOIs should have already been called
+			assert(this->maxdist > 0);
+			assert(this->maxitems > 0);
+
+			// reinitialize this category bucket
+			for(int k = 0 ; k < ga.size() ; k++) {
+				ga[k]->initPOIIndex(category, this->maxdist, this->maxitems);
+			}
 
 			int cnt = 0;
 			for(int i = 0 ; i < vars.size() ; i++) {
@@ -94,8 +105,6 @@ namespace MTC {
 				double 	distance = itDist->second;
 
 				for(int i = 0 ; i < vars[nodeid].size() ; i++) {
-
-					if(vars[nodeid][i] == 0) continue;
 
 					if(return_nodeids) {
 						ret.push_back((float)vars[nodeid][i]);

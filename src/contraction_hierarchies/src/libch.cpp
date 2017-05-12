@@ -304,6 +304,12 @@ inline ostream& operator<< (ostream& os, const Edge& e) {
             poiIndexArray.push_back(CHPOIIndex(this->staticGraph, maxDistanceToConsider, maxNumberOfPOIsInBucket, numberOfThreads));
         }
     }
+
+    void ContractionHierarchies::createPOIIndex(unsigned categoryNum, unsigned maxDistanceToConsider, unsigned maxNumberOfPOIsInBucket){
+        CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
+        // reinitialize this bucket
+        poiIndexArray[categoryNum] = CHPOIIndex(this->staticGraph, maxDistanceToConsider, maxNumberOfPOIsInBucket, numberOfThreads);
+    }
     
     void ContractionHierarchies::addPOIToIndex(unsigned category, NodeID node) {
         CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
