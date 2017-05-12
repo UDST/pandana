@@ -307,6 +307,7 @@ inline ostream& operator<< (ostream& os, const Edge& e) {
 
     void ContractionHierarchies::createPOIIndex(unsigned categoryNum, unsigned maxDistanceToConsider, unsigned maxNumberOfPOIsInBucket){
         CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
+        CHASSERT(categoryNum < poiIndexArray.size(), "POI Category is out of Bounds");
         // reinitialize this bucket
         poiIndexArray[categoryNum] = CHPOIIndex(this->staticGraph, maxDistanceToConsider, maxNumberOfPOIsInBucket, numberOfThreads);
     }
