@@ -8,7 +8,7 @@ use_setuptools()
 
 from setuptools import setup, Extension, find_packages
 from setuptools.command.test import test as TestCommand
-import numpy as np
+from setuptools.command.build_ext import build_ext
 
 
 class PyTest(TestCommand):
@@ -30,8 +30,15 @@ class PyTest(TestCommand):
         sys.exit(errno)
 
 
+class CustomBuildExtCommand(build_ext):
+    """build_ext command for use when numpy headers are needed."""
+    def run(self):
+        import numpy as np
+        self.include_dirs.append(np.get_include())
+        build_ext.run(self)
+
+
 include_dirs = [
-    np.get_include(),
     '.',
     'src/ann_1.1.2/include'
 ]
@@ -107,25 +114,26 @@ setup(
                  'dataframes of network queries, quickly'),
     long_description=long_description,
     url='https://udst.github.io/pandana/',
-    ext_modules=[
-        Extension(
+    ext_modules=[Extension(
             'pandana._pyaccess',
             source_files,
             include_dirs=include_dirs,
             extra_compile_args=extra_compile_args,
-            extra_link_args=extra_link_args
-        )
-    ],
+            extra_link_args=extra_link_args,
+        )],
     install_requires=[
         'matplotlib>=1.3.1',
         'numpy>=1.8.0',
-        'pandas>=0.13.1',
+        'pandas>=0.17.0',
         'requests>=2.0',
         'tables>=3.1.0',
         'osmnet>=0.1.2',
     ],
     tests_require=['pytest'],
-    cmdclass={'test': PyTest},
+    cmdclass={
+        'test': PyTest,
+        'build_ext': CustomBuildExtCommand,
+    },
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Programming Language :: Python :: 2.7',
