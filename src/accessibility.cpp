@@ -3,6 +3,11 @@
 
 namespace MTC {
 	namespace accessibility {
+
+		typedef std::pair<float, float> distance_node_pair;
+		bool distance_node_pair_comparator ( const distance_node_pair& l, const distance_node_pair& r)
+			{ return l.first < r.first; }
+
 		Accessibility::Accessibility(int _numnodes)
 		{
 			numnodes = _numnodes;
@@ -92,9 +97,10 @@ namespace MTC {
 
 			DistanceMap distances = ga[gno]->NearestPOI(cat, srcnode,
 				maxradius, number, omp_get_thread_num());
-			std::vector<float> ret;
 
 			accessibility_vars_t &vars = accessibilityVarsForPOIs[cat];
+
+			std::vector<distance_node_pair> distance_node_pairs;
 
 			/* need to account for the possibility of having
 			   multiple locations at single node */
@@ -105,15 +111,23 @@ namespace MTC {
 				double 	distance = itDist->second;
 
 				for(int i = 0 ; i < vars[nodeid].size() ; i++) {
-
-					if(return_nodeids) {
-						ret.push_back((float)vars[nodeid][i]);
-					} else {
-						ret.push_back((float)distance);
-					}
+					distance_node_pairs.push_back(
+						std::make_pair(
+							(float)distance,
+							(float)vars[nodeid][i]
+						)
+					);
 				}
 			}
-			std::sort(ret.begin(),ret.end());
+
+			// all this pair business it to sort based on distance but also sort the node ids
+			std::sort(distance_node_pairs.begin(), distance_node_pairs.end(), distance_node_pair_comparator);
+
+			std::vector<float> ret;
+			for (unsigned i=0; i < distance_node_pairs.size(); i++) {
+    			ret.push_back(return_nodeids ?
+    				distance_node_pairs[i].second : distance_node_pairs[i].first);
+    		}
 
 			return ret;
 		}

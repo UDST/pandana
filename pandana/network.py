@@ -633,7 +633,7 @@ class Network:
                 # intuitive to the user I think
                 s = df2[col].astype('int')
                 df2[col] = self.poi_category_indexes[category].values[s]
-                df2[col][s == -1] = np.nan
+                df2.loc[s == -1, col] = np.nan
 
             df = pd.concat([df, df2], axis=1)
 
