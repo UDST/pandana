@@ -40,6 +40,10 @@ namespace MTC {
 				ch.createPOIIndexArray(numcategories, maxdist*DISTANCEMULTFACT,
 									   maxitems);
 			}
+			void initPOIIndex(int categoryNum, double maxdist, int maxitems) {
+				ch.createPOIIndex(categoryNum, maxdist*DISTANCEMULTFACT,
+									   maxitems);
+			}
 			void addPOIToIndex(int category, int i) {
 				ch.addPOIToIndex(category,i);
 			}

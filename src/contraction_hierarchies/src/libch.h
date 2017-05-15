@@ -121,6 +121,7 @@ typedef std::vector<std::pair<NodeID, unsigned> > ReachedNode;
         void computeReachableNodesWithin(const Node &s, unsigned maxDistance, std::vector<std::pair<NodeID, unsigned> > & ResultingNodes);
         void computeReachableNodesWithin(const Node &s, unsigned maxDistance, std::vector<std::pair<NodeID, unsigned> > & ResultingNodes, unsigned threadID);
         void createPOIIndexArray(unsigned numberOfPOICategories, unsigned _maxDistanceToConsider, unsigned _maxNumberOfPOIsInBucket);
+        void createPOIIndex(unsigned categoryNum, unsigned _maxDistanceToConsider, unsigned _maxNumberOfPOIsInBucket);
         void addPOIToIndex(unsigned category, NodeID node);
         void getNearest(unsigned category, NodeID node, std::vector<BucketEntry>& resultingVenues);
         void getNearest(unsigned category, NodeID node, std::vector<BucketEntry>& resultingVenues, unsigned threadID);
