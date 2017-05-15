@@ -669,6 +669,36 @@ of the closest network node.</p>
 </table>
 </dd></dl>
 
+<dl class="method">
+<dt id="pandana.network.Network.shortest_path">
+<code class="descname">shortest_path</code><span class="sig-paren">(</span><em>node_a</em>, <em>node_b</em>, <em>imp_name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.shortest_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the shortest path between two node ids in the network.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>node_a</strong> : int</p>
+<blockquote>
+<div><p>The source node label</p>
+</div></blockquote>
+<p><strong>node_b</strong> : int</p>
+<blockquote>
+<div><p>The destination node label</p>
+</div></blockquote>
+<p><strong>imp_name</strong> : string, optional</p>
+<blockquote>
+<div><p>The impedance name to use for the shortest path</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A numpy array of the nodes that are traversed in the shortest</p>
+<p class="last">path between the two nodes</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="function">
