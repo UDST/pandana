@@ -194,6 +194,37 @@ class Network:
         return [self.nodes_df.x.min(), self.nodes_df.y.min(),
                 self.nodes_df.x.max(), self.nodes_df.y.max()]
 
+    def shortest_path(self, node_a, node_b, imp_name=None):
+        """
+        Return the shortest path between two node ids in the network.
+
+        Parameters
+        ----------
+        node_a : int
+             The source node label
+        node_b : int
+             The destination node label
+        imp_name : string, optional
+            The impedance name to use for the shortest path
+
+        Returns
+        -------
+        A numpy array of the nodes that are traversed in the shortest
+        path between the two nodes
+        """
+        # map to internal node indexes
+        node_idx = self._node_indexes(pd.Series([node_a, node_b]))
+        node_a = node_idx.iloc[0]
+        node_b = node_idx.iloc[1]
+
+        imp_num = self._imp_name_to_num(imp_name)
+        gno = self.graph_no
+
+        path = _pyaccess.shortest_path(node_a, node_b, gno, imp_num)
+
+        # map back to external node ids
+        return self.node_ids.values[path]
+
     def set(self, node_ids, variable=None, name="tmp"):
         """
         Characterize urban space with a variable that is related to nodes in
