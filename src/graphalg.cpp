@@ -3,7 +3,7 @@
 
 namespace MTC {
 	namespace accessibility {
-		void Graphalg::Build(int *nodeids, float *nodesxy, int numnodes,
+		Graphalg::Graphalg(int *nodeids, float *nodesxy, int numnodes,
 							int *edges, float *edgeweights, int numedges,
 							bool twoway) {
 

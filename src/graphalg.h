@@ -18,14 +18,11 @@ typedef std::vector<std::pair<NodeID, float> > DistanceVec;
 
 class Graphalg {
  public:
-  void DLLExport Build(
+  Graphalg(
     int *nodeids, float *nodexy, int numnodes,
     int *edges, float *edgeweights, int numedges,
-    bool twoway);
-
-  void DLLExport BuildNN(std::vector<float> x, std::vector<float> y);
-
-  int DLLExport NearestNode(float x, float y, double *distance);
+    bool twoway
+  );
 
   std::vector<NodeID> Route(int src, int tgt, int threadNum = 0);
 
