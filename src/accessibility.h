@@ -44,15 +44,15 @@ class Accessibility {
     aggregateAccessibilityVariable(
         int srcnode,
         float radius,
-        accessibility_vars_t *vars,
+        accessibility_vars_t &vars,
         aggregation_types_t aggtyp,
         decay_func_t gravity_func,
         int graphno = 0);
 
     double
     quantileAccessibilityVariable(
-        DistanceVec *distances,
-        accessibility_vars_t *vars,
+        DistanceVec &distances,
+        accessibility_vars_t &vars,
         float quantile,
         float radius);
 
@@ -86,9 +86,18 @@ class Accessibility {
         int graphno);
 
     double
-    modelResult(int srcnode, float radius, int numvars, int *varindexes,
-        float *varcoeffs, float distcoeff, float asc, float denom,
-        float nestdenom, float mu, int gno);
+    modelResult(
+        int srcnode,
+        float radius,
+        int numvars,
+        int *varindexes,
+        float *varcoeffs,
+        float distcoeff,
+        float asc,
+        float denom,
+        float nestdenom,
+        float mu,
+        int gno);
 
     // compute a variable having to do with the street network
     double computeDesignVariable(
@@ -98,7 +107,7 @@ class Accessibility {
         int graphno = 0);
 
     void initializeAccVars(int numcategories);
-    void initializeAccVar(int index, accessibility_vars_t *vars);
+    void initializeAccVar(int index, accessibility_vars_t &vars);
 
     // look for the closest points of interest
     void initializePOIs(
@@ -106,7 +115,7 @@ class Accessibility {
         double maxdist,
         int maxitems);
 
-    void initializeCategory(int category, accessibility_vars_t *vars);
+    void initializeCategory(int category, accessibility_vars_t &vars);
 
     std::vector<float>
     findNearestPOIs(
@@ -142,15 +151,9 @@ class Accessibility {
  private:
     std::vector<std::shared_ptr<Graphalg> > ga;
 
-    double compute_centrality(
+    double computeCentrality(
         int srcnode,
-        DistanceVec *distances,
-        int graphno = 0);
-
-    double compute_street_design_var(
-        DistanceVec *distances,
-        std::string type,
-        float radius,
+        DistanceVec &distances,
         int graphno = 0);
 };
 }  // namespace accessibility

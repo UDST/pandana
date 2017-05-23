@@ -66,7 +66,7 @@ double Graphalg::Distance(int src, int tgt, int threadNum) {
         tgt_node,
         threadNum);
 
-    return static_cast<double>length / static_cast<double>DISTANCEMULTFACT;
+    return static_cast<double>(length) / static_cast<double>(DISTANCEMULTFACT);
 }
 
 
@@ -107,8 +107,8 @@ Graphalg::NearestPOI(int category, int src, double maxdist, int number,
 
     for (int i = 0 ; i < ResultingNodes.size() ; i++) {
         dm[ResultingNodes[i].node] =
-            static_cast<float>ResultingNodes[i].distance /
-            static_cast<float>DISTANCEMULTFACT;
+            static_cast<float>(ResultingNodes[i].distance) /
+            static_cast<float>(DISTANCEMULTFACT);
     }
 
     return dm;

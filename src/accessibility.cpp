@@ -17,9 +17,9 @@ void Accessibility::addGraphalg(MTC::accessibility::Graphalg *g) {
 }
 
 
-double Accessibility::compute_centrality(
+double Accessibility::computeCentrality(
     int srcnode,
-    DistanceVec *distances,
+    DistanceVec &distances,
     int gno) {
     if (distances.size() < 3) return 0.0;
 
@@ -40,12 +40,14 @@ double Accessibility::compute_centrality(
     }
     double n = distances.size();
     double scale = 2.0 / (n*n-3.0*n+2.0);
-    return static_cast<double>cnt * scale;
+    return static_cast<double>(cnt) * scale;
 }
 
 
-void Accessibility::initializePOIs(int numcategories, double maxdist,
-                                   int maxitems) {
+void Accessibility::initializePOIs(
+    int numcategories,
+    double maxdist,
+    int maxitems) {
     // initialize for all subgraphs
     for (int i = 0 ; i < ga.size() ; i++) {
         ga[i]->initPOIs(numcategories, maxdist, maxitems);
@@ -54,8 +56,9 @@ void Accessibility::initializePOIs(int numcategories, double maxdist,
 }
 
 
-void Accessibility::initializeCategory(int category,
-                                       accessibility_vars_t &vars) {
+void Accessibility::initializeCategory(
+    int category,
+    accessibility_vars_t &vars) {
     assert(vars.size() == numnodes);
     accessibilityVarsForPOIs[category] = vars;
 
@@ -118,9 +121,9 @@ Accessibility::findNearestPOIs(
             if (vars[nodeid][i] == 0) continue;
 
             if (return_nodeids) {
-                ret.push_back(static_cast<float>vars[nodeid][i]);
+                ret.push_back(static_cast<float>(vars[nodeid][i]));
             } else {
-                ret.push_back(static_cast<float>distance);
+                ret.push_back(static_cast<float>(distance));
             }
         }
     }
@@ -235,8 +238,8 @@ Accessibility::Range(int srcnode, float radius, int gno) {
 
 double
 Accessibility::quantileAccessibilityVariable(
-    DistanceVec *distances,
-    accessibility_vars_t *vars,
+    DistanceVec &distances,
+    accessibility_vars_t &vars,
     float quantile,
     float radius) {
 

@@ -21,15 +21,14 @@ class Graphalg {
     Graphalg(
         int *nodeids, float *nodexy, int numnodes,
         int *edges, float *edgeweights, int numedges,
-        bool twoway
-    );
+        bool twoway);
 
     std::vector<NodeID> Route(int src, int tgt, int threadNum = 0);
 
     double Distance(int src, int tgt, int threadNum = 0);
 
     void Range(int src, double maxdist, int threadNum,
-                         DistanceVec &ResultingNodes);
+               DistanceVec &ResultingNodes);
 
     DistanceMap NearestPOI(
         int category, int src, double maxdist,
