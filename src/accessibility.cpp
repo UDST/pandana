@@ -1,5 +1,6 @@
 #include <algorithm>
 #include "accessibility.h"
+#include "graphalg.h"
 
 namespace MTC {
 	namespace accessibility {
@@ -7,6 +8,11 @@ namespace MTC {
 		{
 			numnodes = _numnodes;
 			dmsradius = -1;
+		}
+
+		void Accessibility::addGraphalg(MTC::accessibility::Graphalg *g) {
+	        std::shared_ptr<MTC::accessibility::Graphalg>ptr(g);
+	        this->ga.push_back(ptr);
 		}
 
 		double Accessibility::compute_centrality(

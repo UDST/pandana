@@ -102,7 +102,7 @@ namespace MTC {
 			vector<accessibility_vars_t>	accessibilityVars;
 			vector<accessibility_vars_t>	accessibilityVarsForPOIs;
 
-			std::vector<std::shared_ptr<Graphalg> > ga;
+			void addGraphalg(MTC::accessibility::Graphalg *g);
 
 			// precompute the range queries and reuse them
 			void precomputeRangeQueries(float radius);
@@ -112,6 +112,7 @@ namespace MTC {
 			int numnodes;
 
 		private:
+			std::vector<std::shared_ptr<Graphalg> > ga;
 			double compute_centrality(int srcnode, DistanceVec &distances,
 											 int graphno=0);
 			double compute_street_design_var(DistanceVec &distances,

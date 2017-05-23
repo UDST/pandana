@@ -1,44 +1,48 @@
 cimport cython
+from libcpp cimport bool
 
 cimport numpy as np
 import numpy as np
 
+
 cdef extern from "graphalg.h" namespace "MTC::accessibility":
-  cdef cppclass Accessibility:
-    Graphalg(int) except +
+    cdef cppclass Graphalg:
+        Graphalg() except +
+        void Build(int*, float*, int, int*, float*, int, bool)
+
 
 cdef extern from "accessibility.h" namespace "MTC::accessibility":
-  cdef cppclass Accessibility:
-    Accessibility(int) except +
-    int numnodes
+    cdef cppclass Accessibility:
+        Accessibility() except +
+        Accessibility(int) except +
+        int numnodes
+        void addGraphalg(Graphalg*)
 
 
-@cython.boundscheck(False)
-@cython.wraparound(False)
-def create_graph(
-  # vector of node ids
-  np.ndarray[int] node_ids,
-  # vector of spatial locations
-  np.ndarray[double, ndim=2] node_xys,
-  # vector of edges (tuple of node ids)
-  np.ndarray[int, ndim=2] edges,
-  # weights for those edges (can be 2D)
-  np.ndarray[double, ndim=2] edge_weights,
-  # whether edges are bi-directional
-  cdef bool twoway
-  ):
+cdef class pyaccess:
+    cdef Accessibility accessibility_ptr
 
-  numnodes = len(node_ids)
-  numedges = len(edges)
-  accessibility_ptr = new Accessibility(numnodes)
+    def __cinit__(
+        self,
+        # vector of node ids
+        np.ndarray[int] node_ids,
+        # vector of spatial locations
+        np.ndarray[float, ndim=2] node_xys,
+        # vector of edges (tuple of node ids)
+        np.ndarray[int, ndim=2] edges,
+        # weights for those edges (can be 2D)
+        np.ndarray[float, ndim=2] edge_weights,
+        # whether edges are bi-directional
+        bool twoway
+    ):
+        numnodes = len(node_ids)
+        numedges = len(edges)
+        self.accessibility_ptr = Accessibility(numnodes)
 
-  numimpedances = edge_weights.shape[1]
-  for i in range(numimpedances):
-    graph_ptr = new Graphalg(node_ids, node_xys, numnodes, edges,
-                             edge_weights[i], numedges, twoway)
-    # need to fix this - this should be a method that is called
-    # to add a new graphalg object to the accessibility object
-    accessibility_ptr.ga.push_back(graph_ptr);
-
-  # now what?  create a wrapper class right?
-  # http://cython.readthedocs.io/en/latest/src/userguide/wrapping_CPlusPlus.html#create-cython-wrapper-class
+        numimpedances = edge_weights.shape[1]
+        for i in range(numimpedances):
+            graph_ptr = new Graphalg()
+            graph_ptr.Build(&node_ids[0], &node_xys[0, 0], numnodes,
+                            &edges[0, 0], &edge_weights[i, 0], numedges,
+                            twoway)
+            self.accessibility_ptr.addGraphalg(graph_ptr)

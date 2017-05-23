@@ -6,7 +6,8 @@ import sysconfig
 from ez_setup import use_setuptools
 use_setuptools()
 
-from setuptools import setup, Extension, find_packages
+from setuptools import find_packages
+from distutils.core import setup, Extension
 from setuptools.command.test import test as TestCommand
 from setuptools.command.build_ext import build_ext
 
@@ -49,7 +50,8 @@ source_files = [
     'src/accessibility.cpp',
     'src/graphalg.cpp',
     'src/nearestneighbor.cpp',
-    'src/pyaccesswrap.cpp',
+    # 'src/pyaccesswrap.cpp',
+    "src/pandana.pyx",
     'src/contraction_hierarchies/src/libch.cpp',
     'src/ann_1.1.2/src/ANN.cpp',
     'src/ann_1.1.2/src/brute.cpp',
@@ -115,8 +117,9 @@ setup(
     long_description=long_description,
     url='https://udst.github.io/pandana/',
     ext_modules=[Extension(
-            'pandana._pyaccess',
+            'pandana',
             source_files,
+            language="c++",
             include_dirs=include_dirs,
             extra_compile_args=extra_compile_args,
             extra_link_args=extra_link_args,
