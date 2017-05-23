@@ -18,34 +18,34 @@ typedef std::vector<std::pair<NodeID, float> > DistanceVec;
 
 class Graphalg {
  public:
-  Graphalg(
-    int *nodeids, float *nodexy, int numnodes,
-    int *edges, float *edgeweights, int numedges,
-    bool twoway
-  );
+    Graphalg(
+        int *nodeids, float *nodexy, int numnodes,
+        int *edges, float *edgeweights, int numedges,
+        bool twoway
+    );
 
-  std::vector<NodeID> Route(int src, int tgt, int threadNum = 0);
+    std::vector<NodeID> Route(int src, int tgt, int threadNum = 0);
 
-  double Distance(int src, int tgt, int threadNum = 0);
+    double Distance(int src, int tgt, int threadNum = 0);
 
-  void Range(int src, double maxdist, int threadNum,
-             DistanceVec &ResultingNodes);
+    void Range(int src, double maxdist, int threadNum,
+                         DistanceVec &ResultingNodes);
 
-  DistanceMap NearestPOI(
-    int category, int src, double maxdist,
-    int number, int threadNum = 0);
+    DistanceMap NearestPOI(
+        int category, int src, double maxdist,
+        int number, int threadNum = 0);
 
-  void initPOIs(int numcategories, double maxdist, int maxitems) {
-    ch.createPOIIndexArray(numcategories, maxdist*DISTANCEMULTFACT,
-                 maxitems);
-  }
+    void initPOIs(int numcategories, double maxdist, int maxitems) {
+        ch.createPOIIndexArray(numcategories, maxdist*DISTANCEMULTFACT,
+                                 maxitems);
+    }
 
-  void addPOIToIndex(int category, int i) {
-    ch.addPOIToIndex(category, i);
-  }
+    void addPOIToIndex(int category, int i) {
+        ch.addPOIToIndex(category, i);
+    }
 
-  int numnodes;
-  CH::ContractionHierarchies ch;
+    int numnodes;
+    CH::ContractionHierarchies ch;
 };
 }  // namespace accessibility
 }  // namespace MTC
