@@ -19,7 +19,7 @@ cdef extern from "accessibility.h" namespace "MTC::accessibility":
         void addGraphalg(Graphalg*)
 
 
-cdef class pyaccess:
+cdef class pyAccess:
     cdef Accessibility accessibility_ptr
 
     def __cinit__(
@@ -33,7 +33,7 @@ cdef class pyaccess:
         # weights for those edges (can be 2D)
         np.ndarray[float, ndim=2] edge_weights,
         # whether edges are bi-directional
-        bool twoway
+        bool twoway = False
     ):
         numnodes = len(node_ids)
         numedges = len(edges)

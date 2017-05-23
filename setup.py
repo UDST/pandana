@@ -117,7 +117,7 @@ setup(
     long_description=long_description,
     url='https://udst.github.io/pandana/',
     ext_modules=[Extension(
-            'pandana',
+            'pyaccess',
             source_files,
             language="c++",
             include_dirs=include_dirs,
