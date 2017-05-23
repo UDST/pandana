@@ -4,7 +4,6 @@
 #include <cstdlib>
 #include <vector>
 #include "shared.h"
-#include "nearestneighbor.h"
 #include "graphalg.h"
 
 using namespace std;

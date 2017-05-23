@@ -1,6 +1,5 @@
 import pandas as pd
 from pyaccess import pyAccess
-print pyAccess
 
 store = pd.HDFStore("pandana/tests/osm_sample.h5", "r")
 nodes = store.nodes

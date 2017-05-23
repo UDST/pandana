@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cmath>
 #include "accessibility.h"
 #include "graphalg.h"
 

@@ -3,21 +3,6 @@
 
 namespace MTC {
 	namespace accessibility {
-
-		void Graphalg::BuildNN(std::vector<float> x, std::vector<float> y) {
-
-			assert(x.size() == y.size());
-			int numnodes = x.size();
-
-			nearestNeighbor.Expand(numnodes);
-
-			for(int i = 0 ; i < numnodes ; i++)
-			{
-				nearestNeighbor.setPoint(i,x[i],y[i]);
-			}			
-			nearestNeighbor.buildTree();
-		}
-
 		void Graphalg::Build(int *nodeids, float *nodesxy, int numnodes,
 							int *edges, float *edgeweights, int numedges,
 							bool twoway) {
@@ -55,26 +40,6 @@ namespace MTC {
 			ch.SetEdgeVector(ev);
 
 			ch.RunPreprocessing();
-
-			nearestNeighbor.Expand(numnodes);
-			for(int i = 0 ; i < numnodes ; i++)
-			{
-				nearestNeighbor.setPoint(i,nodesxy[i*2+0],nodesxy[i*2+1]);
-			}
-
-			nearestNeighbor.buildTree();
-
-		}
-
-		int Graphalg::NearestNode(float x, float y, double *distance) {
-			int *indexes;
-			double *distances;
-			nearestNeighbor.Query(x,y,1,-1,&indexes,&distances);
-			int i = indexes[0];
-            if(distance) *distance = distances[0];	
-			delete []indexes;
-			delete []distances;
-			return i;
 		}
 
 		std::vector<NodeID> Graphalg::Route(int src, int tgt, int threadNum) {

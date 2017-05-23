@@ -40,8 +40,7 @@ class CustomBuildExtCommand(build_ext):
 
 
 include_dirs = [
-    '.',
-    'src/ann_1.1.2/include'
+    '.'
 ]
 
 packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"])
@@ -49,24 +48,9 @@ packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"])
 source_files = [
     'src/accessibility.cpp',
     'src/graphalg.cpp',
-    'src/nearestneighbor.cpp',
     # 'src/pyaccesswrap.cpp',
     "src/pandana.pyx",
-    'src/contraction_hierarchies/src/libch.cpp',
-    'src/ann_1.1.2/src/ANN.cpp',
-    'src/ann_1.1.2/src/brute.cpp',
-    'src/ann_1.1.2/src/kd_tree.cpp',
-    'src/ann_1.1.2/src/kd_util.cpp',
-    'src/ann_1.1.2/src/kd_split.cpp',
-    'src/ann_1.1.2/src/kd_dump.cpp',
-    'src/ann_1.1.2/src/kd_search.cpp',
-    'src/ann_1.1.2/src/kd_pr_search.cpp',
-    'src/ann_1.1.2/src/kd_fix_rad_search.cpp',
-    'src/ann_1.1.2/src/bd_tree.cpp',
-    'src/ann_1.1.2/src/bd_search.cpp',
-    'src/ann_1.1.2/src/bd_pr_search.cpp',
-    'src/ann_1.1.2/src/bd_fix_rad_search.cpp',
-    'src/ann_1.1.2/src/perf.cpp'
+    'src/contraction_hierarchies/src/libch.cpp'
 ]
 
 extra_compile_args = [

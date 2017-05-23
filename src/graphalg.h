@@ -2,7 +2,6 @@
 
 #include "shared.h"
 #include <vector>
-#include "nearestneighbor.h"
 #include "contraction_hierarchies/src/libch.h"
 
 typedef unsigned int NodeID;
@@ -47,7 +46,6 @@ namespace MTC {
 			int numnodes;
 
 			CH::ContractionHierarchies ch;
-			NearestNeighbor nearestNeighbor;
 		};
 	}
 }
