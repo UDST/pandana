@@ -78,6 +78,9 @@ class Accessibility {
     void precomputeRangeQueries(float radius);
 
  private:
+    double maxdist;
+    int maxitems;
+
     vector<std::shared_ptr<Graphalg> > ga;
 
     vector<accessibility_vars_t> accessibilityVars;

@@ -36,7 +36,7 @@ cdef class pyAccess:
         np.ndarray[double, ndim=2] node_xys,
         np.ndarray[long, ndim=2] edges,
         np.ndarray[double, ndim=2] edge_weights,
-        bool twoway = False
+        bool twoway = True
     ):
         """
         node_ids: vector of node identifiers
@@ -48,7 +48,7 @@ cdef class pyAccess:
         """
         self.access = new Accessibility(len(node_ids))
 
-        for i in range(edge_weights.shape[1]):
+        for i in range(edge_weights.shape[0]):
             self.access.addGraphalg(new Graphalg(
                 node_ids, node_xys, edges, edge_weights[i], twoway))
 
@@ -80,8 +80,8 @@ cdef class pyAccess:
         double radius,
         int num_of_pois,
         int category,
-        int impno,
-        bool return_nodeids
+        int impno = 0,
+        bool return_nodeids = False
     ):
         """
         radius - search radius

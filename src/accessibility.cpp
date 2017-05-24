@@ -7,9 +7,14 @@ using std::vector;
 
 namespace MTC {
 namespace accessibility {
+
+typedef std::pair<float, float> distance_node_pair;
+bool distance_node_pair_comparator ( const distance_node_pair& l, const distance_node_pair& r)
+    { return l.first < r.first; }
+
 Accessibility::Accessibility(int numnodes) {
-    numnodes = numnodes;
-    dmsradius = -1;
+    this->numnodes = numnodes;
+    this->dmsradius = -1;
 }
 
 
@@ -29,10 +34,14 @@ void Accessibility::initializePOIs(
     int numcategories,
     double maxdist,
     int maxitems) {
+    // save this for when reinitializing the category
+    this->maxdist = maxdist;
+    this->maxitems = maxitems;    
     // initialize for all subgraphs
     for (int i = 0 ; i < ga.size() ; i++) {
         ga[i]->initPOIs(numcategories, maxdist, maxitems);
     }
+    accessibilityVarsForPOIs.resize(numcategories);
 }
 
 
@@ -40,13 +49,21 @@ void Accessibility::initializeCategory(
     int category,
     vector<long> node_ids
     ) {
+    accessibility_vars_t av;
+    av.resize(this->numnodes);
     // initialize for all subgraphs
     for (int i = 0 ; i < ga.size() ; i++) {
+        ga[i]->initPOIIndex(category, this->maxdist, this->maxitems);
         // initialize for each node
         for (int j = 0 ; j < node_ids.size() ; j++) {
-            ga[i]->addPOIToIndex(category, node_ids[j]);
+            int node_id = node_ids[j];
+
+            ga[i]->addPOIToIndex(category, node_id);
+            assert(node_id << av.size());
+            av[node_id].push_back(node_id);
         }
     }
+    accessibilityVarsForPOIs[category] = av;
 }
 
 
@@ -67,9 +84,9 @@ Accessibility::findNearestPOIs(
 
     DistanceMap distances = ga[gno]->NearestPOI(cat, srcnode,
         maxradius, number, omp_get_thread_num());
-    vector<double> ret;
 
     accessibility_vars_t &vars = accessibilityVarsForPOIs[cat];
+    vector<distance_node_pair> distance_node_pairs;
 
     /* need to account for the possibility of having
        multiple locations at single node */
@@ -80,16 +97,23 @@ Accessibility::findNearestPOIs(
         double distance = itDist->second;
 
         for (int i = 0 ; i < vars[nodeid].size() ; i++) {
-            if (vars[nodeid][i] == 0) continue;
-
-            if (return_nodeids) {
-                ret.push_back(static_cast<double>(vars[nodeid][i]));
-            } else {
-                ret.push_back(static_cast<double>(distance));
-            }
+            distance_node_pairs.push_back(
+               std::make_pair(
+                   (float)distance,
+                   (float)vars[nodeid][i]
+               )
+           );
         }
     }
-    std::sort(ret.begin(), ret.end());
+
+    std::sort(distance_node_pairs.begin(), distance_node_pairs.end(),
+              distance_node_pair_comparator);
+ 
+    vector<double> ret;
+    for (unsigned i=0; i < distance_node_pairs.size(); i++) {
+        ret.push_back(return_nodeids ?
+                      distance_node_pairs[i].second : distance_node_pairs[i].first);
+    }
 
     return ret;
 }

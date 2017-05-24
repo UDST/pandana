@@ -45,6 +45,10 @@ class Graphalg {
         ch.addPOIToIndex(category, i);
     }
 
+    void initPOIIndex(int categoryNum, double maxdist, int maxitems) {
+        ch.createPOIIndex(categoryNum, maxdist*DISTANCEMULTFACT, maxitems);
+    }
+
     int numnodes;
     CH::ContractionHierarchies ch;
 };
