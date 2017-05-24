@@ -10,7 +10,9 @@
 namespace MTC {
 namespace accessibility {
 
-typedef std::vector<std::vector<float> > accessibility_vars_t;
+using std::vector;
+
+typedef vector<vector<float> > accessibility_vars_t;
 
 // aggregation types
 enum aggregation_types_t {
@@ -47,10 +49,10 @@ class Accessibility {
         int maxitems);
 
     // initialize the category number with POIs at the node_id locations
-    void initializeCategory(int category, std::vector<int> node_ids);
+    void initializeCategory(int category, vector<long> node_ids);
 
     // find the nearest pois for all nodes in the network
-    std::vector<std::vector<float> >
+    vector<vector<double> >
     findAllNearestPOIs(
         float maxradius,
         unsigned maxnumber,
@@ -62,7 +64,7 @@ class Accessibility {
     void initializeAccVar(int index, accessibility_vars_t &vars);
 
     // computes the accessibility for every node in the network
-    std::vector<double>
+    vector<double>
     getAllAggregateAccessibilityVariables(
         float radius,
         int index,
@@ -76,18 +78,18 @@ class Accessibility {
     void precomputeRangeQueries(float radius);
 
  private:
-    std::vector<std::shared_ptr<Graphalg> > ga;
+    vector<std::shared_ptr<Graphalg> > ga;
 
-    vector<accessibility_vars_t>    accessibilityVars;
-    vector<accessibility_vars_t>    accessibilityVarsForPOIs;
+    vector<accessibility_vars_t> accessibilityVars;
+    vector<accessibility_vars_t> accessibilityVarsForPOIs;
 
     // this stores the nodes within a certain range
     float dmsradius;
-    std::vector<std::vector<DistanceVec> > dms;
+    vector<vector<DistanceVec> > dms;
 
     int numnodes;
 
-    std::vector<float>
+    vector<double>
     findNearestPOIs(
         int srcnode,
         float maxradius,

@@ -3,21 +3,19 @@
 
 namespace MTC {
 namespace accessibility {
-Graphalg::Graphalg(int *nodeids, float *nodesxy, int numnodes,
-                    int *edges, float *edgeweights, int numedges,
-                    bool twoway) {
-    this->numnodes = numnodes;
+Graphalg::Graphalg(
+        vector<long> nodeids, vector< vector<double> > nodesxy,
+        vector< vector<long> > edges, vector<double> edgeweights,
+        bool twoway) {
+    this->numnodes = nodeids.size();
 
     int num = omp_get_max_threads();
     ch = CH::ContractionHierarchies(num);
 
     vector<CH::Node> nv;
 
-    for (int i = 0 ; i < numnodes ; i++) {
-        CH::Node n(
-            nodeids[i],
-            nodesxy[i*2+0],
-            nodesxy[i*2+1]);
+    for (int i = 0 ; i < nodeids.size() ; i++) {
+        CH::Node n(nodeids[i], nodesxy[i][0], nodesxy[i][1]);
         nv.push_back(n);
     }
 
@@ -25,14 +23,9 @@ Graphalg::Graphalg(int *nodeids, float *nodesxy, int numnodes,
 
     vector<CH::Edge> ev;
 
-    for (int i = 0 ; i < numedges ; i++) {
-        CH::Edge e(
-            edges[i*2+0],
-            edges[i*2+1],
-            i,
-            edgeweights[i]*DISTANCEMULTFACT,
-            true,
-            twoway);
+    for (int i = 0 ; i < edges.size() ; i++) {
+        CH::Edge e(edges[i][0], edges[i][1], i,
+            edgeweights[i]*DISTANCEMULTFACT, true, twoway);
         ev.push_back(e);
     }
 

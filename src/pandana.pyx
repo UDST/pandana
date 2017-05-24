@@ -6,9 +6,14 @@ cimport numpy as np
 import numpy as np
 
 
+# resources
+# http://cython.readthedocs.io/en/latest/src/userguide/wrapping_CPlusPlus.html
+# http://www.birving.com/blog/2014/05/13/passing-numpy-arrays-between-python-and/
+
 cdef extern from "graphalg.h" namespace "MTC::accessibility":
     cdef cppclass Graphalg:
-        Graphalg(int*, float*, int, int*, float*, int, bool) except +
+        Graphalg(vector[long], vector[vector[double]], vector[vector[long]],
+            vector[double], bool) except +
 
 
 cdef extern from "accessibility.h" namespace "MTC::accessibility":
@@ -17,19 +22,20 @@ cdef extern from "accessibility.h" namespace "MTC::accessibility":
         int numnodes
         void addGraphalg(Graphalg*)
         void initializePOIs(int, double, int)
-        void initializeCategory(int, vector[int])
-        vector[vector[float]] findAllNearestPOIs(float, int, int, int, bool)
+        void initializeCategory(int, vector[long])
+        vector[vector[double]] findAllNearestPOIs(float, int, int, int, bool)
 
 
 cdef class pyAccess:
     cdef Accessibility *access
 
+
     def __cinit__(
         self,
-        np.ndarray[int] node_ids,
-        np.ndarray[float, ndim=2] node_xys,
-        np.ndarray[int, ndim=2] edges,
-        np.ndarray[float, ndim=2] edge_weights,
+        np.ndarray[long] node_ids,
+        np.ndarray[double, ndim=2] node_xys,
+        np.ndarray[long, ndim=2] edges,
+        np.ndarray[double, ndim=2] edge_weights,
         bool twoway = False
     ):
         """
@@ -40,24 +46,22 @@ cdef class pyAccess:
         twoway: whether the edges should all be two-way or whether they
             are directed from the first to the second node
         """
-        numnodes = len(node_ids)
-        numedges = len(edges)
-        self.access = new Accessibility(numnodes)
+        self.access = new Accessibility(len(node_ids))
 
-        numimpedances = edge_weights.shape[1]
-        for i in range(numimpedances):
-            graphalg = new Graphalg(
-                &node_ids[0], &node_xys[0, 0], numnodes,
-                &edges[0, 0], &edge_weights[i, 0], numedges,
-                twoway
-            )
-            self.access.addGraphalg(graphalg)
+        for i in range(edge_weights.shape[1]):
+            self.access.addGraphalg(new Graphalg(
+                node_ids, node_xys, edges, edge_weights[i], twoway))
+
 
     def __dealloc__(self):
         del self.access
 
+
     def initialize_pois(self, numcategories, maxdist, maxitems):
+        """
+        """
         self.access.initializePOIs(numcategories, maxdist, maxitems)
+
 
     def initialize_category(
         self,

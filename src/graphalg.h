@@ -13,14 +13,16 @@ typedef unsigned int NodeID;
 namespace MTC {
 namespace accessibility {
 
+using std::vector;
+
 typedef std::map<int, float> DistanceMap;
 typedef std::vector<std::pair<NodeID, float> > DistanceVec;
 
 class Graphalg {
  public:
     Graphalg(
-        int *nodeids, float *nodexy, int numnodes,
-        int *edges, float *edgeweights, int numedges,
+        vector<long> nodeids, vector< vector<double> > nodexy,
+        vector< vector<long> > edges, vector<double> edgeweights,
         bool twoway);
 
     std::vector<NodeID> Route(int src, int tgt, int threadNum = 0);

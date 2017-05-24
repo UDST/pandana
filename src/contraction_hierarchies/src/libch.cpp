@@ -202,7 +202,7 @@ inline ostream& operator<< (ostream& os, const Edge& e) {
                 }
             }
         }
-        INFO("Range graph removed " << edges.size() - edge << " edges of " << edges.size());
+        //INFO("Range graph removed " << edges.size() - edge << " edges of " << edges.size());
         assert(edge <= edges.size());
         edges.resize( edge );
         _graph = new QueryGraph( nodes, edges );
