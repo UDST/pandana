@@ -1,3 +1,6 @@
+# tmp file for builds
+src/cyaccess.cpp
+
 .idea/
 .ipynb_checkpoints/
 
