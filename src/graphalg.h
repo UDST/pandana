@@ -36,7 +36,7 @@ class Graphalg {
 
     void initPOIs(int numcategories, double maxdist, int maxitems) {
         ch.createPOIIndexArray(numcategories, maxdist*DISTANCEMULTFACT,
-                                 maxitems);
+                               maxitems);
     }
 
     void addPOIToIndex(int category, int i) {

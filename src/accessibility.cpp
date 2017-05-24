@@ -17,32 +17,11 @@ void Accessibility::addGraphalg(MTC::accessibility::Graphalg *g) {
 }
 
 
-double Accessibility::computeCentrality(
-    int srcnode,
-    DistanceVec &distances,
-    int gno) {
-    if (distances.size() < 3) return 0.0;
-
-    int cnt = 0;
-    for (int i = 0 ; i < distances.size() ; i++) {
-        int source = distances[i].first;
-        for (int j = 0 ; j < distances.size() ; j++) {
-            int target = distances[j].first;
-
-            if (target <= source) continue;
-            std::vector<NodeID> path = ga[gno]->Route(
-                source, target, omp_get_thread_num());
-
-            for (int i = 0 ; i < path.size() ; i++) {
-                if (path[i] == srcnode) cnt++;
-            }
-        }
-    }
-    double n = distances.size();
-    double scale = 2.0 / (n*n-3.0*n+2.0);
-    return static_cast<double>(cnt) * scale;
-}
-
+/*
+#######################
+POI QUERIES
+#######################
+*/
 
 void Accessibility::initializePOIs(
     int numcategories,
@@ -52,39 +31,20 @@ void Accessibility::initializePOIs(
     for (int i = 0 ; i < ga.size() ; i++) {
         ga[i]->initPOIs(numcategories, maxdist, maxitems);
     }
-    accessibilityVarsForPOIs.resize(numcategories);
 }
 
 
 void Accessibility::initializeCategory(
     int category,
-    accessibility_vars_t &vars) {
-    assert(vars.size() == numnodes);
-    accessibilityVarsForPOIs[category] = vars;
-
-    int cnt = 0;
-    for (int i = 0 ; i < vars.size() ; i++) {
-        for (int j = 0 ; j < vars[i].size() ; j++) {
-            cnt++;
-
-            for (int k = 0 ; k < ga.size() ; k++) {
-                ga[k]->addPOIToIndex(category, i);
-            }
+    std::vector<int> node_ids
+    ) {
+    // initialize for all subgraphs
+    for (int i = 0 ; i < ga.size() ; i++) {
+        // initialize for each node
+        for (int j = 0 ; j < node_ids.size() ; j++) {
+            ga[i]->addPOIToIndex(category, j);
         }
     }
-}
-
-
-void Accessibility::initializeAccVars(int numcategories) {
-    accessibilityVars.resize(numcategories);
-}
-
-
-void Accessibility::initializeAccVar(
-    int category,
-    accessibility_vars_t &vars) {
-    assert(vars.size() == numnodes);
-    accessibilityVars[category] = vars;
 }
 
 
@@ -137,23 +97,23 @@ Accessibility::findNearestPOIs(
 std::vector<std::vector<float> >
 Accessibility::findAllNearestPOIs(
     float maxradius,
-    unsigned number,
-    unsigned cat,
+    unsigned num_of_pois,
+    unsigned category,
     int gno,
     bool return_nodeids) {
     std::vector<std::vector<float> >
-        dists(numnodes, std::vector<float> (number));
+        dists(numnodes, std::vector<float> (num_of_pois));
 
     #pragma omp parallel for
     for (int i = 0 ; i < numnodes ; i++) {
         std::vector<float> d = findNearestPOIs(
             i,
             maxradius,
-            number,
-            cat,
+            num_of_pois,
+            category,
             gno,
             return_nodeids);
-        for (int j = 0 ; j < number ; j++) {
+        for (int j = 0 ; j < num_of_pois ; j++) {
             if (j < d.size()) {
                 dists[i][j] = d[j];
             } else {
@@ -186,6 +146,26 @@ Accessibility::precomputeRangeQueries(float radius) {
     }
     }
     dmsradius = radius;
+}
+
+
+/*
+#######################
+AGGREGATION/ACCESSIBILITY QUERIES
+#######################
+*/
+
+
+void Accessibility::initializeAccVars(int numcategories) {
+    accessibilityVars.resize(numcategories);
+}
+
+
+void Accessibility::initializeAccVar(
+    int category,
+    accessibility_vars_t &vars) {
+    assert(vars.size() == numnodes);
+    accessibilityVars[category] = vars;
 }
 
 
@@ -374,96 +354,5 @@ Accessibility::aggregateAccessibilityVariable(
     return sum;
 }
 
-
-std::vector<double>
-Accessibility::getAllModelResults(
-    float radius,
-    int numvars,
-    int *varindexes,
-    float *varcoeffs,
-    float distcoeff,
-    float asc,
-    float denom,
-    float nestdenom,
-    float mu,
-    int graphno) {
-
-    std::vector<double> scores(numnodes);
-
-    #pragma omp parallel
-    {
-    #pragma omp for schedule(guided)
-    for (int i = 0 ; i < numnodes ; i++) {
-        scores[i] = modelResult(
-            i,
-            radius,
-            numvars,
-            varindexes,
-            varcoeffs,
-            distcoeff,
-            asc,
-            denom,
-            nestdenom,
-            mu,
-            graphno);
-    }
-    }
-    return scores;
-}
-
-
-double
-Accessibility::modelResult(
-    int srcnode,
-    float radius,
-    int numvars,
-    int *varindexes,
-    float *varcoeffs,
-    float distcoeff,
-    float asc,
-    float denom,
-    float nestdenom,
-    float mu,
-    int gno) {
-
-    // I don't know if this is the best way to do this but I
-    // I don't want to copy memory in the precompute case - sometimes
-    // I need a reference and sometimes not
-    DistanceVec tmp;
-    DistanceVec &distances = tmp;
-    if (dmsradius > 0 && radius <= dmsradius) {
-        distances = dms[gno][srcnode];
-    } else {
-        ga[gno]->Range(srcnode, radius, omp_get_thread_num(), tmp);
-    }
-
-    if (distances.size() == 0) return -1;
-
-    double sum = 0.0;
-
-    for (int i = 0 ; i < distances.size() ; i++) {
-        int nodeid = distances[i].first;
-        double distance = distances[i].second;
-        double utility = 0.0;
-
-        // this can now happen since we're precomputing
-        if (distance > radius) continue;
-
-        utility += asc;
-        utility += distance * distcoeff;
-
-        for (int j = 0 ; j < numvars ; j++) {
-            accessibility_vars_t &vars =
-                accessibilityVars[varindexes[j]];
-
-            for (int k = 0 ; k < vars[nodeid].size() ; k++) {
-                utility += vars[nodeid][k] * varcoeffs[j];
-            }
-        }
-        sum += exp(mu*utility);
-    }
-
-    return log(sum);
-}
 }  // namespace accessibility
 }  // namespace MTC
