@@ -26,6 +26,30 @@ void Accessibility::addGraphalg(MTC::accessibility::Graphalg *g) {
 }
 
 
+void
+Accessibility::precomputeRangeQueries(float radius) {
+    dms.resize(ga.size());
+    for (int i = 0 ; i < ga.size() ; i++) {
+        dms[i].resize(numnodes);
+    }
+
+    #pragma omp parallel
+    {
+    #pragma omp for schedule(guided)
+    for (int i = 0 ; i < numnodes ; i++) {
+        for (int j = 0 ; j < ga.size() ; j++) {
+            ga[j]->Range(
+                i,
+                radius,
+                omp_get_thread_num(),
+                dms[j][i]);
+        }
+    }
+    }
+    dmsradius = radius;
+}
+
+
 /*
 #######################
 POI QUERIES
@@ -152,30 +176,6 @@ Accessibility::findAllNearestPOIs(
 }
 
 
-void
-Accessibility::precomputeRangeQueries(float radius) {
-    dms.resize(ga.size());
-    for (int i = 0 ; i < ga.size() ; i++) {
-        dms[i].resize(numnodes);
-    }
-
-    #pragma omp parallel
-    {
-    #pragma omp for schedule(guided)
-    for (int i = 0 ; i < numnodes ; i++) {
-        for (int j = 0 ; j < ga.size() ; j++) {
-            ga[j]->Range(
-                i,
-                radius,
-                omp_get_thread_num(),
-                dms[j][i]);
-        }
-    }
-    }
-    dmsradius = radius;
-}
-
-
 /*
 #######################
 AGGREGATION/ACCESSIBILITY QUERIES
@@ -190,9 +190,18 @@ void Accessibility::initializeAccVars(int numcategories) {
 
 void Accessibility::initializeAccVar(
     int category,
-    accessibility_vars_t &vars) {
-    assert(vars.size() == numnodes);
-    accessibilityVars[category] = vars;
+    vector<long> node_ids,
+    vector<double> values) {
+    accessibility_vars_t av;
+    av.resize(this->numnodes);
+    for (int i = 0 ; i < node_ids.size() ; i++) {
+        int node_id = node_ids[i];
+        double val = values[i];
+
+        assert(node_id << av.size());
+        av[node_id].push_back(val);
+    }
+    accessibilityVars[category] = av;
 }
 
 
@@ -200,8 +209,8 @@ vector<double>
 Accessibility::getAllAggregateAccessibilityVariables(
     float radius,
     int ind,
-    aggregation_types_t aggtyp,
-    decay_func_t decay,
+    int aggtyp,
+    int decay,
     int graphno) {
 
     if (ind == -1) assert(0);
@@ -216,30 +225,12 @@ Accessibility::getAllAggregateAccessibilityVariables(
             i,
             radius,
             accessibilityVars[ind],
-            aggtyp,
-            decay,
+            (aggregation_types_t)aggtyp,
+            (decay_func_t)decay,
             graphno);
     }
     }
     return scores;
-}
-
-
-DistanceVec
-Accessibility::Range(int srcnode, float radius, int gno) {
-    DistanceVec tmp;
-    DistanceVec &distances = tmp;
-    if (dmsradius > 0 && radius <= dmsradius) {
-            distances = dms[gno][srcnode];
-        return distances;
-    } else {
-        ga[gno]->Range(
-            srcnode,
-            radius,
-            omp_get_thread_num(),
-            tmp);
-        return tmp;
-    }
 }
 
 

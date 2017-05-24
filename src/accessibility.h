@@ -12,30 +12,6 @@ namespace accessibility {
 
 using std::vector;
 
-typedef vector<vector<float> > accessibility_vars_t;
-
-// aggregation types
-enum aggregation_types_t {
-    AGG_SUM,
-    AGG_AVE,
-    AGG_MIN,
-    AGG_25PERCENTILE,
-    AGG_MEDIAN,
-    AGG_75PERCENTILE,
-    AGG_MAX,
-    AGG_STDDEV,
-    AGG_COUNT,
-    AGG_MAXVAL
-};
-
-// decay functins for aggregation
-enum decay_func_t {
-    DECAY_EXP,
-    DECAY_LINEAR,
-    DECAY_FLAT,
-    DECAY_MAXVAL
-};
-
 class Accessibility {
  public:
     explicit Accessibility(int numnodes = 0);
@@ -61,15 +37,18 @@ class Accessibility {
         bool return_nodeids = false);
 
     void initializeAccVars(int numcategories);
-    void initializeAccVar(int index, accessibility_vars_t &vars);
+    void initializeAccVar(
+        int index,
+        vector<long> node_ids,
+        vector<double> values);
 
     // computes the accessibility for every node in the network
     vector<double>
     getAllAggregateAccessibilityVariables(
         float radius,
         int index,
-        aggregation_types_t aggtyp,
-        decay_func_t decay,
+        int aggtyp,
+        int decay,
         int graphno = 0);
 
     DistanceVec Range(int srcnode, float radius, int graphno = 0);
@@ -83,6 +62,7 @@ class Accessibility {
 
     vector<std::shared_ptr<Graphalg> > ga;
 
+    typedef vector<vector<float> > accessibility_vars_t;
     vector<accessibility_vars_t> accessibilityVars;
     vector<accessibility_vars_t> accessibilityVarsForPOIs;
 
@@ -91,6 +71,28 @@ class Accessibility {
     vector<vector<DistanceVec> > dms;
 
     int numnodes;
+
+    // aggregation types
+    enum aggregation_types_t {
+        AGG_SUM,
+        AGG_AVE,
+        AGG_MIN,
+        AGG_25PERCENTILE,
+        AGG_MEDIAN,
+        AGG_75PERCENTILE,
+        AGG_MAX,
+        AGG_STDDEV,
+        AGG_COUNT,
+        AGG_MAXVAL
+    };
+
+    // decay functins for aggregation
+    enum decay_func_t {
+        DECAY_EXP,
+        DECAY_LINEAR,
+        DECAY_FLAT,
+        DECAY_MAXVAL
+    };
 
     vector<double>
     findNearestPOIs(

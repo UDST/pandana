@@ -22,7 +22,12 @@ cdef extern from "accessibility.h" namespace "MTC::accessibility":
         void addGraphalg(Graphalg*)
         void initializePOIs(int, double, int)
         void initializeCategory(int, vector[long])
-        vector[vector[double]] findAllNearestPOIs(float, int, int, int, bool)
+        vector[vector[double]] findAllNearestPOIs(
+            float, int, int, int, bool)
+        void initializeAccVars(int)
+        void initializeAccVar(int, vector[long], vector[double])
+        vector[double] getAllAggregateAccessibilityVariables(
+            float, int, int, int, int)
 
 
 cdef class cyaccess:
@@ -55,6 +60,11 @@ cdef class cyaccess:
 
     def initialize_pois(self, numcategories, maxdist, maxitems):
         """
+        numcategories - number of categories to initialize
+        maxdist - the maximum distance that will later be used in
+            find_all_nearest_pois
+        maxitems - the maximum number of items that will later be requested
+            in find_all_nearest_pois
         """
         self.access.initializePOIs(numcategories, maxdist, maxitems)
 
@@ -87,3 +97,40 @@ cdef class cyaccess:
         """
         return self.access.findAllNearestPOIs(
             radius, num_of_pois, category, impno, return_nodeids)
+
+    def initialize_access_vars(self, int numcategories):
+        """
+        numcategories - number of categories to initialize
+        """
+        self.access.initializeAccVars(numcategories)
+
+    def initialize_access_var(
+        self,
+        int category,
+        np.ndarray[long] node_ids,
+        np.ndarray[double] values
+    ):
+        """
+        category - category id
+        node_ids: vector of node identifiers
+        values: vector of values that are location at the nodes
+        """
+        self.access.initializeAccVar(category, node_ids, values)
+
+    def get_all_aggregate_accessibility_variables(
+        self,
+        double radius,
+        int category,
+        int aggtyp,
+        int decay,
+        int impno=0,
+    ):
+        """
+        radius - search radius
+        category - category id
+        aggtyp - aggregation type, see docs
+        decay - decay type, see docs
+        impno - the impedance id to use
+        """
+        return self.access.getAllAggregateAccessibilityVariables(
+            radius, category, aggtyp, decay, impno)
