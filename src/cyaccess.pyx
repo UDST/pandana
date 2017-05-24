@@ -5,7 +5,6 @@ from libcpp.vector cimport vector
 cimport numpy as np
 import numpy as np
 
-
 # resources
 # http://cython.readthedocs.io/en/latest/src/userguide/wrapping_CPlusPlus.html
 # http://www.birving.com/blog/2014/05/13/passing-numpy-arrays-between-python-and/
@@ -13,7 +12,7 @@ import numpy as np
 cdef extern from "graphalg.h" namespace "MTC::accessibility":
     cdef cppclass Graphalg:
         Graphalg(vector[long], vector[vector[double]], vector[vector[long]],
-            vector[double], bool) except +
+                 vector[double], bool) except +
 
 
 cdef extern from "accessibility.h" namespace "MTC::accessibility":
@@ -26,9 +25,8 @@ cdef extern from "accessibility.h" namespace "MTC::accessibility":
         vector[vector[double]] findAllNearestPOIs(float, int, int, int, bool)
 
 
-cdef class pyAccess:
-    cdef Accessibility *access
-
+cdef class cyaccess:
+    cdef Accessibility * access
 
     def __cinit__(
         self,
@@ -36,7 +34,7 @@ cdef class pyAccess:
         np.ndarray[double, ndim=2] node_xys,
         np.ndarray[long, ndim=2] edges,
         np.ndarray[double, ndim=2] edge_weights,
-        bool twoway = True
+        bool twoway=True
     ):
         """
         node_ids: vector of node identifiers
@@ -52,16 +50,13 @@ cdef class pyAccess:
             self.access.addGraphalg(new Graphalg(
                 node_ids, node_xys, edges, edge_weights[i], twoway))
 
-
     def __dealloc__(self):
         del self.access
-
 
     def initialize_pois(self, numcategories, maxdist, maxitems):
         """
         """
         self.access.initializePOIs(numcategories, maxdist, maxitems)
-
 
     def initialize_category(
         self,
@@ -74,14 +69,13 @@ cdef class pyAccess:
         """
         self.access.initializeCategory(category, node_ids)
 
-
     def find_all_nearest_pois(
         self,
         double radius,
         int num_of_pois,
         int category,
-        int impno = 0,
-        bool return_nodeids = False
+        int impno=0,
+        bool return_nodeids=False
     ):
         """
         radius - search radius

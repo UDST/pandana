@@ -1,7 +1,8 @@
-#include "./accessibility.h"
+#include "accessibility.h"
 #include <algorithm>
 #include <cmath>
-#include "./graphalg.h"
+#include <utility>
+#include "graphalg.h"
 
 using std::vector;
 
@@ -9,7 +10,8 @@ namespace MTC {
 namespace accessibility {
 
 typedef std::pair<float, float> distance_node_pair;
-bool distance_node_pair_comparator ( const distance_node_pair& l, const distance_node_pair& r)
+bool distance_node_pair_comparator(const distance_node_pair& l,
+                                   const distance_node_pair& r)
     { return l.first < r.first; }
 
 Accessibility::Accessibility(int numnodes) {
@@ -36,7 +38,7 @@ void Accessibility::initializePOIs(
     int maxitems) {
     // save this for when reinitializing the category
     this->maxdist = maxdist;
-    this->maxitems = maxitems;    
+    this->maxitems = maxitems;
     // initialize for all subgraphs
     for (int i = 0 ; i < ga.size() ; i++) {
         ga[i]->initPOIs(numcategories, maxdist, maxitems);
@@ -99,20 +101,19 @@ Accessibility::findNearestPOIs(
         for (int i = 0 ; i < vars[nodeid].size() ; i++) {
             distance_node_pairs.push_back(
                std::make_pair(
-                   (float)distance,
-                   (float)vars[nodeid][i]
-               )
-           );
+                   static_cast<double>(distance),
+                   static_cast<double>(vars[nodeid][i])));
         }
     }
 
     std::sort(distance_node_pairs.begin(), distance_node_pairs.end(),
               distance_node_pair_comparator);
- 
+
     vector<double> ret;
     for (unsigned i=0; i < distance_node_pairs.size(); i++) {
         ret.push_back(return_nodeids ?
-                      distance_node_pairs[i].second : distance_node_pairs[i].first);
+                      distance_node_pairs[i].second :
+                      distance_node_pairs[i].first);
     }
 
     return ret;

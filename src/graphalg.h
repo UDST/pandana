@@ -3,8 +3,8 @@
 #include <vector>
 #include <map>
 #include <utility>
-#include "./shared.h"
-#include "./contraction_hierarchies/src/libch.h"
+#include "shared.h"
+#include "contraction_hierarchies/src/libch.h"
 
 typedef unsigned int NodeID;
 

@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from pyaccess import pyAccess
+from pandana.cyaccess import cyaccess
 
 store = pd.HDFStore("pandana/tests/osm_sample.h5", "r")
 nodes = store.nodes
@@ -13,7 +13,7 @@ edges["to"] = node_locations.loc[edges["to"]].values
 
 edge_weights = store.edges[["weight"]]
 
-net = pyAccess(
+net = cyaccess(
 	nodes.index.values,
     nodes.as_matrix(),
 	edges.as_matrix(),

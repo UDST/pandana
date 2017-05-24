@@ -31,6 +31,13 @@ class PyTest(TestCommand):
         sys.exit(errno)
 
 
+class Lint(TestCommand):
+    def run(self):
+        os.system("cpplint --filter=-build/include_subdir,-legal/copyright,-runtime/references,-runtime/int src/accessibility.* src/graphalg.*")
+        os.system("pep8 src/cyaccess.pyx")
+        os.system("pep8 pandana")
+
+
 class CustomBuildExtCommand(build_ext):
     """build_ext command for use when numpy headers are needed."""
     def run(self):
@@ -48,8 +55,7 @@ packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"])
 source_files = [
     'src/accessibility.cpp',
     'src/graphalg.cpp',
-    # 'src/pyaccesswrap.cpp',
-    "src/pandana.pyx",
+    "src/cyaccess.pyx",
     'src/contraction_hierarchies/src/libch.cpp'
 ]
 
@@ -101,7 +107,7 @@ setup(
     long_description=long_description,
     url='https://udst.github.io/pandana/',
     ext_modules=[Extension(
-            'pyaccess',
+            'pandana.cyaccess',
             source_files,
             language="c++",
             include_dirs=include_dirs,
@@ -119,6 +125,7 @@ setup(
     tests_require=['pytest'],
     cmdclass={
         'test': PyTest,
+        'lint': Lint,
         'build_ext': CustomBuildExtCommand,
     },
     classifiers=[

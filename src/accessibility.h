@@ -4,8 +4,8 @@
 #include <cstdlib>
 #include <vector>
 #include <string>
-#include "./shared.h"
-#include "./graphalg.h"
+#include "shared.h"
+#include "graphalg.h"
 
 namespace MTC {
 namespace accessibility {
