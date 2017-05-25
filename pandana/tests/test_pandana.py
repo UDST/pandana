@@ -15,6 +15,7 @@ def sample_osm(request):
     store = pd.HDFStore(
         os.path.join(os.path.dirname(__file__), 'osm_sample.h5'), "r")
     nodes, edges = store.nodes, store.edges
+
     net = pdna.Network(nodes.x, nodes.y, edges["from"], edges.to,
                        edges[["weight"]])
 
@@ -73,11 +74,6 @@ def random_x_y(sample_osm, ssize):
     x = pd.Series(np.random.uniform(bbox[0], bbox[2], ssize))
     y = pd.Series(np.random.uniform(bbox[1], bbox[3], ssize))
     return x, y
-
-
-def test_create_network(sample_osm):
-    # smoke test
-    pass
 
 
 def test_agg_variables_accuracy(sample_osm):
@@ -170,12 +166,16 @@ def test_assign_nodeids(sample_osm):
     x, y = random_x_y(sample_osm, ssize)
     node_ids1 = sample_osm.get_node_ids(x, y)
     assert len(node_ids1) == ssize
+    # check a couple of assignments for accuracy
+    assert node_ids1.loc[48] == 1840703798
+    assert node_ids1.loc[43] == 257739973
     pdt.assert_index_equal(x.index, node_ids1.index)
 
     # test with max distance - this max distance is in decimal degrees
-    node_ids2 = sample_osm.get_node_ids(x, y, 0.001)
+    node_ids2 = sample_osm.get_node_ids(x, y, 0.0005)
     assert 0 < len(node_ids2) < ssize
     assert len(node_ids2) < len(node_ids1), "Max distance not working"
+    assert len(node_ids2) == 14
 
     node_ids3 = sample_osm.get_node_ids(x, y, 0)
     assert len(node_ids3) == 0
@@ -267,3 +267,52 @@ def test_pois2(second_sample_osm):
     net2.set_pois("restaurants", x, y)
 
     net2.nearest_pois(2000, "restaurants", num_pois=10)
+
+
+# test items are sorted
+def test_sorted_pois(sample_osm):
+    net = sample_osm
+    net.init_pois(num_categories=1, max_dist=2000, max_pois=10)
+
+    ssize = 1000
+    x, y = random_x_y(sample_osm, ssize)
+
+    # set two categories
+    net.set_pois("restaurants", x, y)
+
+    test = net.nearest_pois(2000, "restaurants", num_pois=10)
+
+    for ind, row in test.iterrows():
+        # make sure it's sorted
+        assert_allclose(row, row.sort_values())
+
+
+def test_repeat_pois(sample_osm):
+    net = sample_osm
+    net.init_pois(num_categories=1, max_dist=2000, max_pois=10)
+
+    def get_nearest_nodes(x, y, x2=None, y2=None, n=2):
+        coords_dict = [{'x': x, 'y': y, 'var': 1} for i in range(2)]
+        if x2 and y2:
+            coords_dict.append({'x': x2, 'y': y2, 'var': 1})
+        df = pd.DataFrame(coords_dict)
+        sample_osm.set_pois("restaurants", df['x'], df['y'])
+        res = sample_osm.nearest_pois(2000, "restaurants", num_pois=5, include_poi_ids=True)
+        return res
+
+    # these are the min-max values of the network
+    # -122.3383688 -122.2962223
+    # 47.5950005 47.6150548
+
+    test1 = get_nearest_nodes(-122.31, 47.60)
+    test2 = get_nearest_nodes(-122.254116, 37.869361)
+    # Same coords as the first call, should yield same result
+    test3 = get_nearest_nodes(-122.31, 47.60)
+    assert test1.equals(test3)
+
+    test4 = get_nearest_nodes(-122.31, 47.60, -122.32, 47.61, n=3)
+    assert_allclose(test4.loc[53114882], [7, 13, 13, 2000, 2000, 2, 0, 1, np.nan, np.nan])
+    assert_allclose(test4.loc[53114880], [6, 14, 14, 2000, 2000, 2, 0, 1, np.nan, np.nan])
+    assert_allclose(
+        test4.loc[53227769],
+        [2000, 2000, 2000, 2000, 2000, np.nan, np.nan, np.nan, np.nan, np.nan])
