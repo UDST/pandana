@@ -99,7 +99,7 @@ void Accessibility::initializeCategory(
 
             ga[i]->addPOIToIndex(category, node_id);
             assert(node_id << av.size());
-            av[node_id].push_back(node_id);
+            av[node_id].push_back(j);
         }
     }
     accessibilityVarsForPOIs[category] = av;

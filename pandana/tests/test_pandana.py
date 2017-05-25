@@ -266,4 +266,4 @@ def test_pois2(second_sample_osm):
 
     net2.set_pois("restaurants", x, y)
 
-    print(net2.nearest_pois(2000, "restaurants", num_pois=10))
+    net2.nearest_pois(2000, "restaurants", num_pois=10)
