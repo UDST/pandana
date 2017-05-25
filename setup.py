@@ -121,7 +121,8 @@ setup(
         'requests>=2.0',
         'tables>=3.1.0',
         'osmnet>=0.1.2',
-        'cython>=0.25.2'
+        'cython>=0.25.2',
+        'scikit-learn>=0.18.1'
     ],
     tests_require=['pytest'],
     cmdclass={
