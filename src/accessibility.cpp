@@ -50,6 +50,19 @@ Accessibility::precomputeRangeQueries(float radius) {
 }
 
 
+std::vector<int>
+Accessibility::Route(int src, int tgt, int graphno) {
+    vector<NodeID> ret = this->ga[graphno]->Route(src, tgt);
+    return vector<int> (ret.begin(), ret.end());
+}
+
+
+double
+Accessibility::Distance(int src, int tgt, int graphno) {
+    return this->ga[graphno]->Distance(src, tgt);
+}
+
+
 /*
 #######################
 POI QUERIES

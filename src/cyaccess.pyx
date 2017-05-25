@@ -28,6 +28,9 @@ cdef extern from "accessibility.h" namespace "MTC::accessibility":
         void initializeAccVar(int, vector[long], vector[double])
         vector[double] getAllAggregateAccessibilityVariables(
             float, int, int, int, int)
+        vector[int] Route(int, int, int)
+        double Distance(int, int, int)
+        void precomputeRangeQueries(double)
 
 
 cdef class cyaccess:
@@ -134,3 +137,22 @@ cdef class cyaccess:
         """
         return self.access.getAllAggregateAccessibilityVariables(
             radius, category, aggtyp, decay, impno)
+
+    def shortest_path(self, int srcnode, int destnode, int impno=0):
+        """
+        srcnode - node id origin
+        destnode - node id destination
+        impno - the impedance id to use
+        """
+        return self.access.Route(srcnode, destnode, impno)
+
+    def shortest_path_distance(self, int srcnode, int destnode, int impno=0):
+        """
+        srcnode - node id origin
+        destnode - node id destination
+        impno - the impedance id to use
+        """
+        return self.access.Distance(srcnode, destnode, impno)
+
+    def precompute_range(self, double radius):
+        self.access.precomputeRangeQueries(radius)

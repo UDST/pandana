@@ -53,6 +53,9 @@ class Accessibility {
 
     DistanceVec Range(int srcnode, float radius, int graphno = 0);
 
+    vector<int> Route(int src, int tgt, int graphno = 0);
+    double Distance(int src, int tgt, int graphno = 0);
+
     // precompute the range queries and reuse them
     void precomputeRangeQueries(float radius);
 
