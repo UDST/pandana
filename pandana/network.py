@@ -38,6 +38,10 @@ DECAYS = {
 }
 
 
+def reserve_num_graphs(num):
+    raise Exception("reserve_num_graphs is no longer required - remove from your code")
+
+
 class Network:
     """
     Create the transportation network in the city.  Typical data would be
