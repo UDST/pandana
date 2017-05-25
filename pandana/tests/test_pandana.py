@@ -10,13 +10,6 @@ from pandana.testing import skipiftravis
 import pandana.network as pdna
 
 
-''' TODO - add tests for
-set and aggregate with multiple impedances
-multiple graphs
-one way streets
-'''
-
-
 @pytest.fixture(scope="module")
 def sample_osm(request):
     store = pd.HDFStore(
@@ -198,6 +191,7 @@ def test_named_variable(sample_osm):
     net.aggregate(500, type="sum", decay="linear", name="foo")
 
 
+'''
 def test_plot(sample_osm):
     net = sample_osm
 
@@ -208,6 +202,7 @@ def test_plot(sample_osm):
     s = net.aggregate(500, type="sum", decay="linear")
 
     sample_osm.plot(s)
+'''
 
 
 def test_shortest_path(sample_osm):
@@ -259,7 +254,6 @@ def test_pois(sample_osm):
                          include_poi_ids=True)
 
 
-@skipiftravis
 def test_pois2(second_sample_osm):
     net2 = second_sample_osm
 

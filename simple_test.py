@@ -23,7 +23,6 @@ net = cyaccess(
 net.initialize_pois(1, 10, 3)
 NUM_NODES = 30
 random_node_ids = np.random.choice(np.arange(len(nodes)), NUM_NODES)
-print random_node_ids
 net.initialize_category(0, random_node_ids)
 ret = net.find_all_nearest_pois(10, 3, 0, 0, True)
 print pd.DataFrame(ret)[0].value_counts()

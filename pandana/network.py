@@ -6,8 +6,9 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from sklearn.neighbors import KDTree
 
-from . import _pyaccess
+from .cyaccess import cyaccess
 from .loaders import pandash5 as ph5
 
 
@@ -35,28 +36,6 @@ DECAYS = {
     "LINEAR": 1,
     "FLAT": 2
 }
-
-
-def reserve_num_graphs(num):
-    """
-    Make a call to this function if you want to run queries on more than
-    one Network object
-
-    Parameters
-    ----------
-    num : int
-        The number of networks you want to use
-
-    Returns
-    -------
-    Nothing
-    """
-    global NUM_NETWORKS, MAX_NUM_NETWORKS
-    assert MAX_NUM_NETWORKS == 0, ("Global memory used so cannot initialize "
-                                   "twice")
-    assert num > 0
-    MAX_NUM_NETWORKS = num
-    _pyaccess.create_graphs(num)
 
 
 class Network:
@@ -98,16 +77,6 @@ class Network:
     def __init__(self, node_x, node_y, edge_from, edge_to, edge_weights,
                  twoway=True):
 
-        global NUM_NETWORKS, MAX_NUM_NETWORKS
-
-        if MAX_NUM_NETWORKS == 0:
-            reserve_num_graphs(1)
-
-        assert NUM_NETWORKS < MAX_NUM_NETWORKS, "Adding more networks than " \
-                                                "have been reserved"
-        self.graph_no = NUM_NETWORKS
-        NUM_NETWORKS += 1
-
         nodes_df = pd.DataFrame({'x': node_x, 'y': node_y})
         edges_df = pd.DataFrame({'from': edge_from, 'to': edge_to}).\
             join(edge_weights)
@@ -127,13 +96,15 @@ class Network:
         edges = pd.concat([self._node_indexes(edges_df["from"]),
                           self._node_indexes(edges_df["to"])], axis=1)
 
-        _pyaccess.create_graph(self.graph_no,
-                               nodes_df.index.values.astype('int32'),
-                               nodes_df.as_matrix().astype('float32'),
-                               edges.as_matrix().astype('int32'),
-                               edges_df[edge_weights.columns].transpose()
-                                   .as_matrix().astype('float32'),
-                               twoway)
+        self.net = cyaccess(nodes_df.index.values,
+                            nodes_df.astype('double').as_matrix(),
+                            edges.as_matrix(),
+                            edges_df[edge_weights.columns].transpose()
+                                                          .astype('double')
+                                                          .as_matrix(),
+                            twoway)
+
+        self.kdtree = KDTree(nodes_df.as_matrix())
 
         self._twoway = twoway
 
@@ -218,9 +189,8 @@ class Network:
         node_b = node_idx.iloc[1]
 
         imp_num = self._imp_name_to_num(imp_name)
-        gno = self.graph_no
 
-        path = _pyaccess.shortest_path(node_a, node_b, gno, imp_num)
+        path = self.net.shortest_path(node_a, node_b, imp_num)
 
         # map back to external node ids
         return self.node_ids.values[path]
@@ -277,13 +247,11 @@ class Network:
 
         if name not in self.variable_names:
             self.variable_names.append(name)
-            _pyaccess.initialize_acc_vars(self.graph_no,
-                                          len(self.variable_names))
+            self.net.initialize_access_vars(len(self.variable_names))
 
-        _pyaccess.initialize_acc_var(self.graph_no,
-                                     self.variable_names.index(name),
-                                     df.node_idx.astype('int32'),
-                                     df[name].astype('float32'))
+        self.net.initialize_access_var(self.variable_names.index(name),
+                                       df.node_idx.values.astype('int'),
+                                       df[name].values)
 
     def precompute(self, distance):
         """
@@ -302,7 +270,7 @@ class Network:
         -------
         Nothing
         """
-        _pyaccess.precompute_range(distance, self.graph_no)
+        self.net.precompute_range(distance)
 
     def _imp_name_to_num(self, imp_name):
         if imp_name is None:
@@ -367,22 +335,19 @@ class Network:
 
         imp_num = self._imp_name_to_num(imp_name)
 
-        gno = self.graph_no
-
         assert name in self.variable_names, "A variable with that name " \
                                             "has not yet been initialized"
         varnum = self.variable_names.index(name)
 
-        res = _pyaccess.get_all_aggregate_accessibility_variables(distance,
-                                                                  varnum,
-                                                                  agg,
-                                                                  decay,
-                                                                  gno,
-                                                                  imp_num)
+        res = self.net.get_all_aggregate_accessibility_variables(distance,
+                                                                 varnum,
+                                                                 agg,
+                                                                 decay,
+                                                                 imp_num)
 
         return pd.Series(res, index=self.node_ids)
 
-    def get_node_ids(self, x_col, y_col, mapping_distance=-1):
+    def get_node_ids(self, x_col, y_col, mapping_distance=None):
         """
         Assign node_ids to data specified by x_col and y_col
 
@@ -413,25 +378,21 @@ class Network:
             If the mapping is imperfect, this function returns all the
             input x, y's that were successfully mapped to node_ids.
         """
-        xys = pd.DataFrame({'x': x_col, 'y': y_col}).dropna(how='any')
+        xys = pd.DataFrame({'x': x_col, 'y': y_col})
 
-        # no limit to the mapping distance
-        node_ids = _pyaccess.xy_to_node(xys.astype('float32'),
-                                        mapping_distance,
-                                        self.graph_no)
+        distances, indexes = self.kdtree.query(xys.as_matrix())
+        indexes = np.transpose(indexes)[0]
+        distances = np.transpose(distances)[0]
 
-        s = pd.Series(node_ids, index=xys.index)
-        # -1 marks did not get mapped ids
-        s = s[s != -1]
+        node_ids = self.nodes_df.iloc[indexes].index
 
-        if len(s) == 0:
-            return pd.Series()
+        df = pd.DataFrame({"node_id": node_ids, "distance": distances},
+                          index=xys.index)
 
-        # this is not pandas finest moment - might have to revisit this at a
-        # later date - need to convert from internal to external ids
-        node_ids = pd.Series(
-            self.nodes_df.index[s].values, index=s.index)
-        return node_ids
+        if mapping_distance is not None:
+            df = df[df.distance <= mapping_distance]
+
+        return df.node_id
 
     def plot(
             self, data, bbox=None, plot_type='scatter',
@@ -533,7 +494,7 @@ class Network:
         self.num_poi_categories = num_categories
         self.max_pois = max_pois
 
-        _pyaccess.initialize_pois(num_categories, max_dist, max_pois, self.graph_no)
+        self.net.initialize_pois(num_categories, max_dist, max_pois)
 
     def set_pois(self, category, x_col, y_col):
         """
@@ -564,12 +525,14 @@ class Network:
                 "init_pois"
             self.poi_category_names.append(category)
 
-        xys = pd.DataFrame({'x': x_col, 'y': y_col}).dropna(how='any')
+        node_ids = self.get_node_ids(x_col, y_col)
 
-        self.poi_category_indexes[category] = xys.index
+        self.poi_category_indexes[category] = node_ids.index
 
-        _pyaccess.initialize_category(self.poi_category_names.index(category),
-                                      xys.astype('float32'), self.graph_no)
+        node_idx = self.node_idx.loc[node_ids]
+
+        self.net.initialize_category(self.poi_category_names.index(category),
+                                     node_idx.values)
 
     def nearest_pois(self, distance, category, num_pois=1, max_distance=None,
                      imp_name=None, include_poi_ids=False):
@@ -633,25 +596,24 @@ class Network:
 
         imp_num = self._imp_name_to_num(imp_name)
 
-        a = _pyaccess.find_all_nearest_pois(distance,
-                                            num_pois,
-                                            self.poi_category_names.index(
-                                                category),
-                                            self.graph_no,
-                                            imp_num,
-                                            0)
+        a = self.net.find_all_nearest_pois(
+            distance,
+            num_pois,
+            self.poi_category_names.index(category),
+            imp_num,
+            False)
         a[a == -1] = max_distance
+
         df = pd.DataFrame(a, index=self.node_ids)
         df.columns = list(range(1, num_pois+1))
 
         if include_poi_ids:
-            b = _pyaccess.find_all_nearest_pois(distance,
-                                                num_pois,
-                                                self.poi_category_names.index(
-                                                    category),
-                                                self.graph_no,
-                                                imp_num,
-                                                1)
+            b = self.net.find_all_nearest_pois(
+                distance,
+                num_pois,
+                self.poi_category_names.index(category),
+                imp_num,
+                True)
             df2 = pd.DataFrame(b, index=self.node_ids)
             df2.columns = ["poi%d" % i for i in range(1, num_pois+1)]
             for col in df2.columns:

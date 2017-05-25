@@ -2,8 +2,8 @@ cimport cython
 from libcpp cimport bool
 from libcpp.vector cimport vector
 
-cimport numpy as np
 import numpy as np
+cimport numpy as np
 
 # resources
 # http://cython.readthedocs.io/en/latest/src/userguide/wrapping_CPlusPlus.html
@@ -31,6 +31,22 @@ cdef extern from "accessibility.h" namespace "MTC::accessibility":
         vector[int] Route(int, int, int)
         double Distance(int, int, int)
         void precomputeRangeQueries(double)
+
+
+cdef np.ndarray[double] convert_vector_to_array_dbl(vector[double] vec):
+    cdef np.ndarray arr = np.zeros(len(vec), dtype="double")
+    for i in range(len(vec)):
+        arr[i] = vec[i]
+    return arr
+
+
+cdef np.ndarray[double, ndim = 2] convert_2D_vector_to_array_dbl(
+        vector[vector[double]] vec):
+    cdef np.ndarray arr = np.empty_like(vec, dtype="double")
+    for i in range(arr.shape[0]):
+        for j in range(arr.shape[1]):
+            arr[i][j] = vec[i][j]
+    return arr
 
 
 cdef class cyaccess:
@@ -74,7 +90,7 @@ cdef class cyaccess:
     def initialize_category(
         self,
         int category,
-        node_ids
+        np.ndarray[long] node_ids
     ):
         """
         category - the category number
@@ -98,8 +114,10 @@ cdef class cyaccess:
         return_nodeids - whether to return the nodeid locations of the nearest
             not just the distances
         """
-        return self.access.findAllNearestPOIs(
+        ret = self.access.findAllNearestPOIs(
             radius, num_of_pois, category, impno, return_nodeids)
+
+        return convert_2D_vector_to_array_dbl(ret)
 
     def initialize_access_vars(self, int numcategories):
         """
@@ -135,8 +153,10 @@ cdef class cyaccess:
         decay - decay type, see docs
         impno - the impedance id to use
         """
-        return self.access.getAllAggregateAccessibilityVariables(
+        ret = self.access.getAllAggregateAccessibilityVariables(
             radius, category, aggtyp, decay, impno)
+
+        return convert_vector_to_array_dbl(ret)
 
     def shortest_path(self, int srcnode, int destnode, int impno=0):
         """
