@@ -14,9 +14,10 @@ using std::vector;
 
 class Accessibility {
  public:
-    explicit Accessibility(int numnodes = 0);
-
-    void addGraphalg(MTC::accessibility::Graphalg *g);
+    Accessibility(
+        vector<long> nodeids, vector< vector<double> > nodexy,
+        vector< vector<long> > edges, vector< vector<double> >  edgeweights,
+        bool twoway);
 
     // set how many POI categories there will be
     void initializePOIs(
@@ -96,6 +97,8 @@ class Accessibility {
         DECAY_FLAT,
         DECAY_MAXVAL
     };
+
+    void addGraphalg(MTC::accessibility::Graphalg *g);
 
     vector<double>
     findNearestPOIs(

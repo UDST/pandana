@@ -9,17 +9,12 @@ cimport numpy as np
 # http://cython.readthedocs.io/en/latest/src/userguide/wrapping_CPlusPlus.html
 # http://www.birving.com/blog/2014/05/13/passing-numpy-arrays-between-python-and/
 
-cdef extern from "graphalg.h" namespace "MTC::accessibility":
-    cdef cppclass Graphalg:
-        Graphalg(vector[long], vector[vector[double]], vector[vector[long]],
-                 vector[double], bool) except +
-
 
 cdef extern from "accessibility.h" namespace "MTC::accessibility":
     cdef cppclass Accessibility:
-        Accessibility(int) except +
-        int numnodes
-        void addGraphalg(Graphalg*)
+        Accessibility(
+            vector[long], vector[vector[double]], vector[vector[long]],
+            vector[vector[double]], bool) except +
         void initializePOIs(int, double, int)
         void initializeCategory(int, vector[long])
         vector[vector[double]] findAllNearestPOIs(
@@ -68,11 +63,7 @@ cdef class cyaccess:
         twoway: whether the edges should all be two-way or whether they
             are directed from the first to the second node
         """
-        self.access = new Accessibility(len(node_ids))
-
-        for i in range(edge_weights.shape[0]):
-            self.access.addGraphalg(new Graphalg(
-                node_ids, node_xys, edges, edge_weights[i], twoway))
+        self.access = new Accessibility(node_ids, node_xys, edges, edge_weights, twoway)
 
     def __dealloc__(self):
         del self.access
