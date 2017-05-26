@@ -17,15 +17,13 @@ bool distance_node_pair_comparator(const distance_node_pair& l,
     { return l.first < r.first; }
 
 Accessibility::Accessibility(
-        vector<long> nodeids, vector< vector<double> > nodexy,
-        vector< vector<long> > edges, vector< vector<double> >  edgeweights,
+        int numnodes, vector< vector<long> > edges, vector< vector<double> >  edgeweights,
         bool twoway) {
     for (int i = 0 ; i < edgeweights.size() ; i++) {
-        this->addGraphalg(new Graphalg(
-            nodeids, nodexy, edges, edgeweights[i], twoway));
+        this->addGraphalg(new Graphalg(numnodes, edges, edgeweights[i], twoway));
     }
 
-    this->numnodes = nodeids.size();
+    this->numnodes = numnodes;
     this->dmsradius = -1;
 }
 
@@ -96,7 +94,7 @@ void Accessibility::initializePOIs(
 
 void Accessibility::initializeCategory(
     int category,
-    vector<long> node_ids
+    vector<long> node_idx
     ) {
     accessibility_vars_t av;
     av.resize(this->numnodes);
@@ -104,8 +102,8 @@ void Accessibility::initializeCategory(
     for (int i = 0 ; i < ga.size() ; i++) {
         ga[i]->initPOIIndex(category, this->maxdist, this->maxitems);
         // initialize for each node
-        for (int j = 0 ; j < node_ids.size() ; j++) {
-            int node_id = node_ids[j];
+        for (int j = 0 ; j < node_idx.size() ; j++) {
+            int node_id = node_idx[j];
 
             ga[i]->addPOIToIndex(category, node_id);
             assert(node_id << av.size());
@@ -116,10 +114,10 @@ void Accessibility::initializeCategory(
 }
 
 
-/* the return_nodeids parameter determines whether to
-   return the nodeids where the poi was found rather than
+/* the return_nodeidx parameter determines whether to
+   return the nodeidx where the poi was found rather than
    the distances - you can call this twice - once for the
-   distances and then again for the node ids */
+   distances and then again for the node idx */
 vector<double>
 Accessibility::findNearestPOIs(
     int srcnode,
@@ -127,7 +125,7 @@ Accessibility::findNearestPOIs(
     unsigned number,
     unsigned cat,
     int gno,
-    bool return_nodeids) {
+    bool return_nodeidx) {
 
     assert(cat >= 0 && cat < POI_MAXVAL);
 
@@ -158,7 +156,7 @@ Accessibility::findNearestPOIs(
 
     vector<double> ret;
     for (unsigned i=0; i < distance_node_pairs.size(); i++) {
-        ret.push_back(return_nodeids ?
+        ret.push_back(return_nodeidx ?
                       distance_node_pairs[i].second :
                       distance_node_pairs[i].first);
     }
@@ -174,7 +172,7 @@ Accessibility::findAllNearestPOIs(
     unsigned num_of_pois,
     unsigned category,
     int gno,
-    bool return_nodeids) {
+    bool return_nodeidx) {
     vector<vector<double> >
         dists(numnodes, vector<double> (num_of_pois));
 
@@ -186,7 +184,7 @@ Accessibility::findAllNearestPOIs(
             num_of_pois,
             category,
             gno,
-            return_nodeids);
+            return_nodeidx);
         for (int j = 0 ; j < num_of_pois ; j++) {
             if (j < d.size()) {
                 dists[i][j] = d[j];
@@ -208,12 +206,12 @@ AGGREGATION/ACCESSIBILITY QUERIES
 
 void Accessibility::initializeAccVar(
     string category,
-    vector<long> node_ids,
+    vector<long> node_idx,
     vector<double> values) {
     accessibility_vars_t av;
     av.resize(this->numnodes);
-    for (int i = 0 ; i < node_ids.size() ; i++) {
-        int node_id = node_ids[i];
+    for (int i = 0 ; i < node_idx.size() ; i++) {
+        int node_id = node_idx[i];
         double val = values[i];
 
         assert(node_id << av.size());

@@ -21,7 +21,7 @@ typedef std::vector<std::pair<NodeID, float> > DistanceVec;
 class Graphalg {
  public:
     Graphalg(
-        vector<long> nodeids, vector< vector<double> > nodexy,
+        int numnodes,
         vector< vector<long> > edges, vector<double> edgeweights,
         bool twoway);
 

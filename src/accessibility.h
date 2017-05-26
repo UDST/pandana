@@ -18,8 +18,7 @@ using std::map;
 class Accessibility {
  public:
     Accessibility(
-        vector<long> nodeids, vector< vector<double> > nodexy,
-        vector< vector<long> > edges, vector< vector<double> >  edgeweights,
+        int numnodes, vector< vector<long> > edges, vector< vector<double> >  edgeweights,
         bool twoway);
 
     // set how many POI categories there will be
@@ -29,7 +28,7 @@ class Accessibility {
         int maxitems);
 
     // initialize the category number with POIs at the node_id locations
-    void initializeCategory(int category, vector<long> node_ids);
+    void initializeCategory(int category, vector<long> node_idx);
 
     // find the nearest pois for all nodes in the network
     vector<vector<double> >
@@ -38,11 +37,11 @@ class Accessibility {
         unsigned maxnumber,
         unsigned cat,
         int graphno = 0,
-        bool return_nodeids = false);
+        bool return_nodeidx = false);
 
     void initializeAccVar(
         string category,
-        vector<long> node_ids,
+        vector<long> node_idx,
         vector<double> values);
 
     // computes the accessibility for every node in the network
@@ -124,7 +123,7 @@ class Accessibility {
         unsigned maxnumber,
         unsigned cat,
         int graphno = 0,
-        bool return_nodeids = false);
+        bool return_nodeidx = false);
 
     // aggregate a variable within a radius
     double

@@ -513,7 +513,7 @@ class Network:
 
         self.poi_category_indexes[category] = node_ids.index
 
-        node_idx = self.node_idx.loc[node_ids]
+        node_idx = self._node_indexes(node_ids)
 
         self.net.initialize_category(self.poi_category_names.index(category),
                                      node_idx.values)

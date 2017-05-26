@@ -4,18 +4,19 @@
 namespace MTC {
 namespace accessibility {
 Graphalg::Graphalg(
-        vector<long> nodeids, vector< vector<double> > nodesxy,
-        vector< vector<long> > edges, vector<double> edgeweights,
+        int numnodes, vector< vector<long> > edges, vector<double> edgeweights,
         bool twoway) {
-    this->numnodes = nodeids.size();
+    this->numnodes = numnodes;
 
     int num = omp_get_max_threads();
     ch = CH::ContractionHierarchies(num);
 
     vector<CH::Node> nv;
 
-    for (int i = 0 ; i < nodeids.size() ; i++) {
-        CH::Node n(nodeids[i], nodesxy[i][0], nodesxy[i][1]);
+    for (int i = 0 ; i < numnodes ; i++) {
+        // CH allows you to pass in a node id, and an x and a y, and then
+        // never uses it - to be clear, we don't pass it in anymore
+        CH::Node n(i, 0, 0);
         nv.push_back(n);
     }
 

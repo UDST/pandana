@@ -13,9 +13,7 @@ cimport numpy as np
 
 cdef extern from "accessibility.h" namespace "MTC::accessibility":
     cdef cppclass Accessibility:
-        Accessibility(
-            vector[long], vector[vector[double]], vector[vector[long]],
-            vector[vector[double]], bool) except +
+        Accessibility(int, vector[vector[long]], vector[vector[double]], bool) except +
         vector[string] aggregations
         vector[string] decays
         void initializePOIs(int, double, int)
@@ -65,7 +63,10 @@ cdef class cyaccess:
         twoway: whether the edges should all be two-way or whether they
             are directed from the first to the second node
         """
-        self.access = new Accessibility(node_ids, node_xys, edges, edge_weights, twoway)
+        # you're right, neither the node ids nor the location xys are used in here
+        # anymore - I'm hesitant to out-and-out remove it as we might still use
+        # it for something someday
+        self.access = new Accessibility(len(node_ids), edges, edge_weights, twoway)
 
     def __dealloc__(self):
         del self.access
