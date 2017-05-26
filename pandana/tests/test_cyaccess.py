@@ -58,6 +58,10 @@ def test_agg_analysis(net, nodes_and_edges):
     assert_almost_equal(ret[0], 159.208338, decimal=4)
     assert_almost_equal(ret[50], 94.466888, decimal=4)
 
+    # test missing aggregation type
+    ret = net.get_all_aggregate_accessibility_variables(10, 0, "this is", "bogus")
+    assert np.alltrue(np.isnan(ret))
+
 
 def test_poi_analysis(net, nodes_and_edges):
     nodes = nodes_and_edges[0]
