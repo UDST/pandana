@@ -54,9 +54,12 @@ class Accessibility {
         string decay,
         int graphno = 0);
 
+    // get nodes with the range
     DistanceVec Range(int srcnode, float radius, int graphno = 0);
 
+    // shortest path between two points
     vector<int> Route(int src, int tgt, int graphno = 0);
+    // shortest path distance between two points
     double Distance(int src, int tgt, int graphno = 0);
 
     // precompute the range queries and reuse them
@@ -86,13 +89,27 @@ class Accessibility {
     double maxdist;
     int maxitems;
 
+    // a vector of graphs - all these graphs share the same nodes, and
+    // thus it shares the same accessibility_vars_t as well -
+    // this is used e.g. for road networks where we have congestion
+    // by time of day
     vector<std::shared_ptr<Graphalg> > ga;
 
+    // accessibility_vars_t is a vector of floating point values
+    // assigned to each node - the first level of the data structure
+    // is dereferenced by node index
     typedef vector<vector<float> > accessibility_vars_t;
     map<string, accessibility_vars_t> accessibilityVars;
+    // this is a map for pois so we can keep track of how many
+    // pois there are at each node - for now all the values are
+    // set to one, but I can imagine using floating point values
+    // here eventually - e.g. find the 3 nearest values similar to
+    // a knn tree in 2D space
     vector<accessibility_vars_t> accessibilityVarsForPOIs;
 
-    // this stores the nodes within a certain range
+    // this stores the nodes within a certain range - we have the option
+    // of precomputing all the nodes in a radius if we're going to make
+    // lots of aggregation queries on the same network
     float dmsradius;
     vector<vector<DistanceVec> > dms;
 
