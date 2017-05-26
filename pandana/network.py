@@ -62,7 +62,7 @@ class Network:
         self.edges_df = edges_df
 
         self.impedance_names = list(edge_weights.columns)
-        self.variable_names = []
+        self.variable_names = set()
         self.poi_category_names = []
         self.poi_category_indexes = {}
         self.num_poi_categories = -1
@@ -231,11 +231,9 @@ class Network:
                 "Removed %d rows because they contain missing values" %
                 (length-newl))
 
-        if name not in self.variable_names:
-            self.variable_names.append(name)
-            self.net.initialize_access_vars(len(self.variable_names))
+        self.variable_names.add(name)
 
-        self.net.initialize_access_var(self.variable_names.index(name),
+        self.net.initialize_access_var(name,
                                        df.node_idx.values.astype('int'),
                                        df[name].values)
 
@@ -324,10 +322,9 @@ class Network:
 
         assert name in self.variable_names, "A variable with that name " \
                                             "has not yet been initialized"
-        varnum = self.variable_names.index(name)
 
         res = self.net.get_all_aggregate_accessibility_variables(distance,
-                                                                 varnum,
+                                                                 name,
                                                                  type,
                                                                  decay,
                                                                  imp_num)

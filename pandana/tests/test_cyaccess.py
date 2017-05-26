@@ -48,18 +48,17 @@ def net(nodes_and_edges):
 def test_agg_analysis(net, nodes_and_edges):
     nodes = nodes_and_edges[0]
     NUM_NODES = 30
-    net.initialize_access_vars(1)
     np.random.seed(0)
     random_node_ids = np.random.choice(np.arange(len(nodes)), NUM_NODES)
     random_vals = np.random.random(NUM_NODES) * 100
-    net.initialize_access_var(0, random_node_ids, random_vals)
-    ret = net.get_all_aggregate_accessibility_variables(10, 0, "sum", "flat")
+    net.initialize_access_var("test", random_node_ids, random_vals)
+    ret = net.get_all_aggregate_accessibility_variables(10, "test", "sum", "flat")
     ret = pd.Series(ret)
     assert_almost_equal(ret[0], 159.208338, decimal=4)
     assert_almost_equal(ret[50], 94.466888, decimal=4)
 
     # test missing aggregation type
-    ret = net.get_all_aggregate_accessibility_variables(10, 0, "this is", "bogus")
+    ret = net.get_all_aggregate_accessibility_variables(10, "test", "this is", "bogus")
     assert np.alltrue(np.isnan(ret))
 
 

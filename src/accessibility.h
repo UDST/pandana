@@ -13,6 +13,7 @@ namespace accessibility {
 using std::vector;
 using std::string;
 using std::set;
+using std::map;
 
 class Accessibility {
  public:
@@ -39,9 +40,8 @@ class Accessibility {
         int graphno = 0,
         bool return_nodeids = false);
 
-    void initializeAccVars(int numcategories);
     void initializeAccVar(
-        int index,
+        string category,
         vector<long> node_ids,
         vector<double> values);
 
@@ -49,7 +49,7 @@ class Accessibility {
     vector<double>
     getAllAggregateAccessibilityVariables(
         float radius,
-        int index,
+        string index,
         string aggtyp,
         string decay,
         int graphno = 0);
@@ -89,7 +89,7 @@ class Accessibility {
     vector<std::shared_ptr<Graphalg> > ga;
 
     typedef vector<vector<float> > accessibility_vars_t;
-    vector<accessibility_vars_t> accessibilityVars;
+    map<string, accessibility_vars_t> accessibilityVars;
     vector<accessibility_vars_t> accessibilityVarsForPOIs;
 
     // this stores the nodes within a certain range

@@ -206,13 +206,8 @@ AGGREGATION/ACCESSIBILITY QUERIES
 */
 
 
-void Accessibility::initializeAccVars(int numcategories) {
-    accessibilityVars.resize(numcategories);
-}
-
-
 void Accessibility::initializeAccVar(
-    int category,
+    string category,
     vector<long> node_ids,
     vector<double> values) {
     accessibility_vars_t av;
@@ -231,12 +226,14 @@ void Accessibility::initializeAccVar(
 vector<double>
 Accessibility::getAllAggregateAccessibilityVariables(
     float radius,
-    int ind,
+    string category,
     string aggtyp,
     string decay,
     int graphno) {
-
-    if (ind == -1) assert(0);
+    if (accessibilityVars.find(category) == accessibilityVars.end()) {
+        // not found
+        return vector<double>();
+    }
 
     vector<double> scores(numnodes);
 
@@ -247,7 +244,7 @@ Accessibility::getAllAggregateAccessibilityVariables(
         scores[i] = aggregateAccessibilityVariable(
             i,
             radius,
-            accessibilityVars[ind],
+            accessibilityVars[category],
             aggtyp,
             decay,
             graphno);

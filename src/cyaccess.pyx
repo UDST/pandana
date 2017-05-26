@@ -22,10 +22,9 @@ cdef extern from "accessibility.h" namespace "MTC::accessibility":
         void initializeCategory(int, vector[long])
         vector[vector[double]] findAllNearestPOIs(
             float, int, int, int, bool)
-        void initializeAccVars(int)
-        void initializeAccVar(int, vector[long], vector[double])
+        void initializeAccVar(string, vector[long], vector[double])
         vector[double] getAllAggregateAccessibilityVariables(
-            float, int, string, string, int)
+            float, string, string, string, int)
         vector[int] Route(int, int, int)
         double Distance(int, int, int)
         void precomputeRangeQueries(double)
@@ -113,15 +112,9 @@ cdef class cyaccess:
 
         return convert_2D_vector_to_array_dbl(ret)
 
-    def initialize_access_vars(self, int numcategories):
-        """
-        numcategories - number of categories to initialize
-        """
-        self.access.initializeAccVars(numcategories)
-
     def initialize_access_var(
         self,
-        int category,
+        str category,
         np.ndarray[long] node_ids,
         np.ndarray[double] values
     ):
@@ -141,7 +134,7 @@ cdef class cyaccess:
     def get_all_aggregate_accessibility_variables(
         self,
         double radius,
-        int category,
+        str category,
         str aggtyp,
         str decay,
         int impno=0,
