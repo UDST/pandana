@@ -319,7 +319,8 @@ class Network:
 
         imp_num = self._imp_name_to_num(imp_name)
         type = type.lower()
-        if type == "ave": type = "mean"  # changed generic ave to mean
+        if type == "ave":
+            type = "mean"  # changed generic ave to mean
 
         assert name in self.variable_names, "A variable with that name " \
                                             "has not yet been initialized"
