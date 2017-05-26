@@ -1,6 +1,7 @@
 cimport cython
 from libcpp cimport bool
 from libcpp.vector cimport vector
+from libcpp.string cimport string
 
 import numpy as np
 cimport numpy as np
@@ -15,6 +16,8 @@ cdef extern from "accessibility.h" namespace "MTC::accessibility":
         Accessibility(
             vector[long], vector[vector[double]], vector[vector[long]],
             vector[vector[double]], bool) except +
+        vector[string] aggregations
+        vector[string] decays
         void initializePOIs(int, double, int)
         void initializeCategory(int, vector[long])
         vector[vector[double]] findAllNearestPOIs(
@@ -22,7 +25,7 @@ cdef extern from "accessibility.h" namespace "MTC::accessibility":
         void initializeAccVars(int)
         void initializeAccVar(int, vector[long], vector[double])
         vector[double] getAllAggregateAccessibilityVariables(
-            float, int, int, int, int)
+            float, int, string, string, int)
         vector[int] Route(int, int, int)
         double Distance(int, int, int)
         void precomputeRangeQueries(double)
@@ -129,12 +132,18 @@ cdef class cyaccess:
         """
         self.access.initializeAccVar(category, node_ids, values)
 
+    def get_available_aggregations(self):
+        return self.access.aggregations
+
+    def get_available_decays(self):
+        return self.access.decays
+
     def get_all_aggregate_accessibility_variables(
         self,
         double radius,
         int category,
-        int aggtyp,
-        int decay,
+        str aggtyp,
+        str decay,
         int impno=0,
     ):
         """

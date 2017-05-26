@@ -11,6 +11,8 @@ namespace MTC {
 namespace accessibility {
 
 using std::vector;
+using std::string;
+using std::set;
 
 class Accessibility {
  public:
@@ -48,8 +50,8 @@ class Accessibility {
     getAllAggregateAccessibilityVariables(
         float radius,
         int index,
-        int aggtyp,
-        int decay,
+        string aggtyp,
+        string decay,
         int graphno = 0);
 
     DistanceVec Range(int srcnode, float radius, int graphno = 0);
@@ -59,6 +61,26 @@ class Accessibility {
 
     // precompute the range queries and reuse them
     void precomputeRangeQueries(float radius);
+
+    // aggregation types
+    vector<string> aggregations = {
+        "sum",
+        "mean",
+        "min",
+        "25pct",
+        "median",
+        "75pct",
+        "max",
+        "std",
+        "count"
+    };
+
+    // decay types
+    vector<string> decays = {
+        "exp",
+        "linear",
+        "flat"
+    };
 
  private:
     double maxdist;
@@ -75,28 +97,6 @@ class Accessibility {
     vector<vector<DistanceVec> > dms;
 
     int numnodes;
-
-    // aggregation types
-    enum aggregation_types_t {
-        AGG_SUM,
-        AGG_AVE,
-        AGG_MIN,
-        AGG_25PERCENTILE,
-        AGG_MEDIAN,
-        AGG_75PERCENTILE,
-        AGG_MAX,
-        AGG_STDDEV,
-        AGG_COUNT,
-        AGG_MAXVAL
-    };
-
-    // decay functins for aggregation
-    enum decay_func_t {
-        DECAY_EXP,
-        DECAY_LINEAR,
-        DECAY_FLAT,
-        DECAY_MAXVAL
-    };
 
     void addGraphalg(MTC::accessibility::Graphalg *g);
 
@@ -115,8 +115,8 @@ class Accessibility {
         int srcnode,
         float radius,
         accessibility_vars_t &vars,
-        aggregation_types_t aggtyp,
-        decay_func_t gravity_func,
+        string aggtyp,
+        string gravity_func,
         int graphno = 0);
 
     double

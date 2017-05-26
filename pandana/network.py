@@ -12,32 +12,6 @@ from .cyaccess import cyaccess
 from .loaders import pandash5 as ph5
 
 
-MAX_NUM_NETWORKS = 0
-NUM_NETWORKS = 0
-
-AGGREGATIONS = {
-    "SUM": 0,
-    "AVE": 1,
-    "AVERAGE": 1,
-    "MIN": 2,
-    "25PCT": 3,
-    "MEDIAN": 4,
-    "MED": 4,
-    "75PCT": 5,
-    "MAX": 6,
-    "STD": 7,
-    "STDDEV": 7,
-    "COUNT": 8
-}
-
-DECAYS = {
-    "EXP": 0,
-    "EXPONENTIAL": 0,
-    "LINEAR": 1,
-    "FLAT": 2
-}
-
-
 def reserve_num_graphs(num):
     raise Exception("reserve_num_graphs is no longer required - remove from your code")
 
@@ -108,9 +82,9 @@ class Network:
                                                           .as_matrix(),
                             twoway)
 
-        self.kdtree = KDTree(nodes_df.as_matrix())
-
         self._twoway = twoway
+
+        self.kdtree = KDTree(nodes_df.as_matrix())
 
     @classmethod
     def from_hdf5(cls, filename):
@@ -153,6 +127,14 @@ class Network:
                       right_index=True,
                       how="left")
         return df.node_idx
+
+    @property
+    def aggregations(self):
+        return self.net.get_available_aggregations()
+
+    @property
+    def decays(self):
+        return self.net.get_available_decays()
 
     @property
     def node_ids(self):
@@ -334,10 +316,10 @@ class Network:
             init method and the values are the aggregations for each source
             node in the network.
         """
-        agg = AGGREGATIONS[type.upper()]
-        decay = DECAYS[decay.upper()]
 
         imp_num = self._imp_name_to_num(imp_name)
+        type = type.lower()
+        if type == "ave": type = "mean"  # changed generic ave to mean
 
         assert name in self.variable_names, "A variable with that name " \
                                             "has not yet been initialized"
@@ -345,7 +327,7 @@ class Network:
 
         res = self.net.get_all_aggregate_accessibility_variables(distance,
                                                                  varnum,
-                                                                 agg,
+                                                                 type,
                                                                  decay,
                                                                  imp_num)
 

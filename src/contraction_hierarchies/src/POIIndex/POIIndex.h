@@ -25,13 +25,15 @@
 #if defined _WIN32 || defined NO_TR1_MEMORY
 #include <memory>
 #else
-#include <tr1/memory>
+// can we get rid of this tr1 stuff and use c++11 now?
+// #include <tr1/memory>
+#include <memory>
 #endif
 
 #ifdef NO_TR1_MEMORY
  using std::shared_ptr;
 #else
- #define shared_ptr tr1::shared_ptr
+// #define shared_ptr tr1::shared_ptr
 #endif
 
 #include "../BasicDefinitions.h"

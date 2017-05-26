@@ -9,6 +9,8 @@ using std::vector;
 namespace MTC {
 namespace accessibility {
 
+using std::string;
+
 typedef std::pair<float, float> distance_node_pair;
 bool distance_node_pair_comparator(const distance_node_pair& l,
                                    const distance_node_pair& r)
@@ -230,8 +232,8 @@ vector<double>
 Accessibility::getAllAggregateAccessibilityVariables(
     float radius,
     int ind,
-    int aggtyp,
-    int decay,
+    string aggtyp,
+    string decay,
     int graphno) {
 
     if (ind == -1) assert(0);
@@ -246,8 +248,8 @@ Accessibility::getAllAggregateAccessibilityVariables(
             i,
             radius,
             accessibilityVars[ind],
-            (aggregation_types_t)aggtyp,
-            (decay_func_t)decay,
+            aggtyp,
+            decay,
             graphno);
     }
     }
@@ -306,12 +308,16 @@ Accessibility::aggregateAccessibilityVariable(
     int srcnode,
     float radius,
     accessibility_vars_t &vars,
-    aggregation_types_t aggtyp,
-    decay_func_t decay,
+    string aggtyp,
+    string decay,
     int gno) {
 
-    assert(aggtyp >= 0 && aggtyp < AGG_MAXVAL);
-    assert(decay >= 0 && decay < DECAY_MAXVAL);
+    if (std::find(aggregations.begin(), aggregations.end(), aggtyp)
+            == aggregations.end() ||
+        std::find(decays.begin(), decays.end(), decay) == decays.end()
+        ) {
+      return NAN;
+    }
 
     // I don't know if this is the best way to do this but I
     // I don't want to copy memory in the precompute case - sometimes
@@ -330,24 +336,24 @@ Accessibility::aggregateAccessibilityVariable(
 
     if (distances.size() == 0) return -1;
 
-    if (aggtyp == AGG_MIN) {
+    if (aggtyp == "min") {
         return this->quantileAccessibilityVariable(
             distances, vars, 0.0, radius);
-    } else if (aggtyp == AGG_25PERCENTILE) {
+    } else if (aggtyp == "25pct") {
         return this->quantileAccessibilityVariable(
             distances, vars, 0.25, radius);
-    } else if (aggtyp == AGG_MEDIAN) {
+    } else if (aggtyp == "median") {
         return this->quantileAccessibilityVariable(
             distances, vars, 0.5, radius);
-    } else if (aggtyp == AGG_75PERCENTILE) {
+    } else if (aggtyp == "75pct") {
         return this->quantileAccessibilityVariable(
             distances, vars, 0.75, radius);
-    } else if (aggtyp == AGG_MAX) {
+    } else if (aggtyp == "max") {
         return this->quantileAccessibilityVariable(
             distances, vars, 1.0, radius);
     }
 
-    if (aggtyp == AGG_STDDEV) decay = DECAY_FLAT;
+    if (aggtyp == "std") decay = "flat";
 
     int cnt = 0;
     double sum = 0.0;
@@ -363,13 +369,13 @@ Accessibility::aggregateAccessibilityVariable(
         for (int j = 0 ; j < vars[nodeid].size() ; j++) {
             cnt++;  // count items
 
-            if (decay == DECAY_EXP) {
+            if (decay == "exp") {
                 sum += exp(-1*distance/radius) * vars[nodeid][j];
 
-            } else if (decay == DECAY_LINEAR) {
+            } else if (decay == "linear") {
                 sum += (1.0-distance/radius) * vars[nodeid][j];
 
-            } else if (decay == DECAY_FLAT) {
+            } else if (decay == "flat") {
                 sum += vars[nodeid][j];
 
             } else {
@@ -381,11 +387,11 @@ Accessibility::aggregateAccessibilityVariable(
         }
     }
 
-    if (aggtyp == AGG_COUNT) return cnt;
+    if (aggtyp == "count") return cnt;
 
-    if (aggtyp == AGG_AVE && cnt != 0) sum /= cnt;
+    if (aggtyp == "mean" && cnt != 0) sum /= cnt;
 
-    if (aggtyp == AGG_STDDEV && cnt != 0) {
+    if (aggtyp == "std" && cnt != 0) {
         double mean = sum / cnt;
         return sqrt(sumsq / cnt - mean * mean);
     }

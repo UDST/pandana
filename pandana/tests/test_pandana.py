@@ -91,7 +91,7 @@ def test_agg_variables_accuracy(sample_osm):
     nodes = random_connected_nodes(net, ssize)
     net.set(nodes, variable=r)
 
-    s = net.aggregate(100000, type="COUNT").loc[connected_nodes]
+    s = net.aggregate(100000, type="count").loc[connected_nodes]
     assert s.unique().size == 1
     assert s.iloc[0] == 50
 
@@ -99,25 +99,29 @@ def test_agg_variables_accuracy(sample_osm):
     assert s.describe()['std'] < .01  # assert almost equal
     assert_allclose(s.mean(), r.mean(), atol=1e-3)
 
-    s = net.aggregate(100000, type="MIN").loc[connected_nodes]
+    s = net.aggregate(100000, type="mean").loc[connected_nodes]
+    assert s.describe()['std'] < .01  # assert almost equal
+    assert_allclose(s.mean(), r.mean(), atol=1e-3)
+
+    s = net.aggregate(100000, type="min").loc[connected_nodes]
     assert s.describe()['std'] < .01  # assert almost equal
     assert_allclose(s.mean(), r.min(), atol=1e-3)
 
-    s = net.aggregate(100000, type="MAX").loc[connected_nodes]
+    s = net.aggregate(100000, type="max").loc[connected_nodes]
     assert s.describe()['std'] < .01  # assert almost equal
     assert_allclose(s.mean(), r.max(), atol=1e-3)
 
     r.sort_values(inplace=True)
 
-    s = net.aggregate(100000, type="MEDIAN").loc[connected_nodes]
+    s = net.aggregate(100000, type="median").loc[connected_nodes]
     assert s.describe()['std'] < .01  # assert almost equal
     assert_allclose(s.mean(), r.iloc[25], atol=1e-2)
 
-    s = net.aggregate(100000, type="25PCT").loc[connected_nodes]
+    s = net.aggregate(100000, type="25pct").loc[connected_nodes]
     assert s.describe()['std'] < .01  # assert almost equal
     assert_allclose(s.mean(), r.iloc[12], atol=1e-2)
 
-    s = net.aggregate(100000, type="75PCT").loc[connected_nodes]
+    s = net.aggregate(100000, type="75pct").loc[connected_nodes]
     assert s.describe()['std'] < .01  # assert almost equal
     assert_allclose(s.mean(), r.iloc[37], atol=1e-2)
 
@@ -125,7 +129,7 @@ def test_agg_variables_accuracy(sample_osm):
     assert s.describe()['std'] < .05  # assert almost equal
     assert_allclose(s.mean(), r.sum(), atol=1e-2)
 
-    s = net.aggregate(100000, type="STD").loc[connected_nodes]
+    s = net.aggregate(100000, type="std").loc[connected_nodes]
     assert s.describe()['std'] < .01  # assert almost equal
     assert_allclose(s.mean(), r.std(), atol=1e-2)
 
@@ -137,9 +141,9 @@ def test_agg_variables(sample_osm):
     net.set(random_node_ids(sample_osm, ssize),
             variable=random_data(ssize))
 
-    for type in pdna.AGGREGATIONS:
-        for decay in pdna.DECAYS:
-            for distance in [500, 1000, 2000]:
+    for type in net.aggregations:
+        for decay in net.decays:
+            for distance in [5, 10, 20]:
                 s = net.aggregate(distance, type=type, decay=decay)
                 assert s.describe()['std'] > 0
 
@@ -147,11 +151,11 @@ def test_agg_variables(sample_osm):
     ssize = 50
     net.set(random_node_ids(sample_osm, ssize))
 
-    for type in pdna.AGGREGATIONS:
-        for decay in pdna.DECAYS:
-            for distance in [500, 1000, 2000]:
+    for type in net.aggregations:
+        for decay in net.decays:
+            for distance in [5, 10, 20]:
                 s = net.aggregate(distance, type=type, decay=decay)
-                if type != "STD" and type != "STDDEV":
+                if type != "std":
                     assert s.describe()['std'] > 0
                 else:
                     # no variance in data
