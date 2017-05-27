@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <vector>
 #include <string>
+#include <map>
 #include "shared.h"
 #include "graphalg.h"
 
@@ -18,7 +19,9 @@ using std::map;
 class Accessibility {
  public:
     Accessibility(
-        int numnodes, vector< vector<long> > edges, vector< vector<double> >  edgeweights,
+        int numnodes,
+        vector< vector<long> > edges,
+        vector< vector<double> >  edgeweights,
         bool twoway);
 
     // set how many POI categories there will be

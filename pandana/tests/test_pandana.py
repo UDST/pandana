@@ -134,6 +134,35 @@ def test_agg_variables_accuracy(sample_osm):
     assert_allclose(s.mean(), r.std(), atol=1e-2)
 
 
+def test_non_integer_nodeids(request):
+
+    store = pd.HDFStore(
+        os.path.join(os.path.dirname(__file__), 'osm_sample.h5'), "r")
+    nodes, edges = store.nodes, store.edges
+
+    # convert to string!
+    nodes.index = nodes.index.astype("str")
+    edges["from"] = edges["from"].astype("str")
+    edges["to"] = edges["to"].astype("str")
+
+    net = pdna.Network(nodes.x, nodes.y, edges["from"], edges.to,
+                       edges[["weight"]])
+
+    def fin():
+        store.close()
+    request.addfinalizer(fin)
+
+    # test accuracy compared to pandas functions
+    ssize = 50
+    r = random_data(ssize)
+    connected_nodes = get_connected_nodes(net)
+    random_nodes = random_connected_nodes(net, ssize)
+    net.set(random_nodes, variable=r)
+
+    s = net.aggregate(100000, type="count").loc[connected_nodes]
+    assert list(nodes.index), list(s.index)
+
+
 def test_agg_variables(sample_osm):
     net = sample_osm
 

@@ -68,13 +68,17 @@ class Network:
         self.num_poi_categories = -1
 
         # this maps ids to indexes which are used internally
-        self.node_idx = pd.Series(np.arange(len(nodes_df)),
+        # this is a constant source of headaches, but all node identifiers
+        # in the c extension are actually indexes ordered from 0 to numnodes-1
+        # node ids are thus translated back and forth in the python layer, which
+        # allows non-integer node ids as well
+        self.node_idx = pd.Series(np.arange(len(nodes_df), dtype="int"),
                                   index=nodes_df.index)
 
         edges = pd.concat([self._node_indexes(edges_df["from"]),
                           self._node_indexes(edges_df["to"])], axis=1)
 
-        self.net = cyaccess(nodes_df.index.values,
+        self.net = cyaccess(self.node_idx.values,
                             nodes_df.astype('double').as_matrix(),
                             edges.as_matrix(),
                             edges_df[edge_weights.columns].transpose()

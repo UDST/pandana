@@ -17,10 +17,13 @@ bool distance_node_pair_comparator(const distance_node_pair& l,
     { return l.first < r.first; }
 
 Accessibility::Accessibility(
-        int numnodes, vector< vector<long> > edges, vector< vector<double> >  edgeweights,
+        int numnodes,
+        vector< vector<long> > edges,
+        vector< vector<double> >  edgeweights,
         bool twoway) {
     for (int i = 0 ; i < edgeweights.size() ; i++) {
-        this->addGraphalg(new Graphalg(numnodes, edges, edgeweights[i], twoway));
+        this->addGraphalg(new Graphalg(numnodes, edges, edgeweights[i],
+                          twoway));
     }
 
     this->numnodes = numnodes;
