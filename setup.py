@@ -62,7 +62,6 @@ source_files = [
 extra_compile_args = [
     '-w',
     '-std=c++0x',
-    # '-stdlib=libc++',
     '-O3',
     '-fpic',
     '-g',
@@ -88,8 +87,9 @@ if platform.system() == 'Darwin':
     mac_ver = sysconfig.get_config_var('MACOSX_DEPLOYMENT_TARGET')
     if mac_ver:
         mac_ver = [int(x) for x in mac_ver.split('.')]
-        if mac_ver >= [10, 9]:
+        if mac_ver >= [10, 7]:
             extra_compile_args += ['-D NO_TR1_MEMORY']
+            extra_compile_args += ['-stdlib=libc++']
 
 version = '0.3.0'
 
