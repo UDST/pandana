@@ -124,7 +124,7 @@ cdef class cyaccess:
 
     def initialize_access_var(
         self,
-        str category,
+        category,
         np.ndarray[long] node_ids,
         np.ndarray[double] values
     ):
@@ -144,9 +144,9 @@ cdef class cyaccess:
     def get_all_aggregate_accessibility_variables(
         self,
         double radius,
-        str category,
-        str aggtyp,
-        str decay,
+        category,
+        aggtyp,
+        decay,
         int impno=0,
     ):
         """
