@@ -26,14 +26,13 @@
 #include <memory>
 #else
 // can we get rid of this tr1 stuff and use c++11 now?
-// #include <tr1/memory>
-#include <memory>
+#include <tr1/memory>
 #endif
 
 #ifdef NO_TR1_MEMORY
  using std::shared_ptr;
 #else
-// #define shared_ptr tr1::shared_ptr
+#define shared_ptr tr1::shared_ptr
 #endif
 
 #include "../BasicDefinitions.h"

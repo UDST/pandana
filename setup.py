@@ -62,7 +62,7 @@ source_files = [
 extra_compile_args = [
     '-w',
     '-std=c++0x',
-    '-stdlib=libc++',
+    # '-stdlib=libc++',
     '-O3',
     '-fpic',
     '-g',
