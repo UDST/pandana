@@ -231,7 +231,10 @@ Accessibility::getAllAggregateAccessibilityVariables(
     string aggtyp,
     string decay,
     int graphno) {
-    if (accessibilityVars.find(category) == accessibilityVars.end()) {
+    if (accessibilityVars.find(category) == accessibilityVars.end() ||
+        std::find(aggregations.begin(), aggregations.end(), aggtyp)
+            == aggregations.end() ||
+        std::find(decays.begin(), decays.end(), decay) == decays.end()) {
         // not found
         return vector<double>();
     }
@@ -309,14 +312,6 @@ Accessibility::aggregateAccessibilityVariable(
     string aggtyp,
     string decay,
     int gno) {
-
-    if (std::find(aggregations.begin(), aggregations.end(), aggtyp)
-            == aggregations.end() ||
-        std::find(decays.begin(), decays.end(), decay) == decays.end()
-        ) {
-      return NAN;
-    }
-
     // I don't know if this is the best way to do this but I
     // I don't want to copy memory in the precompute case - sometimes
     // I need a reference and sometimes not
