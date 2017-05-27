@@ -584,25 +584,18 @@ class Network:
 
         imp_num = self._imp_name_to_num(imp_name)
 
-        a = self.net.find_all_nearest_pois(
+        dists, poi_ids = self.net.find_all_nearest_pois(
             distance,
             num_pois,
             self.poi_category_names.index(category),
-            imp_num,
-            False)
-        a[a == -1] = max_distance
+            imp_num)
+        dists[dists == -1] = max_distance
 
-        df = pd.DataFrame(a, index=self.node_ids)
+        df = pd.DataFrame(dists, index=self.node_ids)
         df.columns = list(range(1, num_pois+1))
 
         if include_poi_ids:
-            b = self.net.find_all_nearest_pois(
-                distance,
-                num_pois,
-                self.poi_category_names.index(category),
-                imp_num,
-                True)
-            df2 = pd.DataFrame(b, index=self.node_ids)
+            df2 = pd.DataFrame(poi_ids, index=self.node_ids)
             df2.columns = ["poi%d" % i for i in range(1, num_pois+1)]
             for col in df2.columns:
                 # if this is still all working according to plan at this point

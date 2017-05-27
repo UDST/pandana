@@ -69,14 +69,22 @@ def test_poi_analysis(net, nodes_and_edges):
     np.random.seed(0)
     random_node_ids = np.random.choice(np.arange(len(nodes)), NUM_NODES)
     net.initialize_category(0, random_node_ids)
-    ret = net.find_all_nearest_pois(10, 3, 0, 0, True)
-    df = pd.DataFrame(ret)
+    dists, poi_ids = net.find_all_nearest_pois(10, 3, 0)
+    df = pd.DataFrame(poi_ids)
     assert df.loc[0, 0] == 6
     assert df.loc[0, 1] == 25
     assert df.loc[0, 2] == 20
     s = df[0].value_counts()
     assert s[-1] == 1081
     assert s[5] == 1
+    ret = net.find_all_nearest_pois(10, 3, 0)
+    df = pd.DataFrame(dists)
+    assert df.loc[0, 0] == 4
+    assert df.loc[0, 1] == 6
+    assert df.loc[0, 2] == 6
+    s = df[0].value_counts()
+    assert s[10] == 37
+    assert s[5] == 41
 
 
 def test_shortest_path(net):
@@ -86,3 +94,25 @@ def test_shortest_path(net):
     assert route[12] == 1314
     assert route.iloc[20] == 345
     assert net.shortest_path_distance(996, 71) == 23
+
+
+'''
+# run this and watch the memory use in activity monitor
+def test_memory_leak(nodes_and_edges):
+    nodes, edges, edge_weights = nodes_and_edges
+
+    # this kinda sucks, but internally node ids are indexes, not
+    node_locations = pd.Series(np.arange(len(nodes)), index=nodes.index)
+    edges["from"] = node_locations.loc[edges["from"]].values
+    edges["to"] = node_locations.loc[edges["to"]].values
+
+    for i in range(8000):
+        print i
+        net = cyaccess(
+            nodes.index.values,
+            nodes.as_matrix(),
+            edges.as_matrix(),
+            edge_weights.transpose().as_matrix(),
+            True
+        )
+'''

@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <vector>
 #include <string>
+#include <utility>
 #include <map>
 #include "shared.h"
 #include "graphalg.h"
@@ -34,13 +35,12 @@ class Accessibility {
     void initializeCategory(int category, vector<long> node_idx);
 
     // find the nearest pois for all nodes in the network
-    vector<vector<double> >
+    pair<vector<vector<double>>, vector<vector<int>>>
     findAllNearestPOIs(
         float maxradius,
         unsigned maxnumber,
         unsigned cat,
-        int graphno = 0,
-        bool return_nodeidx = false);
+        int graphno = 0);
 
     void initializeAccVar(
         string category,
@@ -119,14 +119,13 @@ class Accessibility {
 
     void addGraphalg(MTC::accessibility::Graphalg *g);
 
-    vector<double>
+    vector<pair<double, int>>
     findNearestPOIs(
         int srcnode,
         float maxradius,
         unsigned maxnumber,
         unsigned cat,
-        int graphno = 0,
-        bool return_nodeidx = false);
+        int graphno = 0);
 
     // aggregate a variable within a radius
     double

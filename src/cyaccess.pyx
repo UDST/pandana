@@ -2,6 +2,7 @@ cimport cython
 from libcpp cimport bool
 from libcpp.vector cimport vector
 from libcpp.string cimport string
+from libcpp.pair cimport pair
 
 import numpy as np
 cimport numpy as np
@@ -18,8 +19,8 @@ cdef extern from "accessibility.h" namespace "MTC::accessibility":
         vector[string] decays
         void initializePOIs(int, double, int)
         void initializeCategory(int, vector[long])
-        vector[vector[double]] findAllNearestPOIs(
-            float, int, int, int, bool)
+        pair[vector[vector[double]], vector[vector[int]]] findAllNearestPOIs(
+            float, int, int, int)
         void initializeAccVar(string, vector[long], vector[double])
         vector[double] getAllAggregateAccessibilityVariables(
             float, string, string, string, int)
@@ -38,6 +39,15 @@ cdef np.ndarray[double] convert_vector_to_array_dbl(vector[double] vec):
 cdef np.ndarray[double, ndim = 2] convert_2D_vector_to_array_dbl(
         vector[vector[double]] vec):
     cdef np.ndarray arr = np.empty_like(vec, dtype="double")
+    for i in range(arr.shape[0]):
+        for j in range(arr.shape[1]):
+            arr[i][j] = vec[i][j]
+    return arr
+
+
+cdef np.ndarray[int, ndim = 2] convert_2D_vector_to_array_int(
+        vector[vector[int]] vec):
+    cdef np.ndarray arr = np.empty_like(vec, dtype="int")
     for i in range(arr.shape[0]):
         for j in range(arr.shape[1]):
             arr[i][j] = vec[i][j]
@@ -97,8 +107,7 @@ cdef class cyaccess:
         double radius,
         int num_of_pois,
         int category,
-        int impno=0,
-        bool return_nodeids=False
+        int impno=0
     ):
         """
         radius - search radius
@@ -108,10 +117,10 @@ cdef class cyaccess:
         return_nodeids - whether to return the nodeid locations of the nearest
             not just the distances
         """
-        ret = self.access.findAllNearestPOIs(
-            radius, num_of_pois, category, impno, return_nodeids)
+        ret = self.access.findAllNearestPOIs(radius, num_of_pois, category, impno)
 
-        return convert_2D_vector_to_array_dbl(ret)
+        return convert_2D_vector_to_array_dbl(ret.first),\
+            convert_2D_vector_to_array_int(ret.second)
 
     def initialize_access_var(
         self,
