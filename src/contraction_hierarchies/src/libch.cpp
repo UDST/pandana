@@ -51,7 +51,7 @@ inline ostream& operator<< (ostream& os, const Edge& e) {
         for(unsigned i = 0; i < queryObjects.size(); i++) {
             delete queryObjects[i];
         }
-        poiIndexArray.clear();
+        poiIndexMap.clear();
         queryObjects.clear();
         
         //delete all objects, clean up space
@@ -296,85 +296,119 @@ inline ostream& operator<< (ostream& os, const Edge& e) {
 	}
     
     /** POI queries single threaded */
-    void ContractionHierarchies::createPOIIndexArray(unsigned numberOfPOICategories, unsigned maxDistanceToConsider, unsigned maxNumberOfPOIsInBucket){
+    void ContractionHierarchies::createPOIIndexArray(unsigned numberOfPOICategories, unsigned maxDistanceToConsider,
+                                                     unsigned maxNumberOfPOIsInBucket){
  		CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
-        CHASSERT(poiIndexArray.size() == 0, "POIIndex initialized before")
+        CHASSERT(poiIndexMap.size() == 0, "POIIndex initialized before")
         
         for(unsigned i = 0; i < numberOfPOICategories; ++i) {
-            poiIndexArray.push_back(CHPOIIndex(this->staticGraph, maxDistanceToConsider, maxNumberOfPOIsInBucket, numberOfThreads));
+            poiIndexMap[std::to_string(i)] = (CHPOIIndex(this->staticGraph, maxDistanceToConsider, maxNumberOfPOIsInBucket, numberOfThreads));
         }
     }
 
-    void ContractionHierarchies::createPOIIndex(unsigned categoryNum, unsigned maxDistanceToConsider, unsigned maxNumberOfPOIsInBucket){
+
+    void ContractionHierarchies::createPOIIndex(const POIKeyType &category, unsigned maxDistanceToConsider, unsigned maxNumberOfPOIsInBucket){
          CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
-         CHASSERT(categoryNum < poiIndexArray.size(), "POI Category is out of Bounds");
+
          // reinitialize this bucket
-         poiIndexArray[categoryNum] = CHPOIIndex(this->staticGraph, maxDistanceToConsider, maxNumberOfPOIsInBucket, numberOfThreads);
+         poiIndexMap[category] = CHPOIIndex(this->staticGraph, maxDistanceToConsider, maxNumberOfPOIsInBucket, numberOfThreads);
     }    
     
-    void ContractionHierarchies::addPOIToIndex(unsigned category, NodeID node) {
-        CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
-        CHASSERT(category < poiIndexArray.size(), "POI Category is out of Bounds");
-        
-        poiIndexArray[category].addPOIToIndex(node);
+
+    void ContractionHierarchies::addPOIToIndex(const POIKeyType &category, NodeID node) {
+        CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");        
+        poiIndexMap[category].addPOIToIndex(node);
     }
     
-    void ContractionHierarchies::getNearest(unsigned category, NodeID node, std::vector<BucketEntry>& resultingVenues) {
+
+    void ContractionHierarchies::getNearest(const POIKeyType &category, NodeID node, std::vector<BucketEntry>& resultingVenues) {
         CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
-        CHASSERT(category < poiIndexArray.size(), "POI Category is out of Bounds");
-        
-        poiIndexArray[category].getNearestPOIs(node, resultingVenues);
+        try {
+            poiIndexMap.at(category).getNearestPOIs(node, resultingVenues);
+        } catch(const std::out_of_range &) {
+            // TODO: @ffernandez -- define behavior in this case
+        }
     }
     
-    void ContractionHierarchies::getNearestWithUpperBoundOnDistance(unsigned category, NodeID node, EdgeWeight maxDistance, std::vector<BucketEntry>& resultingVenues) {
+
+    void ContractionHierarchies::getNearestWithUpperBoundOnDistance(const POIKeyType &category, NodeID node, EdgeWeight maxDistance,
+                                                                    std::vector<BucketEntry>& resultingVenues) {
         CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
-        CHASSERT(category < poiIndexArray.size(), "POI Category is out of Bounds");
-        
-        poiIndexArray[category].getNearestPOIsWithUpperBoundOnDistance(node, maxDistance, resultingVenues);
+        try {
+            poiIndexMap.at(category).getNearestPOIsWithUpperBoundOnDistance(node, maxDistance, resultingVenues);
+        } catch(const std::out_of_range &) {
+            // TODO: @ffernandez -- define behavior in this case
+        }
     }
 
-    void ContractionHierarchies::getNearestWithUpperBoundOnLocations(unsigned category, NodeID node, unsigned maxLocations, std::vector<BucketEntry>& resultingVenues) {
+
+    void ContractionHierarchies::getNearestWithUpperBoundOnLocations(const POIKeyType &category, NodeID node, unsigned maxLocations,
+                                                                     std::vector<BucketEntry>& resultingVenues) {
         CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
-        CHASSERT(category < poiIndexArray.size(), "POI Category is out of Bounds");
-        
-        poiIndexArray[category].getNearestPOIsWithUpperBoundOnLocations(node, maxLocations, resultingVenues);
+        try {
+            poiIndexMap.at(category).getNearestPOIsWithUpperBoundOnLocations(node, maxLocations, resultingVenues);
+        } catch(const std::out_of_range &) {
+            // TODO: @ffernandez -- define behavior in this case
+        }
     }
     
-    void ContractionHierarchies::getNearestWithUpperBoundOnDistanceAndLocations(unsigned category, NodeID node, EdgeWeight maxDistance, unsigned maxLocations, std::vector<BucketEntry>& resultingVenues) {
+
+    void ContractionHierarchies::getNearestWithUpperBoundOnDistanceAndLocations(const POIKeyType &category, NodeID node,
+                                                                                EdgeWeight maxDistance, unsigned maxLocations,
+                                                                                std::vector<BucketEntry>& resultingVenues) {
         CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
-        CHASSERT(category < poiIndexArray.size(), "POI Category is out of Bounds");
-        
-        poiIndexArray[category].getNearestPOIs(node, resultingVenues, maxDistance, maxLocations);
+        try {
+            poiIndexMap.at(category).getNearestPOIs(node, resultingVenues, maxDistance, maxLocations);
+        } catch(const std::out_of_range &) {
+            // TODO: @ffernandez -- define behavior in this case
+        }
     }
     
-    /** POI queries multi-threaded */
-    
-    void ContractionHierarchies::getNearest(unsigned category, NodeID node, std::vector<BucketEntry>& resultingVenues, unsigned threadID) {
+
+    /** POI queries multi-threaded */    
+    void ContractionHierarchies::getNearest(const POIKeyType &category, NodeID node, std::vector<BucketEntry>& resultingVenues,
+                                            unsigned threadID) {
         CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
-        CHASSERT(category < poiIndexArray.size(), "POI Category is out of Bounds");
-        
-        poiIndexArray[category].getNearestPOIs(node, resultingVenues, threadID);
+        try {
+            poiIndexMap.at(category).getNearestPOIs(node, resultingVenues, threadID);
+        } catch(const std::out_of_range &) {
+            // TODO: @ffernandez -- define behavior in this case
+        }
+    }
+
+    
+    void ContractionHierarchies::getNearestWithUpperBoundOnDistance(const POIKeyType &category, NodeID node,
+                                                                    EdgeWeight maxDistance, std::vector<BucketEntry>& resultingVenues,
+                                                                    unsigned threadID) {
+        CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
+        try {
+            poiIndexMap.at(category).getNearestPOIsWithUpperBoundOnDistance(node, maxDistance, resultingVenues, threadID);
+        } catch(const std::out_of_range &) {
+            // TODO: @ffernandez -- define behavior in this case
+        }
     }
     
-    void ContractionHierarchies::getNearestWithUpperBoundOnDistance(unsigned category, NodeID node, EdgeWeight maxDistance, std::vector<BucketEntry>& resultingVenues, unsigned threadID) {
+
+    void ContractionHierarchies::getNearestWithUpperBoundOnLocations(const POIKeyType &category, NodeID node, unsigned maxLocations,
+                                                                     std::vector<BucketEntry>& resultingVenues, unsigned threadID) {
         CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
-        CHASSERT(category < poiIndexArray.size(), "POI Category is out of Bounds");
-        
-        poiIndexArray[category].getNearestPOIsWithUpperBoundOnDistance(node, maxDistance, resultingVenues, threadID);
+        try {
+            poiIndexMap.at(category).getNearestPOIsWithUpperBoundOnLocations(node, maxLocations, resultingVenues, threadID);
+        } catch(const std::out_of_range &) {
+            // TODO: @ffernandez -- define behavior in this case
+        }
     }
-    
-    void ContractionHierarchies::getNearestWithUpperBoundOnLocations(unsigned category, NodeID node, unsigned maxLocations, std::vector<BucketEntry>& resultingVenues, unsigned threadID) {
+
+
+    void ContractionHierarchies::getNearestWithUpperBoundOnDistanceAndLocations(const POIKeyType &category, NodeID node,
+                                                                                EdgeWeight maxDistance, unsigned maxLocations,
+                                                                                std::vector<BucketEntry>& resultingVenues, unsigned threadID) {
         CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
-        CHASSERT(category < poiIndexArray.size(), "POI Category is out of Bounds");
-        
-        poiIndexArray[category].getNearestPOIsWithUpperBoundOnLocations(node, maxLocations, resultingVenues, threadID);
-    }
-    
-    void ContractionHierarchies::getNearestWithUpperBoundOnDistanceAndLocations(unsigned category, NodeID node, EdgeWeight maxDistance, unsigned maxLocations, std::vector<BucketEntry>& resultingVenues, unsigned threadID) {
-        CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
-        CHASSERT(category < poiIndexArray.size(), "POI Category is out of Bounds");
-        
-        poiIndexArray[category].getNearestPOIs(node, resultingVenues, maxDistance, maxLocations, threadID);
+        try {
+            poiIndexMap.at(category).getNearestPOIs(node, resultingVenues, maxDistance, maxLocations, threadID);
+        } catch(const std::out_of_range &) {
+            // TODO: @ffernandez -- define behavior in this case
+        }
     }
 
 }
