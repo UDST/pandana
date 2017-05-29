@@ -302,22 +302,32 @@ inline ostream& operator<< (ostream& os, const Edge& e) {
         CHASSERT(poiIndexMap.size() == 0, "POIIndex initialized before")
         
         for(unsigned i = 0; i < numberOfPOICategories; ++i) {
-            poiIndexMap[std::to_string(i)] = (CHPOIIndex(this->staticGraph, maxDistanceToConsider, maxNumberOfPOIsInBucket, numberOfThreads));
+            poiIndexMap.insert(CHPOIIndexMap::value_type(std::to_string(i),
+                                                         CHPOIIndex(this->staticGraph, maxDistanceToConsider,
+                                                                    maxNumberOfPOIsInBucket, numberOfThreads)));
         }
     }
 
 
-    void ContractionHierarchies::createPOIIndex(const POIKeyType &category, unsigned maxDistanceToConsider, unsigned maxNumberOfPOIsInBucket){
+    void ContractionHierarchies::createPOIIndex(const POIKeyType &category, unsigned maxDistanceToConsider,
+                                                unsigned maxNumberOfPOIsInBucket)
+    {
          CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
 
          // reinitialize this bucket
-         poiIndexMap[category] = CHPOIIndex(this->staticGraph, maxDistanceToConsider, maxNumberOfPOIsInBucket, numberOfThreads);
-    }    
+         poiIndexMap.insert(CHPOIIndexMap::value_type(category, CHPOIIndex(this->staticGraph, maxDistanceToConsider,
+                                                                           maxNumberOfPOIsInBucket, numberOfThreads)));
+    }
     
 
-    void ContractionHierarchies::addPOIToIndex(const POIKeyType &category, NodeID node) {
-        CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");        
-        poiIndexMap[category].addPOIToIndex(node);
+    void ContractionHierarchies::addPOIToIndex(const POIKeyType &category, NodeID node)
+    {
+        CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
+        try {
+            poiIndexMap.at(category).addPOIToIndex(node);
+        } catch(const std::out_of_range &) {
+            // TODO: @ffernandez -- define behavior in this case
+        }
     }
     
 
