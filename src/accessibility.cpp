@@ -128,29 +128,28 @@ Accessibility::findNearestPOIs(int srcnode, float maxradius, unsigned number,
         maxradius, number, omp_get_thread_num());
 
     vector<distance_node_pair> distance_node_pairs;
-    try {
-        accessibility_vars_t &vars = accessibilityVarsForPOIs.at(cat);
+    if(accessibilityVarsForPOIs.find(cat) == accessibilityVarsForPOIs.end())
+        return distance_node_pairs;
 
-        /* need to account for the possibility of having
-         multiple locations at single node */
-        for (DistanceMap::const_iterator itDist = distancesmap.begin();
-           itDist != distancesmap.end();
-           ++itDist) {
-          int nodeid = itDist->first;
-          double distance = itDist->second;
+    accessibility_vars_t &vars = accessibilityVarsForPOIs.at(cat);
 
-          for (int i = 0 ; i < vars[nodeid].size() ; i++) {
-              distance_node_pairs.push_back(
-                 make_pair(distance, vars[nodeid][i]));
-          }
-        }
+    /* need to account for the possibility of having
+     multiple locations at single node */
+    for (DistanceMap::const_iterator itDist = distancesmap.begin();
+       itDist != distancesmap.end();
+       ++itDist) {
+      int nodeid = itDist->first;
+      double distance = itDist->second;
 
-        std::sort(distance_node_pairs.begin(), distance_node_pairs.end(),
-                distance_node_pair_comparator);
-
-    } catch(const std::out_of_range &) {
-          // TODO: @ffernandez -- check what is a reasonable behavior
+      for (int i = 0 ; i < vars[nodeid].size() ; i++) {
+          distance_node_pairs.push_back(
+             make_pair(distance, vars[nodeid][i]));
+      }
     }
+
+    std::sort(distance_node_pairs.begin(), distance_node_pairs.end(),
+            distance_node_pair_comparator);
+
     return distance_node_pairs;
 }
 
