@@ -519,8 +519,7 @@ class Network:
 
         node_idx = self._node_indexes(node_ids)
 
-        self.net.initialize_category(self.poi_category_names.index(category),
-                                     node_idx.values)
+        self.net.initialize_category(category, node_idx.values)
 
     def nearest_pois(self, distance, category, num_pois=1, max_distance=None,
                      imp_name=None, include_poi_ids=False):
@@ -587,7 +586,7 @@ class Network:
         dists, poi_ids = self.net.find_all_nearest_pois(
             distance,
             num_pois,
-            self.poi_category_names.index(category),
+            category,
             imp_num)
         dists[dists == -1] = max_distance
 
