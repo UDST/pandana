@@ -32,21 +32,20 @@ class Graphalg {
     void Range(int src, double maxdist, int threadNum,
                DistanceVec &ResultingNodes);
 
-    DistanceMap NearestPOI(
-        int category, int src, double maxdist,
-        int number, int threadNum = 0);
+    DistanceMap NearestPOI(const POIKeyType &category, int src, double maxdist,
+                           int number, int threadNum = 0);
 
     void initPOIs(int numcategories, double maxdist, int maxitems) {
         ch.createPOIIndexArray(numcategories, maxdist*DISTANCEMULTFACT,
                                maxitems);
     }
 
-    void addPOIToIndex(int category, int i) {
+    void addPOIToIndex(const POIKeyType &category, int i) {
         ch.addPOIToIndex(category, i);
     }
 
-    void initPOIIndex(int categoryNum, double maxdist, int maxitems) {
-        ch.createPOIIndex(categoryNum, maxdist*DISTANCEMULTFACT, maxitems);
+    void initPOIIndex(const POIKeyType &category, double maxdist, int maxitems) {
+        ch.createPOIIndex(category, maxdist*DISTANCEMULTFACT, maxitems);
     }
 
     int numnodes;

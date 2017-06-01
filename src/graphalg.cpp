@@ -86,7 +86,7 @@ void Graphalg::Range(int src, double maxdist, int threadNum,
 
 
 DistanceMap
-Graphalg::NearestPOI(int category, int src, double maxdist, int number,
+Graphalg::NearestPOI(const POIKeyType &category, int src, double maxdist, int number,
                      int threadNum) {
     DistanceMap dm;
 
