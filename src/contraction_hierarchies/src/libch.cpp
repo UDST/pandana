@@ -296,23 +296,12 @@ inline ostream& operator<< (ostream& os, const Edge& e) {
 	}
     
     /** POI queries single threaded */
-    void ContractionHierarchies::createPOIIndexArray(unsigned numberOfPOICategories, unsigned maxDistanceToConsider,
-                                                     unsigned maxNumberOfPOIsInBucket){
- 		CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
-        CHASSERT(poiIndexMap.size() == 0, "POIIndex initialized before")
-        
-        for(unsigned i = 0; i < numberOfPOICategories; ++i) {
-            poiIndexMap.insert(CHPOIIndexMap::value_type(std::to_string(i),
-                                                         CHPOIIndex(this->staticGraph, maxDistanceToConsider,
-                                                                    maxNumberOfPOIsInBucket, numberOfThreads)));
-        }
-    }
-
-
     void ContractionHierarchies::createPOIIndex(const POIKeyType &category, unsigned maxDistanceToConsider,
                                                 unsigned maxNumberOfPOIsInBucket)
     {
          CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
+         if(poiIndexMap.find(category) != poiIndexMap.end())
+             poiIndexMap.erase(poiIndexMap.find(category));
 
          // reinitialize this bucket
          poiIndexMap.insert(CHPOIIndexMap::value_type(category, CHPOIIndex(this->staticGraph, maxDistanceToConsider,

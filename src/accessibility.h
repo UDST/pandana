@@ -26,10 +26,7 @@ class Accessibility {
         bool twoway);
 
     // set how many POI categories there will be
-    void initializePOIs(
-        int numcategories,
-        double maxdist,
-        int maxitems);
+    void initializePOIs(double maxdist, int maxitems);
 
     // initialize the category number with POIs at the node_id locations
     void initializeCategory(string category, vector<long> node_idx);

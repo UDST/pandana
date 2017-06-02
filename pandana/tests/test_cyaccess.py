@@ -64,7 +64,7 @@ def test_agg_analysis(net, nodes_and_edges):
 
 def test_poi_analysis(net, nodes_and_edges):
     nodes = nodes_and_edges[0]
-    net.initialize_pois(1, 10, 3)
+    net.initialize_pois(10, 3)
     NUM_NODES = 30
     np.random.seed(0)
     random_node_ids = np.random.choice(np.arange(len(nodes)), NUM_NODES)

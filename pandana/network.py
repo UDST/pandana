@@ -65,7 +65,6 @@ class Network:
         self.variable_names = set()
         self.poi_category_names = []
         self.poi_category_indexes = {}
-        self.num_poi_categories = -1
 
         # this maps ids to indexes which are used internally
         # this is a constant source of headaches, but all node identifiers
@@ -455,14 +454,12 @@ class Network:
 
         return bmap, fig, ax
 
-    def init_pois(self, num_categories, max_dist, max_pois):
+    def init_pois(self, max_dist, max_pois):
         """
         Initialize the point of interest infrastructure.
 
         Parameters
         ----------
-        num_categories : int
-            Number of categories of POIs
         max_dist : float
             Maximum distance that will be tested to nearest POIs. This will
             usually be a distance unit in meters however if you have
@@ -475,14 +472,9 @@ class Network:
         -------
         Nothing
         """
-        if self.num_poi_categories != -1:
-            print("Can't initialize twice")
-            return
-
-        self.num_poi_categories = num_categories
         self.max_pois = max_pois
 
-        self.net.initialize_pois(num_categories, max_dist, max_pois)
+        self.net.initialize_pois(max_dist, max_pois)
 
     def set_pois(self, category, x_col, y_col):
         """
@@ -504,13 +496,7 @@ class Network:
         -------
         Nothing
         """
-        if self.num_poi_categories == -1:
-            assert 0, "Need to call init_pois first"
-
         if category not in self.poi_category_names:
-            assert len(self.poi_category_names) < self.num_poi_categories, \
-                "Too many categories set - increase the number when calling " \
-                "init_pois"
             self.poi_category_names.append(category)
 
         node_ids = self.get_node_ids(x_col, y_col)
@@ -571,9 +557,6 @@ class Network:
         """
         if max_distance is None:
             max_distance = distance
-
-        if self.num_poi_categories == -1:
-            assert 0, "Need to call init_pois first"
 
         if category not in self.poi_category_names:
             assert 0, "Need to call set_pois for this category"

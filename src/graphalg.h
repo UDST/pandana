@@ -35,11 +35,6 @@ class Graphalg {
     DistanceMap NearestPOI(const POIKeyType &category, int src, double maxdist,
                            int number, int threadNum = 0);
 
-    void initPOIs(int numcategories, double maxdist, int maxitems) {
-        ch.createPOIIndexArray(numcategories, maxdist*DISTANCEMULTFACT,
-                               maxitems);
-    }
-
     void addPOIToIndex(const POIKeyType &category, int i) {
         ch.addPOIToIndex(category, i);
     }

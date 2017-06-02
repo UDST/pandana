@@ -261,18 +261,15 @@ def test_pois(sample_osm):
     x, y = random_x_y(sample_osm, ssize)
 
     with pytest.raises(AssertionError):
-        net.set_pois("restaurants", x, y)
-
-    with pytest.raises(AssertionError):
         net.nearest_pois(2000, "restaurants", num_pois=10)
 
-    net.init_pois(num_categories=1, max_dist=2000, max_pois=10)
+    net.init_pois(max_dist=2000, max_pois=10)
 
     with pytest.raises(AssertionError):
         net.nearest_pois(2000, "restaurants", num_pois=10)
 
     # boundary condition
-    net.init_pois(num_categories=1, max_dist=2000, max_pois=10)
+    net.init_pois(max_dist=2000, max_pois=10)
 
     net.set_pois("restaurants", x, y)
 
@@ -300,7 +297,7 @@ def test_pois2(second_sample_osm):
     x, y = random_x_y(second_sample_osm, ssize)
 
     # make sure poi searches work on second graph
-    net2.init_pois(num_categories=1, max_dist=2000, max_pois=10)
+    net2.init_pois(max_dist=2000, max_pois=10)
 
     net2.set_pois("restaurants", x, y)
 
@@ -310,7 +307,7 @@ def test_pois2(second_sample_osm):
 # test items are sorted
 def test_sorted_pois(sample_osm):
     net = sample_osm
-    net.init_pois(num_categories=1, max_dist=2000, max_pois=10)
+    net.init_pois(max_dist=2000, max_pois=10)
 
     ssize = 1000
     x, y = random_x_y(sample_osm, ssize)
@@ -327,7 +324,7 @@ def test_sorted_pois(sample_osm):
 
 def test_repeat_pois(sample_osm):
     net = sample_osm
-    net.init_pois(num_categories=1, max_dist=2000, max_pois=10)
+    net.init_pois(max_dist=2000, max_pois=10)
 
     def get_nearest_nodes(x, y, x2=None, y2=None, n=2):
         coords_dict = [{'x': x, 'y': y, 'var': 1} for i in range(2)]

@@ -17,7 +17,7 @@ cdef extern from "accessibility.h" namespace "MTC::accessibility":
         Accessibility(int, vector[vector[long]], vector[vector[double]], bool) except +
         vector[string] aggregations
         vector[string] decays
-        void initializePOIs(int, double, int)
+        void initializePOIs(double, int)
         void initializeCategory(string, vector[long])
         pair[vector[vector[double]], vector[vector[int]]] findAllNearestPOIs(
             float, int, string, int)
@@ -81,15 +81,14 @@ cdef class cyaccess:
     def __dealloc__(self):
         del self.access
 
-    def initialize_pois(self, numcategories, maxdist, maxitems):
+    def initialize_pois(self, maxdist, maxitems):
         """
-        numcategories - number of categories to initialize
         maxdist - the maximum distance that will later be used in
             find_all_nearest_pois
         maxitems - the maximum number of items that will later be requested
             in find_all_nearest_pois
         """
-        self.access.initializePOIs(numcategories, maxdist, maxitems)
+        self.access.initializePOIs(maxdist, maxitems)
 
     def initialize_category(
         self,

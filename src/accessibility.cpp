@@ -82,16 +82,11 @@ POI QUERIES
 */
 
 void Accessibility::initializePOIs(
-    int numcategories,
     double maxdist,
     int maxitems) {
     // save this for when reinitializing the category
     this->maxdist = maxdist;
     this->maxitems = maxitems;
-    // initialize for all subgraphs
-    for (int i = 0 ; i < ga.size() ; i++) {
-        ga[i]->initPOIs(numcategories, maxdist, maxitems);
-    }
 }
 
 
