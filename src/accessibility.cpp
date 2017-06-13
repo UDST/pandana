@@ -81,20 +81,16 @@ POI QUERIES
 #######################
 */
 
-void Accessibility::initializePOIs(
-    double maxdist,
-    int maxitems) {
-    // save this for when reinitializing the category
-    this->maxdist = maxdist;
-    this->maxitems = maxitems;
-}
 
-
-void Accessibility::initializeCategory(string category,
-                                       vector<long> node_idx)
+void Accessibility::initializeCategory(const double maxdist, const int maxitems,
+                                       string category, vector<long> node_idx)
 {
     accessibility_vars_t av;
     av.resize(this->numnodes);
+
+    this->maxdist = maxdist;
+    this->maxitems = maxitems;
+
     // initialize for all subgraphs
     for (int i = 0 ; i < ga.size() ; i++) {
         ga[i]->initPOIIndex(category, this->maxdist, this->maxitems);

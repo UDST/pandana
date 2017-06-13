@@ -64,11 +64,10 @@ def test_agg_analysis(net, nodes_and_edges):
 
 def test_poi_analysis(net, nodes_and_edges):
     nodes = nodes_and_edges[0]
-    net.initialize_pois(10, 3)
     NUM_NODES = 30
     np.random.seed(0)
     random_node_ids = np.random.choice(np.arange(len(nodes)), NUM_NODES)
-    net.initialize_category("0", random_node_ids)
+    net.initialize_category(10, 3, "0", random_node_ids)
     dists, poi_ids = net.find_all_nearest_pois(10, 3, "0")
     df = pd.DataFrame(poi_ids)
     assert df.loc[0, 0] == 6

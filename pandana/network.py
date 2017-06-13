@@ -454,29 +454,8 @@ class Network:
 
         return bmap, fig, ax
 
-    def init_pois(self, max_dist, max_pois):
-        """
-        Initialize the point of interest infrastructure.
 
-        Parameters
-        ----------
-        max_dist : float
-            Maximum distance that will be tested to nearest POIs. This will
-            usually be a distance unit in meters however if you have
-            customized the impedance this could be in other
-            units such as utility or time etc.
-        max_pois :
-            Maximum number of POIs to return in the nearest query
-
-        Returns
-        -------
-        Nothing
-        """
-        self.max_pois = max_pois
-
-        self.net.initialize_pois(max_dist, max_pois)
-
-    def set_pois(self, category, x_col, y_col):
+    def set_pois(self, maxdist, maxitems, category, x_col, y_col):
         """
         Set the location of all the pois of this category. The pois are
         connected to the closest node in the Pandana network which assumes
@@ -485,6 +464,10 @@ class Network:
 
         Parameters
         ----------
+        maxdist - the maximum distance that will later be used in
+            find_all_nearest_pois
+        maxitems - the maximum number of items that will later be requested
+            in find_all_nearest_pois
         category : string
             The name of the category for this set of pois
         x_col : Pandas Series (float)
@@ -499,13 +482,15 @@ class Network:
         if category not in self.poi_category_names:
             self.poi_category_names.append(category)
 
+        self.max_pois = maxitems
+
         node_ids = self.get_node_ids(x_col, y_col)
 
         self.poi_category_indexes[category] = node_ids.index
 
         node_idx = self._node_indexes(node_ids)
 
-        self.net.initialize_category(category, node_idx.values)
+        self.net.initialize_category(maxdist, maxitems, category, node_idx.values)
 
     def nearest_pois(self, distance, category, num_pois=1, max_distance=None,
                      imp_name=None, include_poi_ids=False):

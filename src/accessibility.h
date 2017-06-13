@@ -25,11 +25,8 @@ class Accessibility {
         vector< vector<double> >  edgeweights,
         bool twoway);
 
-    // set how many POI categories there will be
-    void initializePOIs(double maxdist, int maxitems);
-
     // initialize the category number with POIs at the node_id locations
-    void initializeCategory(string category, vector<long> node_idx);
+    void initializeCategory(const double maxdist, const int maxitems, string category, vector<long> node_idx);
 
     // find the nearest pois for all nodes in the network
     pair<vector<vector<double>>, vector<vector<int>>>
