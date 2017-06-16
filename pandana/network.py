@@ -454,7 +454,6 @@ class Network:
 
         return bmap, fig, ax
 
-
     def set_pois(self, maxdist, maxitems, category, x_col, y_col):
         """
         Set the location of all the pois of this category. The pois are
