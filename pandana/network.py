@@ -236,7 +236,7 @@ class Network:
 
         self.variable_names.add(name)
 
-        self.net.initialize_access_var(name,
+        self.net.initialize_access_var(name.encode('utf-8'),
                                        df.node_idx.values.astype('int'),
                                        df[name].values)
 
@@ -327,9 +327,9 @@ class Network:
                                             "has not yet been initialized"
 
         res = self.net.get_all_aggregate_accessibility_variables(distance,
-                                                                 name,
-                                                                 type,
-                                                                 decay,
+                                                                 name.encode('utf-8'),
+                                                                 type.encode('utf-8'),
+                                                                 decay.encode('utf-8'),
                                                                  imp_num)
 
         return pd.Series(res, index=self.node_ids)
@@ -490,7 +490,7 @@ class Network:
 
         node_idx = self._node_indexes(node_ids)
 
-        self.net.initialize_category(maxdist, maxitems, category, node_idx.values)
+        self.net.initialize_category(maxdist, maxitems, category.encode('utf-8'), node_idx.values)
 
     def nearest_pois(self, distance, category, num_pois=1, max_distance=None,
                      imp_name=None, include_poi_ids=False):
@@ -554,7 +554,7 @@ class Network:
         dists, poi_ids = self.net.find_all_nearest_pois(
             distance,
             num_pois,
-            category,
+            category.encode('utf-8'),
             imp_num)
         dists[dists == -1] = max_distance
 

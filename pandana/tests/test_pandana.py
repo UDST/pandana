@@ -173,7 +173,10 @@ def test_agg_variables(sample_osm):
     for type in net.aggregations:
         for decay in net.decays:
             for distance in [5, 10, 20]:
-                s = net.aggregate(distance, type=type, decay=decay)
+                t = type.decode(encoding='UTF-8') #(type) #,'utf-8')
+                d = decay.decode(encoding='UTF-8') #(type) #,'utf-8')
+                #d = str(decay)# ,'utf-8')
+                s = net.aggregate(distance, type=t, decay=d)
                 assert s.describe()['std'] > 0
 
     # testing w/o setting variable
@@ -183,8 +186,10 @@ def test_agg_variables(sample_osm):
     for type in net.aggregations:
         for decay in net.decays:
             for distance in [5, 10, 20]:
-                s = net.aggregate(distance, type=type, decay=decay)
-                if type != "std":
+                t = type.decode(encoding='UTF-8') #(type) #,'utf-8')
+                d = decay.decode(encoding='UTF-8') #(type) #,'utf-8')
+                s = net.aggregate(distance, type=t, decay=d)
+                if t != "std":
                     assert s.describe()['std'] > 0
                 else:
                     # no variance in data
