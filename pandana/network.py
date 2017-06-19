@@ -454,7 +454,7 @@ class Network:
 
         return bmap, fig, ax
 
-    def set_pois(self, maxdist, maxitems, category, x_col, y_col):
+    def set_pois(self, category, maxdist, maxitems, x_col, y_col):
         """
         Set the location of all the pois of this category. The pois are
         connected to the closest node in the Pandana network which assumes
@@ -463,12 +463,12 @@ class Network:
 
         Parameters
         ----------
+        category : string
+            The name of the category for this set of pois
         maxdist - the maximum distance that will later be used in
             find_all_nearest_pois
         maxitems - the maximum number of items that will later be requested
             in find_all_nearest_pois
-        category : string
-            The name of the category for this set of pois
         x_col : Pandas Series (float)
             The x location (longitude) of pois in this category
         y_col : Pandas Series (Float)
