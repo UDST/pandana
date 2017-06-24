@@ -6,7 +6,8 @@ import sysconfig
 from ez_setup import use_setuptools
 use_setuptools()
 
-from setuptools import setup, Extension, find_packages
+from setuptools import find_packages
+from distutils.core import setup, Extension
 from setuptools.command.test import test as TestCommand
 from setuptools.command.build_ext import build_ext
 
@@ -30,6 +31,13 @@ class PyTest(TestCommand):
         sys.exit(errno)
 
 
+class Lint(TestCommand):
+    def run(self):
+        os.system("cpplint --filter=-build/include_subdir,-legal/copyright,-runtime/references,-runtime/int src/accessibility.* src/graphalg.*")
+        os.system("pep8 src/cyaccess.pyx")
+        os.system("pep8 pandana")
+
+
 class CustomBuildExtCommand(build_ext):
     """build_ext command for use when numpy headers are needed."""
     def run(self):
@@ -39,8 +47,7 @@ class CustomBuildExtCommand(build_ext):
 
 
 include_dirs = [
-    '.',
-    'src/ann_1.1.2/include'
+    '.'
 ]
 
 packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"])
@@ -48,23 +55,8 @@ packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"])
 source_files = [
     'src/accessibility.cpp',
     'src/graphalg.cpp',
-    'src/nearestneighbor.cpp',
-    'src/pyaccesswrap.cpp',
-    'src/contraction_hierarchies/src/libch.cpp',
-    'src/ann_1.1.2/src/ANN.cpp',
-    'src/ann_1.1.2/src/brute.cpp',
-    'src/ann_1.1.2/src/kd_tree.cpp',
-    'src/ann_1.1.2/src/kd_util.cpp',
-    'src/ann_1.1.2/src/kd_split.cpp',
-    'src/ann_1.1.2/src/kd_dump.cpp',
-    'src/ann_1.1.2/src/kd_search.cpp',
-    'src/ann_1.1.2/src/kd_pr_search.cpp',
-    'src/ann_1.1.2/src/kd_fix_rad_search.cpp',
-    'src/ann_1.1.2/src/bd_tree.cpp',
-    'src/ann_1.1.2/src/bd_search.cpp',
-    'src/ann_1.1.2/src/bd_pr_search.cpp',
-    'src/ann_1.1.2/src/bd_fix_rad_search.cpp',
-    'src/ann_1.1.2/src/perf.cpp'
+    "src/cyaccess.pyx",
+    'src/contraction_hierarchies/src/libch.cpp'
 ]
 
 extra_compile_args = [
@@ -95,8 +87,9 @@ if platform.system() == 'Darwin':
     mac_ver = sysconfig.get_config_var('MACOSX_DEPLOYMENT_TARGET')
     if mac_ver:
         mac_ver = [int(x) for x in mac_ver.split('.')]
-        if mac_ver >= [10, 9]:
+        if mac_ver >= [10, 7]:
             extra_compile_args += ['-D NO_TR1_MEMORY']
+            extra_compile_args += ['-stdlib=libc++']
 
 version = '0.3.0'
 
@@ -115,8 +108,9 @@ setup(
     long_description=long_description,
     url='https://udst.github.io/pandana/',
     ext_modules=[Extension(
-            'pandana._pyaccess',
+            'pandana.cyaccess',
             source_files,
+            language="c++",
             include_dirs=include_dirs,
             extra_compile_args=extra_compile_args,
             extra_link_args=extra_link_args,
@@ -128,10 +122,13 @@ setup(
         'requests>=2.0',
         'tables>=3.1.0',
         'osmnet>=0.1.2',
+        'cython>=0.25.2',
+        'scikit-learn>=0.18.1'
     ],
     tests_require=['pytest'],
     cmdclass={
         'test': PyTest,
+        'lint': Lint,
         'build_ext': CustomBuildExtCommand,
     },
     classifiers=[

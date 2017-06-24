@@ -1,8 +1,9 @@
 #pragma once
 
-#include "shared.h"
 #include <vector>
-#include "nearestneighbor.h"
+#include <map>
+#include <utility>
+#include "shared.h"
 #include "contraction_hierarchies/src/libch.h"
 
 typedef unsigned int NodeID;
@@ -10,44 +11,40 @@ typedef unsigned int NodeID;
 #define DISTANCEMULTFACT 1000.0
 
 namespace MTC {
-	namespace accessibility {
+namespace accessibility {
 
-		typedef std::map<int,float> DistanceMap;
-		typedef std::vector<std::pair<NodeID, float> > DistanceVec;
-		
-		class Graphalg
-		{
-		public:
+using std::vector;
 
-		    void DLLExport Build(int *nodeids, float *nodexy, int numnodes,
-							int *edges, float *edgeweights, int numedges,
-							bool twoway);
+typedef std::map<int, float> DistanceMap;
+typedef std::vector<std::pair<NodeID, float> > DistanceVec;
 
-			void DLLExport BuildNN(std::vector<float> x, std::vector<float> y);
-			
-			int DLLExport NearestNode(float x, float y, double *distance);
+class Graphalg {
+ public:
+    Graphalg(
+        int numnodes,
+        vector< vector<long> > edges, vector<double> edgeweights,
+        bool twoway);
 
-			std::vector<NodeID> Route(int src, int tgt, int threadNum=0);
-		    double Distance(int src, int tgt, int threadNum=0);
+    std::vector<NodeID> Route(int src, int tgt, int threadNum = 0);
 
-			void Range(int src, double maxdist, int threadNum, 
-					DistanceVec &ResultingNodes);
+    double Distance(int src, int tgt, int threadNum = 0);
 
-			DistanceMap NearestPOI(int category, int src, double maxdist, 
-												int number, int threadNum=0);
+    void Range(int src, double maxdist, int threadNum,
+               DistanceVec &ResultingNodes);
 
-			void initPOIs(int numcategories, double maxdist, int maxitems) {
-				ch.createPOIIndexArray(numcategories, maxdist*DISTANCEMULTFACT,
-									   maxitems);
-			}
-			void addPOIToIndex(int category, int i) {
-				ch.addPOIToIndex(category,i);
-			}
+    DistanceMap NearestPOI(const POIKeyType &category, int src, double maxdist,
+                           int number, int threadNum = 0);
 
-			int numnodes;
+    void addPOIToIndex(const POIKeyType &category, int i) {
+        ch.addPOIToIndex(category, i);
+    }
 
-			CH::ContractionHierarchies ch;
-			NearestNeighbor nearestNeighbor;
-		};
-	}
-}
+    void initPOIIndex(const POIKeyType &category, double maxdist, int maxitems) {
+        ch.createPOIIndex(category, maxdist*DISTANCEMULTFACT, maxitems);
+    }
+
+    int numnodes;
+    CH::ContractionHierarchies ch;
+};
+}  // namespace accessibility
+}  // namespace MTC

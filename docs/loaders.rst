@@ -32,8 +32,7 @@ This can be used to populate a network with points of interest::
 
     nodes = osm.node_query(
         37.859, -122.282, 37.881, -122.252, tags='"amenity"="restaurant"')
-    network.init_pois(num_categories=1, max_dist=2000, max_pois=10)
-    network.set_pois('restaurants', nodes['lon'], nodes['lat'])
+    network.set_pois('restaurants', 2000, 10, nodes['lon'], nodes['lat'])
 
 For more about tags see the
 `Overpass API Language Guide <http://wiki.openstreetmap.org/wiki/Overpass_API/Language_Guide>`__

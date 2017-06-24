@@ -9,4 +9,3 @@
 #ifdef _OPENMP
 #include <omp.h>
 #endif
-#define FILE_LOG(logINFO) (std::cout)

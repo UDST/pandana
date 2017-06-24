@@ -3,121 +3,131 @@
 #include <iostream>
 #include <cstdlib>
 #include <vector>
+#include <string>
+#include <utility>
+#include <map>
 #include "shared.h"
-#include "nearestneighbor.h"
 #include "graphalg.h"
 
-using namespace std;
-
 namespace MTC {
-	namespace accessibility {
+namespace accessibility {
 
-		// TODO some of these agg types aren't implemented
-		// aggregation types
-		enum aggregation_types_t {
-			AGG_SUM,
-			AGG_AVE,
-			AGG_MIN,
-			AGG_25PERCENTILE,
-			AGG_MEDIAN,
-			AGG_75PERCENTILE,
-			AGG_MAX,
-			AGG_STDDEV,
-			AGG_COUNT,
-			AGG_MAXVAL
-		};
+using std::vector;
+using std::string;
+using std::set;
+using std::map;
 
-		// decay functins for aggregation
-		enum decay_func_t {
-			DECAY_EXP,
-			DECAY_LINEAR,
-			DECAY_FLAT,
-			DECAY_MAXVAL
-		};
+class Accessibility {
+ public:
+    Accessibility(
+        int numnodes,
+        vector< vector<long> > edges,
+        vector< vector<double> >  edgeweights,
+        bool twoway);
 
-		typedef std::vector<std::vector<float> > accessibility_vars_t;
+    // initialize the category number with POIs at the node_id locations
+    void initializeCategory(const double maxdist, const int maxitems, string category, vector<long> node_idx);
 
-		#ifdef _WIN32
-			class DLLExport Accessibility
-		#else
-			class Accessibility
-		#endif
-		{
-		public:
-			Accessibility(int numnodes=0);
+    // find the nearest pois for all nodes in the network
+    pair<vector<vector<double>>, vector<vector<int>>>
+    findAllNearestPOIs(float maxradius, unsigned maxnumber,
+                       string category, int graphno = 0);
 
-			// aggregate a variable within a radius
-			double aggregateAccessibilityVariable(int srcnode, float radius,
-		        accessibility_vars_t &vars, aggregation_types_t aggtyp,
-		        decay_func_t gravity_func, int graphno=0);
+    void initializeAccVar(string category, vector<long> node_idx,
+                          vector<double> values);
 
-			double quantileAccessibilityVariable(DistanceVec &distances,
-				accessibility_vars_t &vars, float quantile, float radius);
+    // computes the accessibility for every node in the network
+    vector<double>
+    getAllAggregateAccessibilityVariables(
+        float radius,
+        string index,
+        string aggtyp,
+        string decay,
+        int graphno = 0);
 
-			// computes the accessibility for every node in the network
-			std::vector<double>
-			getAllAggregateAccessibilityVariables(float radius, int index,
-			    aggregation_types_t aggtyp, decay_func_t decay, int graphno=0);
+    // get nodes with the range
+    DistanceVec Range(int srcnode, float radius, int graphno = 0);
 
-            // this simulates a nested choice model as it moves through the
-            // graph varindexes and varcoefficients give the variables that
-            // are added to the utility distcoeff is multiplied by the
-            // distance and added to utility, asc is just added denom and
-            // nestdenom are used to compute probabilities rather than just
-            // logsums mu is the nesting coefficient that the utility gets
-            // multiplied by
-			std::vector<double>
-			getAllModelResults(float radius, int numvars, int *varindexes,
-			    float *varcoeffs, float distcoeff, float asc, float denom,
-			    float nestdenom, float mu, int graphno);
+    // shortest path between two points
+    vector<int> Route(int src, int tgt, int graphno = 0);
+    // shortest path distance between two points
+    double Distance(int src, int tgt, int graphno = 0);
 
-		    double
-		    modelResult(int srcnode, float radius, int numvars, int *varindexes,
-		        float *varcoeffs, float distcoeff, float asc, float denom,
-		        float nestdenom, float mu, int gno);
+    // precompute the range queries and reuse them
+    void precomputeRangeQueries(float radius);
 
-			// compute a variable having to do with the street network
-			double computeDesignVariable(int srcnode, float radius,
-										 std::string type,
-										 int graphno=0);
+    // aggregation types
+    vector<string> aggregations = {
+        "sum",
+        "mean",
+        "min",
+        "25pct",
+        "median",
+        "75pct",
+        "max",
+        "std",
+        "count"
+    };
 
-			void initializeAccVars(int numcategories);
-            void initializeAccVar(int index, accessibility_vars_t &vars);
+    // decay types
+    vector<string> decays = {
+        "exp",
+        "linear",
+        "flat"
+    };
 
-			// look for the closest points of interest
-			void initializePOIs(int numcategories, double maxdist,
-			    int maxitems);
-			void initializeCategory(int category, accessibility_vars_t &vars);
+ private:
+    double maxdist;
+    int maxitems;
 
-			std::vector<float> findNearestPOIs(int srcnode,
-			    float maxradius, unsigned maxnumber, unsigned cat,
-			    int graphno=0, bool return_nodeids=false);
-			std::vector<std::vector<float> >
-			    findAllNearestPOIs(float maxradius, unsigned maxnumber,
-			            unsigned cat, int graphno=0, 
-			            bool return_nodeids=false);
+    // a vector of graphs - all these graphs share the same nodes, and
+    // thus it shares the same accessibility_vars_t as well -
+    // this is used e.g. for road networks where we have congestion
+    // by time of day
+    vector<std::shared_ptr<Graphalg> > ga;
 
-            DistanceVec Range(int srcnode, float radius, int graphno=0);
+    // accessibility_vars_t is a vector of floating point values
+    // assigned to each node - the first level of the data structure
+    // is dereferenced by node index
+    typedef vector<vector<float> > accessibility_vars_t;
+    map<string, accessibility_vars_t> accessibilityVars;
+    // this is a map for pois so we can keep track of how many
+    // pois there are at each node - for now all the values are
+    // set to one, but I can imagine using floating point values
+    // here eventually - e.g. find the 3 nearest values similar to
+    // a knn tree in 2D space
+    std::map<POIKeyType, accessibility_vars_t> accessibilityVarsForPOIs;
 
-			vector<accessibility_vars_t>	accessibilityVars;
-			vector<accessibility_vars_t>	accessibilityVarsForPOIs;
+    // this stores the nodes within a certain range - we have the option
+    // of precomputing all the nodes in a radius if we're going to make
+    // lots of aggregation queries on the same network
+    float dmsradius;
+    vector<vector<DistanceVec> > dms;
 
-			std::vector<std::shared_ptr<Graphalg> > ga;
+    int numnodes;
 
-			// precompute the range queries and reuse them
-			void precomputeRangeQueries(float radius);
-			float dmsradius;
-			std::vector<std::vector<DistanceVec> > dms;
+    void addGraphalg(MTC::accessibility::Graphalg *g);
 
-			int numnodes;
+    vector<pair<double, int>>
+    findNearestPOIs(int srcnode, float maxradius, unsigned maxnumber,
+                    string cat, int graphno = 0);
 
-		private:
-			double compute_centrality(int srcnode, DistanceVec &distances,
-											 int graphno=0);
-			double compute_street_design_var(DistanceVec &distances,
-											 std::string type, float radius,
-											 int graphno=0);
-		};
-	}
-}
+    // aggregate a variable within a radius
+    double
+    aggregateAccessibilityVariable(
+        int srcnode,
+        float radius,
+        accessibility_vars_t &vars,
+        string aggtyp,
+        string gravity_func,
+        int graphno = 0);
 
+    double
+    quantileAccessibilityVariable(
+        DistanceVec &distances,
+        accessibility_vars_t &vars,
+        float quantile,
+        float radius);
+};
+}  // namespace accessibility
+}  // namespace MTC
