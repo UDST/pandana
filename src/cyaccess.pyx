@@ -17,10 +17,9 @@ cdef extern from "accessibility.h" namespace "MTC::accessibility":
         Accessibility(int, vector[vector[long]], vector[vector[double]], bool) except +
         vector[string] aggregations
         vector[string] decays
-        void initializePOIs(int, double, int)
-        void initializeCategory(int, vector[long])
+        void initializeCategory(double, int, string, vector[long])
         pair[vector[vector[double]], vector[vector[int]]] findAllNearestPOIs(
-            float, int, int, int)
+            float, int, string, int)
         void initializeAccVar(string, vector[long], vector[double])
         vector[double] getAllAggregateAccessibilityVariables(
             float, string, string, string, int)
@@ -81,38 +80,34 @@ cdef class cyaccess:
     def __dealloc__(self):
         del self.access
 
-    def initialize_pois(self, numcategories, maxdist, maxitems):
+    def initialize_category(
+        self,
+        double maxdist,
+        int maxitems,
+        string category,
+        np.ndarray[long] node_ids
+    ):
         """
-        numcategories - number of categories to initialize
         maxdist - the maximum distance that will later be used in
             find_all_nearest_pois
         maxitems - the maximum number of items that will later be requested
             in find_all_nearest_pois
-        """
-        self.access.initializePOIs(numcategories, maxdist, maxitems)
-
-    def initialize_category(
-        self,
-        int category,
-        np.ndarray[long] node_ids
-    ):
-        """
-        category - the category number
+        category - the category name
         node_ids - an array of nodeids which are locations where this poi occurs
         """
-        self.access.initializeCategory(category, node_ids)
+        self.access.initializeCategory(maxdist, maxitems, category, node_ids)
 
     def find_all_nearest_pois(
         self,
         double radius,
         int num_of_pois,
-        int category,
+        string category,
         int impno=0
     ):
         """
         radius - search radius
         num_of_pois - number of pois to search for
-        category - category id
+        category - the category name
         impno - the impedance id to use
         return_nodeids - whether to return the nodeid locations of the nearest
             not just the distances
@@ -124,12 +119,12 @@ cdef class cyaccess:
 
     def initialize_access_var(
         self,
-        category,
+        string category,
         np.ndarray[long] node_ids,
         np.ndarray[double] values
     ):
         """
-        category - category id
+        category - category name
         node_ids: vector of node identifiers
         values: vector of values that are location at the nodes
         """
@@ -151,7 +146,7 @@ cdef class cyaccess:
     ):
         """
         radius - search radius
-        category - category id
+        category - category name
         aggtyp - aggregation type, see docs
         decay - decay type, see docs
         impno - the impedance id to use

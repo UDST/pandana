@@ -25,27 +25,16 @@ class Accessibility {
         vector< vector<double> >  edgeweights,
         bool twoway);
 
-    // set how many POI categories there will be
-    void initializePOIs(
-        int numcategories,
-        double maxdist,
-        int maxitems);
-
     // initialize the category number with POIs at the node_id locations
-    void initializeCategory(int category, vector<long> node_idx);
+    void initializeCategory(const double maxdist, const int maxitems, string category, vector<long> node_idx);
 
     // find the nearest pois for all nodes in the network
     pair<vector<vector<double>>, vector<vector<int>>>
-    findAllNearestPOIs(
-        float maxradius,
-        unsigned maxnumber,
-        unsigned cat,
-        int graphno = 0);
+    findAllNearestPOIs(float maxradius, unsigned maxnumber,
+                       string category, int graphno = 0);
 
-    void initializeAccVar(
-        string category,
-        vector<long> node_idx,
-        vector<double> values);
+    void initializeAccVar(string category, vector<long> node_idx,
+                          vector<double> values);
 
     // computes the accessibility for every node in the network
     vector<double>
@@ -107,7 +96,7 @@ class Accessibility {
     // set to one, but I can imagine using floating point values
     // here eventually - e.g. find the 3 nearest values similar to
     // a knn tree in 2D space
-    vector<accessibility_vars_t> accessibilityVarsForPOIs;
+    std::map<POIKeyType, accessibility_vars_t> accessibilityVarsForPOIs;
 
     // this stores the nodes within a certain range - we have the option
     // of precomputing all the nodes in a radius if we're going to make
@@ -120,12 +109,8 @@ class Accessibility {
     void addGraphalg(MTC::accessibility::Graphalg *g);
 
     vector<pair<double, int>>
-    findNearestPOIs(
-        int srcnode,
-        float maxradius,
-        unsigned maxnumber,
-        unsigned cat,
-        int graphno = 0);
+    findNearestPOIs(int srcnode, float maxradius, unsigned maxnumber,
+                    string cat, int graphno = 0);
 
     // aggregate a variable within a radius
     double

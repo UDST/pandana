@@ -173,7 +173,9 @@ def test_agg_variables(sample_osm):
     for type in net.aggregations:
         for decay in net.decays:
             for distance in [5, 10, 20]:
-                s = net.aggregate(distance, type=type, decay=decay)
+                t = type.decode(encoding='UTF-8')
+                d = decay.decode(encoding='UTF-8')
+                s = net.aggregate(distance, type=t, decay=d)
                 assert s.describe()['std'] > 0
 
     # testing w/o setting variable
@@ -183,8 +185,10 @@ def test_agg_variables(sample_osm):
     for type in net.aggregations:
         for decay in net.decays:
             for distance in [5, 10, 20]:
-                s = net.aggregate(distance, type=type, decay=decay)
-                if type != "std":
+                t = type.decode(encoding='UTF-8')
+                d = decay.decode(encoding='UTF-8')
+                s = net.aggregate(distance, type=t, decay=d)
+                if t != "std":
                     assert s.describe()['std'] > 0
                 else:
                     # no variance in data
@@ -261,20 +265,13 @@ def test_pois(sample_osm):
     x, y = random_x_y(sample_osm, ssize)
 
     with pytest.raises(AssertionError):
-        net.set_pois("restaurants", x, y)
-
-    with pytest.raises(AssertionError):
         net.nearest_pois(2000, "restaurants", num_pois=10)
-
-    net.init_pois(num_categories=1, max_dist=2000, max_pois=10)
 
     with pytest.raises(AssertionError):
         net.nearest_pois(2000, "restaurants", num_pois=10)
 
     # boundary condition
-    net.init_pois(num_categories=1, max_dist=2000, max_pois=10)
-
-    net.set_pois("restaurants", x, y)
+    net.set_pois("restaurants", 2000, 10, x, y)
 
     net.nearest_pois(2000, "restaurants", num_pois=10)
 
@@ -286,7 +283,7 @@ def test_pois(sample_osm):
     x.index = ['lab%d' % i for i in range(len(x))]
     y.index = x.index
 
-    net.set_pois("restaurants", x, y)
+    net.set_pois("restaurants", 2000, 10, x, y)
 
     d = net.nearest_pois(2000, "restaurants", num_pois=10,
                          include_poi_ids=True)
@@ -300,9 +297,7 @@ def test_pois2(second_sample_osm):
     x, y = random_x_y(second_sample_osm, ssize)
 
     # make sure poi searches work on second graph
-    net2.init_pois(num_categories=1, max_dist=2000, max_pois=10)
-
-    net2.set_pois("restaurants", x, y)
+    net2.set_pois("restaurants", 2000, 10, x, y)
 
     net2.nearest_pois(2000, "restaurants", num_pois=10)
 
@@ -310,13 +305,12 @@ def test_pois2(second_sample_osm):
 # test items are sorted
 def test_sorted_pois(sample_osm):
     net = sample_osm
-    net.init_pois(num_categories=1, max_dist=2000, max_pois=10)
 
     ssize = 1000
     x, y = random_x_y(sample_osm, ssize)
 
     # set two categories
-    net.set_pois("restaurants", x, y)
+    net.set_pois("restaurants", 2000, 10, x, y)
 
     test = net.nearest_pois(2000, "restaurants", num_pois=10)
 
@@ -327,14 +321,13 @@ def test_sorted_pois(sample_osm):
 
 def test_repeat_pois(sample_osm):
     net = sample_osm
-    net.init_pois(num_categories=1, max_dist=2000, max_pois=10)
 
     def get_nearest_nodes(x, y, x2=None, y2=None, n=2):
         coords_dict = [{'x': x, 'y': y, 'var': 1} for i in range(2)]
         if x2 and y2:
             coords_dict.append({'x': x2, 'y': y2, 'var': 1})
         df = pd.DataFrame(coords_dict)
-        sample_osm.set_pois("restaurants", df['x'], df['y'])
+        sample_osm.set_pois("restaurants", 2000, 10, df['x'], df['y'])
         res = sample_osm.nearest_pois(2000, "restaurants", num_pois=5, include_poi_ids=True)
         return res
 

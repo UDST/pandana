@@ -92,24 +92,13 @@ Assign variables and perform computations for nearest queries
 Now for the fun part.  Nearest queries are slightly easier, so let's cover that
 first.
 
-First initialize the POI (point-of-interest) engine.  This is a bit
-strange for Python programmers, but because this code wraps a C++ API,
-you need to initialize the memory first.  This is not a strict requirement
-though, and future versions might remedy this. ::
+First initialize the POI (point-of-interest) category: ::
 
-    net.init_pois(num_categories=1, max_dist=2000, max_pois=10)
-
-This initializes one category, at a max distance of 2000 meters for up to the
-10 nearest points-of-interest.
-
-Here is a link to the docs: :py:meth:`pandana.network.Network.init_pois`
-
-Next initialize the category: ::
-
-    net.set_pois("restaurants", x, y)
+    net.set_pois("restaurants", 2000, 10, x, y)
 
 This code initializes the "restaurants" category with the positions specified
-by the x and y columns (which are Pandas Series).  Next perform the query:
+by the x and y columns (which are Pandas Series), at a max distance of 2000 meters
+for up to the 10 nearest points-of-interest.  Next perform the query:
 
 Here is a link to the docs: :py:meth:`pandana.network.Network.set_pois` ::
 

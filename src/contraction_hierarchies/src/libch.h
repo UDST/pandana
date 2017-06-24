@@ -25,6 +25,7 @@ or see http://www.gnu.org/licenses/agpl.txt.
 #include <iostream>
 #include <string>
 #include <vector>
+#include <map>
 
 #include "BasicDefinitions.h"
 #include "Contractor/ContractionCleanup.h"
@@ -46,7 +47,8 @@ typedef StaticGraph< EdgeData > QueryGraph;
 typedef vector<SimpleCHQuery<EdgeData, QueryGraph, Heap> > QueryObjectVector;
 
 typedef CH::POIIndex< QueryGraph > CHPOIIndex;
-typedef vector<CHPOIIndex> CHPOIIndexArray;
+typedef std::string POIKeyType;
+typedef std::map<POIKeyType, CHPOIIndex> CHPOIIndexMap;
 
 namespace CH {
 
@@ -120,18 +122,25 @@ typedef std::vector<std::pair<NodeID, unsigned> > ReachedNode;
         int computeVerificationLengthofShortestPath(const Node &s, const Node& t);
         void computeReachableNodesWithin(const Node &s, unsigned maxDistance, std::vector<std::pair<NodeID, unsigned> > & ResultingNodes);
         void computeReachableNodesWithin(const Node &s, unsigned maxDistance, std::vector<std::pair<NodeID, unsigned> > & ResultingNodes, unsigned threadID);
-        void createPOIIndexArray(unsigned numberOfPOICategories, unsigned _maxDistanceToConsider, unsigned _maxNumberOfPOIsInBucket);
-        void createPOIIndex(unsigned categoryNum, unsigned _maxDistanceToConsider, unsigned _maxNumberOfPOIsInBucket);
-        void addPOIToIndex(unsigned category, NodeID node);
-        void getNearest(unsigned category, NodeID node, std::vector<BucketEntry>& resultingVenues);
-        void getNearest(unsigned category, NodeID node, std::vector<BucketEntry>& resultingVenues, unsigned threadID);
-        void getNearestWithUpperBoundOnLocations(unsigned category, NodeID node, EdgeWeight maxLocations, std::vector<BucketEntry>& resultingVenues);
-        void getNearestWithUpperBoundOnLocations(unsigned category, NodeID node, EdgeWeight maxLocations, std::vector<BucketEntry>& resultingVenues, unsigned threadID);
-        void getNearestWithUpperBoundOnDistance(unsigned category, NodeID node, unsigned maxLocations, std::vector<BucketEntry>& resultingVenues);
-        void getNearestWithUpperBoundOnDistance(unsigned category, NodeID node, unsigned maxLocations, std::vector<BucketEntry>& resultingVenues, unsigned threadID);
-        void getNearestWithUpperBoundOnDistanceAndLocations(unsigned category, NodeID node, EdgeWeight maxDistance, unsigned maxLocations, std::vector<BucketEntry>& resultingVenues);
 
-        void getNearestWithUpperBoundOnDistanceAndLocations(unsigned category, NodeID node, EdgeWeight maxDistance, unsigned maxLocations, std::vector<BucketEntry>& resultingVenues, unsigned threadID);
+        void createPOIIndex(const POIKeyType &category, unsigned _maxDistanceToConsider, unsigned _maxNumberOfPOIsInBucket);
+        void addPOIToIndex(const POIKeyType &category, NodeID node);
+
+        void getNearest(const POIKeyType &category, NodeID node, std::vector<BucketEntry>& resultingVenues);
+        void getNearest(const POIKeyType &category, NodeID node, std::vector<BucketEntry>& resultingVenues, unsigned threadID);
+        void getNearestWithUpperBoundOnLocations(const POIKeyType &category, NodeID node, EdgeWeight maxLocations,
+                                                 std::vector<BucketEntry>& resultingVenues);
+        void getNearestWithUpperBoundOnLocations(const POIKeyType &category, NodeID node, EdgeWeight maxLocations,
+                                                 std::vector<BucketEntry>& resultingVenues, unsigned threadID);
+        void getNearestWithUpperBoundOnDistance(const POIKeyType &category, NodeID node, unsigned maxLocations,
+                                                std::vector<BucketEntry>& resultingVenues);
+        void getNearestWithUpperBoundOnDistance(const POIKeyType &category, NodeID node, unsigned maxLocations,
+                                                std::vector<BucketEntry>& resultingVenues, unsigned threadID);
+        void getNearestWithUpperBoundOnDistanceAndLocations(const POIKeyType &category, NodeID node,
+                                                            EdgeWeight maxDistance, unsigned maxLocations, std::vector<BucketEntry>& resultingVenues);
+        void getNearestWithUpperBoundOnDistanceAndLocations(const POIKeyType &category, NodeID node,
+                                                            EdgeWeight maxDistance, unsigned maxLocations,
+                                                            std::vector<BucketEntry>& resultingVenues, unsigned threadID);
 
 	private:
 		unsigned numberOfThreads;
@@ -143,7 +152,7 @@ typedef std::vector<std::pair<NodeID, unsigned> > ReachedNode;
 		QueryGraph * staticGraph;
 		QueryGraph * rangeGraph;
 		vector<SimpleCHQuery<EdgeData, QueryGraph, Heap> *> queryObjects;
-        CHPOIIndexArray poiIndexArray;
+        CHPOIIndexMap poiIndexMap;
 	};
 }
 

@@ -65,7 +65,6 @@ class Network:
         self.variable_names = set()
         self.poi_category_names = []
         self.poi_category_indexes = {}
-        self.num_poi_categories = -1
 
         # this maps ids to indexes which are used internally
         # this is a constant source of headaches, but all node identifiers
@@ -237,7 +236,7 @@ class Network:
 
         self.variable_names.add(name)
 
-        self.net.initialize_access_var(name,
+        self.net.initialize_access_var(name.encode('utf-8'),
                                        df.node_idx.values.astype('int'),
                                        df[name].values)
 
@@ -328,9 +327,9 @@ class Network:
                                             "has not yet been initialized"
 
         res = self.net.get_all_aggregate_accessibility_variables(distance,
-                                                                 name,
-                                                                 type,
-                                                                 decay,
+                                                                 name.encode('utf-8'),
+                                                                 type.encode('utf-8'),
+                                                                 decay.encode('utf-8'),
                                                                  imp_num)
 
         return pd.Series(res, index=self.node_ids)
@@ -455,36 +454,7 @@ class Network:
 
         return bmap, fig, ax
 
-    def init_pois(self, num_categories, max_dist, max_pois):
-        """
-        Initialize the point of interest infrastructure.
-
-        Parameters
-        ----------
-        num_categories : int
-            Number of categories of POIs
-        max_dist : float
-            Maximum distance that will be tested to nearest POIs. This will
-            usually be a distance unit in meters however if you have
-            customized the impedance this could be in other
-            units such as utility or time etc.
-        max_pois :
-            Maximum number of POIs to return in the nearest query
-
-        Returns
-        -------
-        Nothing
-        """
-        if self.num_poi_categories != -1:
-            print("Can't initialize twice")
-            return
-
-        self.num_poi_categories = num_categories
-        self.max_pois = max_pois
-
-        self.net.initialize_pois(num_categories, max_dist, max_pois)
-
-    def set_pois(self, category, x_col, y_col):
+    def set_pois(self, category, maxdist, maxitems, x_col, y_col):
         """
         Set the location of all the pois of this category. The pois are
         connected to the closest node in the Pandana network which assumes
@@ -495,6 +465,10 @@ class Network:
         ----------
         category : string
             The name of the category for this set of pois
+        maxdist - the maximum distance that will later be used in
+            find_all_nearest_pois
+        maxitems - the maximum number of items that will later be requested
+            in find_all_nearest_pois
         x_col : Pandas Series (float)
             The x location (longitude) of pois in this category
         y_col : Pandas Series (Float)
@@ -504,14 +478,10 @@ class Network:
         -------
         Nothing
         """
-        if self.num_poi_categories == -1:
-            assert 0, "Need to call init_pois first"
-
         if category not in self.poi_category_names:
-            assert len(self.poi_category_names) < self.num_poi_categories, \
-                "Too many categories set - increase the number when calling " \
-                "init_pois"
             self.poi_category_names.append(category)
+
+        self.max_pois = maxitems
 
         node_ids = self.get_node_ids(x_col, y_col)
 
@@ -519,8 +489,7 @@ class Network:
 
         node_idx = self._node_indexes(node_ids)
 
-        self.net.initialize_category(self.poi_category_names.index(category),
-                                     node_idx.values)
+        self.net.initialize_category(maxdist, maxitems, category.encode('utf-8'), node_idx.values)
 
     def nearest_pois(self, distance, category, num_pois=1, max_distance=None,
                      imp_name=None, include_poi_ids=False):
@@ -573,9 +542,6 @@ class Network:
         if max_distance is None:
             max_distance = distance
 
-        if self.num_poi_categories == -1:
-            assert 0, "Need to call init_pois first"
-
         if category not in self.poi_category_names:
             assert 0, "Need to call set_pois for this category"
 
@@ -587,7 +553,7 @@ class Network:
         dists, poi_ids = self.net.find_all_nearest_pois(
             distance,
             num_pois,
-            self.poi_category_names.index(category),
+            category.encode('utf-8'),
             imp_num)
         dists[dists == -1] = max_distance
 
