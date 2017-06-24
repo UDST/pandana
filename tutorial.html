@@ -218,7 +218,7 @@ We can access them as follows (the demo data file can be
 id of the node and an x-y position.  Much like <code class="docutils literal"><span class="pre">shapely</span></code>, <code class="docutils literal"><span class="pre">Pandana</span></code> is
 agnostic to the  coordinate system.  Use your local coordinate system or
 longitude then latitude - either one will work.  Edges are then ids (which
-aren&#8217;t used) and
+aren’t used) and
 <code class="docutils literal"><span class="pre">from</span></code> node ids and <code class="docutils literal"><span class="pre">to</span></code> node_ids which should index directly to the node
 DataFrame.  A <code class="docutils literal"><span class="pre">weight</span></code> column (or multiple weight columns) is (are) required
 as the impedance for the network.  Here, distance is used from OpenStreetMap
@@ -228,8 +228,8 @@ edges.</p>
                  <span class="n">edges</span><span class="p">[[</span><span class="s2">&quot;weight&quot;</span><span class="p">]])</span>
 </pre></div>
 </div>
-<p>It&#8217;s probably a good idea (though not strictly required) to precompute a
-given horizon distance so that aggregations don&#8217;t perform the network queries
+<p>It’s probably a good idea (though not strictly required) to precompute a
+given horizon distance so that aggregations don’t perform the network queries
 unnecessarily.  This is done by calling the following code,
 where 3000 meters is used as the horizon distance:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">precompute</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span>
@@ -246,24 +246,15 @@ a multi-core cpu, there is probably a way to speed up the computation.</strong><
 </div>
 <div class="section" id="assign-variables-and-perform-computations-for-nearest-queries">
 <h2>Assign variables and perform computations for nearest queries<a class="headerlink" href="#assign-variables-and-perform-computations-for-nearest-queries" title="Permalink to this headline">¶</a></h2>
-<p>Now for the fun part.  Nearest queries are slightly easier, so let&#8217;s cover that
+<p>Now for the fun part.  Nearest queries are slightly easier, so let’s cover that
 first.</p>
-<p>First initialize the POI (point-of-interest) engine.  This is a bit
-strange for Python programmers, but because this code wraps a C++ API,
-you need to initialize the memory first.  This is not a strict requirement
-though, and future versions might remedy this.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">init_pois</span><span class="p">(</span><span class="n">num_categories</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_dist</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">max_pois</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<p>First initialize the POI (point-of-interest) category:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">set_pois</span><span class="p">(</span><span class="s2">&quot;restaurants&quot;</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This initializes one category, at a max distance of 2000 meters for up to the
-10 nearest points-of-interest.</p>
-<p>Here is a link to the docs: <a class="reference internal" href="network.html#pandana.network.Network.init_pois" title="pandana.network.Network.init_pois"><code class="xref py py-meth docutils literal"><span class="pre">pandana.network.Network.init_pois()</span></code></a></p>
-<p>Next initialize the category:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">set_pois</span><span class="p">(</span><span class="s2">&quot;restaurants&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>This code initializes the &#8220;restaurants&#8221; category with the positions specified
-by the x and y columns (which are Pandas Series).  Next perform the query:</p>
+<p>This code initializes the “restaurants” category with the positions specified
+by the x and y columns (which are Pandas Series), at a max distance of 2000 meters
+for up to the 10 nearest points-of-interest.  Next perform the query:</p>
 <p>Here is a link to the docs: <a class="reference internal" href="network.html#pandana.network.Network.set_pois" title="pandana.network.Network.set_pois"><code class="xref py py-meth docutils literal"><span class="pre">pandana.network.Network.set_pois()</span></code></a></p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">nearest_pois</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="s2">&quot;restaurants&quot;</span><span class="p">,</span> <span class="n">num_pois</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
@@ -312,7 +303,7 @@ executed in half a second:</p>
 </div>
 <div class="section" id="assign-variables-and-perform-computations-for-aggregation-queries">
 <h2>Assign variables and perform computations for aggregation queries<a class="headerlink" href="#assign-variables-and-perform-computations-for-aggregation-queries" title="Permalink to this headline">¶</a></h2>
-<p>Performing a general network aggregation isn&#8217;t much harder.  In this case,
+<p>Performing a general network aggregation isn’t much harder.  In this case,
 it is assumed that DataFrames are much larger and that queries have
 a lot more variety.</p>
 <p>For this reason, the workflow is typically to map the variables x and y to
@@ -432,7 +423,7 @@ and sample code and images are included below.</p>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

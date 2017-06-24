@@ -94,7 +94,10 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Network API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Network API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#api-changes-migration-notes-from-version-3-0-to-4-0">API changes: migration notes from version 3.0 to 4.0</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="loaders.html">Loaders</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="futurework.html">Planned Improvements</a></li>
@@ -161,9 +164,15 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-pandana.network">
-<span id="network-api"></span><h1>Network API<a class="headerlink" href="#module-pandana.network" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+  <div class="section" id="network-api">
+<h1>Network API<a class="headerlink" href="#network-api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="api-changes-migration-notes-from-version-3-0-to-4-0">
+<h2>API changes: migration notes from version 3.0 to 4.0<a class="headerlink" href="#api-changes-migration-notes-from-version-3-0-to-4-0" title="Permalink to this headline">¶</a></h2>
+<p>Starting with version 4.0, calls to <code class="docutils literal"><span class="pre">init_pois</span></code> are no longer necessary due to an improvement in the
+C++ backend. From that version on, the <code class="docutils literal"><span class="pre">max_distance</span></code> and the <code class="docutils literal"><span class="pre">max_pois</span></code> parameters are directly
+specified by category in the <a class="reference internal" href="#pandana.network.Network.set_pois" title="pandana.network.Network.set_pois"><code class="xref py py-meth docutils literal"><span class="pre">pandana.network.Network.set_pois()</span></code></a> call.</p>
+<p>The <code class="docutils literal"><span class="pre">reserve_num_graphs</span></code> call is also no longer required.  Pandana Network objects can now be created and destroyed on-the-fly and no initialization need be done in advance.</p>
+<span class="target" id="module-pandana.network"></span><dl class="class">
 <dt id="pandana.network.Network">
 <em class="property">class </em><code class="descclassname">pandana.network.</code><code class="descname">Network</code><span class="sig-paren">(</span><em>node_x</em>, <em>node_y</em>, <em>edge_from</em>, <em>edge_to</em>, <em>edge_weights</em>, <em>twoway=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create the transportation network in the city.  Typical data would be
@@ -216,7 +225,7 @@ table.</p>
 </table>
 <dl class="method">
 <dt id="pandana.network.Network.aggregate">
-<code class="descname">aggregate</code><span class="sig-paren">(</span><em>distance</em>, <em>type='sum'</em>, <em>decay='linear'</em>, <em>imp_name=None</em>, <em>name='tmp'</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.aggregate" title="Permalink to this definition">¶</a></dt>
+<code class="descname">aggregate</code><span class="sig-paren">(</span><em>distance</em>, <em>type=’sum’</em>, <em>decay=’linear’</em>, <em>imp_name=None</em>, <em>name=’tmp’</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.aggregate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Aggregate information for every source node in the network - this is
 really the main purpose of this library.  This allows you to touch
 the data specified by calling set and perform some aggregation on it
@@ -228,7 +237,7 @@ within 1000 meters.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>distance</strong> : float</p>
 <blockquote>
-<div><p>The maximum distance to aggregate data within. &#8216;distance&#8217; can
+<div><p>The maximum distance to aggregate data within. ‘distance’ can
 represent any impedance unit that you have set as your edge
 weight. This will usually be a distance unit in meters however
 if you have customized the impedance this could be in other
@@ -236,18 +245,18 @@ units such as utility or time etc.</p>
 </div></blockquote>
 <p><strong>type</strong> : string</p>
 <blockquote>
-<div><p>The type of aggregation, can be one of &#8220;ave&#8221;, &#8220;sum&#8221;, &#8220;std&#8221;,
-&#8220;count&#8221;, and now &#8220;min&#8221;, &#8220;25pct&#8221;, &#8220;median&#8221;, &#8220;75pct&#8221;, and &#8220;max&#8221; will
+<div><p>The type of aggregation, can be one of “ave”, “sum”, “std”,
+“count”, and now “min”, “25pct”, “median”, “75pct”, and “max” will
 compute the associated quantiles.  (Quantiles are computed by
 sorting so might be slower than the others.)</p>
 </div></blockquote>
 <p><strong>decay</strong> : string</p>
 <blockquote>
 <div><p>The type of decay to apply, which makes things that are further
-away count less in the aggregation - must be one of &#8220;linear&#8221;,
-&#8220;exponential&#8221; or &#8220;flat&#8221; (which means no decay).  Linear is the
-fastest computation to perform.  When performing an &#8220;ave&#8221;,
-the decay is typically &#8220;flat&#8221;</p>
+away count less in the aggregation - must be one of “linear”,
+“exponential” or “flat” (which means no decay).  Linear is the
+fastest computation to perform.  When performing an “ave”,
+the decay is typically “flat”</p>
 </div></blockquote>
 <p><strong>imp_name</strong> : string, optional</p>
 <blockquote>
@@ -302,7 +311,7 @@ node in the network.</p>
 
 <dl class="method">
 <dt id="pandana.network.Network.get_node_ids">
-<code class="descname">get_node_ids</code><span class="sig-paren">(</span><em>x_col</em>, <em>y_col</em>, <em>mapping_distance=-1</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.get_node_ids" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_node_ids</code><span class="sig-paren">(</span><em>x_col</em>, <em>y_col</em>, <em>mapping_distance=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.get_node_ids" title="Permalink to this definition">¶</a></dt>
 <dd><p>Assign node_ids to data specified by x_col and y_col</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -337,40 +346,8 @@ x, y input data, and the values are the mapped node_ids.
 If mapping distance is not passed and if there are no nans in the
 x, y data, this will be the same length as the x, y data.
 If the mapping is imperfect, this function returns all the
-input x, y&#8217;s that were successfully mapped to node_ids.</p>
+input x, y’s that were successfully mapped to node_ids.</p>
 </div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pandana.network.Network.init_pois">
-<code class="descname">init_pois</code><span class="sig-paren">(</span><em>num_categories</em>, <em>max_dist</em>, <em>max_pois</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.init_pois" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize the point of interest infrastructure.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>num_categories</strong> : int</p>
-<blockquote>
-<div><p>Number of categories of POIs</p>
-</div></blockquote>
-<p><strong>max_dist</strong> : float</p>
-<blockquote>
-<div><p>Maximum distance that will be tested to nearest POIs. This will
-usually be a distance unit in meters however if you have
-customized the impedance this could be in other
-units such as utility or time etc.</p>
-</div></blockquote>
-<p><strong>max_pois :</strong></p>
-<blockquote>
-<div><p>Maximum number of POIs to return in the nearest query</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Nothing</p>
 </td>
 </tr>
 </tbody>
@@ -397,7 +374,7 @@ utility or time etc.</p>
 <blockquote>
 <div><p>Threshold for connectivity. If a node is connected to fewer
 than this many nodes within <cite>impedance</cite> it will be identified
-as &#8220;low connectivity&#8221;.</p>
+as “low connectivity”.</p>
 </div></blockquote>
 <p><strong>imp_name</strong> : string, optional</p>
 <blockquote>
@@ -410,7 +387,7 @@ passed in the constructor, which will be used.</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>node_ids</strong> : array</p>
 <blockquote class="last">
-<div><p>List of &#8220;low connectivity&#8221; node IDs.</p>
+<div><p>List of “low connectivity” node IDs.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -493,7 +470,7 @@ closest poi, and so on.</p>
 
 <dl class="method">
 <dt id="pandana.network.Network.plot">
-<code class="descname">plot</code><span class="sig-paren">(</span><em>data</em>, <em>bbox=None</em>, <em>plot_type='scatter'</em>, <em>fig_kwargs=None</em>, <em>bmap_kwargs=None</em>, <em>plot_kwargs=None</em>, <em>cbar_kwargs=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.plot" title="Permalink to this definition">¶</a></dt>
+<code class="descname">plot</code><span class="sig-paren">(</span><em>data</em>, <em>bbox=None</em>, <em>plot_type=’scatter’</em>, <em>fig_kwargs=None</em>, <em>bmap_kwargs=None</em>, <em>plot_kwargs=None</em>, <em>cbar_kwargs=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot an array of data on a map using matplotlib and Basemap,
 automatically matching the data to the Pandana network node positions.</p>
 <p>Keyword arguments are passed to the plotting routine.</p>
@@ -510,7 +487,7 @@ in the network.</p>
 <blockquote>
 <div><p>(lat_min, lng_min, lat_max, lng_max)</p>
 </div></blockquote>
-<p><strong>plot_type</strong> : {&#8216;hexbin&#8217;, &#8216;scatter&#8217;}, optional</p>
+<p><strong>plot_type</strong> : {‘hexbin’, ‘scatter’}, optional</p>
 <p><strong>fig_kwargs</strong> : dict, optional</p>
 <blockquote>
 <div><p>Keyword arguments that will be passed to
@@ -592,7 +569,7 @@ be saved as part of the Network.</p>
 
 <dl class="method">
 <dt id="pandana.network.Network.set">
-<code class="descname">set</code><span class="sig-paren">(</span><em>node_ids</em>, <em>variable=None</em>, <em>name='tmp'</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.set" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set</code><span class="sig-paren">(</span><em>node_ids</em>, <em>variable=None</em>, <em>name=’tmp’</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.set" title="Permalink to this definition">¶</a></dt>
 <dd><p>Characterize urban space with a variable that is related to nodes in
 the network.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -613,16 +590,16 @@ network queries provided here and this provides the api to set
 the variable at its disaggregate locations.  Note that node_id
 and variable should have the same index (although the index is
 not actually used).  If variable is not set, then it is assumed
-that the variable is all &#8220;ones&#8221; at the location specified by
+that the variable is all “ones” at the location specified by
 node_ids.  This could be, for instance, the location of all
-coffee shops which don&#8217;t really have a variable to aggregate. The
+coffee shops which don’t really have a variable to aggregate. The
 variable is connected to the closest node in the Pandana network
 which assumes no impedance between the location of the variable
 and the location of the closest network node.</p>
 </div></blockquote>
 <p><strong>name</strong> : string, optional</p>
 <blockquote>
-<div><p>Name the variable.  This is optional in the sense that if you don&#8217;t
+<div><p>Name the variable.  This is optional in the sense that if you don’t
 specify it, the default name will be used.  Since the same
 default name is used by aggregate on this object, you can
 alternate between characterize and aggregate calls without
@@ -639,7 +616,7 @@ setting names.</p>
 
 <dl class="method">
 <dt id="pandana.network.Network.set_pois">
-<code class="descname">set_pois</code><span class="sig-paren">(</span><em>category</em>, <em>x_col</em>, <em>y_col</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.set_pois" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_pois</code><span class="sig-paren">(</span><em>category</em>, <em>maxdist</em>, <em>maxitems</em>, <em>x_col</em>, <em>y_col</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.set_pois" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the location of all the pois of this category. The pois are
 connected to the closest node in the Pandana network which assumes
 no impedance between the location of the variable and the location
@@ -651,6 +628,14 @@ of the closest network node.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>category</strong> : string</p>
 <blockquote>
 <div><p>The name of the category for this set of pois</p>
+</div></blockquote>
+<p><strong>maxdist - the maximum distance that will later be used in</strong></p>
+<blockquote>
+<div><p>find_all_nearest_pois</p>
+</div></blockquote>
+<p><strong>maxitems - the maximum number of items that will later be requested</strong></p>
+<blockquote>
+<div><p>in find_all_nearest_pois</p>
 </div></blockquote>
 <p><strong>x_col</strong> : Pandas Series (float)</p>
 <blockquote>
@@ -701,28 +686,7 @@ of the closest network node.</p>
 
 </dd></dl>
 
-<dl class="function">
-<dt id="pandana.network.reserve_num_graphs">
-<code class="descclassname">pandana.network.</code><code class="descname">reserve_num_graphs</code><span class="sig-paren">(</span><em>num</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.reserve_num_graphs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Make a call to this function if you want to run queries on more than
-one Network object</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>num</strong> : int</p>
-<blockquote>
-<div><p>The number of networks you want to use</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Nothing</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
+</div>
 </div>
 
 
@@ -779,7 +743,7 @@ one Network object</p>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

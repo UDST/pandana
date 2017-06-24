@@ -197,8 +197,7 @@ function for getting specific nodes within a bounding box.
 This can be used to populate a network with points of interest:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">nodes</span> <span class="o">=</span> <span class="n">osm</span><span class="o">.</span><span class="n">node_query</span><span class="p">(</span>
     <span class="mf">37.859</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.282</span><span class="p">,</span> <span class="mf">37.881</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.252</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="s1">&#39;&quot;amenity&quot;=&quot;restaurant&quot;&#39;</span><span class="p">)</span>
-<span class="n">network</span><span class="o">.</span><span class="n">init_pois</span><span class="p">(</span><span class="n">num_categories</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_dist</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">max_pois</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">network</span><span class="o">.</span><span class="n">set_pois</span><span class="p">(</span><span class="s1">&#39;restaurants&#39;</span><span class="p">,</span> <span class="n">nodes</span><span class="p">[</span><span class="s1">&#39;lon&#39;</span><span class="p">],</span> <span class="n">nodes</span><span class="p">[</span><span class="s1">&#39;lat&#39;</span><span class="p">])</span>
+<span class="n">network</span><span class="o">.</span><span class="n">set_pois</span><span class="p">(</span><span class="s1">&#39;restaurants&#39;</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">nodes</span><span class="p">[</span><span class="s1">&#39;lon&#39;</span><span class="p">],</span> <span class="n">nodes</span><span class="p">[</span><span class="s1">&#39;lat&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>For more about tags see the
@@ -224,10 +223,10 @@ Points-of-interest and data attached to nodes via the
 <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/io.html#io-hdf5">Pandas HDFStore</a>
 useful to save POI and other data.</p>
 </div>
-<p>When saving a <code class="docutils literal"><span class="pre">Network</span></code> to HDF5 it&#8217;s possible to exclude certain nodes.
+<p>When saving a <code class="docutils literal"><span class="pre">Network</span></code> to HDF5 it’s possible to exclude certain nodes.
 This can be useful when refining a network so that it includes only
 validated nodes.
-(In the current design of Pandana it&#8217;s not possible to modify a
+(In the current design of Pandana it’s not possible to modify a
 <code class="docutils literal"><span class="pre">Network</span></code> in place.)
 As an example, you can use the
 <a class="reference internal" href="network.html#pandana.network.Network.low_connectivity_nodes" title="pandana.network.Network.low_connectivity_nodes"><code class="xref py py-meth docutils literal"><span class="pre">low_connectivity_nodes()</span></code></a> method
@@ -242,7 +241,7 @@ then exclude those nodes when saving to HDF5:</p>
 <h2>OpenStreetMap API<a class="headerlink" href="#openstreetmap-api" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="pandana.loaders.osm.pdna_network_from_bbox">
-<code class="descclassname">pandana.loaders.osm.</code><code class="descname">pdna_network_from_bbox</code><span class="sig-paren">(</span><em>lat_min=None</em>, <em>lng_min=None</em>, <em>lat_max=None</em>, <em>lng_max=None</em>, <em>bbox=None</em>, <em>network_type='walk'</em>, <em>two_way=True</em>, <em>timeout=180</em>, <em>memory=None</em>, <em>max_query_area_size=2500000000</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.loaders.osm.pdna_network_from_bbox" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pandana.loaders.osm.</code><code class="descname">pdna_network_from_bbox</code><span class="sig-paren">(</span><em>lat_min=None</em>, <em>lng_min=None</em>, <em>lat_max=None</em>, <em>lng_max=None</em>, <em>bbox=None</em>, <em>network_type=’walk’</em>, <em>two_way=True</em>, <em>timeout=180</em>, <em>memory=None</em>, <em>max_query_area_size=2500000000</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.loaders.osm.pdna_network_from_bbox" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a Pandana network from a bounding lat/lon box
 request to the Overpass API. Distance will be in the default units meters.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -255,11 +254,11 @@ request to the Overpass API. Distance will be in the default units meters.</p>
 <div><p>Bounding box formatted as a 4 element tuple:
 (lng_max, lat_min, lng_min, lat_max)</p>
 </div></blockquote>
-<p><strong>network_type</strong> : {&#8216;walk&#8217;, &#8216;drive&#8217;}, optional</p>
+<p><strong>network_type</strong> : {‘walk’, ‘drive’}, optional</p>
 <blockquote>
 <div><p>Specify whether the network will be used for walking or driving.
-A value of &#8216;walk&#8217; attempts to exclude things like freeways,
-while a value of &#8216;drive&#8217; attempts to exclude things like
+A value of ‘walk’ attempts to exclude things like freeways,
+while a value of ‘drive’ attempts to exclude things like
 bike and walking paths.</p>
 </div></blockquote>
 <p><strong>two_way</strong> : bool, optional</p>
@@ -310,7 +309,7 @@ for a list of tags.</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>nodes</strong> : pandas.DataFrame</p>
 <blockquote class="last">
-<div><p>Will have &#8216;lat&#8217; and &#8216;lon&#8217; columns, plus other columns for the
+<div><p>Will have ‘lat’ and ‘lon’ columns, plus other columns for the
 tags associated with the node (these will vary based on the query).
 Index will be the OSM node IDs.</p>
 </div></blockquote>
@@ -364,7 +363,7 @@ be saved as part of the Network.</p>
 <dl class="function">
 <dt id="pandana.loaders.pandash5.network_to_pandas_hdf5">
 <code class="descclassname">pandana.loaders.pandash5.</code><code class="descname">network_to_pandas_hdf5</code><span class="sig-paren">(</span><em>network</em>, <em>filename</em>, <em>rm_nodes=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.loaders.pandash5.network_to_pandas_hdf5" title="Permalink to this definition">¶</a></dt>
-<dd><p>Save a Network&#8217;s data to a Pandas HDFStore.</p>
+<dd><p>Save a Network’s data to a Pandas HDFStore.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -461,7 +460,7 @@ be saved as part of the Network.</p>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
