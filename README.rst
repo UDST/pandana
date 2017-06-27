@@ -57,9 +57,6 @@ Acknowledgments
 None of this would be possible without the help of Dennis Luxen and
 his OSRM (https://github.com/DennisOSRM/Project-OSRM). Thank you Dennis!
 
-Nearest neighbor queries are performed with the fastest k-d tree around,
-i.e. ANN (http://www.cs.umd.edu/~mount/ANN/).
-
 Academic Literature
 -------------------
 
