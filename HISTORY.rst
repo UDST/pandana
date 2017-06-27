@@ -8,3 +8,16 @@ v0.4.0
 * The major functionality change is that global memory is no longer used, so reserve_num_graphs no longer needs to be called and Network objects can be created and destroyed at the user's pleasure.
 * The change in global memory made the calls to init_pois no longer necessary. Then, that method has been removed and the max_items and max_distance parameters were relocated in the set_pois call.
 * The nearest neighbor queries are now resolved with Scipy instead of libANN. That removed additional global memory.
+
+v0.3.0
+======
+
+2017/4/5
+
+* Python 3 compatibility.
+* The “network.nearest_pois()” method can now return the labels of the pois rather than just the distances
+* OSM data loading is now done via the osmnet package.
+* Changes to support multiple graphs.
+* Added reindex functions.
+* Updated documentation.
+* Switched code style checker in Travis CI to “pycodestyle”, which has replaced the “pep8” package.
