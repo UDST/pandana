@@ -58,6 +58,7 @@ class Network:
         nodes_df = pd.DataFrame({'x': node_x, 'y': node_y})
         edges_df = pd.DataFrame({'from': edge_from, 'to': edge_to}).\
             join(edge_weights)
+
         self.nodes_df = nodes_df
         self.edges_df = edges_df
 
@@ -546,7 +547,7 @@ class Network:
             assert 0, "Need to call set_pois for this category"
 
         if num_pois > self.max_pois:
-            assert 0, "Asking for more pois that set in init_pois"
+            assert 0, "Asking for more pois than set in init_pois"
 
         imp_num = self._imp_name_to_num(imp_name)
 
@@ -573,7 +574,7 @@ class Network:
                 # intuitive to the user I think
                 s = df2[col].astype('int')
                 df2[col] = self.poi_category_indexes[category].values[s]
-                df2[col][s == -1] = np.nan
+                df2.loc[s == -1, col] = np.nan
 
             df = pd.concat([df, df2], axis=1)
 
