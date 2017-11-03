@@ -57,24 +57,10 @@ class Accessibility {
     void precomputeRangeQueries(float radius);
 
     // aggregation types
-    vector<string> aggregations = {
-        "sum",
-        "mean",
-        "min",
-        "25pct",
-        "median",
-        "75pct",
-        "max",
-        "std",
-        "count"
-    };
+    vector<string> aggregations;
 
     // decay types
-    vector<string> decays = {
-        "exp",
-        "linear",
-        "flat"
-    };
+    vector<string> decays;
 
  private:
     double maxdist;

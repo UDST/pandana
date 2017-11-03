@@ -22,6 +22,23 @@ Accessibility::Accessibility(
         vector< vector<long>> edges,
         vector< vector<double>>  edgeweights,
         bool twoway) {
+
+    this->aggregations.reserve(9);
+    this->aggregations.push_back("sum");
+    this->aggregations.push_back("mean");
+    this->aggregations.push_back("min");
+    this->aggregations.push_back("25pct");
+    this->aggregations.push_back("median");
+    this->aggregations.push_back("75pct");
+    this->aggregations.push_back("max");
+    this->aggregations.push_back("std");
+    this->aggregations.push_back("count");
+
+    this->decays.reserve(3);
+    this->decays.push_back("exp");
+    this->decays.push_back("linear");
+    this->decays.push_back("flat");
+
     for (int i = 0 ; i < edgeweights.size() ; i++) {
         this->addGraphalg(new Graphalg(numnodes, edges, edgeweights[i],
                           twoway));
