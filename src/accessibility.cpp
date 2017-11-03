@@ -136,10 +136,12 @@ Accessibility::findNearestPOIs(int srcnode, float maxradius, unsigned number,
         maxradius, number, omp_get_thread_num());
 
     vector<distance_node_pair> distance_node_pairs;
-    if(accessibilityVarsForPOIs.find(cat) == accessibilityVarsForPOIs.end())
+    std::map<POIKeyType, accessibility_vars_t>::iterator cat_for_pois = 
+        accessibilityVarsForPOIs.find(cat);
+    if(cat_for_pois == accessibilityVarsForPOIs.end())
         return distance_node_pairs;
-
-    accessibility_vars_t &vars = accessibilityVarsForPOIs.at(cat);
+    
+    accessibility_vars_t &vars = cat_for_pois->second;
 
     /* need to account for the possibility of having
      multiple locations at single node */

@@ -312,31 +312,35 @@ inline ostream& operator<< (ostream& os, const Edge& e) {
     void ContractionHierarchies::addPOIToIndex(const POIKeyType &category, NodeID node)
     {
         CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
-        if(poiIndexMap.find(category) != poiIndexMap.end())
-            poiIndexMap.at(category).addPOIToIndex(node);
+	CHPOIIndexMap::iterator category_poi = poiIndexMap.find(category);
+        if(category_poi != poiIndexMap.end())
+            category_poi->second.addPOIToIndex(node);
     }
     
 
     void ContractionHierarchies::getNearest(const POIKeyType &category, NodeID node, std::vector<BucketEntry>& resultingVenues) {
         CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
-        if(poiIndexMap.find(category) != poiIndexMap.end())
-            poiIndexMap.at(category).getNearestPOIs(node, resultingVenues);
+	CHPOIIndexMap::iterator category_poi = poiIndexMap.find(category);
+        if(category_poi != poiIndexMap.end())
+            category_poi->second.getNearestPOIs(node, resultingVenues);
     }
     
 
     void ContractionHierarchies::getNearestWithUpperBoundOnDistance(const POIKeyType &category, NodeID node, EdgeWeight maxDistance,
                                                                     std::vector<BucketEntry>& resultingVenues) {
         CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
-        if(poiIndexMap.find(category) != poiIndexMap.end())
-            poiIndexMap.at(category).getNearestPOIsWithUpperBoundOnDistance(node, maxDistance, resultingVenues);
+	CHPOIIndexMap::iterator category_poi = poiIndexMap.find(category);
+        if(category_poi != poiIndexMap.end())
+            category_poi->second.getNearestPOIsWithUpperBoundOnDistance(node, maxDistance, resultingVenues);
     }
 
 
     void ContractionHierarchies::getNearestWithUpperBoundOnLocations(const POIKeyType &category, NodeID node, unsigned maxLocations,
                                                                      std::vector<BucketEntry>& resultingVenues) {
         CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
-        if(poiIndexMap.find(category) != poiIndexMap.end())
-            poiIndexMap.at(category).getNearestPOIsWithUpperBoundOnLocations(node, maxLocations, resultingVenues);
+	CHPOIIndexMap::iterator category_poi = poiIndexMap.find(category);
+        if(category_poi != poiIndexMap.end())
+            category_poi->second.getNearestPOIsWithUpperBoundOnLocations(node, maxLocations, resultingVenues);
     }
     
 
@@ -344,8 +348,9 @@ inline ostream& operator<< (ostream& os, const Edge& e) {
                                                                                 EdgeWeight maxDistance, unsigned maxLocations,
                                                                                 std::vector<BucketEntry>& resultingVenues) {
         CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
-        if(poiIndexMap.find(category) != poiIndexMap.end())
-            poiIndexMap.at(category).getNearestPOIs(node, resultingVenues, maxDistance, maxLocations);
+	CHPOIIndexMap::iterator category_poi = poiIndexMap.find(category);
+        if(category_poi != poiIndexMap.end())
+            category_poi->second.getNearestPOIs(node, resultingVenues, maxDistance, maxLocations);
     }
     
 
@@ -353,8 +358,9 @@ inline ostream& operator<< (ostream& os, const Edge& e) {
     void ContractionHierarchies::getNearest(const POIKeyType &category, NodeID node, std::vector<BucketEntry>& resultingVenues,
                                             unsigned threadID) {
         CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
-        if(poiIndexMap.find(category) != poiIndexMap.end())
-            poiIndexMap.at(category).getNearestPOIs(node, resultingVenues, threadID);
+	CHPOIIndexMap::iterator category_poi = poiIndexMap.find(category);
+        if(category_poi != poiIndexMap.end())
+            category_poi->second.getNearestPOIs(node, resultingVenues, threadID);
     }
 
     
@@ -362,16 +368,18 @@ inline ostream& operator<< (ostream& os, const Edge& e) {
                                                                     EdgeWeight maxDistance, std::vector<BucketEntry>& resultingVenues,
                                                                     unsigned threadID) {
         CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
-        if(poiIndexMap.find(category) != poiIndexMap.end())
-            poiIndexMap.at(category).getNearestPOIsWithUpperBoundOnDistance(node, maxDistance, resultingVenues, threadID);
+	CHPOIIndexMap::iterator category_poi = poiIndexMap.find(category);
+        if(category_poi != poiIndexMap.end())
+            category_poi->second.getNearestPOIsWithUpperBoundOnDistance(node, maxDistance, resultingVenues, threadID);
     }
     
 
     void ContractionHierarchies::getNearestWithUpperBoundOnLocations(const POIKeyType &category, NodeID node, unsigned maxLocations,
                                                                      std::vector<BucketEntry>& resultingVenues, unsigned threadID) {
         CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
-        if(poiIndexMap.find(category) != poiIndexMap.end())
-            poiIndexMap.at(category).getNearestPOIsWithUpperBoundOnLocations(node, maxLocations, resultingVenues, threadID);
+	CHPOIIndexMap::iterator category_poi = poiIndexMap.find(category);
+        if(category_poi != poiIndexMap.end())
+            category_poi->second.getNearestPOIsWithUpperBoundOnLocations(node, maxLocations, resultingVenues, threadID);
     }
 
 
@@ -379,8 +387,9 @@ inline ostream& operator<< (ostream& os, const Edge& e) {
                                                                                 EdgeWeight maxDistance, unsigned maxLocations,
                                                                                 std::vector<BucketEntry>& resultingVenues, unsigned threadID) {
         CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
-        if(poiIndexMap.find(category) != poiIndexMap.end())
-            poiIndexMap.at(category).getNearestPOIs(node, resultingVenues, maxDistance, maxLocations, threadID);
+	CHPOIIndexMap::iterator category_poi = poiIndexMap.find(category);
+        if(category_poi != poiIndexMap.end())
+            category_poi->second.getNearestPOIs(node, resultingVenues, maxDistance, maxLocations, threadID);
     }
 
 }
