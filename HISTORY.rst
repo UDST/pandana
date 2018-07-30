@@ -1,3 +1,12 @@
+v0.5.1
+======
+
+2018/7/30
+
+* Documentation fixes.
+* Replaced uses of std::map::at() since it's not supported in pre-C++11 compliers.
+* Replaced initialization lists due to the same reason as above.
+
 v0.4.0
 ======
 
