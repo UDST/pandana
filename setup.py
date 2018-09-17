@@ -91,7 +91,7 @@ if platform.system() == 'Darwin':
             extra_compile_args += ['-D NO_TR1_MEMORY']
             extra_compile_args += ['-stdlib=libc++']
 
-version = '0.4.0'
+version = '0.4.1'
 
 # read long description from README
 with open('README.rst', 'r') as f:
