@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Getting Started &mdash; pandana 0.4.0 documentation</title>
+  <title>Getting Started &mdash; pandana 0.4.1 documentation</title>
   
 
   
@@ -24,27 +24,19 @@
 
   
 
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="pandana 0.4.0 documentation" href="index.html"/>
-        <link rel="next" title="Tutorial" href="tutorial.html"/>
-        <link rel="prev" title="Installation" href="installation.html"/> 
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tutorial" href="tutorial.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -66,7 +58,7 @@
             
             
               <div class="version">
-                0.4.0
+                0.4.1
               </div>
             
           
@@ -117,7 +109,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">pandana</a>
@@ -125,9 +117,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -179,7 +172,7 @@ distance to the 2nd nearest restaurant (rendered by matplotlib). With only a few
 <p>Beyond simple access to destination queries, this library also implements more general aggregations along the street network (or any network). For a given region, this produces hundreds of thousands of overlapping buffer queries (still performed in less than a second) that can be used to characterize the local neighborhood around each street intersection. The result can then be mapped, or assigned to parcel and building records, or used in statistical models as we commonly do with UrbanSim. This is in stark contrast to the arbitrary non-overlapping geographies ubiquitous in GIS. Although there are advantages to the GIS approach,
 we think network queries are a more accurate representation of how people
 interact with their environment.</p>
-<p>We look forward to creative uses of a general library like this - please let us know when you think you have a great use case by tweeting us at <code class="docutils literal"><span class="pre">&#64;urbansim</span></code> or post on the UrbanSim <a class="reference external" href="http://discussion.urbansim.com/">forum</a>.</p>
+<p>We look forward to creative uses of a general library like this - please let us know when you think you have a great use case by tweeting us at <code class="docutils literal notranslate"><span class="pre">&#64;urbansim</span></code> or post on the UrbanSim <a class="reference external" href="http://discussion.urbansim.com/">forum</a>.</p>
 </div>
 <div class="section" id="the-general-workflow">
 <h2>The General Workflow<a class="headerlink" href="#the-general-workflow" title="Permalink to this headline">¶</a></h2>
@@ -243,7 +236,7 @@ aggregation, but is easily performed with a very similar workflow.</p>
 that has the x, y location of nodes and a z value or many z values which is
 the result of computations in the above workflow.  This data is of the form
 x, y, z and can be displayed with many visualization techniques,
-and a <code class="docutils literal"><span class="pre">plot</span></code> method is available for the network to display directly in
+and a <code class="docutils literal notranslate"><span class="pre">plot</span></code> method is available for the network to display directly in
 matplotlib.</p>
 <p>The framework can thus be used to map urban outcomes - e.g. access to health
 care, or urban predictive variables - e.g. average income in the local area,
@@ -282,9 +275,7 @@ use engine will serve many use cases.</p>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -306,7 +297,7 @@ use engine will serve many use cases.</p>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -324,7 +315,8 @@ use engine will serve many use cases.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.4.0',
+            VERSION:'0.4.1',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -338,19 +330,13 @@ use engine will serve many use cases.</p>
 
   
 
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

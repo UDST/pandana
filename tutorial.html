@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Tutorial &mdash; pandana 0.4.0 documentation</title>
+  <title>Tutorial &mdash; pandana 0.4.1 documentation</title>
   
 
   
@@ -24,27 +24,19 @@
 
   
 
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="pandana 0.4.0 documentation" href="index.html"/>
-        <link rel="next" title="Network API" href="network.html"/>
-        <link rel="prev" title="Getting Started" href="introduction.html"/> 
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Network API" href="network.html" />
+    <link rel="prev" title="Getting Started" href="introduction.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -66,7 +58,7 @@
             
             
               <div class="version">
-                0.4.0
+                0.4.1
               </div>
             
           
@@ -115,7 +107,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">pandana</a>
@@ -123,9 +115,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -171,11 +164,11 @@
 <h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
 <p>At this point it is probably helpful to make concrete the topics discussed in
 the introduction by giving code sample.  There is also an IPython Notebook
-in the <code class="docutils literal"><span class="pre">Pandana</span></code> repo which gives the entire workflow,
+in the <code class="docutils literal notranslate"><span class="pre">Pandana</span></code> repo which gives the entire workflow,
 but the discussion here will take things line-by-line with a sufficient
 summary of the functionality.</p>
 <p>Note that these code samples assume you have imported pandas and pandana as follows:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">pandana</span> <span class="k">as</span> <span class="nn">pdna</span>
 </pre></div>
 </div>
@@ -183,15 +176,15 @@ summary of the functionality.</p>
 <h2>Create the Network<a class="headerlink" href="#create-the-network" title="Permalink to this headline">¶</a></h2>
 <p>First create the network.  Although the API is incredibly simple,
 this is likely to be the most difficult part of using Pandana.  In the future
-we will leverage the import functionality of tools like <code class="docutils literal"><span class="pre">geopandas</span></code> to
+we will leverage the import functionality of tools like <code class="docutils literal notranslate"><span class="pre">geopandas</span></code> to
 directly access networks via shapefiles,
-but for now the initialization <code class="xref py py-meth docutils literal"><span class="pre">pandana.network.Network.__init__()</span></code>
+but for now the initialization <code class="xref py py-meth docutils literal notranslate"><span class="pre">pandana.network.Network.__init__()</span></code>
 takes a small number of Pandas Series objects.</p>
 <p>The network is comprised of a set of nodes and edges.
 We store our nodes and edges as two Pandas DataFrames in an HDFStore object.
 We can access them as follows (the demo data file can be
 <a class="reference external" href="https://s3-us-west-1.amazonaws.com/synthpop-data2/pandana/osm_bayarea.h5">downloaded here</a>):</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">store</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">HDFStore</span><span class="p">(</span><span class="s1">&#39;data/osm_bayarea.h5&#39;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">store</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">HDFStore</span><span class="p">(</span><span class="s1">&#39;data/osm_bayarea.h5&#39;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
 <span class="n">nodes</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">nodes</span>
 <span class="n">edges</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">edges</span>
 <span class="nb">print</span> <span class="n">nodes</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
@@ -199,7 +192,7 @@ We can access them as follows (the demo data file can be
 </pre></div>
 </div>
 <p>The output of the above code shows:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>              <span class="n">x</span>           <span class="n">y</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>              <span class="n">x</span>           <span class="n">y</span>
 <span class="mi">8</span>   <span class="mf">629310.1250</span>  <span class="mf">4095536.75</span>
 <span class="mi">9</span>   <span class="mf">629120.9375</span>  <span class="mf">4095816.75</span>
 <span class="mi">10</span>  <span class="mf">628951.5625</span>  <span class="mf">4096090.50</span>
@@ -215,16 +208,16 @@ We can access them as follows (the demo data file can be
 </pre></div>
 </div>
 <p>The data structure is very simple indeed.  Nodes have an index which is the
-id of the node and an x-y position.  Much like <code class="docutils literal"><span class="pre">shapely</span></code>, <code class="docutils literal"><span class="pre">Pandana</span></code> is
+id of the node and an x-y position.  Much like <code class="docutils literal notranslate"><span class="pre">shapely</span></code>, <code class="docutils literal notranslate"><span class="pre">Pandana</span></code> is
 agnostic to the  coordinate system.  Use your local coordinate system or
 longitude then latitude - either one will work.  Edges are then ids (which
 aren’t used) and
-<code class="docutils literal"><span class="pre">from</span></code> node ids and <code class="docutils literal"><span class="pre">to</span></code> node_ids which should index directly to the node
-DataFrame.  A <code class="docutils literal"><span class="pre">weight</span></code> column (or multiple weight columns) is (are) required
+<code class="docutils literal notranslate"><span class="pre">from</span></code> node ids and <code class="docutils literal notranslate"><span class="pre">to</span></code> node_ids which should index directly to the node
+DataFrame.  A <code class="docutils literal notranslate"><span class="pre">weight</span></code> column (or multiple weight columns) is (are) required
 as the impedance for the network.  Here, distance is used from OpenStreetMap
 edges.</p>
 <p>To create the network given the above DataFrames, simply call:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">=</span><span class="n">pdna</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="n">nodes</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">nodes</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">],</span> <span class="n">edges</span><span class="p">[</span><span class="s2">&quot;from&quot;</span><span class="p">],</span> <span class="n">edges</span><span class="p">[</span><span class="s2">&quot;to&quot;</span><span class="p">],</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">=</span><span class="n">pdna</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="n">nodes</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">nodes</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">],</span> <span class="n">edges</span><span class="p">[</span><span class="s2">&quot;from&quot;</span><span class="p">],</span> <span class="n">edges</span><span class="p">[</span><span class="s2">&quot;to&quot;</span><span class="p">],</span>
                  <span class="n">edges</span><span class="p">[[</span><span class="s2">&quot;weight&quot;</span><span class="p">]])</span>
 </pre></div>
 </div>
@@ -232,7 +225,7 @@ edges.</p>
 given horizon distance so that aggregations don’t perform the network queries
 unnecessarily.  This is done by calling the following code,
 where 3000 meters is used as the horizon distance:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">precompute</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">precompute</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Note that a large amount of time is spent in the precomputations that take
@@ -240,7 +233,7 @@ place for these two lines of code.  On a MacBook, these two lines of code
 take 4 seconds and 8.5 seconds respectively.</p>
 <p><strong>This was done on a 4-core cpu, so if your precomputation is much slower,
 check the IPython Notebook output (on the console) for a statement that says</strong>
-<code class="docutils literal"><span class="pre">Generating</span> <span class="pre">contraction</span> <span class="pre">hierarchies</span> <span class="pre">with</span> <span class="pre">4</span> <span class="pre">threads.</span></code> <strong>If your output says
+<code class="docutils literal notranslate"><span class="pre">Generating</span> <span class="pre">contraction</span> <span class="pre">hierarchies</span> <span class="pre">with</span> <span class="pre">4</span> <span class="pre">threads.</span></code> <strong>If your output says
 1 instead of 4 you are running single threaded.  If you are running on
 a multi-core cpu, there is probably a way to speed up the computation.</strong></p>
 </div>
@@ -249,14 +242,14 @@ a multi-core cpu, there is probably a way to speed up the computation.</strong><
 <p>Now for the fun part.  Nearest queries are slightly easier, so let’s cover that
 first.</p>
 <p>First initialize the POI (point-of-interest) category:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">set_pois</span><span class="p">(</span><span class="s2">&quot;restaurants&quot;</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">set_pois</span><span class="p">(</span><span class="s2">&quot;restaurants&quot;</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This code initializes the “restaurants” category with the positions specified
 by the x and y columns (which are Pandas Series), at a max distance of 2000 meters
 for up to the 10 nearest points-of-interest.  Next perform the query:</p>
-<p>Here is a link to the docs: <a class="reference internal" href="network.html#pandana.network.Network.set_pois" title="pandana.network.Network.set_pois"><code class="xref py py-meth docutils literal"><span class="pre">pandana.network.Network.set_pois()</span></code></a></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">nearest_pois</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="s2">&quot;restaurants&quot;</span><span class="p">,</span> <span class="n">num_pois</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<p>Here is a link to the docs: <a class="reference internal" href="network.html#pandana.network.Network.set_pois" title="pandana.network.Network.set_pois"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pandana.network.Network.set_pois()</span></code></a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">nearest_pois</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="s2">&quot;restaurants&quot;</span><span class="p">,</span> <span class="n">num_pois</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This searches for the 10 nearest restaurants and is exactly the query that is
@@ -264,7 +257,7 @@ displayed in the introduction.  This returns a DataFrame with the number of
 columns equal to the number of POIs that are requested. For instance,
 a describe of the output DataFrame look like this (note that the query
 executed in half a second:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">CPU</span> <span class="n">times</span><span class="p">:</span> <span class="n">user</span> <span class="mf">1.37</span> <span class="n">s</span><span class="p">,</span> <span class="n">sys</span><span class="p">:</span> <span class="mi">11</span> <span class="n">ms</span><span class="p">,</span> <span class="n">total</span><span class="p">:</span> <span class="mf">1.38</span> <span class="n">s</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CPU</span> <span class="n">times</span><span class="p">:</span> <span class="n">user</span> <span class="mf">1.37</span> <span class="n">s</span><span class="p">,</span> <span class="n">sys</span><span class="p">:</span> <span class="mi">11</span> <span class="n">ms</span><span class="p">,</span> <span class="n">total</span><span class="p">:</span> <span class="mf">1.38</span> <span class="n">s</span>
 <span class="n">Wall</span> <span class="n">time</span><span class="p">:</span> <span class="mi">498</span> <span class="n">ms</span>
                   <span class="mi">1</span>              <span class="mi">2</span>              <span class="mi">3</span>              <span class="mi">4</span>   \
 <span class="n">count</span>  <span class="mf">226060.000000</span>  <span class="mf">226060.000000</span>  <span class="mf">226060.000000</span>  <span class="mf">226060.000000</span>
@@ -299,7 +292,7 @@ executed in half a second:</p>
 <span class="p">[</span><span class="mi">8</span> <span class="n">rows</span> <span class="n">x</span> <span class="mi">10</span> <span class="n">columns</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>Here is a link to the docs: <a class="reference internal" href="network.html#pandana.network.Network.nearest_pois" title="pandana.network.Network.nearest_pois"><code class="xref py py-meth docutils literal"><span class="pre">pandana.network.Network.nearest_pois()</span></code></a></p>
+<p>Here is a link to the docs: <a class="reference internal" href="network.html#pandana.network.Network.nearest_pois" title="pandana.network.Network.nearest_pois"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pandana.network.Network.nearest_pois()</span></code></a></p>
 </div>
 <div class="section" id="assign-variables-and-perform-computations-for-aggregation-queries">
 <h2>Assign variables and perform computations for aggregation queries<a class="headerlink" href="#assign-variables-and-perform-computations-for-aggregation-queries" title="Permalink to this headline">¶</a></h2>
@@ -308,23 +301,23 @@ it is assumed that DataFrames are much larger and that queries have
 a lot more variety.</p>
 <p>For this reason, the workflow is typically to map the variables x and y to
 node_ids (which can then be cached or written to disk at a later date) and
-to call <code class="docutils literal"><span class="pre">set</span></code> for each data column, potentially several times.  For instance,
+to call <code class="docutils literal notranslate"><span class="pre">set</span></code> for each data column, potentially several times.  For instance,
 if you have a DataFrame of buildings with x and y coordinates,
-you can use <code class="docutils literal"><span class="pre">get_node_ids</span></code> to set node_ids as an attribute on the
-buildings table and then <code class="docutils literal"><span class="pre">set</span></code> can be called many times with all the
+you can use <code class="docutils literal notranslate"><span class="pre">get_node_ids</span></code> to set node_ids as an attribute on the
+buildings table and then <code class="docutils literal notranslate"><span class="pre">set</span></code> can be called many times with all the
 attributes of the buildings table and their associated column names.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">buildings</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">buildings</span><span class="o">.</span><span class="n">y</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">buildings</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">buildings</span><span class="o">.</span><span class="n">y</span>
 <span class="n">buildings</span><span class="p">[</span><span class="s2">&quot;node_ids&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">get_node_ids</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 <span class="n">net</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">node_ids</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="n">buildings</span><span class="o">.</span><span class="n">square_footage</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;square_footage&quot;</span><span class="p">)</span>
 <span class="n">net</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">node_ids</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="n">buildings</span><span class="o">.</span><span class="n">residential_units</span><span class="p">,</span>
         <span class="n">name</span><span class="o">=</span><span class="s2">&quot;residential_units&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Here is a link to the docs: <a class="reference internal" href="network.html#pandana.network.Network.get_node_ids" title="pandana.network.Network.get_node_ids"><code class="xref py py-meth docutils literal"><span class="pre">pandana.network.Network.get_node_ids()</span></code></a>
-and <a class="reference internal" href="network.html#pandana.network.Network.set" title="pandana.network.Network.set"><code class="xref py py-meth docutils literal"><span class="pre">pandana.network.Network.set()</span></code></a></p>
+<p>Here is a link to the docs: <a class="reference internal" href="network.html#pandana.network.Network.get_node_ids" title="pandana.network.Network.get_node_ids"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pandana.network.Network.get_node_ids()</span></code></a>
+and <a class="reference internal" href="network.html#pandana.network.Network.set" title="pandana.network.Network.set"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pandana.network.Network.set()</span></code></a></p>
 <p>Once the variables have been assigned to the network, the user can query the
 network repeatedly with different parameters.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;sum&quot;</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;square_footage&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;sum&quot;</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;square_footage&quot;</span><span class="p">)</span>
 <span class="n">t</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;sum&quot;</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;square_footage&quot;</span><span class="p">)</span>
 <span class="n">u</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;sum&quot;</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;square_footage&quot;</span><span class="p">)</span>
 <span class="n">v</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="mi">3000</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;sum&quot;</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;square_footage&quot;</span><span class="p">)</span>
@@ -332,7 +325,7 @@ network repeatedly with different parameters.</p>
                   <span class="n">name</span><span class="o">=</span><span class="s2">&quot;residential_units&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Here is a link to the docs: <a class="reference internal" href="network.html#pandana.network.Network.aggregate" title="pandana.network.Network.aggregate"><code class="xref py py-meth docutils literal"><span class="pre">pandana.network.Network.aggregate()</span></code></a></p>
+<p>Here is a link to the docs: <a class="reference internal" href="network.html#pandana.network.Network.aggregate" title="pandana.network.Network.aggregate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pandana.network.Network.aggregate()</span></code></a></p>
 <p>Note that if networks have been indexed and precomputed,
 the aggregations should take less than a second up to a distance of roughly
 three kilometers for a network with a few hundred thousand nodes.</p>
@@ -348,7 +341,7 @@ region, it is difficult to visualize this much data using
 matplotlib.  For quick interactive checking of results,
 the bounding box can be used to reduce the number of points that are shown,
 and sample code and images are included below.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sf_bbox</span> <span class="o">=</span> <span class="p">[</span><span class="mf">37.707794</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.524338</span><span class="p">,</span> <span class="mf">37.834192</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.34993</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sf_bbox</span> <span class="o">=</span> <span class="p">[</span><span class="mf">37.707794</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.524338</span><span class="p">,</span> <span class="mf">37.834192</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.34993</span><span class="p">]</span>
 
 <span class="n">net</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span><span class="n">sf_bbox</span><span class="p">,</span>
          <span class="n">fig_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;figsize&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">]},</span>
@@ -358,7 +351,7 @@ and sample code and images are included below.</p>
 </pre></div>
 </div>
 <img alt="_images/500metersum.png" src="_images/500metersum.png" />
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span><span class="n">sf_bbox</span><span class="p">,</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span><span class="n">sf_bbox</span><span class="p">,</span>
          <span class="n">fig_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;figsize&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">]},</span>
          <span class="n">bmap_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;suppress_ticks&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
                       <span class="s1">&#39;resolution&#39;</span><span class="p">:</span> <span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;epsg&#39;</span><span class="p">:</span> <span class="s1">&#39;26943&#39;</span><span class="p">},</span>
@@ -371,9 +364,7 @@ and sample code and images are included below.</p>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -395,7 +386,7 @@ and sample code and images are included below.</p>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -413,7 +404,8 @@ and sample code and images are included below.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.4.0',
+            VERSION:'0.4.1',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -427,19 +419,13 @@ and sample code and images are included below.</p>
 
   
 
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

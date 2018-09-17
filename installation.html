@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installation &mdash; pandana 0.4.0 documentation</title>
+  <title>Installation &mdash; pandana 0.4.1 documentation</title>
   
 
   
@@ -24,27 +24,19 @@
 
   
 
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="pandana 0.4.0 documentation" href="index.html"/>
-        <link rel="next" title="Getting Started" href="introduction.html"/>
-        <link rel="prev" title="Pandana" href="index.html"/> 
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Getting Started" href="introduction.html" />
+    <link rel="prev" title="Pandana" href="index.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -66,7 +58,7 @@
             
             
               <div class="version">
-                0.4.0
+                0.4.1
               </div>
             
           
@@ -119,7 +111,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">pandana</a>
@@ -127,9 +119,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -201,26 +194,26 @@ support.</p>
 <h3>conda<a class="headerlink" href="#conda" title="Permalink to this headline">¶</a></h3>
 <p>Pandana is hosted on
 <a class="reference external" href="https://anaconda.org/udst">UDST’s Anaconda repository</a>. Other dependencies
-can be installed through the <code class="docutils literal"><span class="pre">conda-forge</span></code> channel.
+can be installed through the <code class="docutils literal notranslate"><span class="pre">conda-forge</span></code> channel.
 To add these as default installation channels for conda, run this code
 in a terminal:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">config</span> <span class="o">--</span><span class="n">add</span> <span class="n">channels</span> <span class="n">udst</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">config</span> <span class="o">--</span><span class="n">add</span> <span class="n">channels</span> <span class="n">udst</span>
 <span class="n">conda</span> <span class="n">config</span> <span class="o">--</span><span class="n">add</span> <span class="n">channels</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 </pre></div>
 </div>
 <p>Then you can install pandana:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">pandana</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">pandana</span>
 </pre></div>
 </div>
 <p>To update pandana to a new release, run:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">update</span> <span class="n">pandana</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">update</span> <span class="n">pandana</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="pip">
 <h3>pip<a class="headerlink" href="#pip" title="Permalink to this headline">¶</a></h3>
 <p>Pandana is available on PyPI and can be installed with:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">pandana</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">pandana</span>
 </pre></div>
 </div>
 <p>On Windows and Mac this will install binary builds, assuming you are using
@@ -231,7 +224,7 @@ a recent version of <a class="reference external" href="https://pip.pypa.io/en/l
 <h2>Development Installation<a class="headerlink" href="#development-installation" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Clone the <a class="reference external" href="https://github.com/udst/pandana">pandana repo</a></li>
-<li>Run <code class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">develop</span></code></li>
+<li>Run <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">develop</span></code></li>
 </ul>
 <p>(This is a C extension so requires C/C++ compilers, but should compile on
 Linux, Windows, and Mac.)</p>
@@ -244,13 +237,13 @@ To get multithreaded Pandana on Mac you’ll need to install <a class="reference
 and then compile Pandana from source.
 The easiest way to get GCC is via <a class="reference external" href="http://brew.sh/">Homebrew</a> or <a class="reference external" href="https://www.macports.org/">MacPorts</a>:</p>
 <ul class="simple">
-<li>Homebrew: <code class="docutils literal"><span class="pre">brew</span> <span class="pre">install</span> <span class="pre">gcc</span></code></li>
-<li>MacPorts: <code class="docutils literal"><span class="pre">port</span> <span class="pre">install</span> <span class="pre">gcc</span></code></li>
+<li>Homebrew: <code class="docutils literal notranslate"><span class="pre">brew</span> <span class="pre">install</span> <span class="pre">gcc</span></code></li>
+<li>MacPorts: <code class="docutils literal notranslate"><span class="pre">port</span> <span class="pre">install</span> <span class="pre">gcc</span></code></li>
 </ul>
 <p>Then you must specify the GCC compilers for use during compilation
-via environment variables and tell the <code class="docutils literal"><span class="pre">setup.py</span></code> script explicitly
+via environment variables and tell the <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> script explicitly
 to build with OpenMP:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">CC</span><span class="o">=</span><span class="n">gcc</span><span class="o">-</span><span class="mf">4.9</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">CC</span><span class="o">=</span><span class="n">gcc</span><span class="o">-</span><span class="mf">4.9</span>
 <span class="n">export</span> <span class="n">CXX</span><span class="o">=</span><span class="n">g</span><span class="o">++-</span><span class="mf">4.9</span>
 <span class="n">export</span> <span class="n">USEOPENMP</span><span class="o">=</span><span class="mi">1</span>
 </pre></div>
@@ -261,25 +254,23 @@ to build with OpenMP:</p>
 exact version of GCC installed.</p>
 </div>
 <p>To install the latest release from source using <a class="reference external" href="https://pip.pypa.io/en/latest/">pip</a>:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">use</span><span class="o">-</span><span class="n">wheel</span> <span class="n">pandana</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">use</span><span class="o">-</span><span class="n">wheel</span> <span class="n">pandana</span>
 </pre></div>
 </div>
 <p>Our you can get the <a class="reference external" href="https://github.com/udst/pandana">development repository</a>
-and run <code class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code>.</p>
-<p>After installation, executing <code class="code docutils literal"><span class="pre">examples/simple_example.py</span></code> will print out the
+and run <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code>.</p>
+<p>After installation, executing <code class="code docutils literal notranslate"><span class="pre">examples/simple_example.py</span></code> will print out the
 number of threads that are being utilized.  If Pandana says it is using 1
 thread, and your computer has multiple cores, Pandana is not installed
 correctly.  Check the compile output for the gcc compiler you specified
-with <code class="code docutils literal"><span class="pre">CC</span></code> and <code class="code docutils literal"><span class="pre">CXX</span></code> - you might need to change the name slightly depending
-on your platform - for instance <code class="code docutils literal"><span class="pre">g++-mp-4.9</span></code> or <code class="code docutils literal"><span class="pre">g++-4.8</span></code>.</p>
+with <code class="code docutils literal notranslate"><span class="pre">CC</span></code> and <code class="code docutils literal notranslate"><span class="pre">CXX</span></code> - you might need to change the name slightly depending
+on your platform - for instance <code class="code docutils literal notranslate"><span class="pre">g++-mp-4.9</span></code> or <code class="code docutils literal notranslate"><span class="pre">g++-4.8</span></code>.</p>
 </div>
 </div>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -301,7 +292,7 @@ on your platform - for instance <code class="code docutils literal"><span class=
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -319,7 +310,8 @@ on your platform - for instance <code class="code docutils literal"><span class=
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.4.0',
+            VERSION:'0.4.1',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -333,19 +325,13 @@ on your platform - for instance <code class="code docutils literal"><span class=
 
   
 
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

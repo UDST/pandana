@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Loaders &mdash; pandana 0.4.0 documentation</title>
+  <title>Loaders &mdash; pandana 0.4.1 documentation</title>
   
 
   
@@ -24,27 +24,19 @@
 
   
 
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="pandana 0.4.0 documentation" href="index.html"/>
-        <link rel="next" title="Utilities" href="utilities.html"/>
-        <link rel="prev" title="Network API" href="network.html"/> 
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Utilities" href="utilities.html" />
+    <link rel="prev" title="Network API" href="network.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -66,7 +58,7 @@
             
             
               <div class="version">
-                0.4.0
+                0.4.1
               </div>
             
           
@@ -115,7 +107,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">pandana</a>
@@ -123,9 +115,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -170,21 +163,21 @@
   <div class="section" id="loaders">
 <h1>Loaders<a class="headerlink" href="#loaders" title="Permalink to this headline">¶</a></h1>
 <p>Pandana has some support for creating a
-<a class="reference internal" href="network.html#pandana.network.Network" title="pandana.network.Network"><code class="xref py py-class docutils literal"><span class="pre">Network</span></code></a> from
+<a class="reference internal" href="network.html#pandana.network.Network" title="pandana.network.Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">Network</span></code></a> from
 the <a class="reference external" href="http://www.openstreetmap.org/">OpenStreetMap</a> API,
-and for storing <code class="docutils literal"><span class="pre">Network</span></code> data to disk as HDF5 so that it can be
+and for storing <code class="docutils literal notranslate"><span class="pre">Network</span></code> data to disk as HDF5 so that it can be
 restored later.</p>
 <div class="section" id="openstreetmap">
 <h2>OpenStreetMap<a class="headerlink" href="#openstreetmap" title="Permalink to this headline">¶</a></h2>
-<p>A <a class="reference internal" href="network.html#pandana.network.Network" title="pandana.network.Network"><code class="xref py py-class docutils literal"><span class="pre">Network</span></code></a> is created from OpenStreetMap using
-the <a class="reference internal" href="#pandana.loaders.osm.pdna_network_from_bbox" title="pandana.loaders.osm.pdna_network_from_bbox"><code class="xref py py-func docutils literal"><span class="pre">pdna_network_from_bbox()</span></code></a> function:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pandana.loaders</span> <span class="k">import</span> <span class="n">osm</span>
+<p>A <a class="reference internal" href="network.html#pandana.network.Network" title="pandana.network.Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">Network</span></code></a> is created from OpenStreetMap using
+the <a class="reference internal" href="#pandana.loaders.osm.pdna_network_from_bbox" title="pandana.loaders.osm.pdna_network_from_bbox"><code class="xref py py-func docutils literal notranslate"><span class="pre">pdna_network_from_bbox()</span></code></a> function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pandana.loaders</span> <span class="k">import</span> <span class="n">osm</span>
 <span class="n">network</span> <span class="o">=</span> <span class="n">osm</span><span class="o">.</span><span class="n">pdna_network_from_bbox</span><span class="p">(</span><span class="mf">37.859</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.282</span><span class="p">,</span> <span class="mf">37.881</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.252</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>By default the generated network contains only walkable routes,
-specify <code class="docutils literal"><span class="pre">type='drive'</span></code> to get driveable routes.
-These networks have one impedance set, named <code class="docutils literal"><span class="pre">'distance'</span></code>,
+specify <code class="docutils literal notranslate"><span class="pre">type='drive'</span></code> to get driveable routes.
+These networks have one impedance set, named <code class="docutils literal notranslate"><span class="pre">'distance'</span></code>,
 which is the distance between nodes in meters.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -192,10 +185,10 @@ which is the distance between nodes in meters.</p>
 process OpenStreetMap (OSM) street network data. Please see
 the <a class="reference external" href="https://github.com/udst/osmnet">OSMnet</a> repo for any OSM loader questions, bugs, or features.</p>
 </div>
-<p>The OSM API also includes the <a class="reference internal" href="#pandana.loaders.osm.node_query" title="pandana.loaders.osm.node_query"><code class="xref py py-func docutils literal"><span class="pre">node_query()</span></code></a>
+<p>The OSM API also includes the <a class="reference internal" href="#pandana.loaders.osm.node_query" title="pandana.loaders.osm.node_query"><code class="xref py py-func docutils literal notranslate"><span class="pre">node_query()</span></code></a>
 function for getting specific nodes within a bounding box.
 This can be used to populate a network with points of interest:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">nodes</span> <span class="o">=</span> <span class="n">osm</span><span class="o">.</span><span class="n">node_query</span><span class="p">(</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nodes</span> <span class="o">=</span> <span class="n">osm</span><span class="o">.</span><span class="n">node_query</span><span class="p">(</span>
     <span class="mf">37.859</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.282</span><span class="p">,</span> <span class="mf">37.881</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.252</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="s1">&#39;&quot;amenity&quot;=&quot;restaurant&quot;&#39;</span><span class="p">)</span>
 <span class="n">network</span><span class="o">.</span><span class="n">set_pois</span><span class="p">(</span><span class="s1">&#39;restaurants&#39;</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">nodes</span><span class="p">[</span><span class="s1">&#39;lon&#39;</span><span class="p">],</span> <span class="n">nodes</span><span class="p">[</span><span class="s1">&#39;lat&#39;</span><span class="p">])</span>
 </pre></div>
@@ -207,32 +200,32 @@ and the list of
 </div>
 <div class="section" id="pandas-hdf5">
 <h2>Pandas HDF5<a class="headerlink" href="#pandas-hdf5" title="Permalink to this headline">¶</a></h2>
-<p>Saving a <code class="docutils literal"><span class="pre">Network</span></code> to HDF5 is a way to share a <code class="docutils literal"><span class="pre">Network</span></code> or to preserve
-it between sessions. For example. you can build a <code class="docutils literal"><span class="pre">Network</span></code> using the
-OpenStreetMap API, then save the <code class="docutils literal"><span class="pre">Network</span></code> to HDF5 so you can reuse it
+<p>Saving a <code class="docutils literal notranslate"><span class="pre">Network</span></code> to HDF5 is a way to share a <code class="docutils literal notranslate"><span class="pre">Network</span></code> or to preserve
+it between sessions. For example. you can build a <code class="docutils literal notranslate"><span class="pre">Network</span></code> using the
+OpenStreetMap API, then save the <code class="docutils literal notranslate"><span class="pre">Network</span></code> to HDF5 so you can reuse it
 without querying OSM again.
 Users will typically use the
-<a class="reference internal" href="network.html#pandana.network.Network.save_hdf5" title="pandana.network.Network.save_hdf5"><code class="xref py py-meth docutils literal"><span class="pre">save_hdf5()</span></code></a> and
-<a class="reference internal" href="network.html#pandana.network.Network.from_hdf5" title="pandana.network.Network.from_hdf5"><code class="xref py py-meth docutils literal"><span class="pre">from_hdf5()</span></code></a> methods.</p>
+<a class="reference internal" href="network.html#pandana.network.Network.save_hdf5" title="pandana.network.Network.save_hdf5"><code class="xref py py-meth docutils literal notranslate"><span class="pre">save_hdf5()</span></code></a> and
+<a class="reference internal" href="network.html#pandana.network.Network.from_hdf5" title="pandana.network.Network.from_hdf5"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_hdf5()</span></code></a> methods.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p>Only the nodes and edges of the network are saved.
 Points-of-interest and data attached to nodes via the
-<a class="reference internal" href="network.html#pandana.network.Network.set" title="pandana.network.Network.set"><code class="xref py py-meth docutils literal"><span class="pre">set()</span></code></a> method are not included.</p>
+<a class="reference internal" href="network.html#pandana.network.Network.set" title="pandana.network.Network.set"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set()</span></code></a> method are not included.</p>
 <p class="last">You may find the
 <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/io.html#io-hdf5">Pandas HDFStore</a>
 useful to save POI and other data.</p>
 </div>
-<p>When saving a <code class="docutils literal"><span class="pre">Network</span></code> to HDF5 it’s possible to exclude certain nodes.
+<p>When saving a <code class="docutils literal notranslate"><span class="pre">Network</span></code> to HDF5 it’s possible to exclude certain nodes.
 This can be useful when refining a network so that it includes only
 validated nodes.
 (In the current design of Pandana it’s not possible to modify a
-<code class="docutils literal"><span class="pre">Network</span></code> in place.)
+<code class="docutils literal notranslate"><span class="pre">Network</span></code> in place.)
 As an example, you can use the
-<a class="reference internal" href="network.html#pandana.network.Network.low_connectivity_nodes" title="pandana.network.Network.low_connectivity_nodes"><code class="xref py py-meth docutils literal"><span class="pre">low_connectivity_nodes()</span></code></a> method
+<a class="reference internal" href="network.html#pandana.network.Network.low_connectivity_nodes" title="pandana.network.Network.low_connectivity_nodes"><code class="xref py py-meth docutils literal notranslate"><span class="pre">low_connectivity_nodes()</span></code></a> method
 to identify nodes that may not be connected to the larger network,
 then exclude those nodes when saving to HDF5:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lcn</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">low_connectivity_nodes</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">imp_name</span><span class="o">=</span><span class="s1">&#39;distance&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lcn</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">low_connectivity_nodes</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">imp_name</span><span class="o">=</span><span class="s1">&#39;distance&#39;</span><span class="p">)</span>
 <span class="n">network</span><span class="o">.</span><span class="n">save_hdf5</span><span class="p">(</span><span class="s1">&#39;mynetwork.h5&#39;</span><span class="p">,</span> <span class="n">rm_nodes</span><span class="o">=</span><span class="n">lcn</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -248,40 +241,40 @@ request to the Overpass API. Distance will be in the default units meters.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>lat_min, lng_min, lat_max, lng_max</strong> : float</p>
-<p><strong>bbox</strong> : tuple</p>
-<blockquote>
-<div><p>Bounding box formatted as a 4 element tuple:
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>lat_min, lng_min, lat_max, lng_max</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd></dd>
+<dt><strong>bbox</strong> <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+<dd><p class="first last">Bounding box formatted as a 4 element tuple:
 (lng_max, lat_min, lng_min, lat_max)</p>
-</div></blockquote>
-<p><strong>network_type</strong> : {‘walk’, ‘drive’}, optional</p>
-<blockquote>
-<div><p>Specify whether the network will be used for walking or driving.
+</dd>
+<dt><strong>network_type</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{‘walk’, ‘drive’}, optional</span></dt>
+<dd><p class="first last">Specify whether the network will be used for walking or driving.
 A value of ‘walk’ attempts to exclude things like freeways,
 while a value of ‘drive’ attempts to exclude things like
 bike and walking paths.</p>
-</div></blockquote>
-<p><strong>two_way</strong> : bool, optional</p>
-<blockquote>
-<div><p>Whether the routes are two-way. If True, node pairs will only
+</dd>
+<dt><strong>two_way</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
+<dd><p class="first last">Whether the routes are two-way. If True, node pairs will only
 occur once.</p>
-</div></blockquote>
-<p><strong>timeout</strong> : int, optional</p>
-<blockquote>
-<div><p>the timeout interval for requests and to pass to Overpass API</p>
-</div></blockquote>
-<p><strong>memory</strong> : int, optional</p>
-<blockquote>
-<div><p>server memory allocation size for the query, in bytes.
+</dd>
+<dt><strong>timeout</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span></dt>
+<dd><p class="first last">the timeout interval for requests and to pass to Overpass API</p>
+</dd>
+<dt><strong>memory</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span></dt>
+<dd><p class="first last">server memory allocation size for the query, in bytes.
 If none, server will use its default allocation size</p>
-</div></blockquote>
-<p><strong>max_query_area_size</strong> : float, optional</p>
-<blockquote>
-<div><p>max area for any part of the geometry, in the units the geometry is in</p>
-</div></blockquote>
+</dd>
+<dt><strong>max_query_area_size</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional</span></dt>
+<dd><p class="first last">max area for any part of the geometry, in the units the geometry is in</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>network</strong> : pandana.Network</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>network</strong> <span class="classifier-delimiter">:</span> <span class="classifier">pandana.Network</span></dt>
+<dd></dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -296,23 +289,26 @@ If none, server will use its default allocation size</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>lat_min, lng_min, lat_max, lng_max</strong> : float</p>
-<p><strong>tags</strong> : str or list of str, optional</p>
-<blockquote>
-<div><p>Node tags that will be used to filter the search.
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>lat_min, lng_min, lat_max, lng_max</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd></dd>
+<dt><strong>tags</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str or list of str, optional</span></dt>
+<dd><p class="first last">Node tags that will be used to filter the search.
 See <a class="reference external" href="http://wiki.openstreetmap.org/wiki/Overpass_API/Language_Guide">http://wiki.openstreetmap.org/wiki/Overpass_API/Language_Guide</a>
 for information about OSM Overpass queries
 and <a class="reference external" href="http://wiki.openstreetmap.org/wiki/Map_Features">http://wiki.openstreetmap.org/wiki/Map_Features</a>
 for a list of tags.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>nodes</strong> : pandas.DataFrame</p>
-<blockquote class="last">
-<div><p>Will have ‘lat’ and ‘lon’ columns, plus other columns for the
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>nodes</strong> <span class="classifier-delimiter">:</span> <span class="classifier">pandas.DataFrame</span></dt>
+<dd><p class="first last">Will have ‘lat’ and ‘lon’ columns, plus other columns for the
 tags associated with the node (these will vary based on the query).
 Index will be the OSM node IDs.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -332,12 +328,14 @@ points-of-interest and data attached to nodes are not saved.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename</strong> : str</p>
-<p><strong>rm_nodes</strong> : array_like</p>
-<blockquote class="last">
-<div><p>A list, array, Index, or Series of node IDs that should <em>not</em>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>filename</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd></dd>
+<dt><strong>rm_nodes</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array_like</span></dt>
+<dd><p class="first last">A list, array, Index, or Series of node IDs that should <em>not</em>
 be saved as part of the Network.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -352,9 +350,17 @@ be saved as part of the Network.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> : str</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>filename</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd></dd>
+</dl>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>network</strong> : pandana.Network</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>network</strong> <span class="classifier-delimiter">:</span> <span class="classifier">pandana.Network</span></dt>
+<dd></dd>
+</dl>
+</td>
 </tr>
 </tbody>
 </table>
@@ -368,13 +374,16 @@ be saved as part of the Network.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>network</strong> : pandana.Network</p>
-<p><strong>filename</strong> : str</p>
-<p><strong>rm_nodes</strong> : array_like</p>
-<blockquote class="last">
-<div><p>A list, array, Index, or Series of node IDs that should <em>not</em>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>network</strong> <span class="classifier-delimiter">:</span> <span class="classifier">pandana.Network</span></dt>
+<dd></dd>
+<dt><strong>filename</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd></dd>
+<dt><strong>rm_nodes</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array_like</span></dt>
+<dd><p class="first last">A list, array, Index, or Series of node IDs that should <em>not</em>
 be saved as part of the Network.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -389,14 +398,19 @@ be saved as part of the Network.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>cls</strong> : class</p>
-<blockquote>
-<div><p>Class to instantiate, usually pandana.Network.</p>
-</div></blockquote>
-<p><strong>filename</strong> : str</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>cls</strong> <span class="classifier-delimiter">:</span> <span class="classifier">class</span></dt>
+<dd><p class="first last">Class to instantiate, usually pandana.Network.</p>
+</dd>
+<dt><strong>filename</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd></dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>network</strong> : pandana.Network</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>network</strong> <span class="classifier-delimiter">:</span> <span class="classifier">pandana.Network</span></dt>
+<dd></dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -408,9 +422,7 @@ be saved as part of the Network.</p>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -432,7 +444,7 @@ be saved as part of the Network.</p>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -450,7 +462,8 @@ be saved as part of the Network.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.4.0',
+            VERSION:'0.4.1',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -464,19 +477,13 @@ be saved as part of the Network.</p>
 
   
 
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>
