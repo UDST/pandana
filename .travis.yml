@@ -28,7 +28,7 @@ install:
 - CC=gcc-4.9 CXX=g++-4.9 python setup.py install
 script:
 - pycodestyle pandana
-- py.test --cov pandana --cov-report term-missing
+- python setup.py test --pytest-args "[--cov pandana --cov-report term-missing]"
 after_success:
 - coveralls
 - bin/build_docs.sh
