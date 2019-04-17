@@ -239,7 +239,7 @@ class Network:
 
         self.net.initialize_access_var(name.encode('utf-8'),
                                        df.node_idx.values.astype('int'),
-                                       df[name].astype('float32').values)
+                                       df[name].values.astype('double'))
 
     def precompute(self, distance):
         """
