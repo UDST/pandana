@@ -66,30 +66,22 @@ extra_compile_args = [
     '-fpic',
     '-g',
 ]
-extra_link_args = None
 
-# separate compiler options for Windows
+extra_link_args = []
+
+# Mac compiler options, may not work pre MacOS 10.9
+if sys.platform.startswith('darwin'):
+    extra_compile_args += ['-D NO_TR1_MEMORY', '-stdlib=libc++']
+    extra_link_args += ['-stdlib=libc++']
+
+# Windows compiler options
 if sys.platform.startswith('win'):
     extra_compile_args = ['/w', '/openmp']
-# Use OpenMP if directed or not on a Mac
+
+# Use OpenMP on Linux, and on Mac if directed
 elif os.environ.get('USEOPENMP') or not sys.platform.startswith('darwin'):
     extra_compile_args += ['-fopenmp']
-    extra_link_args = [
-        '-lgomp'
-    ]
-
-# recent versions of the OS X SDK don't have the tr1 namespace
-# and we need to flag that during compilation.
-# here we need to check what version of OS X is being targeted
-# for the installation.
-# this is potentially different than the version of OS X on the system.
-if platform.system() == 'Darwin':
-    mac_ver = sysconfig.get_config_var('MACOSX_DEPLOYMENT_TARGET')
-    if mac_ver:
-        mac_ver = [int(x) for x in mac_ver.split('.')]
-        if mac_ver >= [10, 7]:
-            extra_compile_args += ['-D NO_TR1_MEMORY']
-            extra_compile_args += ['-stdlib=libc++']
+    extra_link_args += ['-lgomp']
 
 version = '0.4.1'
 
