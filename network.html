@@ -193,7 +193,7 @@ of the two series objects above</p>
 <dd><p class="first last">Defines the node id that ends an edge - should refer to the index
 of the two series objects above</p>
 </dd>
-<dt><strong>edge_weights</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Pandas DataFrame, all floats</span></dt>
+<dt><strong>edge_weights</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Pandas DataFrame, all numerics</span></dt>
 <dd><p class="first last">Specifies one or more <em>impedances</em> on the network which define the
 distances between nodes.  Multiple impedances can be used to
 capture travel times at different times of day, for instance</p>
@@ -583,7 +583,7 @@ the network.</p>
 <dd><p class="first last">A series of node_ids which are usually computed using
 get_node_ids on this object.</p>
 </dd>
-<dt><strong>variable</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Pandas Series, float, optional</span></dt>
+<dt><strong>variable</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Pandas Series, numeric, optional</span></dt>
 <dd><p class="first last">A series which represents some variable defined in urban space.
 It could be the location of buildings, or the income of all
 households - just about anything can be aggregated using the
