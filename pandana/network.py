@@ -79,16 +79,16 @@ class Network:
                           self._node_indexes(edges_df["to"])], axis=1)
 
         self.net = cyaccess(self.node_idx.values,
-                            nodes_df.astype('double').as_matrix(),
-                            edges.as_matrix(),
+                            nodes_df.astype('double').values,
+                            edges.values,
                             edges_df[edge_weights.columns].transpose()
                                                           .astype('double')
-                                                          .as_matrix(),
+                                                          .values,
                             twoway)
 
         self._twoway = twoway
 
-        self.kdtree = KDTree(nodes_df.as_matrix())
+        self.kdtree = KDTree(nodes_df.values)
 
     @classmethod
     def from_hdf5(cls, filename):
@@ -368,7 +368,7 @@ class Network:
         """
         xys = pd.DataFrame({'x': x_col, 'y': y_col})
 
-        distances, indexes = self.kdtree.query(xys.as_matrix())
+        distances, indexes = self.kdtree.query(xys.values)
         indexes = np.transpose(indexes)[0]
         distances = np.transpose(distances)[0]
 
