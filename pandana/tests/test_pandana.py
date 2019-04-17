@@ -195,6 +195,22 @@ def test_agg_variables(sample_osm):
                     assert s.describe()['std'] == 0
 
 
+def test_non_float_node_values(sample_osm):
+    net = sample_osm
+
+    ssize = 50
+    net.set(random_node_ids(sample_osm, ssize),
+            variable=(random_data(ssize)*100).astype('int'))
+
+    for type in net.aggregations:
+        for decay in net.decays:
+            for distance in [5, 10, 20]:
+                t = type.decode(encoding='UTF-8')
+                d = decay.decode(encoding='UTF-8')
+                s = net.aggregate(distance, type=t, decay=d)
+                assert s.describe()['std'] > 0
+
+
 def test_missing_nodeid(sample_osm):
     node_ids = random_node_ids(sample_osm, 50)
     # non-existing value

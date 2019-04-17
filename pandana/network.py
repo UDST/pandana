@@ -35,7 +35,7 @@ class Network:
     edge_to : Pandas Series, int
         Defines the node id that ends an edge - should refer to the index
         of the two series objects above
-    edge_weights : Pandas DataFrame, all floats
+    edge_weights : Pandas DataFrame, all numerics
         Specifies one or more *impedances* on the network which define the
         distances between nodes.  Multiple impedances can be used to
         capture travel times at different times of day, for instance
@@ -195,7 +195,7 @@ class Network:
         node_ids : Pandas Series, int
             A series of node_ids which are usually computed using
             get_node_ids on this object.
-        variable : Pandas Series, float, optional
+        variable : Pandas Series, numeric, optional
             A series which represents some variable defined in urban space.
             It could be the location of buildings, or the income of all
             households - just about anything can be aggregated using the
@@ -239,7 +239,7 @@ class Network:
 
         self.net.initialize_access_var(name.encode('utf-8'),
                                        df.node_idx.values.astype('int'),
-                                       df[name].values)
+                                       df[name].values.astype('double'))
 
     def precompute(self, distance):
         """
