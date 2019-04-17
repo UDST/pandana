@@ -46,35 +46,17 @@ class CustomBuildExtCommand(build_ext):
         build_ext.run(self)
 
 
-include_dirs = [
-    '.'
-]
-
 packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"])
 
-source_files = [
-    'src/accessibility.cpp',
-    'src/graphalg.cpp',
-    "src/cyaccess.pyx",
-    'src/contraction_hierarchies/src/libch.cpp'
-]
-
-extra_compile_args = [
-    '-w',
-    '-std=c++0x',
-    '-O3',
-    '-fpic',
-    '-g',
-]
-
+extra_compile_args = ['-w', '-std=c++0x', '-O3', '-fpic', '-g']
 extra_link_args = []
 
-# Mac compiler options, may not work pre MacOS 10.9
+# Mac compiler arguments, may not work pre MacOS 10.9
 if sys.platform.startswith('darwin'):
     extra_compile_args += ['-D NO_TR1_MEMORY', '-stdlib=libc++']
     extra_link_args += ['-stdlib=libc++']
 
-# Windows compiler options
+# Windows compiler arguments
 if sys.platform.startswith('win'):
     extra_compile_args = ['/w', '/openmp']
 
@@ -100,10 +82,14 @@ setup(
     long_description=long_description,
     url='https://udst.github.io/pandana/',
     ext_modules=[Extension(
-            'pandana.cyaccess',
-            source_files,
-            language="c++",
-            include_dirs=include_dirs,
+            name='pandana.cyaccess',
+            sources=[
+                'src/accessibility.cpp',
+                'src/graphalg.cpp',
+                'src/cyaccess.pyx',
+                'src/contraction_hierarchies/src/libch.cpp'],
+            language='c++',
+            include_dirs=['.'],
             extra_compile_args=extra_compile_args,
             extra_link_args=extra_link_args,
         )],
@@ -127,6 +113,7 @@ setup(
         'Development Status :: 3 - Alpha',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
         'License :: OSI Approved :: GNU Affero General Public License v3'
     ],
 )
