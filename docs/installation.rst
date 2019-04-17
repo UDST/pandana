@@ -106,7 +106,7 @@ on your platform - for instance :code:`g++-mp-4.9` or :code:`g++-4.8`.
 
 .. _Anaconda: http://docs.continuum.io/anaconda/
 .. _pip: https://pip.pypa.io/en/latest/
-.. _OpenMP: http://openmp.org/wp/
+.. _OpenMP: http://openmp.org/
 .. _GNU GCC: https://gcc.gnu.org/
 .. _Homebrew: http://brew.sh/
 .. _MacPorts: https://www.macports.org/
