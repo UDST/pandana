@@ -27,7 +27,7 @@ Graphalg::Graphalg(
     FILE_LOG(logINFO) << "Setting CH node vector of size "
 				      << nv.size() << "\n";
 	
-	ch.SetNodeVector(nv);
+    ch.SetNodeVector(nv);
 
     vector<CH::Edge> ev;
 
@@ -37,7 +37,7 @@ Graphalg::Graphalg(
         ev.push_back(e);
     }
 
-    FILE_LOG(logINFO) << "Setting CH edge vector of size "
+    FILE_LOG(logINFO) << "Setting CH edge vector of size x"
 				      << ev.size() << "\n";
     
     ch.SetEdgeVector(ev);
