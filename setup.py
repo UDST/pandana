@@ -12,6 +12,10 @@ from setuptools.command.test import test as TestCommand
 from setuptools.command.build_ext import build_ext
 
 
+###############################################
+## Invoking tests
+###############################################
+
 class PyTest(TestCommand):
     user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]
 
@@ -46,9 +50,12 @@ class CustomBuildExtCommand(build_ext):
         build_ext.run(self)
 
 
-packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"])
+###############################################
+## Building the C++ extension
+###############################################
 
-extra_compile_args = ['-w', '-std=c++0x', '-O3', '-fpic', '-g']
+extra_compile_args = ['-w', '-std=c++11']
+# extra_compile_args = ['-w', '-std=c++0x', '-O3', '-fpic', '-g']
 extra_link_args = []
 
 # Mac compiler arguments, may not work pre MacOS 10.9
@@ -65,7 +72,26 @@ elif os.environ.get('USEOPENMP') or not sys.platform.startswith('darwin'):
     extra_compile_args += ['-fopenmp']
     extra_link_args += ['-lgomp']
 
+cyaccess = Extension(
+        name='pandana.cyaccess',
+        sources=[
+            'src/accessibility.cpp',
+            'src/graphalg.cpp',
+            'src/cyaccess.pyx',
+            'src/contraction_hierarchies/src/libch.cpp'],
+        language='c++',
+        include_dirs=['.'],
+        extra_compile_args=extra_compile_args,
+        extra_link_args=extra_link_args)
+
+
+###############################################
+## Standard setup
+###############################################
+
 version = '0.4.1'
+
+packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"])
 
 # read long description from README
 with open('README.rst', 'r') as f:
@@ -81,18 +107,7 @@ setup(
                  'dataframes of network queries, quickly'),
     long_description=long_description,
     url='https://udst.github.io/pandana/',
-    ext_modules=[Extension(
-            name='pandana.cyaccess',
-            sources=[
-                'src/accessibility.cpp',
-                'src/graphalg.cpp',
-                'src/cyaccess.pyx',
-                'src/contraction_hierarchies/src/libch.cpp'],
-            language='c++',
-            include_dirs=['.'],
-            extra_compile_args=extra_compile_args,
-            extra_link_args=extra_link_args,
-        )],
+    ext_modules=[cyaccess],
     install_requires=[
         'matplotlib>=1.3.1',
         'numpy>=1.8.0',
