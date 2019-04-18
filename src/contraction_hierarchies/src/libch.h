@@ -34,6 +34,8 @@ or see http://www.gnu.org/licenses/agpl.txt.
 #include "DataStructures/StaticGraph.h"
 #include "POIIndex/POIIndex.h"
 
+#define FILE_LOG(logINFO) (std::cout)
+
 struct _HeapData {
     NodeID parent;
     _HeapData( NodeID p ) : parent(p) { }
