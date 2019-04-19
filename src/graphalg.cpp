@@ -37,7 +37,7 @@ Graphalg::Graphalg(
         ev.push_back(e);
     }
 
-    FILE_LOG(logINFO) << "Setting CH edge vector of size x"
+    FILE_LOG(logINFO) << "Setting CH edge vector of size "
                       << ev.size() << "\n";
     
     ch.SetEdgeVector(ev);

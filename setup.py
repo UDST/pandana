@@ -58,19 +58,20 @@ extra_compile_args = ['-w', '-std=c++11']
 # extra_compile_args = ['-w', '-std=c++0x', '-O3', '-fpic', '-g']
 extra_link_args = []
 
-# Mac compiler arguments, may not work pre MacOS 10.9
-if sys.platform.startswith('darwin'):
+if sys.platform.startswith('darwin'):  # OS X, should work in 10.9+
     extra_compile_args += ['-D NO_TR1_MEMORY', '-stdlib=libc++']
     extra_link_args += ['-stdlib=libc++']
+    
+    if os.environ.get('USEOPENMP'):
+        extra_compile_args += ['-fopenmp']
 
-# Windows compiler arguments
-if sys.platform.startswith('win'):
+elif sys.platform.startswith('win'):  # Windows
     extra_compile_args = ['/w', '/openmp']
 
-# Use OpenMP on Linux, and on Mac if directed
-elif os.environ.get('USEOPENMP') or not sys.platform.startswith('darwin'):
+else:  # Linux
     extra_compile_args += ['-fopenmp']
     extra_link_args += ['-lgomp']
+
 
 cyaccess = Extension(
         name='pandana.cyaccess',
