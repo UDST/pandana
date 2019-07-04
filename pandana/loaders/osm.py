@@ -62,7 +62,6 @@ def process_node(e):
     """
     Process a node element entry into a dict suitable for going into
     a Pandas DataFrame.
-
     Parameters
     ----------
     e : dict
@@ -82,11 +81,24 @@ def process_node(e):
         'tiger:upload_uuid',
     }
 
-    node = {
-        'id': e['id'],
-        'lat': e['lat'],
-        'lon': e['lon']
-    }
+    if 'center' in e: #way center node
+        try:
+            node = {
+                'id': e['id'],
+                'lat': e['center']['lat'],
+                'lon': e['center']['lon']
+            }
+        except:
+            print(e)
+    else:
+        try:
+            node = {
+                'id': e['id'],
+                'lat': e['lat'],
+                'lon': e['lon']
+            }
+        except:
+            print(e)
 
     if 'tags' in e:
         for t, v in list(e['tags'].items()):
@@ -117,10 +129,9 @@ def make_osm_query(query):
     return req.json()
 
 
-def build_node_query(lat_min, lng_min, lat_max, lng_max, tags=None):
+def build_node_query(lat_min, lng_min, lat_max, lng_max, tags=None,osm_data_type='node'):
     """
     Build the string for a node-based OSM query.
-
     Parameters
     ----------
     lat_min, lng_min, lat_max, lng_max : float
@@ -130,11 +141,9 @@ def build_node_query(lat_min, lng_min, lat_max, lng_max, tags=None):
         for information about OSM Overpass queries
         and http://wiki.openstreetmap.org/wiki/Map_Features
         for a list of tags.
-
     Returns
     -------
     query : str
-
     """
     if tags is not None:
         if isinstance(tags, str):
@@ -142,25 +151,37 @@ def build_node_query(lat_min, lng_min, lat_max, lng_max, tags=None):
         tags = ''.join('[{}]'.format(t) for t in tags)
     else:
         tags = ''
+    if osm_data_type=='way':
+        query_fmt = (
+            '[out:json];'
+            '('
+            '  way'
+            '  {tags}'
+            '  ({lat_min},{lng_min},{lat_max},{lng_max});'
+            ');'
+            'out center;'
+        )
+    elif osm_data_type=='node':
+        query_fmt = (
+            '[out:json];'
+            '('
+            '  nodes'
+            '  {tags}'
+            '  ({lat_min},{lng_min},{lat_max},{lng_max});'
+            ');'
+            'out;'
+        )
+    else:
+        raise RuntimeError('wrong OSM data type')
 
-    query_fmt = (
-        '[out:json];'
-        '('
-        '  node'
-        '  {tags}'
-        '  ({lat_min},{lng_min},{lat_max},{lng_max});'
-        ');'
-        'out;')
-
-    return query_fmt.format(
-        lat_min=lat_min, lng_min=lng_min, lat_max=lat_max, lng_max=lng_max,
-        tags=tags)
+    return query_fmt.format(lat_min=lat_min, lng_min=lng_min, lat_max=lat_max,
+     lng_max=lng_max,tags=tags)
 
 
-def node_query(lat_min, lng_min, lat_max, lng_max, tags=None):
+
+def node_query(lat_min, lng_min, lat_max, lng_max, tags=None,osm_data_type='node'):
     """
     Search for OSM nodes within a bounding box that match given tags.
-
     Parameters
     ----------
     lat_min, lng_min, lat_max, lng_max : float
@@ -170,20 +191,20 @@ def node_query(lat_min, lng_min, lat_max, lng_max, tags=None):
         for information about OSM Overpass queries
         and http://wiki.openstreetmap.org/wiki/Map_Features
         for a list of tags.
-
     Returns
     -------
     nodes : pandas.DataFrame
         Will have 'lat' and 'lon' columns, plus other columns for the
         tags associated with the node (these will vary based on the query).
         Index will be the OSM node IDs.
-
     """
-    node_data = make_osm_query(build_node_query(
-        lat_min, lng_min, lat_max, lng_max, tags=tags))
+    q = build_node_query(
+        lat_min, lng_min, lat_max, lng_max, tags=tags,osm_data_type=osm_data_type)
+    node_data = make_osm_query(q)
 
     if len(node_data['elements']) == 0:
         raise RuntimeError('OSM query results contain no data.')
 
     nodes = [process_node(n) for n in node_data['elements']]
+
     return pd.DataFrame.from_records(nodes, index='id')
