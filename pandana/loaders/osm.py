@@ -81,24 +81,18 @@ def process_node(e):
         'tiger:upload_uuid',
     }
 
-    if 'center' in e: #way center node
-        try:
-            node = {
-                'id': e['id'],
-                'lat': e['center']['lat'],
-                'lon': e['center']['lon']
-            }
-        except:
-            print(e)
+    if 'center' in e:  # way center node
+        node = {
+            'id': e['id'],
+            'lat': e['center']['lat'],
+            'lon': e['center']['lon']
+        }
     else:
-        try:
-            node = {
-                'id': e['id'],
-                'lat': e['lat'],
-                'lon': e['lon']
-            }
-        except:
-            print(e)
+        node = {
+            'id': e['id'],
+            'lat': e['lat'],
+            'lon': e['lon']
+        }
 
     if 'tags' in e:
         for t, v in list(e['tags'].items()):
@@ -129,7 +123,7 @@ def make_osm_query(query):
     return req.json()
 
 
-def build_node_query(lat_min, lng_min, lat_max, lng_max, tags=None,osm_data_type='node'):
+def build_node_query(lat_min, lng_min, lat_max, lng_max, tags=None, osm_data_type='node'):
     """
     Build the string for a node-based OSM query.
     Parameters
@@ -151,7 +145,7 @@ def build_node_query(lat_min, lng_min, lat_max, lng_max, tags=None,osm_data_type
         tags = ''.join('[{}]'.format(t) for t in tags)
     else:
         tags = ''
-    if osm_data_type=='way':
+    if osm_data_type == 'way':
         query_fmt = (
             '[out:json];'
             '('
@@ -161,7 +155,7 @@ def build_node_query(lat_min, lng_min, lat_max, lng_max, tags=None,osm_data_type
             ');'
             'out center;'
         )
-    elif osm_data_type=='node':
+    elif osm_data_type == 'node':
         query_fmt = (
             '[out:json];'
             '('
@@ -175,11 +169,10 @@ def build_node_query(lat_min, lng_min, lat_max, lng_max, tags=None,osm_data_type
         raise RuntimeError('wrong OSM data type')
 
     return query_fmt.format(lat_min=lat_min, lng_min=lng_min, lat_max=lat_max,
-     lng_max=lng_max,tags=tags)
+                            lng_max=lng_max, tags=tags)
 
 
-
-def node_query(lat_min, lng_min, lat_max, lng_max, tags=None,osm_data_type='node'):
+def node_query(lat_min, lng_min, lat_max, lng_max, tags=None, osm_data_type='node'):
     """
     Search for OSM nodes within a bounding box that match given tags.
     Parameters
@@ -199,7 +192,7 @@ def node_query(lat_min, lng_min, lat_max, lng_max, tags=None,osm_data_type='node
         Index will be the OSM node IDs.
     """
     q = build_node_query(
-        lat_min, lng_min, lat_max, lng_max, tags=tags,osm_data_type=osm_data_type)
+        lat_min, lng_min, lat_max, lng_max, tags=tags, osm_data_type=osm_data_type)
     node_data = make_osm_query(q)
 
     if len(node_data['elements']) == 0:
