@@ -159,7 +159,7 @@ def build_node_query(lat_min, lng_min, lat_max, lng_max, tags=None, osm_data_typ
         query_fmt = (
             '[out:json];'
             '('
-            '  nodes'
+            '  node'
             '  {tags}'
             '  ({lat_min},{lng_min},{lat_max},{lng_max});'
             ');'
