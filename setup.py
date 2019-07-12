@@ -54,8 +54,7 @@ class CustomBuildExtCommand(build_ext):
 ## Building the C++ extension
 ###############################################
 
-extra_compile_args = ['-w', '-std=c++11']
-# extra_compile_args = ['-w', '-std=c++0x', '-O3', '-fpic', '-g']
+extra_compile_args = ['-w', '-std=c++11', '-O3']
 extra_link_args = []
 
 if sys.platform.startswith('darwin'):  # OS X, should work in 10.9+
