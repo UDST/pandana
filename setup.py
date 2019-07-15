@@ -38,8 +38,8 @@ class PyTest(TestCommand):
 class Lint(TestCommand):
     def run(self):
         os.system("cpplint --filter=-build/include_subdir,-legal/copyright,-runtime/references,-runtime/int src/accessibility.* src/graphalg.*")
-        os.system("pep8 src/cyaccess.pyx")
-        os.system("pep8 pandana")
+        os.system("pycodestyle src/cyaccess.pyx")
+        os.system("pycodestyle pandana")
 
 
 ###############################################
@@ -110,7 +110,10 @@ setup(
         'cython>=0.25.2',
         'scikit-learn>=0.18.1'
     ],
-    tests_require=['pytest'],
+    tests_require=[
+        'pycodestyle',
+        'pytest'
+    ],
     cmdclass={
         'test': PyTest,
         'lint': Lint,
