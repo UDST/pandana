@@ -33,9 +33,10 @@ if [ "$TRAVIS_REPO_SLUG" == "UDST/pandana" ] && \
         [ "$TRAVIS_PULL_REQUEST" == "false" ] && \
         [ "$ACTUAL_TRAVIS_JOB_NUMBER" == "1" ]; then
 
-        echo "Installing dependencies"
-        conda install --yes --quiet sphinx numpydoc
-        pip install sphinx_rtd_theme
+        # These are now included in requirements-dev.txt
+        # echo "Installing dependencies"
+        # conda install --yes --quiet sphinx numpydoc
+        # pip install sphinx_rtd_theme
 
         echo "Building docs"
         cd docs
