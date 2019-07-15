@@ -57,7 +57,13 @@ class CustomBuildExtCommand(build_ext):
 extra_compile_args = ['-w', '-std=c++11', '-O3']
 extra_link_args = []
 
-if sys.platform.startswith('darwin'):  # OS X, should work in 10.9+
+if sys.platform.startswith('darwin'):  # Mac
+    
+    # This environment variable sets the earliest OS version that the compiled
+    # code will be compatible with. In certain contexts the default is too old
+    # to allow using libc++; supporting 10.9 and later seems safe
+    os.environ['MACOSX_DEPLOYMENT_TARGET'] = '10.9'
+    
     extra_compile_args += ['-D NO_TR1_MEMORY', '-stdlib=libc++']
     extra_link_args += ['-stdlib=libc++']
     
