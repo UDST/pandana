@@ -42,14 +42,6 @@ class Lint(TestCommand):
         os.system("pep8 pandana")
 
 
-class CustomBuildExtCommand(build_ext):
-    """build_ext command for use when numpy headers are needed."""
-    def run(self):
-        import numpy as np
-        self.include_dirs.append(np.get_include())
-        build_ext.run(self)
-
-
 ###############################################
 ## Building the C++ extension
 ###############################################
@@ -122,7 +114,6 @@ setup(
     cmdclass={
         'test': PyTest,
         'lint': Lint,
-        'build_ext': CustomBuildExtCommand,
     },
     classifiers=[
         'Development Status :: 3 - Alpha',
