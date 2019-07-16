@@ -34,8 +34,8 @@ class PyTest(TestCommand):
 class Lint(TestCommand):
     def run(self):
         os.system("cpplint --filter=-build/include_subdir,-legal/copyright,-runtime/references,-runtime/int src/accessibility.* src/graphalg.*")
-        os.system("pep8 src/cyaccess.pyx")
-        os.system("pep8 pandana")
+        os.system("pycodestyle src/cyaccess.pyx")
+        os.system("pycodestyle pandana")
 
 
 class CustomBuildExtCommand(build_ext):
