@@ -57,11 +57,14 @@ class CustomBuildExtCommand(build_ext):
 extra_compile_args = ['-w', '-std=c++11', '-O3']
 extra_link_args = []
 
+# Mac compilation: flags are for the llvm compilers included with recent
+# versions of Xcode Command Line Tools, or newer versions installed separately
+
 if sys.platform.startswith('darwin'):  # Mac
     
     # This environment variable sets the earliest OS version that the compiled
     # code will be compatible with. In certain contexts the default is too old
-    # to allow using libc++; supporting 10.9 and later seems safe
+    # to allow using libc++; supporting OS X 10.9 and later seems safe
     os.environ['MACOSX_DEPLOYMENT_TARGET'] = '10.9'
     
     extra_compile_args += ['-D NO_TR1_MEMORY', '-stdlib=libc++']
@@ -70,8 +73,12 @@ if sys.platform.startswith('darwin'):  # Mac
     if os.environ.get('USEOPENMP'):
         extra_compile_args += ['-fopenmp']
 
+# Window compilation: flags are for Visual C++
+
 elif sys.platform.startswith('win'):  # Windows
     extra_compile_args = ['/w', '/openmp']
+
+# Linux compilation: flags are for gcc 4.8 and later
 
 else:  # Linux
     extra_compile_args += ['-fopenmp']
