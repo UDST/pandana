@@ -479,7 +479,8 @@ class Network:
         self.max_dist = max_dist
         self.max_pois = max_pois
         warnings.warn(
-            "init_pois will be deprecated, num_categories and max_dist should be provided in set_pois",
+            "init_pois will be deprecated, num_categories and max_dist \
+             should be provided in set_pois",
             FutureWarning
         )
         return None
