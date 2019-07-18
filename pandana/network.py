@@ -509,10 +509,10 @@ class Network:
         Nothing
 
         """
-        if maxitems == None:
+        if maxitems is None:
             maxitems = self.max_pois
 
-        if maxdist == None:
+        if maxdist is None:
             maxdist = self.max_dist
 
         if category not in self.poi_category_names:
