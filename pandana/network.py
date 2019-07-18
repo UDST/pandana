@@ -10,11 +10,7 @@ from sklearn.neighbors import KDTree
 
 from .cyaccess import cyaccess
 from .loaders import pandash5 as ph5
-
-
-def reserve_num_graphs(num):
-    print('test')
-    raise Exception("reserve_num_graphs is no longer required - remove from your code")
+import warnings
 
 
 class Network:
@@ -55,7 +51,6 @@ class Network:
 
     def __init__(self, node_x, node_y, edge_from, edge_to, edge_weights,
                  twoway=True):
-
         nodes_df = pd.DataFrame({'x': node_x, 'y': node_y})
         edges_df = pd.DataFrame({'from': edge_from, 'to': edge_to}).\
             join(edge_weights)
@@ -77,7 +72,7 @@ class Network:
                                   index=nodes_df.index)
 
         edges = pd.concat([self._node_indexes(edges_df["from"]),
-                          self._node_indexes(edges_df["to"])], axis=1)
+                           self._node_indexes(edges_df["to"])], axis=1)
 
         self.net = cyaccess(self.node_idx.values,
                             nodes_df.astype('double').as_matrix(),
@@ -90,6 +85,13 @@ class Network:
         self._twoway = twoway
 
         self.kdtree = KDTree(nodes_df.as_matrix())
+
+    def reserve_num_graphs(self, num):
+        warnings.warn(
+            "reserve_num_graphs is deprecated, as pandana 4.1. There is no need for it any more",
+            DeprecationWarning
+        )
+        return None
 
     @classmethod
     def from_hdf5(cls, filename):
