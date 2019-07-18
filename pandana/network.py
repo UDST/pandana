@@ -13,6 +13,7 @@ from .loaders import pandash5 as ph5
 
 
 def reserve_num_graphs(num):
+    print('test')
     raise Exception("reserve_num_graphs is no longer required - remove from your code")
 
 
