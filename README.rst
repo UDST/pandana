@@ -84,7 +84,8 @@ Developer notes
 
 1. Make an installation to obtain  file `cyaccess.cpp`. Errors may occur, ignore them:
 
-  ```sh
+.. code-block:: 
+
   git clone git@github.com:UDST/pandana.git
   git checkout develop
   virtualenv venv --python=python3.6 numpy brewer2mpl tables
@@ -92,21 +93,22 @@ Developer notes
   cd pandana
   pip install .
   CC=gcc CXX=g++ python setup.py develop
-  ```
 
-  This will generate the file `cyaccess.cpp` within `src/`
+This will generate the file `cyaccess.cpp` within `src/`
 
 2. In your final project directory install the `pandana` develop branch
 
-  ```sh
+.. code-block::
+
   git clone git@github.com:UDST/pandana.git
   virtualenv venv --python=python3.6 numpy brewer2mpl tables
   source venv/bin/activate
   cd pandana
-  ```
 
-  Copy file `cyaccess.cpp` from previous `pandana` installation into `src/`
 
-  ```sh
+Copy file `cyaccess.cpp` from previous `pandana` installation into `src/`
+
+.. code-block::
+
   CC=gcc CXX=g++ python setup.py develop
-  ```
+
