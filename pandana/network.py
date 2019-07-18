@@ -89,7 +89,7 @@ class Network:
     def reserve_num_graphs(self, num):
         warnings.warn(
             "reserve_num_graphs is deprecated, as pandana 4.1. There is no need for it any more",
-            DeprecationWarning
+            FutureWarning
         )
         return None
 
@@ -457,6 +457,10 @@ class Network:
         bmap.colorbar(plot, **cbar_kwargs)
 
         return bmap, fig, ax
+
+    def init_pois(self, num_categories, max_dist, max_pois):
+
+        return None
 
     def set_pois(self, category, maxdist, maxitems, x_col, y_col):
         """
