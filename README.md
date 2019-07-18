@@ -77,9 +77,10 @@ Related UDST libraries
 
 
 Developer notes
-----------------------
+---------------
 
-### Linux installation
+**Linux installation**
+
 
 1. Make an installation to obtain  file `cyaccess.cpp`. Errors may occur, ignore them:
 
