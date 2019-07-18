@@ -511,9 +511,11 @@ class Network:
 
         """
         if maxitems is None:
+            print('Reading parameters from init_pois()')
             maxitems = self.max_pois
 
         if maxdist is None:
+            print('Reading parameters from init_pois()')
             maxdist = self.max_dist
 
         if category not in self.poi_category_names:
