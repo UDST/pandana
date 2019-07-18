@@ -459,10 +459,32 @@ class Network:
         return bmap, fig, ax
 
     def init_pois(self, num_categories, max_dist, max_pois):
+        """
+        Initialize the point of interest infrastructure.
 
+        Parameters
+        ----------
+        num_categories : int
+            Number of categories of POIs
+        max_dist : float
+            Maximum distance that will be tested to nearest POIs. This will
+            usually be a distance unit in meters however if you have
+            customized the impedance this could be in other
+            units such as utility or time etc.
+        max_pois :
+            Maximum number of POIs to return in the nearest query
+
+        """
+        self.num_categories = num_categories
+        self.max_dist = max_dist
+        self.max_pois = max_pois
+        warnings.warn(
+            "init_pois will be deprecated, num_categories and max_dist should be provided in set_pois",
+            FutureWarning
+        )
         return None
 
-    def set_pois(self, category, maxdist, maxitems, x_col, y_col):
+    def set_pois(self, category=None, maxdist=None, maxitems=None, x_col=None, y_col=None):
         """
         Set the location of all the pois of this category. The pois are
         connected to the closest node in the Pandana network which assumes
@@ -485,7 +507,14 @@ class Network:
         Returns
         -------
         Nothing
+
         """
+        if maxitems == None:
+            maxitems = self.max_pois
+
+        if maxdist == None:
+            maxdist = self.max_dist
+
         if category not in self.poi_category_names:
             self.poi_category_names.append(category)
 
