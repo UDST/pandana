@@ -471,6 +471,7 @@ class Network:
     def init_pois(self, num_categories, max_dist, max_pois):
         """
         Initialize the point of interest infrastructure.
+        This is no longer needed in Pandana 0.4+ and will be removed in a future version
 
         Parameters
         ----------
@@ -489,9 +490,9 @@ class Network:
         self.max_dist = max_dist
         self.max_pois = max_pois
         warnings.warn(
-            "init_pois will be deprecated, num_categories and max_dist \
-             should be provided in set_pois",
-            FutureWarning
+            "Method init_pois() is no longer needed in Pandana 0.4+ and will be removed in a \
+            future version; maxdist and maxitems should now be passed to set_pois()",
+            DeprecationWarning
         )
         return None
 
@@ -520,12 +521,22 @@ class Network:
         Nothing
 
         """
+        # condition to check if missing arguments for keyword arguments using set_pois() from v0.3
         if maxitems is None:
             print('Reading parameters from init_pois()')
             maxitems = self.max_pois
 
+        # condition to check for positional arguments in set_pois() from v0.3
+        elif type(maxitems) is type(pd.Series()):
+            y_col = maxitems
+            maxitems = self.max_pois
+
         if maxdist is None:
             print('Reading parameters from init_pois()')
+            maxdist = self.max_dist
+
+        elif type(maxdist) is type(pd.Series()):
+            x_col = maxdist
             maxdist = self.max_dist
 
         if category not in self.poi_category_names:
