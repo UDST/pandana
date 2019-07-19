@@ -76,11 +76,6 @@ def random_x_y(sample_osm, ssize):
     return x, y
 
 
-def test_reserve_num_graphs_raises(sample_osm):
-    with pytest.raises(Exception):
-        pdna.reserve_num_graphs(1)
-
-
 def test_agg_variables_accuracy(sample_osm):
     net = sample_osm
 
