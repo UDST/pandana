@@ -78,7 +78,7 @@ def random_x_y(sample_osm, ssize):
 
 def test_reserve_num_graphs_raises(sample_osm):
     with pytest.raises(Exception):
-        pdna.network.reserve_num_graphs(1)
+        pdna.reserve_num_graphs(1)
 
 
 def test_agg_variables_accuracy(sample_osm):
@@ -324,7 +324,7 @@ def test_pois_pandana3(second_sample_osm):
     ssize = 50
     np.random.seed(0)
     x, y = random_x_y(second_sample_osm, ssize)
-    pdna.network.reserve_num_graphs(1)
+    pdna.reserve_num_graphs(1)
 
     net2.init_pois(num_categories=1, max_dist=2000, max_pois=10)
 
@@ -340,7 +340,7 @@ def test_pois_pandana3_pos_args(second_sample_osm):
     ssize = 50
     np.random.seed(0)
     x, y = random_x_y(second_sample_osm, ssize)
-    pdna.network.reserve_num_graphs(1)
+    pdna.reserve_num_graphs(1)
 
     net2.init_pois(1, 2000, 10)
 
