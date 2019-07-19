@@ -13,6 +13,23 @@ from .loaders import pandash5 as ph5
 import warnings
 
 
+def reserve_num_graphs(num):
+    """
+    This function was previously used to reserve memory space for multiple graphs.
+    It is no longer needed in Pandana 0.4+, and will be removed in a future version.
+    Parameters
+    ----------
+    num : int
+        Number of graph to be reserved in memory
+    """
+    warnings.warn(
+        "Function reserve_num_graphs() is no longer needed in Pandana 0.4+\
+         and will be removed in a future version",
+        DeprecationWarning
+    )
+    return None
+
+
 class Network:
     """
     Create the transportation network in the city.  Typical data would be
@@ -85,13 +102,6 @@ class Network:
         self._twoway = twoway
 
         self.kdtree = KDTree(nodes_df.as_matrix())
-
-    def reserve_num_graphs(self, num):
-        warnings.warn(
-            "reserve_num_graphs is deprecated, as pandana 4.1. There is no need for it any more",
-            FutureWarning
-        )
-        return None
 
     @classmethod
     def from_hdf5(cls, filename):
