@@ -141,10 +141,11 @@ setup(
         'build_ext': CustomBuildExtCommand,
     },
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'License :: OSI Approved :: GNU Affero General Public License v3'
     ],
 )
