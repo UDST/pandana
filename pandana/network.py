@@ -527,7 +527,7 @@ class Network:
             maxitems = self.max_pois
 
         # condition to check for positional arguments in set_pois() from v0.3
-        elif type(maxitems) is type(pd.Series()):
+        elif isinstance(maxitems, type(pd.Series())):
             y_col = maxitems
             maxitems = self.max_pois
 
@@ -535,7 +535,7 @@ class Network:
             print('Reading parameters from init_pois()')
             maxdist = self.max_dist
 
-        elif type(maxdist) is type(pd.Series()):
+        elif isinstance(maxdist, type(pd.Series())):
             x_col = maxdist
             maxdist = self.max_dist
 
