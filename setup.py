@@ -12,6 +12,10 @@ from setuptools.command.test import test as TestCommand
 from setuptools.command.build_ext import build_ext
 
 
+###############################################
+## Invoking tests
+###############################################
+
 class PyTest(TestCommand):
     user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]
 
@@ -46,52 +50,61 @@ class CustomBuildExtCommand(build_ext):
         build_ext.run(self)
 
 
-include_dirs = [
-    '.'
-]
+###############################################
+## Building the C++ extension
+###############################################
 
-packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"])
+extra_compile_args = ['-w', '-std=c++11', '-O3']
+extra_link_args = []
 
-source_files = [
-    'src/accessibility.cpp',
-    'src/graphalg.cpp',
-    "src/cyaccess.pyx",
-    'src/contraction_hierarchies/src/libch.cpp'
-]
+# Mac compilation: flags are for the llvm compilers included with recent
+# versions of Xcode Command Line Tools, or newer versions installed separately
 
-extra_compile_args = [
-    '-w',
-    '-std=c++0x',
-    '-O3',
-    '-fpic',
-    '-g',
-]
-extra_link_args = None
+if sys.platform.startswith('darwin'):  # Mac
+    
+    # This environment variable sets the earliest OS version that the compiled
+    # code will be compatible with. In certain contexts the default is too old
+    # to allow using libc++; supporting OS X 10.9 and later seems safe
+    os.environ['MACOSX_DEPLOYMENT_TARGET'] = '10.9'
+    
+    extra_compile_args += ['-D NO_TR1_MEMORY', '-stdlib=libc++']
+    extra_link_args += ['-stdlib=libc++']
+    
+    if os.environ.get('USEOPENMP'):
+        extra_compile_args += ['-fopenmp']
 
-# separate compiler options for Windows
-if sys.platform.startswith('win'):
+# Window compilation: flags are for Visual C++
+
+elif sys.platform.startswith('win'):  # Windows
     extra_compile_args = ['/w', '/openmp']
-# Use OpenMP if directed or not on a Mac
-elif os.environ.get('USEOPENMP') or not sys.platform.startswith('darwin'):
-    extra_compile_args += ['-fopenmp']
-    extra_link_args = [
-        '-lgomp'
-    ]
 
-# recent versions of the OS X SDK don't have the tr1 namespace
-# and we need to flag that during compilation.
-# here we need to check what version of OS X is being targeted
-# for the installation.
-# this is potentially different than the version of OS X on the system.
-if platform.system() == 'Darwin':
-    mac_ver = sysconfig.get_config_var('MACOSX_DEPLOYMENT_TARGET')
-    if mac_ver:
-        mac_ver = [int(x) for x in mac_ver.split('.')]
-        if mac_ver >= [10, 7]:
-            extra_compile_args += ['-D NO_TR1_MEMORY']
-            extra_compile_args += ['-stdlib=libc++']
+# Linux compilation: flags are for gcc 4.8 and later
+
+else:  # Linux
+    extra_compile_args += ['-fopenmp']
+    extra_link_args += ['-lgomp']
+
+
+cyaccess = Extension(
+        name='pandana.cyaccess',
+        sources=[
+            'src/accessibility.cpp',
+            'src/graphalg.cpp',
+            'src/cyaccess.pyx',
+            'src/contraction_hierarchies/src/libch.cpp'],
+        language='c++',
+        include_dirs=['.'],
+        extra_compile_args=extra_compile_args,
+        extra_link_args=extra_link_args)
+
+
+###############################################
+## Standard setup
+###############################################
 
 version = '0.4.1'
+
+packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"])
 
 # read long description from README
 with open('README.rst', 'r') as f:
@@ -107,14 +120,7 @@ setup(
                  'dataframes of network queries, quickly'),
     long_description=long_description,
     url='https://udst.github.io/pandana/',
-    ext_modules=[Extension(
-            'pandana.cyaccess',
-            source_files,
-            language="c++",
-            include_dirs=include_dirs,
-            extra_compile_args=extra_compile_args,
-            extra_link_args=extra_link_args,
-        )],
+    ext_modules=[cyaccess],
     install_requires=[
         'matplotlib>=1.3.1',
         'numpy>=1.8.0',
@@ -125,7 +131,10 @@ setup(
         'cython>=0.25.2',
         'scikit-learn>=0.18.1'
     ],
-    tests_require=['pytest'],
+    tests_require=[
+        'pycodestyle',
+        'pytest'
+    ],
     cmdclass={
         'test': PyTest,
         'lint': Lint,

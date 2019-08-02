@@ -202,6 +202,10 @@ inline ostream& operator<< (ostream& os, const Edge& e) {
                 }
             }
         }
+        
+        FILE_LOG(logINFO) << "Range graph removed " << edges.size() - edge 
+                          << " edges of " << edges.size() << "\n";
+        
         //INFO("Range graph removed " << edges.size() - edge << " edges of " << edges.size());
         assert(edge <= edges.size());
         edges.resize( edge );
