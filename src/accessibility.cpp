@@ -349,6 +349,18 @@ Accessibility::aggregateAccessibilityVariable(
     double sum = 0.0;
     double sumsq = 0.0;
 
+    std::function<double(const double &, const float &, const float &)> sum_function;
+
+    if(decay == "exp")
+        sum_function = [](const double &distance, const float &radius, const float &var)
+                       { return exp(-1*distance/radius) * var; };
+    if(decay == "linear")
+    	sum_function = [](const double &distance, const float &radius, const float &var)
+                       { return (1.0-distance/radius) * var; };
+    if(decay == "flat")
+        sum_function = [](const double &distance, const float &radius, const float &var)
+                       { return var; };
+
     for (int i = 0 ; i < distances.size() ; i++) {
         int nodeid = distances[i].first;
         double distance = distances[i].second;
@@ -358,19 +370,7 @@ Accessibility::aggregateAccessibilityVariable(
 
         for (int j = 0 ; j < vars[nodeid].size() ; j++) {
             cnt++;  // count items
-
-            if (decay == "exp") {
-                sum += exp(-1*distance/radius) * vars[nodeid][j];
-
-            } else if (decay == "linear") {
-                sum += (1.0-distance/radius) * vars[nodeid][j];
-
-            } else if (decay == "flat") {
-                sum += vars[nodeid][j];
-
-            } else {
-                assert(0);
-            }
+            sum += sum_function(distance, radius, vars[nodeid][j]);
 
             // stddev is always flat
             sumsq += vars[nodeid][j] * vars[nodeid][j];

@@ -104,6 +104,15 @@ correctly.  Check the compile output for the gcc compiler you specified
 with :code:`CC` and :code:`CXX` - you might need to change the name slightly depending
 on your platform - for instance :code:`g++-mp-4.9` or :code:`g++-4.8`.
 
+Installation on Windows
+-----------------------
+`Microsoft Visual C++ 2008 SP1 Redistributable Package (x64) 
+<https://www.microsoft.com/en-us/download/details.aspx?id=2092>`_ is required for running 
+Pandana on Windows.  This package enables parallel computations with `OpenMP`_.  Building Pandana 
+from source also requires `Microsoft Visual C++ Compiler for Python 2.7 
+<https://www.microsoft.com/en-us/download/details.aspx?id=44266>`_.
+
+
 .. _Anaconda: http://docs.continuum.io/anaconda/
 .. _pip: https://pip.pypa.io/en/latest/
 .. _OpenMP: http://openmp.org/
