@@ -76,11 +76,6 @@ def random_x_y(sample_osm, ssize):
     return x, y
 
 
-def test_reserve_num_graphs_raises(sample_osm):
-    with pytest.raises(Exception):
-        pdna.reserve_num_graphs(1)
-
-
 def test_agg_variables_accuracy(sample_osm):
     net = sample_osm
 
@@ -318,7 +313,40 @@ def test_pois2(second_sample_osm):
     net2.nearest_pois(2000, "restaurants", num_pois=10)
 
 
+def test_pois_pandana3(second_sample_osm):
+    net2 = second_sample_osm
+
+    ssize = 50
+    np.random.seed(0)
+    x, y = random_x_y(second_sample_osm, ssize)
+    pdna.reserve_num_graphs(1)
+
+    net2.init_pois(num_categories=1, max_dist=2000, max_pois=10)
+
+    # make sure poi searches work on second graph
+    net2.set_pois(category="restaurants", x_col=x, y_col=y)
+
+    net2.nearest_pois(2000, "restaurants", num_pois=10)
+
+
+def test_pois_pandana3_pos_args(second_sample_osm):
+    net2 = second_sample_osm
+
+    ssize = 50
+    np.random.seed(0)
+    x, y = random_x_y(second_sample_osm, ssize)
+    pdna.reserve_num_graphs(1)
+
+    net2.init_pois(1, 2000, 10)
+
+    # make sure poi searches work on second graph
+    net2.set_pois("restaurants", x, y)
+
+    net2.nearest_pois(2000, "restaurants", num_pois=10)
+
 # test items are sorted
+
+
 def test_sorted_pois(sample_osm):
     net = sample_osm
 
