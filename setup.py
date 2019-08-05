@@ -3,9 +3,6 @@ import platform
 import sys
 import sysconfig
 
-from ez_setup import use_setuptools
-use_setuptools()
-
 from setuptools import find_packages
 from distutils.core import setup, Extension
 from setuptools.command.test import test as TestCommand
