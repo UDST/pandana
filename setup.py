@@ -67,7 +67,10 @@ if sys.platform.startswith('darwin'):  # Mac
     extra_compile_args += ['-D NO_TR1_MEMORY', '-stdlib=libc++']
     extra_link_args += ['-stdlib=libc++']
     
-    if os.environ.get('USEOPENMP'):
+    # This checks if the user has replaced the default clang compiler (this does
+    # not confirm there's OpenMP support, but is the best we could come up with)
+    if os.popen('which clang').read() != '/usr/bin/clang':
+        os.environ['CC'] = 'clang'
         extra_compile_args += ['-fopenmp']
 
 # Window compilation: flags are for Visual C++
@@ -119,14 +122,14 @@ setup(
     url='https://udst.github.io/pandana/',
     ext_modules=[cyaccess],
     install_requires=[
-        'cython>=0.25.2',
-        'matplotlib>=1.3.1',
-        'numpy>=1.8.0',
-        'osmnet>=0.1.2',
-        'pandas>=0.17.0',
-        'requests>=2.0',
-        'scikit-learn>=0.18.1',
-        'tables>=3.1.0'
+        'cython >=0.25.2',
+        'matplotlib >=1.3.1',
+        'numpy >=1.8.0',
+        'osmnet >=0.1.2',
+        'pandas >=0.17.0',
+        'requests >=2.0',
+        'scikit-learn >=0.18.1',
+        'tables >=3.1.0'
     ],
     tests_require=[
         'pycodestyle',
