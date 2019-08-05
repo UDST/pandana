@@ -1,3 +1,8 @@
-include ez_setup.py
+# files to include in the source distribution on pypi (setup.py and README.md are included automatically)
+
+include HISTORY.rst
+include LICENSE.txt
 include README.rst
+include requirements-dev.txt
+include setup.cfg
 recursive-include src *.h *.cpp
