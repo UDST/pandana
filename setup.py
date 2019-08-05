@@ -122,14 +122,14 @@ setup(
     url='https://udst.github.io/pandana/',
     ext_modules=[cyaccess],
     install_requires=[
+        'cython>=0.25.2',
         'matplotlib>=1.3.1',
         'numpy>=1.8.0',
+        'osmnet>=0.1.2',
         'pandas>=0.17.0',
         'requests>=2.0',
-        'tables>=3.1.0',
-        'osmnet>=0.1.2',
-        'cython>=0.25.2',
-        'scikit-learn>=0.18.1'
+        'scikit-learn>=0.18.1',
+        'tables>=3.1.0'
     ],
     tests_require=[
         'pycodestyle',
