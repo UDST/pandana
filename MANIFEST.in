@@ -1,8 +1,10 @@
 # files to include in the source distribution on pypi (setup.py and README.md are included automatically)
 
-include HISTORY.rst
+include CHANGELOG.md
 include LICENSE.txt
 include README.rst
 include requirements-dev.txt
 include setup.cfg
+
+recursive-include examples *.ipynb *.py
 recursive-include src *.h *.cpp
