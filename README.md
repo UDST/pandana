@@ -3,7 +3,7 @@
 
 # Pandana
 
-Pandana is a Python package that uses contraction hierarchies to perform rapid network calculations including shortest paths and accessibility buffers. The computations are parallelized for use on multi-core machines using an underlying C/C++ library. Pandana is tested on Mac, Linux, and Windows with Python 2.7, 3.6, and 3.7.
+Pandana is a Python package that uses [contraction hierarchies](https://en.wikipedia.org/wiki/Contraction_hierarchies) to perform rapid network calculations including shortest paths and accessibility buffers. The computations are parallelized for use on multi-core machines using an underlying C/C++ library. Pandana is tested on Mac, Linux, and Windows with Python 2.7, 3.6, and 3.7.
 
 Documentation: http://udst.github.io/pandana
 

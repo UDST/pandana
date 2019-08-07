@@ -2,7 +2,6 @@
 
 include CHANGELOG.md
 include LICENSE.txt
-include README.rst
 include requirements-dev.txt
 include setup.cfg
 
