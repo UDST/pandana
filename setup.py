@@ -107,7 +107,7 @@ version = '0.4.2'
 packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"])
 
 # read long description from README
-with open('README.rst', 'r') as f:
+with open('README.md', 'r') as f:
     long_description = f.read()
 
 setup(
