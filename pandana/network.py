@@ -15,12 +15,15 @@ import warnings
 
 def reserve_num_graphs(num):
     """
-    This function was previously used to reserve memory space for multiple graphs.
-    It is no longer needed in Pandana 0.4+, and will be removed in a future version.
+    This function was previously used to reserve memory space for multiple
+    graphs. It is no longer needed in Pandana 0.4+, and will be removed in a
+    future version. 
+    
     Parameters
     ----------
     num : int
         Number of graph to be reserved in memory
+    
     """
     warnings.warn(
         "Function reserve_num_graphs() is no longer needed in Pandana 0.4+\
@@ -185,6 +188,7 @@ class Network:
         -------
         A numpy array of the nodes that are traversed in the shortest
         path between the two nodes
+        
         """
         # map to internal node indexes
         node_idx = self._node_indexes(pd.Series([node_a, node_b]))
@@ -232,8 +236,8 @@ class Network:
         Returns
         -------
         Nothing
+        
         """
-
         if variable is None:
             variable = pd.Series(np.ones(len(node_ids)), index=node_ids.index)
 
@@ -470,8 +474,8 @@ class Network:
 
     def init_pois(self, num_categories, max_dist, max_pois):
         """
-        Initialize the point of interest infrastructure.
-        This is no longer needed in Pandana 0.4+ and will be removed in a future version
+        Initialize the point of interest infrastructure. This is no longer
+        needed in Pandana 0.4+ and will be removed in a future version.
 
         Parameters
         ----------
