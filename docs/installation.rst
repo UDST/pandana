@@ -29,7 +29,7 @@ Pandana's C/C++ extension will compile automatically if the right tools are pres
 GitHub source code
 ------------------
 
-If you'll be modifying the code, you can install it from the `GitHub source <https://github.com/udst/pandana>`_::
+If you'll be modifying the code, you can install Pandana from the `GitHub source <https://github.com/udst/pandana>`_::
 
     git clone https://github.com/udst/pandana.git
     cd pandana
@@ -58,9 +58,9 @@ Pandana's setup script expects GCC with support for the C++11 standard and OpenM
 Windows
 ~~~~~~~
 
-Compilation is automatic but requires that Microsoft Visual C++ is installed. See Python's `Windows Compilers <https://wiki.python.org/moin/WindowsCompilers>`_ page for more information.
+Compilation is automatic but requires that `Microsoft Visual C++ Build Tools <https://visualstudio.microsoft.com/visual-cpp-build-tools/>`_ are installed.
 
-Certain machines may need the `Microsoft Visual C++ 2008 SP1 Redistributable Package (x64) <https://www.microsoft.com/en-us/download/details.aspx?id=2092>`_ in order to use Pandana. This provides runtime components of the Visual C++ libraries.
+Certain older machines may need the `Microsoft Visual C++ 2008 SP1 Redistributable Package (x64) <https://www.microsoft.com/en-us/download/details.aspx?id=2092>`_ or something similar in order to use Pandana. This provides runtime components of the Visual C++ libraries.
 
 
 Mac
