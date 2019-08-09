@@ -1,40 +1,31 @@
 language: python
-sudo: false
+
 python:
-- '2.7'
-- '3.5'
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - g++-4.9
+  - '2.7'
+  - '3.5'
+  - '3.6'
+
+# This section can be removed when Python 3.7 is more cleanly supported in Travis
+matrix:
+  include:
+    - python: '3.7'
+      dist: xenial
+      sudo: true
+
 install:
-- if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
-    wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh;
-  else
-    wget http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
-  fi
-- bash miniconda.sh -b -p $HOME/miniconda
-- export PATH="$HOME/miniconda/bin:$PATH"
-- hash -r
-- conda config --set always_yes yes --set changeps1 no
-- conda update -q conda
-- conda info -a
-- |
-  conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION basemap matplotlib numpy pandas pip pytables requests cython scikit-learn "pytest<4.0"
-- source activate test-environment
-- pip install pytest-cov coveralls pycodestyle osmnet
-- CC=gcc-4.9 CXX=g++-4.9 python setup.py install
+  - pip install .
+  - pip install -r requirements-dev.txt
+  - pip list
+  - pip show pandana
+
 script:
-- pycodestyle pandana
-- python setup.py test --pytest-args "--cov pandana --cov-report term-missing"
+  - pycodestyle pandana
+  - python setup.py test --pytest-args "--cov pandana --cov-report term-missing"
+
 after_success:
-- coveralls
-- bin/build_docs.sh
-notifications:
-  slack:
-    secure: a6RjANmfIyE0s3iAz4LPy2wS0bOd+ijGlhh7CJf4bRwVnQPuihDTwzQiT92Uje1rHZVUTY0r5A7QzBcg7QcACs/b3hLQ6nYQ0kIm/beC5DfZUqlyHQAuRl6eK76cEg9Le7bX8OXrjWyfTs9jgH7Z2mRGutMieNXVYQG5wMlEKlU=
+  - coveralls
+  - bin/build_docs.sh
+
 env:
   global:
     secure: CMG0rjBgDBNy5FdfXawaaCCJm9ChzHk7e21ywVhIc1jbVS6lMn6bqwKJUnLaJAyjDhhZuxXTcHy+SALJgbzqLrH4GM5hOOL+8Rf4Jf9ESZzTBryvypRecVnUnk63SpJiq2Ki8maNrOcK1IBUAoFhFzptSgE4MDkxZ0LjsDAums8=

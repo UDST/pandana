@@ -10,10 +10,27 @@ from sklearn.neighbors import KDTree
 
 from .cyaccess import cyaccess
 from .loaders import pandash5 as ph5
+import warnings
 
 
 def reserve_num_graphs(num):
-    raise Exception("reserve_num_graphs is no longer required - remove from your code")
+    """
+    This function was previously used to reserve memory space for multiple
+    graphs. It is no longer needed in Pandana 0.4+, and will be removed in a
+    future version.
+
+    Parameters
+    ----------
+    num : int
+        Number of graph to be reserved in memory
+
+    """
+    warnings.warn(
+        "Function reserve_num_graphs() is no longer needed in Pandana 0.4+\
+         and will be removed in a future version",
+        DeprecationWarning
+    )
+    return None
 
 
 class Network:
@@ -54,7 +71,6 @@ class Network:
 
     def __init__(self, node_x, node_y, edge_from, edge_to, edge_weights,
                  twoway=True):
-
         nodes_df = pd.DataFrame({'x': node_x, 'y': node_y})
         edges_df = pd.DataFrame({'from': edge_from, 'to': edge_to}).\
             join(edge_weights)
@@ -76,19 +92,19 @@ class Network:
                                   index=nodes_df.index)
 
         edges = pd.concat([self._node_indexes(edges_df["from"]),
-                          self._node_indexes(edges_df["to"])], axis=1)
+                           self._node_indexes(edges_df["to"])], axis=1)
 
         self.net = cyaccess(self.node_idx.values,
-                            nodes_df.astype('double').as_matrix(),
-                            edges.as_matrix(),
+                            nodes_df.astype('double').values,
+                            edges.values,
                             edges_df[edge_weights.columns].transpose()
                                                           .astype('double')
-                                                          .as_matrix(),
+                                                          .values,
                             twoway)
 
         self._twoway = twoway
 
-        self.kdtree = KDTree(nodes_df.as_matrix())
+        self.kdtree = KDTree(nodes_df.values)
 
     @classmethod
     def from_hdf5(cls, filename):
@@ -172,6 +188,7 @@ class Network:
         -------
         A numpy array of the nodes that are traversed in the shortest
         path between the two nodes
+
         """
         # map to internal node indexes
         node_idx = self._node_indexes(pd.Series([node_a, node_b]))
@@ -219,8 +236,8 @@ class Network:
         Returns
         -------
         Nothing
-        """
 
+        """
         if variable is None:
             variable = pd.Series(np.ones(len(node_ids)), index=node_ids.index)
 
@@ -368,7 +385,7 @@ class Network:
         """
         xys = pd.DataFrame({'x': x_col, 'y': y_col})
 
-        distances, indexes = self.kdtree.query(xys.as_matrix())
+        distances, indexes = self.kdtree.query(xys.values)
         indexes = np.transpose(indexes)[0]
         distances = np.transpose(distances)[0]
 
@@ -455,7 +472,35 @@ class Network:
 
         return bmap, fig, ax
 
-    def set_pois(self, category, maxdist, maxitems, x_col, y_col):
+    def init_pois(self, num_categories, max_dist, max_pois):
+        """
+        Initialize the point of interest infrastructure. This is no longer
+        needed in Pandana 0.4+ and will be removed in a future version.
+
+        Parameters
+        ----------
+        num_categories : int
+            Number of categories of POIs
+        max_dist : float
+            Maximum distance that will be tested to nearest POIs. This will
+            usually be a distance unit in meters however if you have
+            customized the impedance this could be in other
+            units such as utility or time etc.
+        max_pois :
+            Maximum number of POIs to return in the nearest query
+
+        """
+        self.num_categories = num_categories
+        self.max_dist = max_dist
+        self.max_pois = max_pois
+        warnings.warn(
+            "Method init_pois() is no longer needed in Pandana 0.4+ and will be removed in a \
+            future version; maxdist and maxitems should now be passed to set_pois()",
+            DeprecationWarning
+        )
+        return None
+
+    def set_pois(self, category=None, maxdist=None, maxitems=None, x_col=None, y_col=None):
         """
         Set the location of all the pois of this category. The pois are
         connected to the closest node in the Pandana network which assumes
@@ -478,7 +523,26 @@ class Network:
         Returns
         -------
         Nothing
+
         """
+        # condition to check if missing arguments for keyword arguments using set_pois() from v0.3
+        if maxitems is None:
+            print('Reading parameters from init_pois()')
+            maxitems = self.max_pois
+
+        # condition to check for positional arguments in set_pois() from v0.3
+        elif isinstance(maxitems, type(pd.Series())):
+            y_col = maxitems
+            maxitems = self.max_pois
+
+        if maxdist is None:
+            print('Reading parameters from init_pois()')
+            maxdist = self.max_dist
+
+        elif isinstance(maxdist, type(pd.Series())):
+            x_col = maxdist
+            maxdist = self.max_dist
+
         if category not in self.poi_category_names:
             self.poi_category_names.append(category)
 

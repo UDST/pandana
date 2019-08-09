@@ -54,8 +54,8 @@ public:
             _nextThreshold += _intervalPercent;
             printPercent( currentValue / (double)_maxValue * 100 );
         }
-        // if (currentValue + 1 == _maxValue)
-            // std::cout << " 100%" << std::endl;
+        if (currentValue + 1 == _maxValue)
+            std::cout << " 100%" << std::endl;
     }
 
     void printIncrement()
@@ -77,12 +77,12 @@ private:
         while (percent >= _lastPercent+_step) {
             _lastPercent+=_step;
             if (_lastPercent % 10 == 0) {
-                // std::cout << " " << _lastPercent << "% ";
+                std::cout << " " << _lastPercent << "% ";
             }
             else {
-                // std::cout << ".";
+                std::cout << ".";
             }
-            // std::cout.flush();
+            std::cout.flush();
         }
     }
 };

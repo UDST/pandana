@@ -1,3 +1,14 @@
+v0.4.2
+======
+
+2019/8/8
+
+* Speed of network aggregations is improved.
+* Support for aggregating integer values is restored.
+* Thread count and contraction hierarchy status messages are restored.
+* Code written for v0.3 will continue to run, now raising deprecation warnings instead of errors.
+* Compilation improvements for Mac.
+
 v0.4.1
 ======
 

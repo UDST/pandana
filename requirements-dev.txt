@@ -1,0 +1,9 @@
+# requirements for development and testing
+
+coveralls
+numpydoc
+pycodestyle
+pytest>=3.6,<4.0
+pytest-cov
+sphinx
+sphinx_rtd_theme

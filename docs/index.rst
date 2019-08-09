@@ -10,7 +10,7 @@ Pandana is a neologism representing Pandas Network Analysis.
 
 Pandana performs hundreds of thousands of network queries in under a second
 (for walking-scale distances) using a Pandas-like API.  The computations are
-parallelized for use on multi-core computers using an underlying C
+parallelized for use on multi-core computers using an underlying C/C++
 library.
 
 Contents
