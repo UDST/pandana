@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Network API &mdash; pandana 0.4.1 documentation</title>
+  <title>Network API &mdash; pandana 0.4.2 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.4.1
+                0.4.2
               </div>
             
           
@@ -216,7 +216,7 @@ table.</p>
 </table>
 <dl class="method">
 <dt id="pandana.network.Network.aggregate">
-<code class="descname">aggregate</code><span class="sig-paren">(</span><em>distance</em>, <em>type='sum'</em>, <em>decay='linear'</em>, <em>imp_name=None</em>, <em>name='tmp'</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.aggregate" title="Permalink to this definition">¶</a></dt>
+<code class="descname">aggregate</code><span class="sig-paren">(</span><em>self</em>, <em>distance</em>, <em>type='sum'</em>, <em>decay='linear'</em>, <em>imp_name=None</em>, <em>name='tmp'</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.aggregate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Aggregate information for every source node in the network - this is
 really the main purpose of this library.  This allows you to touch
 the data specified by calling set and perform some aggregation on it
@@ -284,7 +284,7 @@ node in the network.</p>
 
 <dl class="classmethod">
 <dt id="pandana.network.Network.from_hdf5">
-<em class="property">classmethod </em><code class="descname">from_hdf5</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.from_hdf5" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">from_hdf5</code><span class="sig-paren">(</span><em>cls</em>, <em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.from_hdf5" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load a previously saved Network from a Pandas HDF5 file.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -308,7 +308,7 @@ node in the network.</p>
 
 <dl class="method">
 <dt id="pandana.network.Network.get_node_ids">
-<code class="descname">get_node_ids</code><span class="sig-paren">(</span><em>x_col</em>, <em>y_col</em>, <em>mapping_distance=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.get_node_ids" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_node_ids</code><span class="sig-paren">(</span><em>self</em>, <em>x_col</em>, <em>y_col</em>, <em>mapping_distance=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.get_node_ids" title="Permalink to this definition">¶</a></dt>
 <dd><p>Assign node_ids to data specified by x_col and y_col</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -352,8 +352,37 @@ input x, y’s that were successfully mapped to node_ids.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="pandana.network.Network.init_pois">
+<code class="descname">init_pois</code><span class="sig-paren">(</span><em>self</em>, <em>num_categories</em>, <em>max_dist</em>, <em>max_pois</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.init_pois" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the point of interest infrastructure. This is no longer
+needed in Pandana 0.4+ and will be removed in a future version.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>num_categories</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Number of categories of POIs</p>
+</dd>
+<dt><strong>max_dist</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Maximum distance that will be tested to nearest POIs. This will
+usually be a distance unit in meters however if you have
+customized the impedance this could be in other
+units such as utility or time etc.</p>
+</dd>
+<dt><strong>max_pois :</strong></dt>
+<dd><p class="first last">Maximum number of POIs to return in the nearest query</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="pandana.network.Network.low_connectivity_nodes">
-<code class="descname">low_connectivity_nodes</code><span class="sig-paren">(</span><em>impedance</em>, <em>count</em>, <em>imp_name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.low_connectivity_nodes" title="Permalink to this definition">¶</a></dt>
+<code class="descname">low_connectivity_nodes</code><span class="sig-paren">(</span><em>self</em>, <em>impedance</em>, <em>count</em>, <em>imp_name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.low_connectivity_nodes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Identify nodes that are connected to fewer than some threshold
 of other nodes within a given distance.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -394,7 +423,7 @@ passed in the constructor, which will be used.</p>
 
 <dl class="method">
 <dt id="pandana.network.Network.nearest_pois">
-<code class="descname">nearest_pois</code><span class="sig-paren">(</span><em>distance</em>, <em>category</em>, <em>num_pois=1</em>, <em>max_distance=None</em>, <em>imp_name=None</em>, <em>include_poi_ids=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.nearest_pois" title="Permalink to this definition">¶</a></dt>
+<code class="descname">nearest_pois</code><span class="sig-paren">(</span><em>self</em>, <em>distance</em>, <em>category</em>, <em>num_pois=1</em>, <em>max_distance=None</em>, <em>imp_name=None</em>, <em>include_poi_ids=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.nearest_pois" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find the distance to the nearest pois from each source node.  The
 bigger values in this case mean less accessibility.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -464,7 +493,7 @@ closest poi, and so on.</p>
 
 <dl class="method">
 <dt id="pandana.network.Network.plot">
-<code class="descname">plot</code><span class="sig-paren">(</span><em>data</em>, <em>bbox=None</em>, <em>plot_type='scatter'</em>, <em>fig_kwargs=None</em>, <em>bmap_kwargs=None</em>, <em>plot_kwargs=None</em>, <em>cbar_kwargs=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.plot" title="Permalink to this definition">¶</a></dt>
+<code class="descname">plot</code><span class="sig-paren">(</span><em>self</em>, <em>data</em>, <em>bbox=None</em>, <em>plot_type='scatter'</em>, <em>fig_kwargs=None</em>, <em>bmap_kwargs=None</em>, <em>plot_kwargs=None</em>, <em>cbar_kwargs=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot an array of data on a map using matplotlib and Basemap,
 automatically matching the data to the Pandana network node positions.</p>
 <p>Keyword arguments are passed to the plotting routine.</p>
@@ -518,7 +547,7 @@ Use this to control color bar location and label.</p>
 
 <dl class="method">
 <dt id="pandana.network.Network.precompute">
-<code class="descname">precompute</code><span class="sig-paren">(</span><em>distance</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.precompute" title="Permalink to this definition">¶</a></dt>
+<code class="descname">precompute</code><span class="sig-paren">(</span><em>self</em>, <em>distance</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.precompute" title="Permalink to this definition">¶</a></dt>
 <dd><p>Precomputes the range queries (the reachable nodes within this
 maximum distance.  So as long as you use a smaller distance, cached
 results will be used.)</p>
@@ -536,7 +565,7 @@ be in other units such as utility or time etc.</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>Nothing</strong></dt>
+<dt>Nothing</dt>
 <dd></dd>
 </dl>
 </td>
@@ -547,7 +576,7 @@ be in other units such as utility or time etc.</p>
 
 <dl class="method">
 <dt id="pandana.network.Network.save_hdf5">
-<code class="descname">save_hdf5</code><span class="sig-paren">(</span><em>filename</em>, <em>rm_nodes=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.save_hdf5" title="Permalink to this definition">¶</a></dt>
+<code class="descname">save_hdf5</code><span class="sig-paren">(</span><em>self</em>, <em>filename</em>, <em>rm_nodes=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.save_hdf5" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save network data to a Pandas HDF5 file.</p>
 <p>Only the nodes and edges of the actual network are saved,
 points-of-interest and data attached to nodes are not saved.</p>
@@ -571,7 +600,7 @@ be saved as part of the Network.</p>
 
 <dl class="method">
 <dt id="pandana.network.Network.set">
-<code class="descname">set</code><span class="sig-paren">(</span><em>node_ids</em>, <em>variable=None</em>, <em>name='tmp'</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.set" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set</code><span class="sig-paren">(</span><em>self</em>, <em>node_ids</em>, <em>variable=None</em>, <em>name='tmp'</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.set" title="Permalink to this definition">¶</a></dt>
 <dd><p>Characterize urban space with a variable that is related to nodes in
 the network.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -609,7 +638,7 @@ setting names.</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>Nothing</strong></dt>
+<dt>Nothing</dt>
 <dd></dd>
 </dl>
 </td>
@@ -620,7 +649,7 @@ setting names.</p>
 
 <dl class="method">
 <dt id="pandana.network.Network.set_pois">
-<code class="descname">set_pois</code><span class="sig-paren">(</span><em>category</em>, <em>maxdist</em>, <em>maxitems</em>, <em>x_col</em>, <em>y_col</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.set_pois" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_pois</code><span class="sig-paren">(</span><em>self</em>, <em>category=None</em>, <em>maxdist=None</em>, <em>maxitems=None</em>, <em>x_col=None</em>, <em>y_col=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.set_pois" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the location of all the pois of this category. The pois are
 connected to the closest node in the Pandana network which assumes
 no impedance between the location of the variable and the location
@@ -649,7 +678,7 @@ of the closest network node.</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>Nothing</strong></dt>
+<dt>Nothing</dt>
 <dd></dd>
 </dl>
 </td>
@@ -660,7 +689,7 @@ of the closest network node.</p>
 
 <dl class="method">
 <dt id="pandana.network.Network.shortest_path">
-<code class="descname">shortest_path</code><span class="sig-paren">(</span><em>node_a</em>, <em>node_b</em>, <em>imp_name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.shortest_path" title="Permalink to this definition">¶</a></dt>
+<code class="descname">shortest_path</code><span class="sig-paren">(</span><em>self</em>, <em>node_a</em>, <em>node_b</em>, <em>imp_name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.shortest_path" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the shortest path between two node ids in the network.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -680,9 +709,9 @@ of the closest network node.</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>A numpy array of the nodes that are traversed in the shortest</strong></dt>
+<dt>A numpy array of the nodes that are traversed in the shortest</dt>
 <dd></dd>
-<dt><strong>path between the two nodes</strong></dt>
+<dt>path between the two nodes</dt>
 <dd></dd>
 </dl>
 </td>
@@ -691,6 +720,27 @@ of the closest network node.</p>
 </table>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="function">
+<dt id="pandana.network.reserve_num_graphs">
+<code class="descclassname">pandana.network.</code><code class="descname">reserve_num_graphs</code><span class="sig-paren">(</span><em>num</em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.reserve_num_graphs" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function was previously used to reserve memory space for multiple
+graphs. It is no longer needed in Pandana 0.4+, and will be removed in a
+future version.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>num</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Number of graph to be reserved in memory</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
@@ -716,7 +766,7 @@ of the closest network node.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, UrbanSim Inc.
+        &copy; Copyright 2019, UrbanSim Inc.
 
     </p>
   </div>

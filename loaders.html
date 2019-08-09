@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Loaders &mdash; pandana 0.4.1 documentation</title>
+  <title>Loaders &mdash; pandana 0.4.2 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.4.1
+                0.4.2
               </div>
             
           
@@ -322,7 +322,7 @@ Index will be the OSM node IDs.</p>
 <h2>Pandas HDF5 API<a class="headerlink" href="#pandas-hdf5-api" title="Permalink to this headline">¶</a></h2>
 <dl class="method">
 <dt>
-<code class="descclassname">Network.</code><code class="descname">save_hdf5</code><span class="sig-paren">(</span><em>filename</em>, <em>rm_nodes=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">Network.</code><code class="descname">save_hdf5</code><span class="sig-paren">(</span><em>self</em>, <em>filename</em>, <em>rm_nodes=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Save network data to a Pandas HDF5 file.</p>
 <p>Only the nodes and edges of the actual network are saved,
 points-of-interest and data attached to nodes are not saved.</p>
@@ -346,7 +346,7 @@ be saved as part of the Network.</p>
 
 <dl class="classmethod">
 <dt>
-<em class="property">classmethod </em><code class="descclassname">Network.</code><code class="descname">from_hdf5</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span></dt>
+<em class="property">classmethod </em><code class="descclassname">Network.</code><code class="descname">from_hdf5</code><span class="sig-paren">(</span><em>cls</em>, <em>filename</em><span class="sig-paren">)</span></dt>
 <dd><p>Load a previously saved Network from a Pandas HDF5 file.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -442,7 +442,7 @@ be saved as part of the Network.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, UrbanSim Inc.
+        &copy; Copyright 2019, UrbanSim Inc.
 
     </p>
   </div>

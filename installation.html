@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installation &mdash; pandana 0.4.1 documentation</title>
+  <title>Installation &mdash; pandana 0.4.2 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.4.1
+                0.4.2
               </div>
             
           
@@ -86,14 +86,15 @@
             
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#install-the-latest-release">Install the latest release</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#conda">conda</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#pip">pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#anaconda-recommended">Anaconda (recommended)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pip-requires-local-compilation">Pip (requires local compilation)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#github-source-code">GitHub source code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#compiling-locally">Compiling locally</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#linux">Linux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#windows">Windows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mac">Mac</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#development-installation">Development Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#multithreaded-installation-on-mac">Multithreaded Installation on Mac</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Getting Started</a></li>
@@ -168,105 +169,70 @@
             
   <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<p>Pandana depends on a number of libraries from the scientific Python stack.
-The easiest way to get these is to use the <a class="reference external" href="http://docs.continuum.io/anaconda/">Anaconda</a> python distribution,
-and the instructions below will assume you are using Anaconda.</p>
-<div class="section" id="dependencies">
-<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
-<p>Pandana depends on the following libraries, most of which are in Anaconda:</p>
-<ul class="simple">
-<li><a class="reference external" href="https://github.com/jiffyclub/brewer2mpl/wiki">brewer2mpl</a> &gt;= 1.4</li>
-<li><a class="reference external" href="http://matplotlib.org/">matplotlib</a> &gt;= 1.3.1</li>
-<li><a class="reference external" href="http://www.numpy.org/">numpy</a> &gt;= 1.8.0</li>
-<li><a class="reference external" href="http://pandas.pydata.org/">pandas</a> &gt;= 0.17.0</li>
-<li><a class="reference external" href="http://www.pytables.org/">tables</a> &gt;= 3.1.0</li>
-<li><a class="reference external" href="http://github.com/udst/osmnet">osmnet</a> &gt;= 0.1.0</li>
-</ul>
+<p>Pandana is a Python package that includes a C/C++ extension. Pandana is tested on Mac, Linux, and Windows with Python 2.7, 3.6, and 3.7.</p>
+<p>The easiest way to install Pandana is using the <a class="reference external" href="https://www.anaconda.com/distribution/">Anaconda</a> package manager. Pandana’s Anaconda distributions are pre-compiled and include multi-threading support on all platforms.</p>
+<p>If you install Pandana from Pip or from the source code on GitHub, you’ll need to compile the C/C++ extension locally. This is automatic, but won’t work unless the right build tools are present. See full instructions below.</p>
+<div class="section" id="anaconda-recommended">
+<h2>Anaconda (recommended)<a class="headerlink" href="#anaconda-recommended" title="Permalink to this headline">¶</a></h2>
+<p>Pandana is hosted on Conda Forge:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">pandana</span> <span class="o">--</span><span class="n">channel</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+</pre></div>
 </div>
-<div class="section" id="install-the-latest-release">
-<h2>Install the latest release<a class="headerlink" href="#install-the-latest-release" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="pip-requires-local-compilation">
+<h2>Pip (requires local compilation)<a class="headerlink" href="#pip-requires-local-compilation" title="Permalink to this headline">¶</a></h2>
+<p>Pandana is also hosted on PyPI:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">pandana</span>
+</pre></div>
+</div>
+<p>Pandana’s C/C++ extension will compile automatically if the right tools are present. See below for troubleshooting.</p>
+</div>
+<div class="section" id="github-source-code">
+<h2>GitHub source code<a class="headerlink" href="#github-source-code" title="Permalink to this headline">¶</a></h2>
+<p>If you’ll be modifying the code, you can install Pandana from the <a class="reference external" href="https://github.com/udst/pandana">GitHub source</a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">udst</span><span class="o">/</span><span class="n">pandana</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">pandana</span>
+<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">develop</span>
+</pre></div>
+</div>
+<p>Pandana’s C/C++ extension will compile automatically if the right tools are present. See below for troubleshooting.</p>
+</div>
+<div class="section" id="compiling-locally">
+<h2>Compiling locally<a class="headerlink" href="#compiling-locally" title="Permalink to this headline">¶</a></h2>
+<p>Building Pandana from source requires C/C++ compilers. On Linux and Mac these are usually already present, but read on for more information.</p>
+<p>Pandana uses OpenMP to parallelize computations — compiling without OpenMP support will still work but won’t allow multi-threading.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Installing via conda or pip on a Mac will install Pandana without
-multithreading support.
-See instructions below for installing on a Mac with multithreading
-support.</p>
+<p class="last">Pandana’s C/C++ code references some libraries from NumPy, so it’s helpful to have NumPy fully installed before running Pandana’s setup script.</p>
 </div>
-<div class="section" id="conda">
-<h3>conda<a class="headerlink" href="#conda" title="Permalink to this headline">¶</a></h3>
-<p>Pandana is hosted on
-<a class="reference external" href="https://anaconda.org/udst">UDST’s Anaconda repository</a>. Other dependencies
-can be installed through the <code class="docutils literal notranslate"><span class="pre">conda-forge</span></code> channel.
-To add these as default installation channels for conda, run this code
-in a terminal:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">config</span> <span class="o">--</span><span class="n">add</span> <span class="n">channels</span> <span class="n">udst</span>
-<span class="n">conda</span> <span class="n">config</span> <span class="o">--</span><span class="n">add</span> <span class="n">channels</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
-</pre></div>
-</div>
-<p>Then you can install pandana:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">pandana</span>
-</pre></div>
-</div>
-<p>To update pandana to a new release, run:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">update</span> <span class="n">pandana</span>
+<div class="section" id="linux">
+<h3>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h3>
+<p>Pandana’s setup script expects GCC with support for the C++11 standard and OpenMP. If you run into problems, try doing a fresh install of the core build tools:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="o">--</span><span class="n">reinstall</span> <span class="n">build</span><span class="o">-</span><span class="n">essential</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="pip">
-<h3>pip<a class="headerlink" href="#pip" title="Permalink to this headline">¶</a></h3>
-<p>Pandana is available on PyPI and can be installed with:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">pandana</span>
+<div class="section" id="windows">
+<h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
+<p>Compilation is automatic but requires that <a class="reference external" href="https://visualstudio.microsoft.com/visual-cpp-build-tools/">Microsoft Visual C++ Build Tools</a> are installed.</p>
+<p>Certain older machines may need the <a class="reference external" href="https://www.microsoft.com/en-us/download/details.aspx?id=2092">Microsoft Visual C++ 2008 SP1 Redistributable Package (x64)</a> or something similar in order to use Pandana. This provides runtime components of the Visual C++ libraries.</p>
+</div>
+<div class="section" id="mac">
+<h3>Mac<a class="headerlink" href="#mac" title="Permalink to this headline">¶</a></h3>
+<p>The default OS X compilers don’t support OpenMP multi-threading. Use these commands to confirm that Xcode Command Line Tools are present and to install some newer compilers from Anaconda:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">xcode</span><span class="o">-</span><span class="n">select</span> <span class="o">--</span><span class="n">install</span>
+<span class="n">conda</span> <span class="n">install</span> <span class="n">llvm</span><span class="o">-</span><span class="n">openmp</span> <span class="n">clang</span>
 </pre></div>
 </div>
-<p>On Windows and Mac this will install binary builds, assuming you are using
-a recent version of <a class="reference external" href="https://pip.pypa.io/en/latest/">pip</a>. On Linux it will perform a source install.</p>
-</div>
-</div>
-<div class="section" id="development-installation">
-<h2>Development Installation<a class="headerlink" href="#development-installation" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Clone the <a class="reference external" href="https://github.com/udst/pandana">pandana repo</a></li>
-<li>Run <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">develop</span></code></li>
-</ul>
-<p>(This is a C extension so requires C/C++ compilers, but should compile on
-Linux, Windows, and Mac.)</p>
-</div>
-<div class="section" id="multithreaded-installation-on-mac">
-<h2>Multithreaded Installation on Mac<a class="headerlink" href="#multithreaded-installation-on-mac" title="Permalink to this headline">¶</a></h2>
-<p>The default compilers on Mac do not support <a class="reference external" href="http://openmp.org/wp/">OpenMP</a> (which we use to
-parallelize the computations).
-To get multithreaded Pandana on Mac you’ll need to install <a class="reference external" href="https://gcc.gnu.org/">GNU GCC</a>
-and then compile Pandana from source.
-The easiest way to get GCC is via <a class="reference external" href="http://brew.sh/">Homebrew</a> or <a class="reference external" href="https://www.macports.org/">MacPorts</a>:</p>
-<ul class="simple">
-<li>Homebrew: <code class="docutils literal notranslate"><span class="pre">brew</span> <span class="pre">install</span> <span class="pre">gcc</span></code></li>
-<li>MacPorts: <code class="docutils literal notranslate"><span class="pre">port</span> <span class="pre">install</span> <span class="pre">gcc</span></code></li>
-</ul>
-<p>Then you must specify the GCC compilers for use during compilation
-via environment variables and tell the <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> script explicitly
-to build with OpenMP:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">CC</span><span class="o">=</span><span class="n">gcc</span><span class="o">-</span><span class="mf">4.9</span>
-<span class="n">export</span> <span class="n">CXX</span><span class="o">=</span><span class="n">g</span><span class="o">++-</span><span class="mf">4.9</span>
-<span class="n">export</span> <span class="n">USEOPENMP</span><span class="o">=</span><span class="mi">1</span>
-</pre></div>
-</div>
+<p>After installing Pandana, running <code class="code docutils literal notranslate"><span class="pre">examples/simple_example.py</span></code> will print out the number of threads that are being used.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The value of the variables you set will depend on the
-exact version of GCC installed.</p>
-</div>
-<p>To install the latest release from source using <a class="reference external" href="https://pip.pypa.io/en/latest/">pip</a>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">use</span><span class="o">-</span><span class="n">wheel</span> <span class="n">pandana</span>
+<p>If you get a compilation error like <code class="docutils literal notranslate"><span class="pre">'wchar.h'</span> <span class="pre">file</span> <span class="pre">not</span> <span class="pre">found</span></code>, you can resolve it in macOS 10.14 by installing some additional header files:</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">open</span> <span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">Developer</span><span class="o">/</span><span class="n">CommandLineTools</span><span class="o">/</span><span class="n">Packages</span><span class="o">/</span><span class="n">macOS_SDK_headers_for_macOS_10</span><span class="o">.</span><span class="mf">14.</span><span class="n">pkg</span>
 </pre></div>
 </div>
-<p>Our you can get the <a class="reference external" href="https://github.com/udst/pandana">development repository</a>
-and run <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code>.</p>
-<p>After installation, executing <code class="code docutils literal notranslate"><span class="pre">examples/simple_example.py</span></code> will print out the
-number of threads that are being utilized.  If Pandana says it is using 1
-thread, and your computer has multiple cores, Pandana is not installed
-correctly.  Check the compile output for the gcc compiler you specified
-with <code class="code docutils literal notranslate"><span class="pre">CC</span></code> and <code class="code docutils literal notranslate"><span class="pre">CXX</span></code> - you might need to change the name slightly depending
-on your platform - for instance <code class="code docutils literal notranslate"><span class="pre">g++-mp-4.9</span></code> or <code class="code docutils literal notranslate"><span class="pre">g++-4.8</span></code>.</p>
+</div>
+</div>
 </div>
 </div>
 
@@ -290,7 +256,7 @@ on your platform - for instance <code class="code docutils literal notranslate">
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, UrbanSim Inc.
+        &copy; Copyright 2019, UrbanSim Inc.
 
     </p>
   </div>
