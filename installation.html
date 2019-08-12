@@ -90,9 +90,9 @@
 <li class="toctree-l2"><a class="reference internal" href="#pip-requires-local-compilation">Pip (requires local compilation)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#github-source-code">GitHub source code</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#compiling-locally">Compiling locally</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#linux">Linux</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#windows">Windows</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#mac">Mac</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compiling-pandana-in-linux">Compiling Pandana in Linux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compiling-pandana-in-windows">Compiling Pandana in Windows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compiling-pandana-in-os-x">Compiling Pandana in OS X</a></li>
 </ul>
 </li>
 </ul>
@@ -200,31 +200,34 @@
 <div class="section" id="compiling-locally">
 <h2>Compiling locally<a class="headerlink" href="#compiling-locally" title="Permalink to this headline">¶</a></h2>
 <p>Building Pandana from source requires C/C++ compilers. On Linux and Mac these are usually already present, but read on for more information.</p>
-<p>Pandana uses OpenMP to parallelize computations — compiling without OpenMP support will still work but won’t allow multi-threading.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Pandana’s C/C++ code references some libraries from NumPy, so it’s helpful to have NumPy fully installed before running Pandana’s setup script.</p>
+<p class="last">Pandana’s C/C++ code references some libraries from NumPy, so you’ll need to have NumPy fully installed before running Pandana’s setup script.</p>
 </div>
-<div class="section" id="linux">
-<h3>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h3>
-<p>Pandana’s setup script expects GCC with support for the C++11 standard and OpenMP. If you run into problems, try doing a fresh install of the core build tools:</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Pandana uses OpenMP to parallelize computations — compiling without OpenMP support will still work but won’t allow multi-threading.</p>
+</div>
+<div class="section" id="compiling-pandana-in-linux">
+<h3>Compiling Pandana in Linux<a class="headerlink" href="#compiling-pandana-in-linux" title="Permalink to this headline">¶</a></h3>
+<p>Pandana’s setup script expects a version of the GCC compiler with support for the C++11 standard and OpenMP. This appears to be GCC 4.8+, but we haven’t done extensive testing. If you run into problems, try doing a fresh install of the core build tools:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="o">--</span><span class="n">reinstall</span> <span class="n">build</span><span class="o">-</span><span class="n">essential</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="windows">
-<h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="compiling-pandana-in-windows">
+<h3>Compiling Pandana in Windows<a class="headerlink" href="#compiling-pandana-in-windows" title="Permalink to this headline">¶</a></h3>
 <p>Compilation is automatic but requires that <a class="reference external" href="https://visualstudio.microsoft.com/visual-cpp-build-tools/">Microsoft Visual C++ Build Tools</a> are installed.</p>
 <p>Certain older machines may need the <a class="reference external" href="https://www.microsoft.com/en-us/download/details.aspx?id=2092">Microsoft Visual C++ 2008 SP1 Redistributable Package (x64)</a> or something similar in order to use Pandana. This provides runtime components of the Visual C++ libraries.</p>
 </div>
-<div class="section" id="mac">
-<h3>Mac<a class="headerlink" href="#mac" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="compiling-pandana-in-os-x">
+<h3>Compiling Pandana in OS X<a class="headerlink" href="#compiling-pandana-in-os-x" title="Permalink to this headline">¶</a></h3>
 <p>The default OS X compilers don’t support OpenMP multi-threading. Use these commands to confirm that Xcode Command Line Tools are present and to install some newer compilers from Anaconda:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">xcode</span><span class="o">-</span><span class="n">select</span> <span class="o">--</span><span class="n">install</span>
 <span class="n">conda</span> <span class="n">install</span> <span class="n">llvm</span><span class="o">-</span><span class="n">openmp</span> <span class="n">clang</span>
 </pre></div>
 </div>
-<p>After installing Pandana, running <code class="code docutils literal notranslate"><span class="pre">examples/simple_example.py</span></code> will print out the number of threads that are being used.</p>
+<p>After installing Pandana, running <code class="code docutils literal notranslate"><span class="pre">examples/simple_example.py</span></code> will display the number of threads that Pandana is using.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p>If you get a compilation error like <code class="docutils literal notranslate"><span class="pre">'wchar.h'</span> <span class="pre">file</span> <span class="pre">not</span> <span class="pre">found</span></code>, you can resolve it in macOS 10.14 by installing some additional header files:</p>
