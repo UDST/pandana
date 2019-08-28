@@ -1,3 +1,10 @@
+v0.4.3
+======
+
+2019/8/28
+
+* Improved compiler support.
+
 v0.4.2
 ======
 
