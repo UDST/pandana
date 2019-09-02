@@ -43,35 +43,35 @@ Compiling locally
 
 Building Pandana from source requires C/C++ compilers. On Linux and Mac these are usually already present, but read on for more information.
 
-Pandana uses OpenMP to parallelize computations --- compiling without OpenMP support will still work but won't allow multi-threading. 
+.. note::
+    Pandana's C/C++ code references some libraries from NumPy, so you'll need to have NumPy fully installed before running Pandana's setup script.
 
 .. note::
-    Pandana's C/C++ code references some libraries from NumPy, so it's helpful to have NumPy fully installed before running Pandana's setup script.
+    Pandana uses OpenMP to parallelize computations --- compiling without OpenMP support will still work but won't allow multi-threading. 
 
-Linux
-~~~~~
+Compiling Pandana in Linux
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Pandana's setup script expects GCC with support for the C++11 standard and OpenMP. If you run into problems, try doing a fresh install of the core build tools::
+Pandana's setup script expects a version of the GCC compiler with support for the C++11 standard and OpenMP. This appears to be GCC 4.8+, but we haven't done extensive testing. If you run into problems, try doing a fresh install of the core build tools::
 
     sudo apt-get install --reinstall build-essential
 
-Windows
-~~~~~~~
+Compiling Pandana in Windows
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Compilation is automatic but requires that `Microsoft Visual C++ Build Tools <https://visualstudio.microsoft.com/visual-cpp-build-tools/>`_ are installed.
 
 Certain older machines may need the `Microsoft Visual C++ 2008 SP1 Redistributable Package (x64) <https://www.microsoft.com/en-us/download/details.aspx?id=2092>`_ or something similar in order to use Pandana. This provides runtime components of the Visual C++ libraries.
 
-
-Mac
-~~~
+Compiling Pandana in OS X
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The default OS X compilers don't support OpenMP multi-threading. Use these commands to confirm that Xcode Command Line Tools are present and to install some newer compilers from Anaconda::
 
     xcode-select --install
     conda install llvm-openmp clang
 
-After installing Pandana, running :code:`examples/simple_example.py` will print out the number of threads that are being used.  
+After installing Pandana, running :code:`examples/simple_example.py` will display the number of threads that Pandana is using.  
 
 .. note::
     If you get a compilation error like ``'wchar.h' file not found``, you can resolve it in macOS 10.14 by installing some additional header files::

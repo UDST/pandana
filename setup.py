@@ -102,13 +102,9 @@ cyaccess = Extension(
 ## Standard setup
 ###############################################
 
-version = '0.4.2'
+version = '0.4.3'
 
 packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"])
-
-# read long description from README
-with open('README.md', 'r') as f:
-    long_description = f.read()
 
 setup(
     packages=packages,
@@ -118,7 +114,11 @@ setup(
     license='AGPL',
     description=('Pandas Network Analysis - '
                  'dataframes of network queries, quickly'),
-    long_description=long_description,
+    long_description=(
+        'Pandana performs hundreds of thousands of network queries in under a '
+        'second (for walking-scale distances) using a Pandas-like API. The '
+        'computations are parallelized for multi-core machines using an '
+        'underlying C++ library.'),
     url='https://udst.github.io/pandana/',
     ext_modules=[cyaccess],
     install_requires=[
