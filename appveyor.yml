@@ -13,11 +13,11 @@ init:
 
 # Cython and NumPy need to be present before building Pandana. Some other
 # runtime requirements aren't installing well with Pip in win-py27, so I'm just
-# including them in the Conda environment: Scikit-learn, Pandana.
+# including them in the Conda environment: Scikit-learn, Pandana, Matplotlib.
 
 install:
   - "set PATH=C:\\Miniconda3;C:\\Miniconda3\\Scripts;%PATH%"
-  - "conda create --name test-env python=%PYTHON% pip cython numpy pandas scikit-learn --yes --quiet"
+  - "conda create --name test-env python=%PYTHON% pip cython numpy pandas scikit-learn matplotlib --yes --quiet"
   - activate test-env
   - python setup.py install
   - conda list
