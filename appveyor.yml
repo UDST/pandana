@@ -1,0 +1,16 @@
+build: false
+
+environment:
+  matrix:
+    - PYTHON: 2.7
+    - PYTHON: 3.6
+
+init:
+  - "ECHO %PYTHON%"
+
+install:
+  - "set PATH=C:\\Miniconda3;C:\\Miniconda3\\Scripts;%PATH%"
+  - "conda create --name test-env python=%PYTHON% pytest pip --yes --quiet"
+  - activate test-env
+  - python setup.py install
+  - conda list
