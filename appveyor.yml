@@ -8,9 +8,16 @@ environment:
 init:
   - "ECHO %PYTHON%"
 
+# The goal here is mainly to confirm that Pandana compiles in Windows; we're not
+# running any of the CI tests
+
+# Cython and NumPy need to be present before building Pandana. Some other
+# runtime requirements aren't installing well with Pip in win-py27, so I'm just
+# including them in the Conda environment: Scikit-learn, Pandana.
+
 install:
   - "set PATH=C:\\Miniconda3;C:\\Miniconda3\\Scripts;%PATH%"
-  - "conda create --name test-env python=%PYTHON% pip cython numpy scikit-learn --yes --quiet"
+  - "conda create --name test-env python=%PYTHON% pip cython numpy pandas scikit-learn --yes --quiet"
   - activate test-env
   - python setup.py install
   - conda list
