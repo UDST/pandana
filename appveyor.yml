@@ -10,7 +10,7 @@ init:
 
 install:
   - "set PATH=C:\\Miniconda3;C:\\Miniconda3\\Scripts;%PATH%"
-  - "conda create --name test-env python=%PYTHON% pip numpy --yes --quiet"
+  - "conda create --name test-env python=%PYTHON% pip cython numpy --yes --quiet"
   - activate test-env
   - python setup.py install
   - conda list
