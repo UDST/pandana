@@ -128,7 +128,6 @@ setup(
         'osmnet >=0.1.2',
         'pandas >=0.17.0',
         'requests >=2.0',
-        'scikit-learn <="0.20"; python_version <="2.7"',
         'scikit-learn >=0.18.1',
         'tables >=3.1.0'
     ],
