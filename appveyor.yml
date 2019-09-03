@@ -17,6 +17,7 @@ init:
 
 install:
   - "set PATH=C:\\Miniconda3;C:\\Miniconda3\\Scripts;%PATH%"
+  - conda config --append conda-forge
   - "conda create --name test-env python=%PYTHON% pip cython matplotlib numpy osmnet pandas requests scikit-learn pytables --yes --quiet"
   - activate test-env
   - python setup.py install
