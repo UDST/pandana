@@ -16,6 +16,8 @@ Pandana is hosted on Conda Forge::
     conda install pandana --channel conda-forge
 
 
+.. _pip:
+
 Pip (requires local compilation)
 --------------------------------
 
@@ -25,6 +27,10 @@ Pandana is also hosted on PyPI::
 
 Pandana's C/C++ extension will compile automatically if the right tools are present. See below for troubleshooting.
 
+Pip can have trouble installing Pandana's requirements in Windows Python 2.7; try Conda instead.
+
+
+.. _github:
 
 GitHub source code
 ------------------
@@ -35,6 +41,8 @@ If you'll be modifying the code, you can install Pandana from the `GitHub source
     cd pandana
     python setup.py develop
 
+You'll need to have Cython and NumPy installed before running :code:`setup.py`. 
+
 Pandana's C/C++ extension will compile automatically if the right tools are present. See below for troubleshooting.
 
 
@@ -43,16 +51,10 @@ Compiling locally
 
 Building Pandana from source requires C/C++ compilers. On Linux and Mac these are usually already present, but read on for more information.
 
-.. note::
-    Pandana's C/C++ code references some libraries from NumPy, so you'll need to have NumPy fully installed before running Pandana's setup script.
-
-.. note::
-    Pandana uses OpenMP to parallelize computations --- compiling without OpenMP support will still work but won't allow multi-threading. 
-
 Compiling Pandana in Linux
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Pandana's setup script expects a version of the GCC compiler with support for the C++11 standard and OpenMP. This appears to be GCC 4.8+, but we haven't done extensive testing. If you run into problems, try doing a fresh install of the core build tools::
+Pandana's setup script expects a version of the GCC compiler with support for OpenMP. This appears to be GCC 4.8+, but we haven't done extensive testing. If you run into problems, try doing a fresh install of the core build tools::
 
     sudo apt-get install --reinstall build-essential
 
@@ -66,16 +68,19 @@ Certain older machines may need the `Microsoft Visual C++ 2008 SP1 Redistributab
 Compiling Pandana in OS X
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The default OS X compilers don't support OpenMP multi-threading. Use these commands to confirm that Xcode Command Line Tools are present and to install some newer compilers from Anaconda::
+The default OS X compilers don't support OpenMP, which Pandana uses for multi-threading.
+
+To allow multi-threading, use these commands to confirm that Xcode Command Line Tools are present and to install some newer compilers from Anaconda::
 
     xcode-select --install
     conda install llvm-openmp clang
 
+Then follow the :ref:`Pip <pip>` or :ref:`GitHub source code <github>` instructions above.
+
+If you get a compilation error like ``'wchar.h' file not found``, you can resolve it in macOS 10.14 by installing some additional header files::
+
+    open /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg
+
 After installing Pandana, running :code:`examples/simple_example.py` will display the number of threads that Pandana is using.  
-
-.. note::
-    If you get a compilation error like ``'wchar.h' file not found``, you can resolve it in macOS 10.14 by installing some additional header files::
-
-        open /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg
 
 .. _Anaconda: https://www.anaconda.com/distribution/

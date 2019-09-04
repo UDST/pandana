@@ -34,9 +34,9 @@ def net(nodes_and_edges):
 
     net = cyaccess(
         nodes.index.values,
-        nodes.as_matrix(),
-        edges.as_matrix(),
-        edge_weights.transpose().as_matrix(),
+        nodes.values,
+        edges.values,
+        edge_weights.transpose().values,
         True
     )
 
@@ -109,9 +109,9 @@ def test_memory_leak(nodes_and_edges):
         print i
         net = cyaccess(
             nodes.index.values,
-            nodes.as_matrix(),
-            edges.as_matrix(),
-            edge_weights.transpose().as_matrix(),
+            nodes.values,
+            edges.values,
+            edge_weights.transpose().values,
             True
         )
 '''
