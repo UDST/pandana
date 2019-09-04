@@ -1,3 +1,10 @@
+v0.4.4
+======
+
+2019/9/4
+
+* Restores support for pre-C++11 compilers.
+
 v0.4.3
 ======
 
