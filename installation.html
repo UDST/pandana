@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installation &mdash; pandana 0.4.3 documentation</title>
+  <title>Installation &mdash; pandana 0.4.4 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.4.3
+                0.4.4
               </div>
             
           
@@ -180,37 +180,31 @@
 </div>
 </div>
 <div class="section" id="pip-requires-local-compilation">
-<h2>Pip (requires local compilation)<a class="headerlink" href="#pip-requires-local-compilation" title="Permalink to this headline">¶</a></h2>
+<span id="pip"></span><h2>Pip (requires local compilation)<a class="headerlink" href="#pip-requires-local-compilation" title="Permalink to this headline">¶</a></h2>
 <p>Pandana is also hosted on PyPI:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">pandana</span>
 </pre></div>
 </div>
 <p>Pandana’s C/C++ extension will compile automatically if the right tools are present. See below for troubleshooting.</p>
+<p>Pip can have trouble installing Pandana’s requirements in Windows Python 2.7; try Conda instead.</p>
 </div>
 <div class="section" id="github-source-code">
-<h2>GitHub source code<a class="headerlink" href="#github-source-code" title="Permalink to this headline">¶</a></h2>
+<span id="github"></span><h2>GitHub source code<a class="headerlink" href="#github-source-code" title="Permalink to this headline">¶</a></h2>
 <p>If you’ll be modifying the code, you can install Pandana from the <a class="reference external" href="https://github.com/udst/pandana">GitHub source</a>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">udst</span><span class="o">/</span><span class="n">pandana</span><span class="o">.</span><span class="n">git</span>
 <span class="n">cd</span> <span class="n">pandana</span>
 <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">develop</span>
 </pre></div>
 </div>
+<p>You’ll need to have Cython and NumPy installed before running <code class="code docutils literal notranslate"><span class="pre">setup.py</span></code>.</p>
 <p>Pandana’s C/C++ extension will compile automatically if the right tools are present. See below for troubleshooting.</p>
 </div>
 <div class="section" id="compiling-locally">
 <h2>Compiling locally<a class="headerlink" href="#compiling-locally" title="Permalink to this headline">¶</a></h2>
 <p>Building Pandana from source requires C/C++ compilers. On Linux and Mac these are usually already present, but read on for more information.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Pandana’s C/C++ code references some libraries from NumPy, so you’ll need to have NumPy fully installed before running Pandana’s setup script.</p>
-</div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Pandana uses OpenMP to parallelize computations — compiling without OpenMP support will still work but won’t allow multi-threading.</p>
-</div>
 <div class="section" id="compiling-pandana-in-linux">
 <h3>Compiling Pandana in Linux<a class="headerlink" href="#compiling-pandana-in-linux" title="Permalink to this headline">¶</a></h3>
-<p>Pandana’s setup script expects a version of the GCC compiler with support for the C++11 standard and OpenMP. This appears to be GCC 4.8+, but we haven’t done extensive testing. If you run into problems, try doing a fresh install of the core build tools:</p>
+<p>Pandana’s setup script expects a version of the GCC compiler with support for OpenMP. This appears to be GCC 4.8+, but we haven’t done extensive testing. If you run into problems, try doing a fresh install of the core build tools:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="o">--</span><span class="n">reinstall</span> <span class="n">build</span><span class="o">-</span><span class="n">essential</span>
 </pre></div>
 </div>
@@ -222,19 +216,18 @@
 </div>
 <div class="section" id="compiling-pandana-in-os-x">
 <h3>Compiling Pandana in OS X<a class="headerlink" href="#compiling-pandana-in-os-x" title="Permalink to this headline">¶</a></h3>
-<p>The default OS X compilers don’t support OpenMP multi-threading. Use these commands to confirm that Xcode Command Line Tools are present and to install some newer compilers from Anaconda:</p>
+<p>The default OS X compilers don’t support OpenMP, which Pandana uses for multi-threading.</p>
+<p>To allow multi-threading, use these commands to confirm that Xcode Command Line Tools are present and to install some newer compilers from Anaconda:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">xcode</span><span class="o">-</span><span class="n">select</span> <span class="o">--</span><span class="n">install</span>
 <span class="n">conda</span> <span class="n">install</span> <span class="n">llvm</span><span class="o">-</span><span class="n">openmp</span> <span class="n">clang</span>
 </pre></div>
 </div>
-<p>After installing Pandana, running <code class="code docutils literal notranslate"><span class="pre">examples/simple_example.py</span></code> will display the number of threads that Pandana is using.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p>Then follow the <a class="reference internal" href="#pip"><span class="std std-ref">Pip</span></a> or <a class="reference internal" href="#github"><span class="std std-ref">GitHub source code</span></a> instructions above.</p>
 <p>If you get a compilation error like <code class="docutils literal notranslate"><span class="pre">'wchar.h'</span> <span class="pre">file</span> <span class="pre">not</span> <span class="pre">found</span></code>, you can resolve it in macOS 10.14 by installing some additional header files:</p>
-<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">open</span> <span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">Developer</span><span class="o">/</span><span class="n">CommandLineTools</span><span class="o">/</span><span class="n">Packages</span><span class="o">/</span><span class="n">macOS_SDK_headers_for_macOS_10</span><span class="o">.</span><span class="mf">14.</span><span class="n">pkg</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">open</span> <span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">Developer</span><span class="o">/</span><span class="n">CommandLineTools</span><span class="o">/</span><span class="n">Packages</span><span class="o">/</span><span class="n">macOS_SDK_headers_for_macOS_10</span><span class="o">.</span><span class="mf">14.</span><span class="n">pkg</span>
 </pre></div>
 </div>
-</div>
+<p>After installing Pandana, running <code class="code docutils literal notranslate"><span class="pre">examples/simple_example.py</span></code> will display the number of threads that Pandana is using.</p>
 </div>
 </div>
 </div>
