@@ -1,0 +1,24 @@
+build: false
+
+environment:
+  matrix:
+    - PYTHON: 2.7
+    - PYTHON: 3.6
+
+init:
+  - "ECHO %PYTHON%"
+
+# The goal here is mainly to confirm that Pandana compiles in Windows; we're not
+# running any of the CI tests
+
+# Cython and NumPy need to be present before building Pandana. Some other
+# runtime requirements aren't installing well with Pip in win-py27, so I'm just
+# putting all of them into the Conda environment
+
+install:
+  - "set PATH=C:\\Miniconda3;C:\\Miniconda3\\Scripts;%PATH%"
+  - conda config --append channels conda-forge
+  - "conda create --name test-env python=%PYTHON% pip cython matplotlib numpy osmnet pandas requests scikit-learn pytables --yes --quiet"
+  - activate test-env
+  - python setup.py install
+  - conda list

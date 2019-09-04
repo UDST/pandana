@@ -1,7 +1,6 @@
 #include "accessibility.h"
 #include <algorithm>
 #include <cmath>
-#include <functional>
 #include <utility>
 #include "graphalg.h"
 
@@ -17,6 +16,23 @@ typedef std::pair<double, int> distance_node_pair;
 bool distance_node_pair_comparator(const distance_node_pair& l,
                                    const distance_node_pair& r)
     { return l.first < r.first; }
+
+
+double exp_decay(const double &distance, const float &radius, const float &var)
+{
+	return exp(-1*distance/radius) * var;
+}
+
+double linear_decay(const double &distance, const float &radius, const float &var)
+{
+	return (1.0-distance/radius) * var;
+}
+
+double flat_decay(const double &distance, const float &radius, const float &var)
+{
+	return var;
+}
+
 
 Accessibility::Accessibility(
         int numnodes,
@@ -350,17 +366,14 @@ Accessibility::aggregateAccessibilityVariable(
     double sum = 0.0;
     double sumsq = 0.0;
 
-    std::function<double(const double &, const float &, const float &)> sum_function;
+    double (*sum_function_ptr)(const double &, const float &, const float &);
 
     if(decay == "exp")
-        sum_function = [](const double &distance, const float &radius, const float &var)
-                       { return exp(-1*distance/radius) * var; };
+        sum_function_ptr = &exp_decay;
     if(decay == "linear")
-    	sum_function = [](const double &distance, const float &radius, const float &var)
-                       { return (1.0-distance/radius) * var; };
+        sum_function_ptr = &linear_decay;
     if(decay == "flat")
-        sum_function = [](const double &distance, const float &radius, const float &var)
-                       { return var; };
+        sum_function_ptr = &flat_decay;
 
     for (int i = 0 ; i < distances.size() ; i++) {
         int nodeid = distances[i].first;
@@ -371,7 +384,7 @@ Accessibility::aggregateAccessibilityVariable(
 
         for (int j = 0 ; j < vars[nodeid].size() ; j++) {
             cnt++;  // count items
-            sum += sum_function(distance, radius, vars[nodeid][j]);
+            sum += (*sum_function_ptr)(distance, radius, vars[nodeid][j]);
 
             // stddev is always flat
             sumsq += vars[nodeid][j] * vars[nodeid][j];
