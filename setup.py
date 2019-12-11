@@ -129,7 +129,8 @@ setup(
         'pandas >=0.17.0',
         'requests >=2.0',
         'scikit-learn >=0.18.1',
-        'tables >=3.1.0'
+        'tables >=3.1, <3.6; python_version <"3.6"',
+        'tables >=3.1, <3.7; python_version >="3.6"'
     ],
     tests_require=[
         'pycodestyle',
