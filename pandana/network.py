@@ -228,7 +228,7 @@ class Network:
 
         imp_num = self._imp_name_to_num(imp_name)
 
-        len = self.net.shortest_path_length(node_a, node_b, imp_num)
+        len = self.net.shortest_path_distance(node_a, node_b, imp_num)
 
         return len
 
