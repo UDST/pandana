@@ -1,7 +1,8 @@
-#include "accessibility.h"
 #include <algorithm>
 #include <cmath>
+#include <deque>
 #include <utility>
+#include "accessibility.h"
 #include "graphalg.h"
 
 namespace MTC {
@@ -11,6 +12,7 @@ using std::string;
 using std::vector;
 using std::pair;
 using std::make_pair;
+using std::deque;
 
 typedef std::pair<double, int> distance_node_pair;
 bool distance_node_pair_comparator(const distance_node_pair& l,
@@ -106,6 +108,21 @@ Accessibility::Route(int src, int tgt, int graphno) {
 double
 Accessibility::Distance(int src, int tgt, int graphno) {
     return this->ga[graphno]->Distance(src, tgt);
+}
+
+
+std::deque<double>
+Accessibility::Distances(const std::deque<int> &sources, const std::deque<int> &targets,  
+                         const int graphno)
+{                       
+    std::deque<double> distances;
+    auto target_it = targets.begin();
+    for(const auto &src : sources) {
+        if(target_it == targets.end())
+            break;
+        distances.push_back(this->ga[graphno]->Distance(src, *target_it++));
+    }   
+    return distances;
 }
 
 

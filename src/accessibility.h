@@ -6,6 +6,7 @@
 #include <string>
 #include <utility>
 #include <map>
+#include <deque>
 #include "shared.h"
 #include "graphalg.h"
 
@@ -16,6 +17,7 @@ using std::vector;
 using std::string;
 using std::set;
 using std::map;
+using std::deque;
 
 class Accessibility {
  public:
@@ -50,8 +52,13 @@ class Accessibility {
 
     // shortest path between two points
     vector<int> Route(int src, int tgt, int graphno = 0);
+
     // shortest path distance between two points
     double Distance(int src, int tgt, int graphno = 0);
+    
+    // shortest path distances between list of origins and destinations
+    deque<double> Distances(const deque<int> &sources, const deque<int> &targets,  
+                            const int graphno = 0);
 
     // precompute the range queries and reuse them
     void precomputeRangeQueries(float radius);

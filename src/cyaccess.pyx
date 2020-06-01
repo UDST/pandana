@@ -172,5 +172,18 @@ cdef class cyaccess:
         """
         return self.access.Distance(srcnode, destnode, impno)
 
+    def shortest_path_distances(
+        self, 
+        np.ndarray[int] srcnodes, 
+        np.ndarray[int] destnodes, 
+        int impno=0
+    ):
+        """
+        srcnodes - node id origins
+        destnodes - node id destinations
+        impno - the impedance id to use
+        """
+        return self.access.Distances(srcnodes, destnodes, impno)
+
     def precompute_range(self, double radius):
         self.access.precomputeRangeQueries(radius)
