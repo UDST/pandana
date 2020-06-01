@@ -111,11 +111,11 @@ Accessibility::Distance(int src, int tgt, int graphno) {
 }
 
 
-std::deque<double>
-Accessibility::Distances(const std::deque<int> &sources, const std::deque<int> &targets,  
-                         const int graphno)
+std::vector<double>
+Accessibility::Distances(const vector<int> &sources, const vector<int> &targets,  
+                         int graphno)
 {                       
-    std::deque<double> distances;
+    vector<double> distances;
     auto target_it = targets.begin();
     for(const auto &src : sources) {
         if(target_it == targets.end())

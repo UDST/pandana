@@ -25,6 +25,7 @@ cdef extern from "accessibility.h" namespace "MTC::accessibility":
             float, string, string, string, int)
         vector[int] Route(int, int, int)
         double Distance(int, int, int)
+        vector[double] Distances(vector[int], vector[int], int)
         void precomputeRangeQueries(double)
 
 
