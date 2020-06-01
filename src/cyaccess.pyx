@@ -25,7 +25,7 @@ cdef extern from "accessibility.h" namespace "MTC::accessibility":
             float, string, string, string, int)
         vector[int] Route(int, int, int)
         double Distance(int, int, int)
-        vector[double] Distances(vector[int], vector[int], int)
+        vector[double] Distances(vector[long], vector[long], int)
         void precomputeRangeQueries(double)
 
 
@@ -173,8 +173,8 @@ cdef class cyaccess:
         """
         return self.access.Distance(srcnode, destnode, impno)
 
-    def shortest_path_distances(self, np.ndarray[int] srcnodes, 
-            np.ndarray[int] destnodes, int impno=0):
+    def shortest_path_distances(self, np.ndarray[long] srcnodes, 
+            np.ndarray[long] destnodes, int impno=0):
         """
         srcnodes - node ids of origins
         destnodes - node ids of destinations

@@ -52,4 +52,9 @@ b = nodes.index[-1]
 print(b)
 # Note that the 'weight' is 1.0 for each link, so results aren't very interesting
 print(net.shortest_path(a,b))
+print(net.shortest_path_length(a,b))
 print(net.shortest_path_length(a,b,'weight'))
+
+nodes_a = [nodes.index[0], nodes.index[1]]
+nodes_b = [nodes.index[-1], nodes.index[-2]]
+print(net.shortest_path_lengths(nodes_a, nodes_b))

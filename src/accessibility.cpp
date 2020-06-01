@@ -1,7 +1,6 @@
 #include "accessibility.h"
 #include <algorithm>
 #include <cmath>
-#include <deque>
 #include <utility>
 #include "graphalg.h"
 
@@ -12,7 +11,6 @@ using std::string;
 using std::vector;
 using std::pair;
 using std::make_pair;
-using std::deque;
 
 typedef std::pair<double, int> distance_node_pair;
 bool distance_node_pair_comparator(const distance_node_pair& l,
@@ -112,7 +110,7 @@ Accessibility::Distance(int src, int tgt, int graphno) {
 
 
 std::vector<double>
-Accessibility::Distances(const vector<int> &sources, const vector<int> &targets,  
+Accessibility::Distances(const vector<long> &sources, const vector<long> &targets,  
                          int graphno)
 {                       
     vector<double> distances;

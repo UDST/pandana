@@ -202,7 +202,7 @@ class Network:
         # map back to external node ids
         return self.node_ids.values[path]
 
-    def shortest_path_length(self, node_a, node_b, imp_name):
+    def shortest_path_length(self, node_a, node_b, imp_name=None):
         """
         Return the length of the shortest path between two node ids in the
         network. Requires an impedance metric.
@@ -231,6 +231,36 @@ class Network:
         len = self.net.shortest_path_distance(node_a, node_b, imp_num)
 
         return len
+
+    def shortest_path_lengths(self, nodes_a, nodes_b, imp_name=None):
+        """
+        Vectorized calculation of shortest path lengths. Accepts a list of
+        origins and list of destinations and returns a corresponding list
+        of shortest path lengths. Requires an impedance metric.
+
+        Parameters
+        ----------
+        nodes_a : list-like of ints
+             Source nodes
+        nodes_b : list-like of ints
+             Corresponding destination nodes
+        imp_name : string
+            The impedance name to use for the shortest path
+
+        Returns
+        -------
+        np.ndarray of floats
+
+        """
+        # map to internal node indexes
+        nodes_a_idx = self._node_indexes(pd.Series(nodes_a)).values
+        nodes_b_idx = self._node_indexes(pd.Series(nodes_b)).values
+
+        imp_num = self._imp_name_to_num(imp_name)
+
+        lens = self.net.shortest_path_distances(nodes_a_idx, nodes_b_idx, imp_num)
+
+        return lens
 
     def set(self, node_ids, variable=None, name="tmp"):
         """
