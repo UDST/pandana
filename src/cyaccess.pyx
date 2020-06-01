@@ -172,16 +172,12 @@ cdef class cyaccess:
         """
         return self.access.Distance(srcnode, destnode, impno)
 
-    def shortest_path_distances(
-        self, 
-        np.ndarray[int] srcnodes, 
-        np.ndarray[int] destnodes, 
-        int impno=0
-    ):
+    def shortest_path_distances(self, np.ndarray[int] srcnodes, 
+            np.ndarray[int] destnodes, int impno=0):
         """
-        srcnodes - node id origins
-        destnodes - node id destinations
-        impno - the impedance id to use
+        srcnodes - node ids of origins
+        destnodes - node ids of destinations
+        impno - impedance id
         """
         return self.access.Distances(srcnodes, destnodes, impno)
 

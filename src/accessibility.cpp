@@ -1,8 +1,8 @@
+#include "accessibility.h"
 #include <algorithm>
 #include <cmath>
 #include <deque>
 #include <utility>
-#include "accessibility.h"
 #include "graphalg.h"
 
 namespace MTC {
