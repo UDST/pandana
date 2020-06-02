@@ -18,6 +18,7 @@ from __future__ import print_function
 
 import os.path
 import sys
+import time
 
 import numpy as np
 import pandas as pd
@@ -45,16 +46,41 @@ store.close()
 print()
 
 # Demonstrate shortest path code
-print('Shortest path from first to last node:')
+print('Shortest path 1:')
 a = nodes.index[0]
 print(a)
 b = nodes.index[-1]
 print(b)
-# Note that the 'weight' is 1.0 for each link, so results aren't very interesting
+
 print(net.shortest_path(a,b))
 print(net.shortest_path_length(a,b))
-print(net.shortest_path_length(a,b,'weight'))
 
-nodes_a = [nodes.index[0], nodes.index[1]]
-nodes_b = [nodes.index[-1], nodes.index[-2]]
+print('Shortest path 2:')
+a = nodes.index[5]
+print(a)
+b = nodes.index[50]
+print(b)
+
+print(net.shortest_path(a,b))
+print(net.shortest_path_length(a,b))
+
+print('Repeat with vectorized calculations:')
+nodes_a = [nodes.index[0], nodes.index[5]]
+nodes_b = [nodes.index[-1], nodes.index[50]]
 print(net.shortest_path_lengths(nodes_a, nodes_b))
+
+# Performance comparison
+print('Performance comparison for 10k distance calculations:')
+n = 10000
+
+nodes_a = np.random.choice(nodes.index, n)
+nodes_b = np.random.choice(nodes.index, n)
+
+t0 = time.time()
+for i in range(n):
+    _ = net.shortest_path_length(nodes_a[i], nodes_b[i])
+print('Loop time = {} sec'.format(time.time() - t0))
+
+t0 = time.time()
+_ = net.shortest_path_lengths(nodes_a, nodes_b)
+print('Vectorized time = {} sec'.format(time.time() - t0))

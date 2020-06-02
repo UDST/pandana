@@ -173,14 +173,15 @@ class Network:
 
     def shortest_path(self, node_a, node_b, imp_name=None):
         """
-        Return the shortest path between two node ids in the network.
+        Return the shortest path between two node ids in the network. Must
+        provide an impedance name if more than one is available.
 
         Parameters
         ----------
         node_a : int
-             The source node label
+            Source node id
         node_b : int
-             The destination node label
+            Destination node id
         imp_name : string, optional
             The impedance name to use for the shortest path
 
@@ -205,14 +206,18 @@ class Network:
     def shortest_path_length(self, node_a, node_b, imp_name=None):
         """
         Return the length of the shortest path between two node ids in the
-        network. Requires an impedance metric.
+        network. Must provide an impedance name if more than one is
+        available. 
+        
+        If you have a large number of paths to calculate, don't use this
+        function! Use the vectorized one instead.
 
         Parameters
         ----------
         node_a : int
-             The source node label
+            Source node id
         node_b : int
-             The destination node label
+            Destination node id
         imp_name : string
             The impedance name to use for the shortest path
 
@@ -236,20 +241,21 @@ class Network:
         """
         Vectorized calculation of shortest path lengths. Accepts a list of
         origins and list of destinations and returns a corresponding list
-        of shortest path lengths. Requires an impedance metric.
+        of shortest path lengths. Must provide an impedance name if more
+        than one is available.
 
         Parameters
         ----------
         nodes_a : list-like of ints
-             Source nodes
+            Source node ids
         nodes_b : list-like of ints
-             Corresponding destination nodes
+            Corresponding destination node ids
         imp_name : string
             The impedance name to use for the shortest path
 
         Returns
         -------
-        np.ndarray of floats
+        list of floats
 
         """
         # map to internal node indexes
