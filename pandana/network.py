@@ -207,8 +207,8 @@ class Network:
         """
         Return the length of the shortest path between two node ids in the
         network. Must provide an impedance name if more than one is
-        available. 
-        
+        available.
+
         If you have a large number of paths to calculate, don't use this
         function! Use the vectorized one instead.
 
