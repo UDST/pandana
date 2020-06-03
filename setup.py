@@ -69,8 +69,19 @@ if sys.platform.startswith('darwin'):  # Mac
     
     # This checks if the user has replaced the default clang compiler (this does
     # not confirm there's OpenMP support, but is the best we could come up with)
-    if os.popen('which clang').read() != '/usr/bin/clang':
-        os.environ['CC'] = 'clang'
+    if os.popen('which clang').read().strip() != '/usr/bin/clang':
+        
+        # C++ headers are in a new location in MacOS 10.15 Catalina
+        if '10.15' in os.popen('sw_vers').read():
+            os.environ['CC'] = 'clang --sysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk'
+
+        # Guessing it will be the same in 10.16, but we'll see
+        elif '10.16' in os.popen('sw_vers').read():
+            os.environ['CC'] = 'clang --sysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk'
+
+        else:
+            os.environ['CC'] = 'clang'
+
         extra_compile_args += ['-fopenmp']
 
 # Window compilation: flags are for Visual C++
