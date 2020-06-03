@@ -67,22 +67,40 @@ if sys.platform.startswith('darwin'):  # Mac
     extra_compile_args += ['-D NO_TR1_MEMORY', '-stdlib=libc++']
     extra_link_args += ['-stdlib=libc++']
     
-    # This checks if the user has replaced the default clang compiler (this does
-    # not confirm there's OpenMP support, but is the best we could come up with)
-    if os.popen('which clang').read().strip() != '/usr/bin/clang':
-        
-        # C++ headers are in a new location in MacOS 10.15 Catalina
-        if '10.15' in os.popen('sw_vers').read():
-            os.environ['CC'] = 'clang --sysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk'
+    # The default compiler that ships with Macs doesn't support OpenMP multi-
+    # threading. We recommend using the Conda toolchain instead, but will also
+    # try to detect if people are using another alternative like Homebrew.
 
-        # Guessing it will be the same in 10.16, but we'll see
-        elif '10.16' in os.popen('sw_vers').read():
-            os.environ['CC'] = 'clang --sysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk'
-
-        else:
-            os.environ['CC'] = 'clang'
-
+    if 'CC' in os.environ:
         extra_compile_args += ['-fopenmp']
+        print('Attempting Pandana compilation with OpenMP multi-threading '
+              'support, with user-specified compiler:\n{}'.format(
+              os.environ['CC']))
+
+    # Otherwise, if the default clang has been replaced but nothing specified
+    # in the 'CC' environment variable, assume they've followed our instructions
+    # for using the Conda toolchain.
+    
+    elif os.popen('which clang').read().strip() != '/usr/bin/clang':
+        cc = 'clang'
+        cc_catalina = 'clang --sysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk'
+        
+        extra_compile_args += ['-fopenmp']
+        print('Attempting Pandana compilation with OpenMP multi-threading '
+              'support, with the following compiler:\n{}'.format(
+              os.popen('which clang').read()))
+
+        if '10.15' in os.popen('sw_vers').read():
+            os.environ['CC'] = cc_catalina
+        elif '10.16' in os.popen('sw_vers').read():
+            os.environ['CC'] = cc_catalina
+        else:
+            os.environ['CC'] = cc
+
+    else:
+        print('Attempting Pandana compilation without support for '
+              'multi-threading. See installation instructions for alternative '
+              'options')
 
 # Window compilation: flags are for Visual C++
 
