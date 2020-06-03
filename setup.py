@@ -61,7 +61,7 @@ if sys.platform.startswith('darwin'):  # Mac
     
     # This environment variable sets the earliest OS version that the compiled
     # code will be compatible with. In certain contexts the default is too old
-    # to allow using libc++; supporting OS X 10.9 and later seems safe
+    # to allow using libc++; supporting OS X 10.9 and later seems reasonable
     os.environ['MACOSX_DEPLOYMENT_TARGET'] = '10.9'
     
     extra_compile_args += ['-D NO_TR1_MEMORY', '-stdlib=libc++']
