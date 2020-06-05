@@ -110,16 +110,20 @@ Accessibility::Distance(int src, int tgt, int graphno) {
 
 
 std::vector<double>
-Accessibility::Distances(const vector<long> &sources, const vector<long> &targets,  
-                         int graphno)
+Accessibility::Distances(vector<long> sources, vector<long> targets, int graphno)
 {                       
     vector<double> distances;
+    for (int i = 0 ; i < sources.size() ; i++) {
+        distances.push_back(this->ga[graphno]->Distance(sources[i], targets[i]));
+    }
+    /*
     vector<long>::const_iterator target_it = targets.begin();
     for(const long &src : sources) {
         if(target_it == targets.end())
             break;
         distances.push_back(this->ga[graphno]->Distance(src, *target_it++));
-    }   
+    }
+    */
     return distances;
 }
 

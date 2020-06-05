@@ -55,7 +55,7 @@ class Accessibility {
     double Distance(int src, int tgt, int graphno = 0);
     
     // shortest path distances between list of origins and destinations
-    vector<double> Distances(const vector<long> &sources, const vector<long> &targets,  
+    vector<double> Distances(vector<long> sources, vector<long> targets,  
                              int graphno = 0);
 
     // precompute the range queries and reuse them
