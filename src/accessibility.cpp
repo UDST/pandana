@@ -114,8 +114,8 @@ Accessibility::Distances(const vector<long> &sources, const vector<long> &target
                          int graphno)
 {                       
     vector<double> distances;
-    auto target_it = targets.begin();
-    for(const auto &src : sources) {
+    vector<long>::const_iterator target_it = targets.begin();
+    for(const long &src : sources) {
         if(target_it == targets.end())
             break;
         distances.push_back(this->ga[graphno]->Distance(src, *target_it++));
