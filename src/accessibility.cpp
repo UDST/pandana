@@ -110,20 +110,19 @@ Accessibility::Distance(int src, int tgt, int graphno) {
 
 
 std::vector<double>
-Accessibility::Distances(vector<long> sources, vector<long> targets, int graphno)
-{                       
-    vector<double> distances;
-    for (int i = 0 ; i < sources.size() ; i++) {
-        distances.push_back(this->ga[graphno]->Distance(sources[i], targets[i]));
+Accessibility::Distances(vector<long> sources, vector<long> targets, int graphno) {                       
+    
+    int n = std::min(sources.size(), targets.size()); // in case lists don't match
+    vector<double> distances (n);
+    
+    #pragma omp parallel
+    #pragma omp for schedule(guided)
+    for (int i = 0 ; i < n ; i++) {
+        distances[i] = this->ga[graphno]->Distance(
+            sources[i], 
+            targets[i], 
+            omp_get_thread_num());
     }
-    /*
-    vector<long>::const_iterator target_it = targets.begin();
-    for(const long &src : sources) {
-        if(target_it == targets.end())
-            break;
-        distances.push_back(this->ga[graphno]->Distance(src, *target_it++));
-    }
-    */
     return distances;
 }
 
