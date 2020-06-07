@@ -18,6 +18,7 @@ from __future__ import print_function
 
 import os.path
 import sys
+import time
 
 import numpy as np
 import pandas as pd
@@ -44,12 +45,42 @@ net = pdna.Network(nodes.x, nodes.y, edges["from"], edges.to,
 store.close()
 print()
 
-# Demonstrate shortest path code
-print('Shortest path from first to last node:')
-a = nodes.index[0]
-print(a)
-b = nodes.index[-1]
-print(b)
-# Note that the 'weight' is 1.0 for each link, so results aren't very interesting
-print(net.shortest_path(a,b))
-print(net.shortest_path_length(a,b,'weight'))
+# Demonstrate shortest path code - the largest connected subgraph here has 477 nodes,
+# per the unit tests
+
+net.set(pd.Series(net.node_ids))
+s = net.aggregate(10000, type='count')
+connected_nodes = s[s==477]
+
+n = 10000
+nodes_a = np.random.choice(connected_nodes.index, n)
+nodes_b = np.random.choice(connected_nodes.index, n)
+
+print('Shortest path 1:')
+print(nodes_a[0])
+print(nodes_b[0])
+
+print(net.shortest_path(nodes_a[0],nodes_b[0]))
+print(net.shortest_path_length(nodes_a[0],nodes_b[0]))
+
+print('Shortest path 2:')
+print(nodes_a[1])
+print(nodes_b[1])
+
+print(net.shortest_path(nodes_a[1],nodes_b[1]))
+print(net.shortest_path_length(nodes_a[1],nodes_b[1]))
+
+print('Repeat with vectorized calculations:')
+print(net.shortest_path_lengths(nodes_a[0:2],nodes_b[0:2]))
+
+# Performance comparison
+print('Performance comparison for 10k distance calculations:')
+
+t0 = time.time()
+for i in range(n):
+    _ = net.shortest_path_length(nodes_a[i], nodes_b[i])
+print('Loop time = {} sec'.format(time.time() - t0))
+
+t0 = time.time()
+_ = net.shortest_path_lengths(nodes_a, nodes_b)
+print('Vectorized time = {} sec'.format(time.time() - t0))

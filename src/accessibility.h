@@ -50,8 +50,13 @@ class Accessibility {
 
     // shortest path between two points
     vector<int> Route(int src, int tgt, int graphno = 0);
+
     // shortest path distance between two points
     double Distance(int src, int tgt, int graphno = 0);
+    
+    // shortest path distances between list of origins and destinations
+    vector<double> Distances(vector<long> sources, vector<long> targets,  
+                             int graphno = 0);
 
     // precompute the range queries and reuse them
     void precomputeRangeQueries(float radius);
