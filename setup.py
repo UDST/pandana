@@ -131,7 +131,7 @@ cyaccess = Extension(
 ## Standard setup
 ###############################################
 
-version = '0.4.4'
+version = '0.5.dev'
 
 packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"])
 
@@ -176,6 +176,7 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
         'License :: OSI Approved :: GNU Affero General Public License v3'
     ],
 )
