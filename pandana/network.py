@@ -200,6 +200,36 @@ class Network:
         # map back to external node ids
         return self.node_ids.values[path]
 
+    def shortest_path_length(self, node_a, node_b, imp_name):
+        """
+        Return the length of the shortest path between two node ids in the
+        network. Requires an impedance metric.
+
+        Parameters
+        ----------
+        node_a : int
+             The source node label
+        node_b : int
+             The destination node label
+        imp_name : string
+            The impedance name to use for the shortest path
+
+        Returns
+        -------
+        Float
+
+        """
+        # map to internal node indexes
+        node_idx = self._node_indexes(pd.Series([node_a, node_b]))
+        node_a = node_idx.iloc[0]
+        node_b = node_idx.iloc[1]
+
+        imp_num = self._imp_name_to_num(imp_name)
+
+        len = self.net.shortest_path_distance(node_a, node_b, imp_num)
+
+        return len
+
     def set(self, node_ids, variable=None, name="tmp"):
         """
         Characterize urban space with a variable that is related to nodes in
