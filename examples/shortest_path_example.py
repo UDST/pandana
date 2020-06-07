@@ -45,36 +45,36 @@ net = pdna.Network(nodes.x, nodes.y, edges["from"], edges.to,
 store.close()
 print()
 
-# Demonstrate shortest path code
-print('Shortest path 1:')
-a = nodes.index[0]
-print(a)
-b = nodes.index[-1]
-print(b)
+# Demonstrate shortest path code - the largest connected subgraph here has 477 nodes,
+# per the unit tests
 
-print(net.shortest_path(a,b))
-print(net.shortest_path_length(a,b))
+net.set(pd.Series(net.node_ids))
+s = net.aggregate(10000, type='count')
+connected_nodes = s[s==477]
+
+n = 10000
+nodes_a = np.random.choice(connected_nodes.index, n)
+nodes_b = np.random.choice(connected_nodes.index, n)
+
+print('Shortest path 1:')
+print(nodes_a[0])
+print(nodes_b[0])
+
+print(net.shortest_path(nodes_a[0],nodes_b[0]))
+print(net.shortest_path_length(nodes_a[0],nodes_b[0]))
 
 print('Shortest path 2:')
-a = nodes.index[5]
-print(a)
-b = nodes.index[50]
-print(b)
+print(nodes_a[1])
+print(nodes_b[1])
 
-print(net.shortest_path(a,b))
-print(net.shortest_path_length(a,b))
+print(net.shortest_path(nodes_a[1],nodes_b[1]))
+print(net.shortest_path_length(nodes_a[1],nodes_b[1]))
 
 print('Repeat with vectorized calculations:')
-nodes_a = [nodes.index[0], nodes.index[5]]
-nodes_b = [nodes.index[-1], nodes.index[50]]
-print(net.shortest_path_lengths(nodes_a, nodes_b))
+print(net.shortest_path_lengths(nodes_a[0:2],nodes_b[0:2]))
 
 # Performance comparison
 print('Performance comparison for 10k distance calculations:')
-n = 10000
-
-nodes_a = np.random.choice(nodes.index, n)
-nodes_b = np.random.choice(nodes.index, n)
 
 t0 = time.time()
 for i in range(n):
