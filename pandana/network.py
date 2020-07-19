@@ -258,7 +258,7 @@ class Network:
         """
         if len(nodes_a) != len(nodes_b):
             raise ValueError("Origin and destination counts don't match: {}, {}"
-                    .format(len(nodes_a), len(nodes_b)))
+                             .format(len(nodes_a), len(nodes_b)))
 
         # map to internal node indexes
         nodes_a_idx = self._node_indexes(pd.Series(nodes_a)).values
