@@ -4,6 +4,6 @@ coveralls
 numpydoc
 pycodestyle
 pytest>=3.6,<4.0
-pytest-cov
+pytest-cov<2.10
 sphinx
 sphinx_rtd_theme
