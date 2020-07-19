@@ -281,8 +281,8 @@ def test_shortest_path_lengths(sample_osm):
     nodes = random_connected_nodes(sample_osm, 100)
     lens = sample_osm.shortest_path_lengths(nodes[0:50], nodes[50:100])
     for len in lens:
-        assert len >=0
-    
+        assert len >= 0
+
     # check mismatched OD lists
     try:
         lens = sample_osm.shortest_path_lengths(nodes[0:51], nodes[50:100])
