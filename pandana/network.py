@@ -506,7 +506,7 @@ class Network:
             ModuleNotFoundError  # Python 3.6+
         except NameError:
             ModuleNotFoundError = ImportError
-        
+
         try:
             import matplotlib
             import matplotlib.pyplot as plt
