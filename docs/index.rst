@@ -13,6 +13,9 @@ Pandana performs hundreds of thousands of network queries in under a second
 parallelized for use on multi-core computers using an underlying C/C++
 library.
 
+v0.5, released July 22, 2020
+
+
 Contents
 --------
 
