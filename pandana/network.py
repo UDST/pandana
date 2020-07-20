@@ -378,10 +378,16 @@ class Network:
             computed by sorting so may be slower than the others.)
         decay : string
             The type of decay to apply, which makes things that are further
-            away count less in the aggregation - must be one of "linear",
-            "exponential" or "flat" (which means no decay).  Linear is the
-            fastest computation to perform.  When performing an "ave",
-            the decay is typically "flat"
+            away count less in the aggregation: 'linear', 'exponential', or
+            'flat' (no decay). Additional notes from maintainer: see
+            'aggregateAccessibilityVariable' in accessibility.cpp to read
+            through the code that applies decays. The exponential decay
+            function is exp(-1*distance/radius)*var. The decay parameter
+            only operates on 'sum' and 'mean' aggregations. If you apply
+            decay to a 'mean', the result will NOT be a weighted average;
+            it will be the mean of the post-decay values. (So for a 'mean'
+            aggregation, you need to explicitly set decay to 'flat' unless
+            you want that.)
         imp_name : string, optional
             The impedance name to use for the aggregation on this network.
             Must be one of the impedance names passed in the constructor of
