@@ -4,17 +4,13 @@ python:
   - '2.7'
   - '3.5'
   - '3.6'
-
-# This section can be removed when Python 3.7 is more cleanly supported in Travis
-matrix:
-  include:
-    - python: '3.7'
-      dist: xenial
-      sudo: true
+  - '3.7'
+  - '3.8'
 
 install:
   - pip install .
   - pip install -r requirements-dev.txt
+  - pip install -r requirements-extras.txt
   - pip list
   - pip show pandana
 

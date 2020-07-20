@@ -153,7 +153,6 @@ setup(
     install_requires=[
         'cython >=0.25.2',
         'numpy >=1.8',
-        'osmnet >=0.1.2',
         'pandas >=0.17',
         'requests >=2.0',
         'scipy >=0.9',

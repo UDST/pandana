@@ -5,7 +5,7 @@ Tools for creating Pandana networks from OpenStreetMap.
 
 import pandas as pd
 import requests
-from osmnet.load import network_from_bbox
+
 
 from .. import Network
 
@@ -15,8 +15,9 @@ def pdna_network_from_bbox(
         network_type='walk', two_way=True,
         timeout=180, memory=None, max_query_area_size=50 * 1000 * 50 * 1000):
     """
-    Make a Pandana network from a bounding lat/lon box
-    request to the Overpass API. Distance will be in the default units meters.
+    Make a Pandana network from a bounding lat/lon box via a request to the
+    OpenStreetMap Overpass API. Distance will be in meters. Requires installing
+    the OSMnet library.
 
     Parameters
     ----------
@@ -45,6 +46,16 @@ def pdna_network_from_bbox(
     network : pandana.Network
 
     """
+    try:
+        ModuleNotFoundError  # Python 3.6+
+    except NameError:
+        ModuleNotFoundError = ImportError
+
+    try:
+        from osmnet.load import network_from_bbox
+    except ModuleNotFoundError:
+        raise ModuleNotFoundError("OSM downloads require the OSMnet library: "
+                                  "https://udst.github.io/osmnet/")
 
     nodes, edges = network_from_bbox(lat_min=lat_min, lng_min=lng_min,
                                      lat_max=lat_max, lng_max=lng_max,
