@@ -152,7 +152,6 @@ setup(
     ext_modules=[cyaccess],
     install_requires=[
         'cython >=0.25.2',
-        'matplotlib >=1.3.1',
         'numpy >=1.8',
         'osmnet >=0.1.2',
         'pandas >=0.17',

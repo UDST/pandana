@@ -1,7 +1,5 @@
 from __future__ import division, print_function
 
-import matplotlib
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from scipy.spatial import KDTree
@@ -504,7 +502,18 @@ class Network:
         ax : matplotlib.Axes
 
         """
-        from mpl_toolkits.basemap import Basemap
+        try:
+            ModuleNotFoundError  # Python 3.6+
+        except NameError:
+            ModuleNotFoundError = ImportError
+        
+        try:
+            import matplotlib
+            import matplotlib.pyplot as plt
+            from mpl_toolkits.basemap import Basemap
+        except (ModuleNotFoundError, RuntimeError):
+            raise ModuleNotFoundError("Pandana's network.plot() requires Matplotlib and "
+                                      "the Matplotlib Basemap Toolkit")
 
         fig_kwargs = fig_kwargs or {}
         bmap_kwargs = bmap_kwargs or {}
