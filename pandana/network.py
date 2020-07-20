@@ -372,10 +372,10 @@ class Network:
             if you have customized the impedance this could be in other
             units such as utility or time etc.
         type : string
-            The type of aggregation, can be one of "ave", "sum", "std",
-            "count", and now "min", "25pct", "median", "75pct", and "max" will
-            compute the associated quantiles.  (Quantiles are computed by
-            sorting so might be slower than the others.)
+            The type of aggregation: 'mean' (with 'ave', 'avg', 'average'
+            as aliases), 'std' (or 'stddev'), 'sum', 'count', 'min', 'max',
+            'med' (or 'median'), '25pct', or '75pct'. (Quantiles are
+            computed by sorting so may be slower than the others.)
         decay : string
             The type of decay to apply, which makes things that are further
             away count less in the aggregation - must be one of "linear",
@@ -404,8 +404,16 @@ class Network:
 
         imp_num = self._imp_name_to_num(imp_name)
         type = type.lower()
-        if type == "ave":
-            type = "mean"  # changed generic ave to mean
+
+        # Resolve aliases
+        if type in ['ave', 'avg', 'average']:
+            type = 'mean'
+
+        if type in ['stddev']:
+            type = 'std'
+
+        if type in ['med']:
+            type = 'median'
 
         assert name in self.variable_names, "A variable with that name " \
                                             "has not yet been initialized"
