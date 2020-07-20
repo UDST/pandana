@@ -4,7 +4,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from sklearn.neighbors import KDTree
+from scipy.spatial import KDTree
 
 from .cyaccess import cyaccess
 from .loaders import pandash5 as ph5
@@ -454,8 +454,6 @@ class Network:
         xys = pd.DataFrame({'x': x_col, 'y': y_col})
 
         distances, indexes = self.kdtree.query(xys.values)
-        indexes = np.transpose(indexes)[0]
-        distances = np.transpose(distances)[0]
 
         node_ids = self.nodes_df.iloc[indexes].index
 

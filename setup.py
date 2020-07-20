@@ -28,7 +28,7 @@ class PyTest(TestCommand):
     def run_tests(self):
         # import here, cause outside the eggs aren't loaded
         import pytest
-        errno = pytest.main(self.pytest_args or '')
+        errno = pytest.main(self.pytest_args or [''])
         sys.exit(errno)
 
 
@@ -153,17 +153,13 @@ setup(
     install_requires=[
         'cython >=0.25.2',
         'matplotlib >=1.3.1',
-        'numpy >=1.8.0',
+        'numpy >=1.8',
         'osmnet >=0.1.2',
-        'pandas >=0.17.0',
+        'pandas >=0.17',
         'requests >=2.0',
-        'scikit-learn >=0.18.1',
+        'scipy >=0.9',
         'tables >=3.1, <3.6; python_version <"3.6"',
         'tables >=3.1, <3.7; python_version >="3.6"'
-    ],
-    tests_require=[
-        'pycodestyle',
-        'pytest'
     ],
     cmdclass={
         'test': PyTest,
