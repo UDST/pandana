@@ -92,7 +92,7 @@ if sys.platform.startswith('darwin'):  # Mac
 
         if '10.15' in os.popen('sw_vers').read():
             os.environ['CC'] = cc_catalina
-        elif '10.16' in os.popen('sw_vers').read():
+        elif '11.' in os.popen('sw_vers').read():
             os.environ['CC'] = cc_catalina
         else:
             os.environ['CC'] = cc
