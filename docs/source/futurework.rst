@@ -1,4 +1,4 @@
-Planned Improvements
+Planned improvements
 --------------------
 
 As has been shown, the main use case for Pandana is to expose the
