@@ -6,12 +6,7 @@
 Pandana
 =======
 
-Pandana is a neologism representing Pandas Network Analysis.
-
-Pandana performs hundreds of thousands of network queries in under a second
-(for walking-scale distances) using a Pandas-like API.  The computations are
-parallelized for use on multi-core computers using an underlying C/C++
-library.
+Pandana is a Python library that calculates super-fast accessibility metrics and shortest paths, using contraction hierarchies. The numerical code is in C++. Pandana stands for Pandas Network Analysis.
 
 v0.5, released July 22, 2020
 
@@ -28,6 +23,7 @@ Contents
    network
    loaders
    utilities
+   changelog
    futurework
 
 Indices and tables

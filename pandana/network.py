@@ -183,8 +183,8 @@ class Network:
 
         Returns
         -------
-        A numpy array of the nodes that are traversed in the shortest
-        path between the two nodes
+        path : np.ndarray
+            Nodes that are traversed in the shortest path
 
         """
         # map to internal node indexes
@@ -219,7 +219,7 @@ class Network:
 
         Returns
         -------
-        Float
+        length : float
 
         """
         # map to internal node indexes
@@ -251,7 +251,7 @@ class Network:
 
         Returns
         -------
-        list of floats
+        lenths : list of floats
 
         """
         if len(nodes_a) != len(nodes_b):
@@ -376,18 +376,21 @@ class Network:
             as aliases), 'std' (or 'stddev'), 'sum', 'count', 'min', 'max',
             'med' (or 'median'), '25pct', or '75pct'. (Quantiles are
             computed by sorting so may be slower than the others.)
-        decay : string
+        decay : string, optional
             The type of decay to apply, which makes things that are further
             away count less in the aggregation: 'linear', 'exponential', or
-            'flat' (no decay). Additional notes from maintainer: see
-            'aggregateAccessibilityVariable' in accessibility.cpp to read
+            'flat' (no decay). 
+
+            *Additional notes from maintainer:* see
+            ``aggregateAccessibilityVariable`` in accessibility.cpp to read
             through the code that applies decays. The exponential decay
-            function is exp(-1*distance/radius)*var. The decay parameter
+            function is exp(-1*distance/radius)*var. The decay setting
             only operates on 'sum' and 'mean' aggregations. If you apply
             decay to a 'mean', the result will NOT be a weighted average;
             it will be the mean of the post-decay values. (So for a 'mean'
             aggregation, you need to explicitly set decay to 'flat' unless
             you want that.)
+
         imp_name : string, optional
             The impedance name to use for the aggregation on this network.
             Must be one of the impedance names passed in the constructor of
@@ -395,7 +398,7 @@ class Network:
             passed in the constructor, which will be used.
         name : string, optional
             The variable to aggregate.  This variable will have been created
-            and named by a call to set.  If not specified, the default
+            and named by a call to ``set``.  If not specified, the default
             variable name will be used so that the most recent call to set
             without giving a name will be the variable used.
 

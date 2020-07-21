@@ -1,4 +1,4 @@
-Getting Started
+Getting started
 ---------------
 
 Introduction
@@ -15,8 +15,8 @@ interact with their environment.
 
 We look forward to creative uses of a general library like this - please let us know when you think you have a great use case by tweeting us at ``@urbansim`` or post on the UrbanSim `forum`_.
 
-The General Workflow
-~~~~~~~~~~~~~~~~~~~~
+General workflow
+~~~~~~~~~~~~~~~~
 
 Accessibility as defined here is the ability to reach other specified locations
 in the city, and this framework is first and foremost designed to

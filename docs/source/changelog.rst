@@ -1,5 +1,8 @@
+Change log
+==========
+
 v0.5
-====
+----
 
 2020/07/22
 
@@ -11,21 +14,21 @@ v0.5
 * Makes matplotlib and osmnet dependencies optional
 
 v0.4.4
-======
+------
 
 2019/9/4
 
 * Restores support for pre-C++11 compilers.
 
 v0.4.3
-======
+------
 
 2019/8/28
 
 * Improved compiler support.
 
 v0.4.2
-======
+------
 
 2019/8/8
 
@@ -36,7 +39,7 @@ v0.4.2
 * Compilation improvements for Mac.
 
 v0.4.1
-======
+------
 
 2018/7/30
 
@@ -44,8 +47,8 @@ v0.4.1
 * Replaced uses of std::map::at() since it's not supported in pre-C++11 compilers.
 * Replaced initialization lists due to the same reason as above.
 
-v0.4.0
-======
+v0.4
+----
 
 2017/6/27
 
@@ -55,8 +58,8 @@ v0.4.0
 * The change in global memory made the calls to init_pois no longer necessary. Then, that method has been removed and the max_items and max_distance parameters were relocated in the set_pois call.
 * The nearest neighbor queries are now resolved with Scipy instead of libANN. That removed additional global memory.
 
-v0.3.0
-======
+v0.3
+----
 
 2017/4/5
 
