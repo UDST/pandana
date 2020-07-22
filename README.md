@@ -25,14 +25,14 @@ See the documentation for information about other [installation options](http://
 
 ### Demo
 
-[Example.ipynb](https://github.com/UDST/pandana/blob/master/examples/Example.ipynb)
+http://udst.github.io/pandana/tutorial.html
 
 The image below shows the network distance to the second-nearest restaurant from each street intersection in the city of San Francisco. Pandana can calculate this in about half a second of computation time. 
 
 <img src="https://raw.githubusercontent.com/udst/pandana/master/docs/img/distance_to_restaurants.png" width=400 height=400>
 
 
-## Acknowledgments
+### Acknowledgments
 
 Pandana was created by [Fletcher Foti](https://github.com/fscottfoti), with subsequent contributions from [Matt Davis](https://github.com/jiffyclub), [Federico Fernandez](https://github.com/federicofernandez), [Sam Maurer](https://github.com/smmaurer), and others. Sam Maurer is currently the lead maintainer. Pandana relies on contraction hierarchy code from [Dennis Luxen](https://github.com/DennisOSRM) and his [OSRM project](https://github.com/DennisOSRM/Project-OSRM).
 
