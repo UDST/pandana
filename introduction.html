@@ -1,38 +1,39 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Getting Started &mdash; pandana 0.4.4 documentation</title>
+  <title>Getting started &mdash; pandana 0.5 documentation</title>
   
-
-  
-  
-  
-  
-
-  
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
 
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Tutorial" href="tutorial.html" />
@@ -50,7 +51,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> pandana
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> pandana
           
 
           
@@ -60,7 +61,7 @@
             
             
               <div class="version">
-                0.4.4
+                0.5
               </div>
             
           
@@ -77,6 +78,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -86,9 +88,9 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#the-general-workflow">The General Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#general-workflow">General workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#reporting-bugs">Reporting bugs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#contributing-to-pandana">Contributing to Pandana</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#license">License</a></li>
@@ -99,12 +101,14 @@
 <li class="toctree-l1"><a class="reference internal" href="network.html">Network API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loaders.html">Loaders</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="futurework.html">Planned Improvements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Change log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="futurework.html">Road map</a></li>
 </ul>
 
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -143,9 +147,9 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Getting Started</li>
+      <li>Getting started</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -165,7 +169,11 @@
            <div itemprop="articleBody">
             
   <div class="section" id="getting-started">
-<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<h1>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This guide was last updated in 2017.</p>
+</div>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>In this case, a picture is worth a thousand words. The image below shows the
@@ -176,8 +184,8 @@ we think network queries are a more accurate representation of how people
 interact with their environment.</p>
 <p>We look forward to creative uses of a general library like this - please let us know when you think you have a great use case by tweeting us at <code class="docutils literal notranslate"><span class="pre">&#64;urbansim</span></code> or post on the UrbanSim <a class="reference external" href="http://discussion.urbansim.com/">forum</a>.</p>
 </div>
-<div class="section" id="the-general-workflow">
-<h2>The General Workflow<a class="headerlink" href="#the-general-workflow" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="general-workflow">
+<h2>General workflow<a class="headerlink" href="#general-workflow" title="Permalink to this headline">¶</a></h2>
 <p>Accessibility as defined here is the ability to reach other specified locations
 in the city, and this framework is first and foremost designed to
 compute accessibility-to-destination queries of various kinds.</p>
@@ -188,7 +196,7 @@ of interest.</p>
 <p>There are a few general steps that are typically followed in measuring a
 variable using network queries.</p>
 <ul>
-<li><p class="first"><strong>Create and preprocess the network</strong></p>
+<li><p><strong>Create and preprocess the network</strong></p>
 <p>Networks are completely abstract in that they have nodes, edges, and one or
 more impedances associated with each edge.  Impedances can be time or distance
 or a composite index of some kind, but there is a single number associated
@@ -200,7 +208,7 @@ use case for multiple impedances is congested travel times that vary by time
 of day.  Pedestrian, auto, and local street networks have all been used in
 this framework successfully.</p>
 </li>
-<li><p class="first"><strong>Assign a variable to the network</strong></p>
+<li><p><strong>Assign a variable to the network</strong></p>
 <p>Next, create using Pandas the variable of interest to you.  In some cases it’s
 discrete - like the number of coffee shops, in other cases it’s continuous
 like the income of households.  But you must have observations of some
@@ -214,7 +222,7 @@ but fits within the same
 framework.  Other more flexible ways of assigning the variable to the
 network can be added in the future.</p>
 </li>
-<li><p class="first"><strong>Perform the aggregation</strong></p>
+<li><p><strong>Perform the aggregation</strong></p>
 <p>The main use case of Pandana is to perform an aggregation along the network
 - i.e. a buffer query.  The api is designed to perform the aggregations for
 all nodes in the network at the same time in a multi-threaded fashion
@@ -233,7 +241,7 @@ performed for each node.</p>
 <p><em>Find nearest</em> queries are also available, which is technically not an
 aggregation, but is easily performed with a very similar workflow.</p>
 </li>
-<li><p class="first"><strong>Display, or reuse in other analysis, like UrbanSim statistical models</strong></p>
+<li><p><strong>Display, or reuse in other analysis, like UrbanSim statistical models</strong></p>
 <p>Once the computation has been performed, a DataFrame is constructed
 that has the x, y location of nodes and a z value or many z values which is
 the result of computations in the above workflow.  This data is of the form
@@ -258,8 +266,8 @@ use engine will serve many use cases.</p>
 <h2>Contributing to Pandana<a class="headerlink" href="#contributing-to-pandana" title="Permalink to this headline">¶</a></h2>
 <p>If you have improvements or new features you would like to see in Pandana:</p>
 <ol class="arabic simple">
-<li>Open a feature request via <a class="reference external" href="https://github.com/UDST/pandana/issues">GitHub Issues</a>.</li>
-<li>Contribute your code from a fork or branch by using a Pull Request and request a review so it can be considered as an addition to the codebase.</li>
+<li><p>Open a feature request via <a class="reference external" href="https://github.com/UDST/pandana/issues">GitHub Issues</a>.</p></li>
+<li><p>Contribute your code from a fork or branch by using a Pull Request and request a review so it can be considered as an addition to the codebase.</p></li>
 </ol>
 </div>
 <div class="section" id="license">
@@ -269,8 +277,8 @@ use engine will serve many use cases.</p>
 <div class="section" id="related-udst-libraries">
 <h2>Related UDST libraries<a class="headerlink" href="#related-udst-libraries" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><a class="reference external" href="https://github.com/udst/osmnet">OSMnet</a></li>
-<li><a class="reference external" href="https://github.com/UDST/urbanaccess">UrbanAccess</a></li>
+<li><p><a class="reference external" href="https://github.com/udst/osmnet">OSMnet</a></p></li>
+<li><p><a class="reference external" href="https://github.com/UDST/urbanaccess">UrbanAccess</a></p></li>
 </ul>
 </div>
 </div>
@@ -295,11 +303,19 @@ use engine will serve many use cases.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, UrbanSim Inc.
+        
+        &copy; Copyright 2020, UrbanSim Inc.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -310,7 +326,6 @@ use engine will serve many use cases.</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

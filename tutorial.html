@@ -1,42 +1,43 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Tutorial &mdash; pandana 0.4.4 documentation</title>
+  <title>Tutorial &mdash; pandana 0.5 documentation</title>
   
-
-  
-  
-  
-  
-
-  
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
 
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Network API" href="network.html" />
-    <link rel="prev" title="Getting Started" href="introduction.html" /> 
+    <link rel="prev" title="Getting started" href="introduction.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -50,7 +51,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> pandana
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> pandana
           
 
           
@@ -60,7 +61,7 @@
             
             
               <div class="version">
-                0.4.4
+                0.5
               </div>
             
           
@@ -77,6 +78,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -86,23 +88,25 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Getting started</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#create-the-network">Create the Network</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#assign-variables-and-perform-computations-for-nearest-queries">Assign variables and perform computations for nearest queries</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#assign-variables-and-perform-computations-for-aggregation-queries">Assign variables and perform computations for aggregation queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create-the-network">Create the network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#nearest-queries">Nearest queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#aggregation-queries">Aggregation queries</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#display-the-results">Display the results</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="network.html">Network API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loaders.html">Loaders</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="futurework.html">Planned Improvements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Change log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="futurework.html">Planned improvements</a></li>
 </ul>
 
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -141,7 +145,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Tutorial</li>
     
@@ -164,6 +168,10 @@
             
   <div class="section" id="tutorial">
 <h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This tutorial was last updated in 2017.</p>
+</div>
 <p>At this point it is probably helpful to make concrete the topics discussed in
 the introduction by giving code sample.  There is also an IPython Notebook
 in the <code class="docutils literal notranslate"><span class="pre">Pandana</span></code> repo which gives the entire workflow,
@@ -175,7 +183,7 @@ summary of the functionality.</p>
 </pre></div>
 </div>
 <div class="section" id="create-the-network">
-<h2>Create the Network<a class="headerlink" href="#create-the-network" title="Permalink to this headline">¶</a></h2>
+<h2>Create the network<a class="headerlink" href="#create-the-network" title="Permalink to this headline">¶</a></h2>
 <p>First create the network.  Although the API is incredibly simple,
 this is likely to be the most difficult part of using Pandana.  In the future
 we will leverage the import functionality of tools like <code class="docutils literal notranslate"><span class="pre">geopandas</span></code> to
@@ -239,8 +247,8 @@ check the IPython Notebook output (on the console) for a statement that says</st
 1 instead of 4 you are running single threaded.  If you are running on
 a multi-core cpu, there is probably a way to speed up the computation.</strong></p>
 </div>
-<div class="section" id="assign-variables-and-perform-computations-for-nearest-queries">
-<h2>Assign variables and perform computations for nearest queries<a class="headerlink" href="#assign-variables-and-perform-computations-for-nearest-queries" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="nearest-queries">
+<h2>Nearest queries<a class="headerlink" href="#nearest-queries" title="Permalink to this headline">¶</a></h2>
 <p>Now for the fun part.  Nearest queries are slightly easier, so let’s cover that
 first.</p>
 <p>First initialize the POI (point-of-interest) category:</p>
@@ -296,8 +304,8 @@ executed in half a second:</p>
 </div>
 <p>Here is a link to the docs: <a class="reference internal" href="network.html#pandana.network.Network.nearest_pois" title="pandana.network.Network.nearest_pois"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pandana.network.Network.nearest_pois()</span></code></a></p>
 </div>
-<div class="section" id="assign-variables-and-perform-computations-for-aggregation-queries">
-<h2>Assign variables and perform computations for aggregation queries<a class="headerlink" href="#assign-variables-and-perform-computations-for-aggregation-queries" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="aggregation-queries">
+<h2>Aggregation queries<a class="headerlink" href="#aggregation-queries" title="Permalink to this headline">¶</a></h2>
 <p>Performing a general network aggregation isn’t much harder.  In this case,
 it is assumed that DataFrames are much larger and that queries have
 a lot more variety.</p>
@@ -375,7 +383,7 @@ and sample code and images are included below.</p>
         <a href="network.html" class="btn btn-neutral float-right" title="Network API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="introduction.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="introduction.html" class="btn btn-neutral float-left" title="Getting started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -384,11 +392,19 @@ and sample code and images are included below.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, UrbanSim Inc.
+        
+        &copy; Copyright 2020, UrbanSim Inc.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -399,7 +415,6 @@ and sample code and images are included below.</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

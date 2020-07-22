@@ -1,38 +1,39 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Pandana &mdash; pandana 0.4.4 documentation</title>
+  <title>Pandana &mdash; pandana 0.5 documentation</title>
   
-
-  
-  
-  
-  
-
-  
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
 
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Installation" href="installation.html" /> 
@@ -49,7 +50,7 @@
           
 
           
-            <a href="#" class="icon icon-home"> pandana
+            <a href="#" class="icon icon-home" alt="Documentation Home"> pandana
           
 
           
@@ -59,7 +60,7 @@
             
             
               <div class="version">
-                0.4.4
+                0.5
               </div>
             
           
@@ -76,6 +77,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -85,17 +87,19 @@
             
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="network.html">Network API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loaders.html">Loaders</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="futurework.html">Planned Improvements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Change log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="futurework.html">Road map</a></li>
 </ul>
 
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -134,7 +138,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="#">Docs</a> &raquo;</li>
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
         
       <li>Pandana</li>
     
@@ -157,25 +161,29 @@
             
   <div class="section" id="pandana">
 <h1>Pandana<a class="headerlink" href="#pandana" title="Permalink to this headline">¶</a></h1>
-<p>Pandana is a neologism representing Pandas Network Analysis.</p>
-<p>Pandana performs hundreds of thousands of network queries in under a second
-(for walking-scale distances) using a Pandas-like API.  The computations are
-parallelized for use on multi-core computers using an underlying C/C++
-library.</p>
+<p>Pandana is a Python library for network analysis that uses <a class="reference external" href="https://en.wikipedia.org/wiki/Contraction_hierarchies">contraction hierarchies</a> to calculate super-fast travel accessibility metrics and shortest paths. The numerical code is in C++.</p>
+<p>v0.5, released July 22, 2020</p>
+<div class="section" id="acknowledgments">
+<h2>Acknowledgments<a class="headerlink" href="#acknowledgments" title="Permalink to this headline">¶</a></h2>
+<p>Pandana was created by Fletcher Foti, with subsequent contributions from Matt Davis, Federico Fernandez, Sam Maurer, and others. Sam Maurer is currently the lead maintainer. Pandana relies on contraction hierarchy code from Dennis Luxen and his <a class="reference external" href="https://github.com/DennisOSRM/Project-OSRM">OSRM project</a>.</p>
+<p>A <a class="reference external" href="http://onlinepubs.trb.org/onlinepubs/conferences/2012/4thITM/Papers-A/0117-000062.pdf">paper on Pandana</a>
+was presented at the Transportation Research Board Annual Conference in 2012. Please cite this paper when referring to the methodology implemented by this library.</p>
+</div>
 <div class="section" id="contents">
 <h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#anaconda-recommended">Anaconda (recommended)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#anaconda-recommended">Anaconda (recommended!)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#pip-requires-local-compilation">Pip (requires local compilation)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#github-source-code">GitHub source code</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#compiling-locally">Compiling locally</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#github-requires-local-compilation">GitHub (requires local compilation)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#tips-for-local-compilation">Tips for local compilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#multi-threading">Multi-threading</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Getting Started</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Getting started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="introduction.html#introduction">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="introduction.html#the-general-workflow">The General Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#general-workflow">General workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="introduction.html#reporting-bugs">Reporting bugs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="introduction.html#contributing-to-pandana">Contributing to Pandana</a></li>
 <li class="toctree-l2"><a class="reference internal" href="introduction.html#license">License</a></li>
@@ -183,14 +191,15 @@ library.</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#create-the-network">Create the Network</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#assign-variables-and-perform-computations-for-nearest-queries">Assign variables and perform computations for nearest queries</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#assign-variables-and-perform-computations-for-aggregation-queries">Assign variables and perform computations for aggregation queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#create-the-network">Create the network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#nearest-queries">Nearest queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#aggregation-queries">Aggregation queries</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#display-the-results">Display the results</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="network.html">Network API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="network.html#api-changes-migration-notes-from-version-3-0-to-4-0">API changes: migration notes from version 3.0 to 4.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html#module-pandana.network">API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html#deprecations-in-v0-4">Deprecations in v0.4</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="loaders.html">Loaders</a><ul>
@@ -201,7 +210,17 @@ library.</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="futurework.html">Planned Improvements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Change log</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-5">v0.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-4-4">v0.4.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-4-3">v0.4.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-4-2">v0.4.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-4-1">v0.4.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-4">v0.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-3">v0.3</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="futurework.html">Road map</a></li>
 </ul>
 </div>
 </div>
@@ -209,9 +228,9 @@ library.</p>
 <div class="section" id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
-<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
 </div>
 
@@ -233,11 +252,19 @@ library.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, UrbanSim Inc.
+        
+        &copy; Copyright 2020, UrbanSim Inc.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -248,7 +275,6 @@ library.</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
