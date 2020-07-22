@@ -20,8 +20,3 @@ script:
 
 after_success:
   - coveralls
-  - bin/build_docs.sh
-
-env:
-  global:
-    secure: CMG0rjBgDBNy5FdfXawaaCCJm9ChzHk7e21ywVhIc1jbVS6lMn6bqwKJUnLaJAyjDhhZuxXTcHy+SALJgbzqLrH4GM5hOOL+8Rf4Jf9ESZzTBryvypRecVnUnk63SpJiq2Ki8maNrOcK1IBUAoFhFzptSgE4MDkxZ0LjsDAums8=
