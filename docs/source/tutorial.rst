@@ -1,6 +1,9 @@
 Tutorial
 --------
 
+.. note::
+    This tutorial was last updated in 2017.
+
 At this point it is probably helpful to make concrete the topics discussed in
 the introduction by giving code sample.  There is also an IPython Notebook
 in the ``Pandana`` repo which gives the entire workflow,

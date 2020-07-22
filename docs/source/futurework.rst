@@ -1,5 +1,13 @@
-Planned improvements
---------------------
+Road map
+--------
+
+.. note::
+    This is the original road map from 2014. Take a look at the open and
+    closed `GitHub issues <https://github.com/udst/pandana/issues>`_ for
+    up-to-date information about work in progress.
+    
+    Network structure metrics are unlikely to be added to Pandana; consider
+    using the `OSMnx <https://github.com/gboeing/osmnx/>`_ library instead.
 
 As has been shown, the main use case for Pandana is to expose the
 functionality of an underlying C++ library using a simple Python API,

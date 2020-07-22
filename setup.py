@@ -141,13 +141,12 @@ setup(
     author='UrbanSim Inc.',
     version=version,
     license='AGPL',
-    description=('Pandas Network Analysis - '
-                 'dataframes of network queries, quickly'),
+    description=('Python library for network analysis'),
     long_description=(
-        'Pandana performs hundreds of thousands of network queries in under a '
-        'second (for walking-scale distances) using a Pandas-like API. The '
-        'computations are parallelized for multi-core machines using an '
-        'underlying C++ library.'),
+        'Pandana is a Python library for network analysis that uses '
+        'contraction hierarchies to calculate super-fast travel '
+        'accessibility metrics and shortest paths. The numerical '
+        'code is in C++.'),
     url='https://udst.github.io/pandana/',
     ext_modules=[cyaccess],
     install_requires=[

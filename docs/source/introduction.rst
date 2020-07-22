@@ -1,6 +1,9 @@
 Getting started
 ---------------
 
+.. note::
+    This guide was last updated in 2017.
+
 Introduction
 ~~~~~~~~~~~~
 
