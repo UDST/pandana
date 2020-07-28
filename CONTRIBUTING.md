@@ -60,9 +60,9 @@ You can contact Sam Maurer, the lead maintainer, at `maurer@urbansim.com`.
 
 - Check out the copy of the code you'd like to release
 
-- Run `python setup.py sdist bdist_wheel --universal`
+- Run `python setup.py sdist`
 
-- This should create a `dist` directory containing two package files -- delete any old ones before the next step
+- This should create a `dist` directory containing a gzip package file -- delete any old ones before the next step
 
 - Run `twine upload dist/*` -- this will prompt you for your pypi.org credentials
 
