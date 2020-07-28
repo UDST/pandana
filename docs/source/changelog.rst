@@ -4,7 +4,7 @@ Change log
 v0.5
 ----
 
-2020/07/22
+2020/07/28
 
 * Adds support for `calculating shortest path lengths <network.html#pandana.network.Network.shortest_path_lengths>`_ between arbitrary origins and destinations, with vectorization and multi-threading
 * Restores alternate names for aggregation types, which were inadvertently removed in v0.4
@@ -12,6 +12,7 @@ v0.5
 * Improves compilation in MacOS 10.15 Catalina
 * Eliminates the scikit-learn dependency
 * Makes matplotlib and osmnet dependencies optional
+* Revises the documentation and demo notebook
 
 v0.4.4
 ------

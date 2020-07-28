@@ -25,11 +25,8 @@ See the documentation for information about other [installation options](http://
 
 ### Demo
 
-http://udst.github.io/pandana/tutorial.html
+[Pandana-demo.ipynb](examples/Pandana-demo.ipynb)
 
-The image below shows the network distance to the second-nearest restaurant from each street intersection in the city of San Francisco. Pandana can calculate this in about half a second of computation time. 
-
-<img src="https://raw.githubusercontent.com/udst/pandana/master/docs/img/distance_to_restaurants.png" width=400 height=400>
 
 
 ### Acknowledgments

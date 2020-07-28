@@ -371,25 +371,24 @@ class Network:
             weight. This will usually be a distance unit in meters however
             if you have customized the impedance this could be in other
             units such as utility or time etc.
-        type : string
+        type : string, optional (default 'sum')
             The type of aggregation: 'mean' (with 'ave', 'avg', 'average'
             as aliases), 'std' (or 'stddev'), 'sum', 'count', 'min', 'max',
             'med' (or 'median'), '25pct', or '75pct'. (Quantiles are
             computed by sorting so may be slower than the others.)
-        decay : string, optional
+        decay : string, optional (default 'linear')
             The type of decay to apply, which makes things that are further
             away count less in the aggregation: 'linear', 'exponential', or
             'flat' (no decay). 
 
-            *Additional notes from maintainer:* see
-            ``aggregateAccessibilityVariable`` in accessibility.cpp to read
-            through the code that applies decays. The exponential decay
-            function is exp(-1*distance/radius)*var. The decay setting
-            only operates on 'sum' and 'mean' aggregations. If you apply
-            decay to a 'mean', the result will NOT be a weighted average;
-            it will be the mean of the post-decay values. (So for a 'mean'
-            aggregation, you need to explicitly set decay to 'flat' unless
-            you want that.)
+            *Additional notes:* see ``aggregateAccessibilityVariable`` in
+            accessibility.cpp to read through the code that applies decays.
+            The exponential decay function is exp(-1*distance/radius)*var.
+            The decay setting only operates on 'sum' and 'mean' aggregations.
+            If you apply decay to a 'mean', the result will NOT be a weighted
+            average; it will be the mean of the post-decay values. (So for a
+            'mean' aggregation, you need to explicitly set decay to 'flat'
+            unless you want that.)
 
         imp_name : string, optional
             The impedance name to use for the aggregation on this network.
