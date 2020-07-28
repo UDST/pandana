@@ -2,7 +2,9 @@ Tutorial
 --------
 
 .. note::
-    This tutorial was last updated in 2017.
+    This tutorial was last updated in 2017 and may not be current. The best place
+    to start is with the Pandana `demo notebook 
+    <https://github.com/UDST/pandana/tree/master/examples/Pandana-demo.ipynb>`_.
 
 At this point it is probably helpful to make concrete the topics discussed in
 the introduction by giving code sample.  There is also an IPython Notebook

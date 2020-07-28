@@ -87,7 +87,7 @@ After installing Pandana, running :code:`examples/simple_example.py` will displa
 If you're installing from source code on a Mac, see "Compiling in MacOS" above for more information about enabling multi-threading.
 
 .. note::
-    The multi-threading status indicator maybe incorrect in certain Windows environments. See GitHub `issue #138 <https://github.com/UDST/pandana/issues/138>`_ for the latest information on this.
+    The multi-threading status indicator may be incorrect in certain Windows environments. See GitHub `issue #138 <https://github.com/UDST/pandana/issues/138>`_ for the latest information on this.
 
 
 

@@ -2,7 +2,9 @@ Getting started
 ---------------
 
 .. note::
-    This guide was last updated in 2017.
+    This guide was last updated in 2017 and may not be current. The best place
+    to start is with the Pandana `demo notebook 
+    <https://github.com/UDST/pandana/tree/master/examples/Pandana-demo.ipynb>`_.
 
 Introduction
 ~~~~~~~~~~~~
