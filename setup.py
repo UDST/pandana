@@ -28,7 +28,7 @@ class PyTest(TestCommand):
     def run_tests(self):
         # import here, cause outside the eggs aren't loaded
         import pytest
-        errno = pytest.main(self.pytest_args or '')
+        errno = pytest.main(self.pytest_args or [''])
         sys.exit(errno)
 
 
@@ -92,7 +92,7 @@ if sys.platform.startswith('darwin'):  # Mac
 
         if '10.15' in os.popen('sw_vers').read():
             os.environ['CC'] = cc_catalina
-        elif '10.16' in os.popen('sw_vers').read():
+        elif '11.' in os.popen('sw_vers').read():
             os.environ['CC'] = cc_catalina
         else:
             os.environ['CC'] = cc
@@ -131,7 +131,7 @@ cyaccess = Extension(
 ## Standard setup
 ###############################################
 
-version = '0.5.dev'
+version = '0.5'
 
 packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"])
 
@@ -141,29 +141,22 @@ setup(
     author='UrbanSim Inc.',
     version=version,
     license='AGPL',
-    description=('Pandas Network Analysis - '
-                 'dataframes of network queries, quickly'),
+    description=('Python library for network analysis'),
     long_description=(
-        'Pandana performs hundreds of thousands of network queries in under a '
-        'second (for walking-scale distances) using a Pandas-like API. The '
-        'computations are parallelized for multi-core machines using an '
-        'underlying C++ library.'),
+        'Pandana is a Python library for network analysis that uses '
+        'contraction hierarchies to calculate super-fast travel '
+        'accessibility metrics and shortest paths. The numerical '
+        'code is in C++.'),
     url='https://udst.github.io/pandana/',
     ext_modules=[cyaccess],
     install_requires=[
         'cython >=0.25.2',
-        'matplotlib >=1.3.1',
-        'numpy >=1.8.0',
-        'osmnet >=0.1.2',
-        'pandas >=0.17.0',
+        'numpy >=1.8',
+        'pandas >=0.17',
         'requests >=2.0',
-        'scikit-learn >=0.18.1',
+        'scipy >=0.9',
         'tables >=3.1, <3.6; python_version <"3.6"',
         'tables >=3.1, <3.7; python_version >="3.6"'
-    ],
-    tests_require=[
-        'pycodestyle',
-        'pytest'
     ],
     cmdclass={
         'test': PyTest,

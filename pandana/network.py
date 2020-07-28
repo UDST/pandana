@@ -1,10 +1,8 @@
 from __future__ import division, print_function
 
-import matplotlib
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from sklearn.neighbors import KDTree
+from scipy.spatial import KDTree
 
 from .cyaccess import cyaccess
 from .loaders import pandash5 as ph5
@@ -185,8 +183,8 @@ class Network:
 
         Returns
         -------
-        A numpy array of the nodes that are traversed in the shortest
-        path between the two nodes
+        path : np.ndarray
+            Nodes that are traversed in the shortest path
 
         """
         # map to internal node indexes
@@ -221,7 +219,7 @@ class Network:
 
         Returns
         -------
-        Float
+        length : float
 
         """
         # map to internal node indexes
@@ -253,13 +251,13 @@ class Network:
 
         Returns
         -------
-        list of floats
+        lenths : list of floats
 
         """
         if len(nodes_a) != len(nodes_b):
-            raise ValueError("Origin and destination counts don't match: {}, {}"\
-                .format(len(nodes_a), len(nodes_b)))
-        
+            raise ValueError("Origin and destination counts don't match: {}, {}"
+                             .format(len(nodes_a), len(nodes_b)))
+
         # map to internal node indexes
         nodes_a_idx = self._node_indexes(pd.Series(nodes_a)).values
         nodes_b_idx = self._node_indexes(pd.Series(nodes_b)).values
@@ -373,17 +371,25 @@ class Network:
             weight. This will usually be a distance unit in meters however
             if you have customized the impedance this could be in other
             units such as utility or time etc.
-        type : string
-            The type of aggregation, can be one of "ave", "sum", "std",
-            "count", and now "min", "25pct", "median", "75pct", and "max" will
-            compute the associated quantiles.  (Quantiles are computed by
-            sorting so might be slower than the others.)
-        decay : string
+        type : string, optional (default 'sum')
+            The type of aggregation: 'mean' (with 'ave', 'avg', 'average'
+            as aliases), 'std' (or 'stddev'), 'sum', 'count', 'min', 'max',
+            'med' (or 'median'), '25pct', or '75pct'. (Quantiles are
+            computed by sorting so may be slower than the others.)
+        decay : string, optional (default 'linear')
             The type of decay to apply, which makes things that are further
-            away count less in the aggregation - must be one of "linear",
-            "exponential" or "flat" (which means no decay).  Linear is the
-            fastest computation to perform.  When performing an "ave",
-            the decay is typically "flat"
+            away count less in the aggregation: 'linear', 'exponential', or
+            'flat' (no decay). 
+
+            *Additional notes:* see ``aggregateAccessibilityVariable`` in
+            accessibility.cpp to read through the code that applies decays.
+            The exponential decay function is exp(-1*distance/radius)*var.
+            The decay setting only operates on 'sum' and 'mean' aggregations.
+            If you apply decay to a 'mean', the result will NOT be a weighted
+            average; it will be the mean of the post-decay values. (So for a
+            'mean' aggregation, you need to explicitly set decay to 'flat'
+            unless you want that.)
+
         imp_name : string, optional
             The impedance name to use for the aggregation on this network.
             Must be one of the impedance names passed in the constructor of
@@ -391,7 +397,7 @@ class Network:
             passed in the constructor, which will be used.
         name : string, optional
             The variable to aggregate.  This variable will have been created
-            and named by a call to set.  If not specified, the default
+            and named by a call to ``set``.  If not specified, the default
             variable name will be used so that the most recent call to set
             without giving a name will be the variable used.
 
@@ -406,8 +412,16 @@ class Network:
 
         imp_num = self._imp_name_to_num(imp_name)
         type = type.lower()
-        if type == "ave":
-            type = "mean"  # changed generic ave to mean
+
+        # Resolve aliases
+        if type in ['ave', 'avg', 'average']:
+            type = 'mean'
+
+        if type in ['stddev']:
+            type = 'std'
+
+        if type in ['med']:
+            type = 'median'
 
         assert name in self.variable_names, "A variable with that name " \
                                             "has not yet been initialized"
@@ -454,8 +468,6 @@ class Network:
         xys = pd.DataFrame({'x': x_col, 'y': y_col})
 
         distances, indexes = self.kdtree.query(xys.values)
-        indexes = np.transpose(indexes)[0]
-        distances = np.transpose(distances)[0]
 
         node_ids = self.nodes_df.iloc[indexes].index
 
@@ -506,7 +518,18 @@ class Network:
         ax : matplotlib.Axes
 
         """
-        from mpl_toolkits.basemap import Basemap
+        try:
+            ModuleNotFoundError  # Python 3.6+
+        except NameError:
+            ModuleNotFoundError = ImportError
+
+        try:
+            import matplotlib
+            import matplotlib.pyplot as plt
+            from mpl_toolkits.basemap import Basemap
+        except (ModuleNotFoundError, RuntimeError):
+            raise ModuleNotFoundError("Pandana's network.plot() requires Matplotlib and "
+                                      "the Matplotlib Basemap Toolkit")
 
         fig_kwargs = fig_kwargs or {}
         bmap_kwargs = bmap_kwargs or {}
