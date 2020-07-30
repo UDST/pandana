@@ -204,7 +204,7 @@ class Network:
         """
         Vectorized calculation of shortest paths. Accepts a list of origins
         and list of destinations and returns a corresponding list of 
-        shortest path lengths. Must provide an impedance name if more than
+        shortest path routes. Must provide an impedance name if more than
         one is available.
 
         Parameters
