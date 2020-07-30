@@ -71,6 +71,7 @@ print(net.shortest_path(nodes_a[1],nodes_b[1]))
 print(net.shortest_path_length(nodes_a[1],nodes_b[1]))
 
 print('Repeat with vectorized calculations:')
+print(net.shortest_paths(nodes_a[0:2],nodes_b[0:2]))
 print(net.shortest_path_lengths(nodes_a[0:2],nodes_b[0:2]))
 
 # Performance comparison
@@ -78,9 +79,18 @@ print('Performance comparison for 10k distance calculations:')
 
 t0 = time.time()
 for i in range(n):
+    _ = net.shortest_path(nodes_a[i], nodes_b[i])
+print('Route loop time = {} sec'.format(time.time() - t0))
+
+t0 = time.time()
+_ = net.shortest_paths(nodes_a, nodes_b)
+print('Route vectorized time = {} sec'.format(time.time() - t0))
+
+t0 = time.time()
+for i in range(n):
     _ = net.shortest_path_length(nodes_a[i], nodes_b[i])
-print('Loop time = {} sec'.format(time.time() - t0))
+print('Distance loop time = {} sec'.format(time.time() - t0))
 
 t0 = time.time()
 _ = net.shortest_path_lengths(nodes_a, nodes_b)
-print('Vectorized time = {} sec'.format(time.time() - t0))
+print('Distance vectorized time = {} sec'.format(time.time() - t0))
