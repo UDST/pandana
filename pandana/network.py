@@ -234,6 +234,7 @@ class Network:
 
         paths = self.net.shortest_paths(nodes_a_idx, nodes_b_idx, imp_num)
 
+        # TODO: this line needs to be fully vectorized for optimal performance
         return [self.node_ids.values[p] for p in paths]
 
 
