@@ -154,7 +154,7 @@ setup(
         'numpy >=1.8',
         'pandas >=0.17',
         'requests >=2.0',
-        'scipy >=0.9',
+        'scikit-learn >=0.18',
         'tables >=3.1, <3.6; python_version <"3.6"',
         'tables >=3.1, <3.7; python_version >="3.6"'
     ],
