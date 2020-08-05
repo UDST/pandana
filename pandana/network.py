@@ -420,7 +420,7 @@ class Network:
         decay : string, optional (default 'linear')
             The type of decay to apply, which makes things that are further
             away count less in the aggregation: 'linear', 'exponential', or
-            'flat' (no decay). 
+            'flat' (no decay).
 
             *Additional notes:* see ``aggregateAccessibilityVariable`` in
             accessibility.cpp to read through the code that applies decays.
