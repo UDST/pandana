@@ -28,7 +28,7 @@ class PyTest(TestCommand):
     def run_tests(self):
         # import here, cause outside the eggs aren't loaded
         import pytest
-        errno = pytest.main(self.pytest_args or '')
+        errno = pytest.main(self.pytest_args or [''])
         sys.exit(errno)
 
 
@@ -61,17 +61,46 @@ if sys.platform.startswith('darwin'):  # Mac
     
     # This environment variable sets the earliest OS version that the compiled
     # code will be compatible with. In certain contexts the default is too old
-    # to allow using libc++; supporting OS X 10.9 and later seems safe
+    # to allow using libc++; supporting OS X 10.9 and later seems reasonable
     os.environ['MACOSX_DEPLOYMENT_TARGET'] = '10.9'
     
     extra_compile_args += ['-D NO_TR1_MEMORY', '-stdlib=libc++']
     extra_link_args += ['-stdlib=libc++']
     
-    # This checks if the user has replaced the default clang compiler (this does
-    # not confirm there's OpenMP support, but is the best we could come up with)
-    if os.popen('which clang').read() != '/usr/bin/clang':
-        os.environ['CC'] = 'clang'
+    # The default compiler that ships with Macs doesn't support OpenMP multi-
+    # threading. We recommend using the Conda toolchain instead, but will also
+    # try to detect if people are using another alternative like Homebrew.
+
+    if 'CC' in os.environ:
         extra_compile_args += ['-fopenmp']
+        print('Attempting Pandana compilation with OpenMP multi-threading '
+              'support, with user-specified compiler:\n{}'.format(
+              os.environ['CC']))
+
+    # Otherwise, if the default clang has been replaced but nothing specified
+    # in the 'CC' environment variable, assume they've followed our instructions
+    # for using the Conda toolchain.
+    
+    elif os.popen('which clang').read().strip() != '/usr/bin/clang':
+        cc = 'clang'
+        cc_catalina = 'clang --sysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk'
+        
+        extra_compile_args += ['-fopenmp']
+        print('Attempting Pandana compilation with OpenMP multi-threading '
+              'support, with the following compiler:\n{}'.format(
+              os.popen('which clang').read()))
+
+        if '10.15' in os.popen('sw_vers').read():
+            os.environ['CC'] = cc_catalina
+        elif '11.' in os.popen('sw_vers').read():
+            os.environ['CC'] = cc_catalina
+        else:
+            os.environ['CC'] = cc
+
+    else:
+        print('Attempting Pandana compilation without support for '
+              'multi-threading. See installation instructions for alternative '
+              'options')
 
 # Window compilation: flags are for Visual C++
 
@@ -102,7 +131,7 @@ cyaccess = Extension(
 ## Standard setup
 ###############################################
 
-version = '0.4.4'
+version = '0.5'
 
 packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"])
 
@@ -112,28 +141,22 @@ setup(
     author='UrbanSim Inc.',
     version=version,
     license='AGPL',
-    description=('Pandas Network Analysis - '
-                 'dataframes of network queries, quickly'),
+    description=('Python library for network analysis'),
     long_description=(
-        'Pandana performs hundreds of thousands of network queries in under a '
-        'second (for walking-scale distances) using a Pandas-like API. The '
-        'computations are parallelized for multi-core machines using an '
-        'underlying C++ library.'),
+        'Pandana is a Python library for network analysis that uses '
+        'contraction hierarchies to calculate super-fast travel '
+        'accessibility metrics and shortest paths. The numerical '
+        'code is in C++.'),
     url='https://udst.github.io/pandana/',
     ext_modules=[cyaccess],
     install_requires=[
         'cython >=0.25.2',
-        'matplotlib >=1.3.1',
-        'numpy >=1.8.0',
-        'osmnet >=0.1.2',
-        'pandas >=0.17.0',
+        'numpy >=1.8',
+        'pandas >=0.17',
         'requests >=2.0',
-        'scikit-learn >=0.18.1',
-        'tables >=3.1.0'
-    ],
-    tests_require=[
-        'pycodestyle',
-        'pytest'
+        'scipy >=0.9',
+        'tables >=3.1, <3.6; python_version <"3.6"',
+        'tables >=3.1, <3.7; python_version >="3.6"'
     ],
     cmdclass={
         'test': PyTest,
@@ -146,6 +169,7 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
         'License :: OSI Approved :: GNU Affero General Public License v3'
     ],
 )

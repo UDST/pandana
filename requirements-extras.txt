@@ -1,0 +1,3 @@
+# requirements for loading networks directly from OpenStreetMap
+
+osmnet>=0.1.2

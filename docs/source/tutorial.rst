@@ -1,6 +1,11 @@
 Tutorial
 --------
 
+.. note::
+    This tutorial was last updated in 2017 and may not be current. The best place
+    to start is with the Pandana `demo notebook 
+    <https://github.com/UDST/pandana/tree/master/examples/Pandana-demo.ipynb>`_.
+
 At this point it is probably helpful to make concrete the topics discussed in
 the introduction by giving code sample.  There is also an IPython Notebook
 in the ``Pandana`` repo which gives the entire workflow,
@@ -12,7 +17,7 @@ Note that these code samples assume you have imported pandas and pandana as foll
     import pandas as pd
     import pandana as pdna
 
-Create the Network
+Create the network
 ~~~~~~~~~~~~~~~~~~
 
 First create the network.  Although the API is incredibly simple,
@@ -86,8 +91,8 @@ check the IPython Notebook output (on the console) for a statement that says**
 1 instead of 4 you are running single threaded.  If you are running on
 a multi-core cpu, there is probably a way to speed up the computation.**
 
-Assign variables and perform computations for nearest queries
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Nearest queries
+~~~~~~~~~~~~~~~
 
 Now for the fun part.  Nearest queries are slightly easier, so let's cover that
 first.
@@ -146,8 +151,8 @@ executed in half a second: ::
 
 Here is a link to the docs: :py:meth:`pandana.network.Network.nearest_pois`
 
-Assign variables and perform computations for aggregation queries
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Aggregation queries
+~~~~~~~~~~~~~~~~~~~
 
 Performing a general network aggregation isn't much harder.  In this case,
 it is assumed that DataFrames are much larger and that queries have

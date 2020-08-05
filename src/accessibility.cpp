@@ -109,6 +109,24 @@ Accessibility::Distance(int src, int tgt, int graphno) {
 }
 
 
+std::vector<double>
+Accessibility::Distances(vector<long> sources, vector<long> targets, int graphno) {                       
+    
+    int n = std::min(sources.size(), targets.size()); // in case lists don't match
+    vector<double> distances (n);
+    
+    #pragma omp parallel
+    #pragma omp for schedule(guided)
+    for (int i = 0 ; i < n ; i++) {
+        distances[i] = this->ga[graphno]->Distance(
+            sources[i], 
+            targets[i], 
+            omp_get_thread_num());
+    }
+    return distances;
+}
+
+
 /*
 #######################
 POI QUERIES

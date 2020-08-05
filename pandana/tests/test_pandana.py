@@ -268,6 +268,29 @@ def test_shortest_path(sample_osm):
         assert ids[1] == path[-1]
 
 
+def test_shortest_path_length(sample_osm):
+
+    for i in range(10):
+        ids = random_connected_nodes(sample_osm, 2)
+        len = sample_osm.shortest_path_length(ids[0], ids[1])
+        assert len >= 0
+
+
+def test_shortest_path_lengths(sample_osm):
+
+    nodes = random_connected_nodes(sample_osm, 100)
+    lens = sample_osm.shortest_path_lengths(nodes[0:50], nodes[50:100])
+    for len in lens:
+        assert len >= 0
+
+    # check mismatched OD lists
+    try:
+        lens = sample_osm.shortest_path_lengths(nodes[0:51], nodes[50:100])
+        assert 0
+    except ValueError as e:
+        pass
+
+
 def test_pois(sample_osm):
     net = sample_osm
 

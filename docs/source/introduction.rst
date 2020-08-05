@@ -1,5 +1,10 @@
-Getting Started
+Getting started
 ---------------
+
+.. note::
+    This guide was last updated in 2017 and may not be current. The best place
+    to start is with the Pandana `demo notebook 
+    <https://github.com/UDST/pandana/tree/master/examples/Pandana-demo.ipynb>`_.
 
 Introduction
 ~~~~~~~~~~~~
@@ -15,8 +20,8 @@ interact with their environment.
 
 We look forward to creative uses of a general library like this - please let us know when you think you have a great use case by tweeting us at ``@urbansim`` or post on the UrbanSim `forum`_.
 
-The General Workflow
-~~~~~~~~~~~~~~~~~~~~
+General workflow
+~~~~~~~~~~~~~~~~
 
 Accessibility as defined here is the ability to reach other specified locations
 in the city, and this framework is first and foremost designed to
