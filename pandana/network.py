@@ -2,7 +2,7 @@ from __future__ import division, print_function
 
 import numpy as np
 import pandas as pd
-from scipy.spatial import KDTree
+from sklearn.neighbors import KDTree
 
 from .cyaccess import cyaccess
 from .loaders import pandash5 as ph5
@@ -379,7 +379,7 @@ class Network:
         decay : string, optional (default 'linear')
             The type of decay to apply, which makes things that are further
             away count less in the aggregation: 'linear', 'exponential', or
-            'flat' (no decay). 
+            'flat' (no decay).
 
             *Additional notes:* see ``aggregateAccessibilityVariable`` in
             accessibility.cpp to read through the code that applies decays.
@@ -468,6 +468,8 @@ class Network:
         xys = pd.DataFrame({'x': x_col, 'y': y_col})
 
         distances, indexes = self.kdtree.query(xys.values)
+        indexes = np.transpose(indexes)[0]
+        distances = np.transpose(distances)[0]
 
         node_ids = self.nodes_df.iloc[indexes].index
 

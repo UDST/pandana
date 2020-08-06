@@ -1,6 +1,13 @@
 Change log
 ==========
 
+v0.5.1
+------
+
+2020/08/05
+
+* Fixes a performance bug in network.get_node_ids()
+
 v0.5
 ----
 
