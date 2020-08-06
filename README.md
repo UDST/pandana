@@ -1,6 +1,3 @@
-![Version](https://img.shields.io/badge/version-0.5-blue.svg)
-[![Travis build status](https://travis-ci.org/UDST/pandana.svg?branch=master)](https://travis-ci.org/UDST/pandana)
-[![Appveyor build status](https://ci.appveyor.com/api/projects/status/a90kvns7qe56kg57?svg=true)](https://ci.appveyor.com/project/smmaurer/pandana)
 [![Coverage Status](https://coveralls.io/repos/github/UDST/pandana/badge.svg?branch=master)](https://coveralls.io/github/UDST/pandana?branch=master)
 
 # Pandana
