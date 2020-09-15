@@ -528,6 +528,7 @@ class Network:
 
         fig_kwargs = fig_kwargs or {'figsize':(10,8)}
         plot_kwargs = plot_kwargs or {'cmap':'hot_r','s':1}
+        cbar_kwargs = cbar_kwargs or {}
 
         if not bbox:
             bbox = (
