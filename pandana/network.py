@@ -218,7 +218,7 @@ class Network:
 
         Returns
         -------
-        lenths : list of np.ndarrays
+        paths : list of np.ndarrays
             Nodes traversed in each shortest path
 
         """
