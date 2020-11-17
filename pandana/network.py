@@ -199,11 +199,10 @@ class Network:
         # map back to external node ids
         return self.node_ids.values[path]
 
-
     def shortest_paths(self, nodes_a, nodes_b, imp_name=None):
         """
         Vectorized calculation of shortest paths. Accepts a list of origins
-        and list of destinations and returns a corresponding list of 
+        and list of destinations and returns a corresponding list of
         shortest path routes. Must provide an impedance name if more than
         one is available.
 
@@ -218,7 +217,7 @@ class Network:
 
         Returns
         -------
-        paths : list of np.ndarrays
+        paths : list of np.ndarray
             Nodes traversed in each shortest path
 
         """
@@ -234,9 +233,8 @@ class Network:
 
         paths = self.net.shortest_paths(nodes_a_idx, nodes_b_idx, imp_num)
 
-        # TODO: this line needs to be fully vectorized for optimal performance
+        # map back to external node ids
         return [self.node_ids.values[p] for p in paths]
-
 
     def shortest_path_length(self, node_a, node_b, imp_name=None):
         """
@@ -272,7 +270,6 @@ class Network:
 
         return len
 
-
     def shortest_path_lengths(self, nodes_a, nodes_b, imp_name=None):
         """
         Vectorized calculation of shortest path lengths. Accepts a list of
@@ -307,7 +304,6 @@ class Network:
         lens = self.net.shortest_path_distances(nodes_a_idx, nodes_b_idx, imp_num)
 
         return lens
-
 
     def set(self, node_ids, variable=None, name="tmp"):
         """
