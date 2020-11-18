@@ -199,6 +199,43 @@ class Network:
         # map back to external node ids
         return self.node_ids.values[path]
 
+    def shortest_paths(self, nodes_a, nodes_b, imp_name=None):
+        """
+        Vectorized calculation of shortest paths. Accepts a list of origins
+        and list of destinations and returns a corresponding list of
+        shortest path routes. Must provide an impedance name if more than
+        one is available.
+
+        Parameters
+        ----------
+        nodes_a : list-like of ints
+            Source node ids
+        nodes_b : list-like of ints
+            Corresponding destination node ids
+        imp_name : string
+            The impedance name to use for the shortest path
+
+        Returns
+        -------
+        paths : list of np.ndarray
+            Nodes traversed in each shortest path
+
+        """
+        if len(nodes_a) != len(nodes_b):
+            raise ValueError("Origin and destination counts don't match: {}, {}"
+                             .format(len(nodes_a), len(nodes_b)))
+
+        # map to internal node indexes
+        nodes_a_idx = self._node_indexes(pd.Series(nodes_a)).values
+        nodes_b_idx = self._node_indexes(pd.Series(nodes_b)).values
+
+        imp_num = self._imp_name_to_num(imp_name)
+
+        paths = self.net.shortest_paths(nodes_a_idx, nodes_b_idx, imp_num)
+
+        # map back to external node ids
+        return [self.node_ids.values[p] for p in paths]
+
     def shortest_path_length(self, node_a, node_b, imp_name=None):
         """
         Return the length of the shortest path between two node ids in the

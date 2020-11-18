@@ -24,6 +24,7 @@ cdef extern from "accessibility.h" namespace "MTC::accessibility":
         vector[double] getAllAggregateAccessibilityVariables(
             float, string, string, string, int)
         vector[int] Route(int, int, int)
+        vector[vector[int]] Routes(vector[long], vector[long], int)
         double Distance(int, int, int)
         vector[double] Distances(vector[long], vector[long], int)
         void precomputeRangeQueries(double)
@@ -164,6 +165,15 @@ cdef class cyaccess:
         impno - the impedance id to use
         """
         return self.access.Route(srcnode, destnode, impno)
+
+    def shortest_paths(self, np.ndarray[long] srcnodes, 
+            np.ndarray[long] destnodes, int impno=0):
+        """
+        srcnodes - node ids of origins
+        destnodes - node ids of destinations
+        impno - impedance id
+        """
+        return self.access.Routes(srcnodes, destnodes, impno)
 
     def shortest_path_distance(self, int srcnode, int destnode, int impno=0):
         """
