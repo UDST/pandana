@@ -205,6 +205,8 @@ class Network:
         and list of destinations and returns a corresponding list of
         shortest path routes. Must provide an impedance name if more than
         one is available.
+        
+        Added in Pandana v0.6.
 
         Parameters
         ----------
@@ -244,6 +246,8 @@ class Network:
 
         If you have a large number of paths to calculate, don't use this
         function! Use the vectorized one instead.
+        
+        Added in Pandana v0.5.
 
         Parameters
         ----------
@@ -276,6 +280,8 @@ class Network:
         origins and list of destinations and returns a corresponding list
         of shortest path lengths. Must provide an impedance name if more
         than one is available.
+        
+        Added in Pandana v0.5.
 
         Parameters
         ----------
@@ -518,15 +524,16 @@ class Network:
 
         return df.node_id
 
-    def plot(
-            self, data, bbox=None, plot_type='scatter',
-            fig_kwargs=None, plot_kwargs=None,
-            cbar_kwargs=None):
+    def plot(self, data, bbox=None, plot_type='scatter', fig_kwargs=None,
+             plot_kwargs=None, cbar_kwargs=None):
         """
-        Plot an array of data on a map using matplotlib,
-        automatically matching the data to the Pandana network node positions.
-
-        Keyword arguments are passed to the plotting routine.
+        Plot an array of data on a map using Matplotlib, automatically matching
+        the data to the Pandana network node positions. Keyword arguments are
+        passed to the plotting routine.
+        
+        Modified in Pandana v0.6 to eliminate usage of Matplotlib's deprecated
+        Basemap toolkit. No longer accepts ``bmap_kwargs`` and no longer returns
+        a Basemap object.
 
         Parameters
         ----------
@@ -537,14 +544,13 @@ class Network:
             (lat_min, lng_min, lat_max, lng_max)
         plot_type : {'hexbin', 'scatter'}, optional
         fig_kwargs : dict, optional
-            Keyword arguments that will be passed to
-            matplotlib.pyplot.subplots. Use this to specify things like
-            figure size or background color.
+            Keyword arguments that will be passed to matplotlib.pyplot.subplots.
+            Use this to specify things like figure size or background color.
         plot_kwargs : dict, optional
             Keyword arguments that will be passed to the matplotlib plotting
-            command used. Use this to control plot styles and color maps used.
+            command. Use this to control plot styles and color maps.
         cbar_kwargs : dict, optional
-            Keyword arguments passed to the Basemap.colorbar method.
+            Keyword arguments that will be passed to matplotlib.pyplot.colorbar.
             Use this to control color bar location and label.
 
         Returns
