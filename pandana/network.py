@@ -518,10 +518,10 @@ class Network:
 
     def plot(
             self, data, bbox=None, plot_type='scatter',
-            fig_kwargs=None, bmap_kwargs=None, plot_kwargs=None,
+            fig_kwargs=None, plot_kwargs=None,
             cbar_kwargs=None):
         """
-        Plot an array of data on a map using matplotlib and Basemap,
+        Plot an array of data on a map using matplotlib,
         automatically matching the data to the Pandana network node positions.
 
         Keyword arguments are passed to the plotting routine.
@@ -538,9 +538,6 @@ class Network:
             Keyword arguments that will be passed to
             matplotlib.pyplot.subplots. Use this to specify things like
             figure size or background color.
-        bmap_kwargs : dict, optional
-            Keyword arguments that will be passed to the Basemap constructor.
-            This can be used to specify a projection or coastline resolution.
         plot_kwargs : dict, optional
             Keyword arguments that will be passed to the matplotlib plotting
             command used. Use this to control plot styles and color maps used.
@@ -550,7 +547,6 @@ class Network:
 
         Returns
         -------
-        bmap : Basemap
         fig : matplotlib.Figure
         ax : matplotlib.Axes
 
@@ -563,14 +559,12 @@ class Network:
         try:
             import matplotlib
             import matplotlib.pyplot as plt
-            from mpl_toolkits.basemap import Basemap
         except (ModuleNotFoundError, RuntimeError):
-            raise ModuleNotFoundError("Pandana's network.plot() requires Matplotlib and "
-                                      "the Matplotlib Basemap Toolkit")
+            raise ModuleNotFoundError("Pandana's network.plot() requires Matplotlib")
 
-        fig_kwargs = fig_kwargs or {}
-        bmap_kwargs = bmap_kwargs or {}
-        plot_kwargs = plot_kwargs or {}
+
+        fig_kwargs = fig_kwargs or {'figsize':(10,8)}
+        plot_kwargs = plot_kwargs or {'cmap':'hot_r','s':1}
         cbar_kwargs = cbar_kwargs or {}
 
         if not bbox:
@@ -582,23 +576,20 @@ class Network:
 
         fig, ax = plt.subplots(**fig_kwargs)
 
-        bmap = Basemap(
-            bbox[1], bbox[0], bbox[3], bbox[2], ax=ax, **bmap_kwargs)
-        bmap.drawcoastlines()
-        bmap.drawmapboundary()
-
-        x, y = bmap(self.nodes_df.x.values, self.nodes_df.y.values)
+        x, y = (self.nodes_df.x.values, self.nodes_df.y.values)
 
         if plot_type == 'scatter':
-            plot = bmap.scatter(
+            plot = plt.scatter(
                 x, y, c=data.values, **plot_kwargs)
         elif plot_type == 'hexbin':
-            plot = bmap.hexbin(
+            plot = plt.hexbin(
                 x, y, C=data.values, **plot_kwargs)
 
-        bmap.colorbar(plot, **cbar_kwargs)
+        colorbar = plt.colorbar(plot, **cbar_kwargs)
 
-        return bmap, fig, ax
+        plt.show()
+
+        return fig, ax
 
     def init_pois(self, num_categories, max_dist, max_pois):
         """
