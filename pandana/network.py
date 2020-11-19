@@ -562,9 +562,8 @@ class Network:
         except (ModuleNotFoundError, RuntimeError):
             raise ModuleNotFoundError("Pandana's network.plot() requires Matplotlib")
 
-
-        fig_kwargs = fig_kwargs or {'figsize':(10,8)}
-        plot_kwargs = plot_kwargs or {'cmap':'hot_r','s':1}
+        fig_kwargs = fig_kwargs or {'figsize': (10, 8)}
+        plot_kwargs = plot_kwargs or {'cmap': 'hot_r', 's': 1}
         cbar_kwargs = cbar_kwargs or {}
 
         if not bbox:
