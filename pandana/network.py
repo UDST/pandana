@@ -479,7 +479,7 @@ class Network:
 
     def get_node_ids(self, x_col, y_col, mapping_distance=None):
         """
-        Assign node_ids to data specified by x_col and y_col
+        Assign node_ids to data specified by x_col and y_col.
 
         Parameters
         ----------
@@ -532,7 +532,7 @@ class Network:
         passed to the plotting routine.
         
         Modified in Pandana v0.6 to eliminate usage of Matplotlib's deprecated
-        Basemap toolkit. No longer accepts ``bmap_kwargs`` and no longer returns
+        Basemap toolkit. No longer accepts bmap_kwargs and no longer returns
         a Basemap object.
 
         Parameters
