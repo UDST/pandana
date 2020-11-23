@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Network API &mdash; pandana 0.5.1 documentation</title>
+  <title>Network API &mdash; pandana 0.6 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.5.1
+                0.6
               </div>
             
           
@@ -290,7 +290,7 @@ node in the network.</p>
 <dl class="py method">
 <dt id="pandana.network.Network.get_node_ids">
 <code class="sig-name descname">get_node_ids</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x_col</span></em>, <em class="sig-param"><span class="n">y_col</span></em>, <em class="sig-param"><span class="n">mapping_distance</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.get_node_ids" title="Permalink to this definition">¶</a></dt>
-<dd><p>Assign node_ids to data specified by x_col and y_col</p>
+<dd><p>Assign node_ids to data specified by x_col and y_col.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -440,10 +440,13 @@ closest poi, and so on.</p>
 
 <dl class="py method">
 <dt id="pandana.network.Network.plot">
-<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">bbox</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">plot_type</span><span class="o">=</span><span class="default_value">'scatter'</span></em>, <em class="sig-param"><span class="n">fig_kwargs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">bmap_kwargs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">plot_kwargs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cbar_kwargs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot an array of data on a map using matplotlib and Basemap,
-automatically matching the data to the Pandana network node positions.</p>
-<p>Keyword arguments are passed to the plotting routine.</p>
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">bbox</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">plot_type</span><span class="o">=</span><span class="default_value">'scatter'</span></em>, <em class="sig-param"><span class="n">fig_kwargs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">plot_kwargs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cbar_kwargs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot an array of data on a map using Matplotlib, automatically matching
+the data to the Pandana network node positions. Keyword arguments are
+passed to the plotting routine.</p>
+<p>Modified in Pandana v0.6 to eliminate usage of Matplotlib’s deprecated
+Basemap toolkit. No longer accepts bmap_kwargs and no longer returns
+a Basemap object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -453,24 +456,19 @@ in the network.</p>
 <dt><strong>bbox</strong><span class="classifier">tuple, optional</span></dt><dd><p>(lat_min, lng_min, lat_max, lng_max)</p>
 </dd>
 <dt><strong>plot_type</strong><span class="classifier">{‘hexbin’, ‘scatter’}, optional</span></dt><dd></dd>
-<dt><strong>fig_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments that will be passed to
-matplotlib.pyplot.subplots. Use this to specify things like
-figure size or background color.</p>
-</dd>
-<dt><strong>bmap_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments that will be passed to the Basemap constructor.
-This can be used to specify a projection or coastline resolution.</p>
+<dt><strong>fig_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments that will be passed to matplotlib.pyplot.subplots.
+Use this to specify things like figure size or background color.</p>
 </dd>
 <dt><strong>plot_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments that will be passed to the matplotlib plotting
-command used. Use this to control plot styles and color maps used.</p>
+command. Use this to control plot styles and color maps.</p>
 </dd>
-<dt><strong>cbar_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments passed to the Basemap.colorbar method.
+<dt><strong>cbar_kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>Keyword arguments that will be passed to matplotlib.pyplot.colorbar.
 Use this to control color bar location and label.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>bmap</strong><span class="classifier">Basemap</span></dt><dd></dd>
 <dt><strong>fig</strong><span class="classifier">matplotlib.Figure</span></dt><dd></dd>
 <dt><strong>ax</strong><span class="classifier">matplotlib.Axes</span></dt><dd></dd>
 </dl>
@@ -623,6 +621,7 @@ network. Must provide an impedance name if more than one is
 available.</p>
 <p>If you have a large number of paths to calculate, don’t use this
 function! Use the vectorized one instead.</p>
+<p>Added in Pandana v0.5.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -649,6 +648,7 @@ function! Use the vectorized one instead.</p>
 origins and list of destinations and returns a corresponding list
 of shortest path lengths. Must provide an impedance name if more
 than one is available.</p>
+<p>Added in Pandana v0.5.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -663,6 +663,34 @@ than one is available.</p>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>lenths</strong><span class="classifier">list of floats</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pandana.network.Network.shortest_paths">
+<code class="sig-name descname">shortest_paths</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">nodes_a</span></em>, <em class="sig-param"><span class="n">nodes_b</span></em>, <em class="sig-param"><span class="n">imp_name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.shortest_paths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vectorized calculation of shortest paths. Accepts a list of origins
+and list of destinations and returns a corresponding list of
+shortest path routes. Must provide an impedance name if more than
+one is available.</p>
+<p>Added in Pandana v0.6.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>nodes_a</strong><span class="classifier">list-like of ints</span></dt><dd><p>Source node ids</p>
+</dd>
+<dt><strong>nodes_b</strong><span class="classifier">list-like of ints</span></dt><dd><p>Corresponding destination node ids</p>
+</dd>
+<dt><strong>imp_name</strong><span class="classifier">string</span></dt><dd><p>The impedance name to use for the shortest path</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>paths</strong><span class="classifier">list of np.ndarray</span></dt><dd><p>Nodes traversed in each shortest path</p>
+</dd>
 </dl>
 </dd>
 </dl>

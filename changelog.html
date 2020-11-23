@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Change log &mdash; pandana 0.5.1 documentation</title>
+  <title>Change log &mdash; pandana 0.6 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.5.1
+                0.6
               </div>
             
           
@@ -94,6 +94,7 @@
 <li class="toctree-l1"><a class="reference internal" href="loaders.html">Loaders</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Change log</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v0-6">v0.6</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-5-1">v0.5.1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-5">v0.5</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-4-4">v0.4.4</a></li>
@@ -172,22 +173,29 @@
             
   <div class="section" id="change-log">
 <h1>Change log<a class="headerlink" href="#change-log" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="v0-6">
+<h2>v0.6<a class="headerlink" href="#v0-6" title="Permalink to this headline">¶</a></h2>
+<p>2020/11/20</p>
+<ul class="simple">
+<li><p>Adds vectorized, multi-threaded <a class="reference external" href="network.html#pandana.network.Network.shortest_paths">calculation of many shortest path routes</a> at once</p></li>
+<li><p>Restores usability of <a class="reference external" href="network.html#pandana.network.Network.plot">network.plot()</a> by eliminating usage of Matplotlib’s deprecated Basemap toolkit</p></li>
+</ul>
+</div>
 <div class="section" id="v0-5-1">
 <h2>v0.5.1<a class="headerlink" href="#v0-5-1" title="Permalink to this headline">¶</a></h2>
 <p>2020/08/05</p>
 <ul class="simple">
-<li><p>Fixes a performance bug in network.get_node_ids()</p></li>
+<li><p>Fixes a performance regression in <a class="reference external" href="network.html#pandana.network.Network.get_node_ids">network.get_node_ids()</a></p></li>
 </ul>
 </div>
 <div class="section" id="v0-5">
 <h2>v0.5<a class="headerlink" href="#v0-5" title="Permalink to this headline">¶</a></h2>
 <p>2020/07/28</p>
 <ul class="simple">
-<li><p>Adds support for <a class="reference external" href="network.html#pandana.network.Network.shortest_path_lengths">calculating shortest path lengths</a> between arbitrary origins and destinations, with vectorization and multi-threading</p></li>
+<li><p>Adds support for <a class="reference external" href="network.html#pandana.network.Network.shortest_path_lengths">calculating shortest path distances</a> between arbitrary origins and destinations, with vectorization and multi-threading</p></li>
 <li><p>Restores alternate names for aggregation types, which were inadvertently removed in v0.4</p></li>
 <li><p>Fixes a bug with matplotlib backends</p></li>
 <li><p>Improves compilation in MacOS 10.15 Catalina</p></li>
-<li><p>Eliminates the scikit-learn dependency</p></li>
 <li><p>Makes matplotlib and osmnet dependencies optional</p></li>
 <li><p>Revises the documentation and demo notebook</p></li>
 </ul>
