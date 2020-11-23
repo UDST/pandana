@@ -8,7 +8,7 @@ Pandana
 
 Pandana is a Python library for network analysis that uses `contraction hierarchies <https://en.wikipedia.org/wiki/Contraction_hierarchies>`_ to calculate super-fast travel accessibility metrics and shortest paths. The numerical code is in C++.
 
-v0.5.1, released August 5, 2020
+v0.6, released November 11, 2020
 
 
 Acknowledgments
