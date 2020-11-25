@@ -1,6 +1,7 @@
 name: Python CI
 
 on:
+  push:
   pull_request:
   workflow_dispatch:
 
@@ -19,7 +20,8 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Compile and install Pandana and core dependencies
-      run: pip install .
+      run: |
+        pip install .
     - name: Install extras
       run: |
         pip install -r requirements-dev.txt
@@ -29,7 +31,9 @@ jobs:
         pip list
         pip show pandana
     - name: Code style checks
-      run: pycodestyle pandana
+      run: |
+        pycodestyle pandana
     - name: Unit tests
-      run: python setup.py test --pytest-args "--cov pandana --cov-report term-missing"
+      run: |
+        python setup.py test --pytest-args "--cov pandana --cov-report term-missing"
       
