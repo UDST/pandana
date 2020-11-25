@@ -1,23 +1,30 @@
 Change log
 ==========
 
+v0.6
+----
+
+2020/11/20
+
+* Adds vectorized, multi-threaded `calculation of many shortest path routes <network.html#pandana.network.Network.shortest_paths>`_ at once
+* Restores usability of `network.plot() <network.html#pandana.network.Network.plot>`_ by eliminating usage of Matplotlib's deprecated Basemap toolkit
+
 v0.5.1
 ------
 
 2020/08/05
 
-* Fixes a performance bug in network.get_node_ids()
+* Fixes a performance regression in `network.get_node_ids() <network.html#pandana.network.Network.get_node_ids>`_
 
 v0.5
 ----
 
 2020/07/28
 
-* Adds support for `calculating shortest path lengths <network.html#pandana.network.Network.shortest_path_lengths>`_ between arbitrary origins and destinations, with vectorization and multi-threading
+* Adds support for `calculating shortest path distances <network.html#pandana.network.Network.shortest_path_lengths>`_ between arbitrary origins and destinations, with vectorization and multi-threading
 * Restores alternate names for aggregation types, which were inadvertently removed in v0.4
 * Fixes a bug with matplotlib backends
 * Improves compilation in MacOS 10.15 Catalina
-* Eliminates the scikit-learn dependency
 * Makes matplotlib and osmnet dependencies optional
 * Revises the documentation and demo notebook
 

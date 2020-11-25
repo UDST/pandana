@@ -199,6 +199,45 @@ class Network:
         # map back to external node ids
         return self.node_ids.values[path]
 
+    def shortest_paths(self, nodes_a, nodes_b, imp_name=None):
+        """
+        Vectorized calculation of shortest paths. Accepts a list of origins
+        and list of destinations and returns a corresponding list of
+        shortest path routes. Must provide an impedance name if more than
+        one is available.
+
+        Added in Pandana v0.6.
+
+        Parameters
+        ----------
+        nodes_a : list-like of ints
+            Source node ids
+        nodes_b : list-like of ints
+            Corresponding destination node ids
+        imp_name : string
+            The impedance name to use for the shortest path
+
+        Returns
+        -------
+        paths : list of np.ndarray
+            Nodes traversed in each shortest path
+
+        """
+        if len(nodes_a) != len(nodes_b):
+            raise ValueError("Origin and destination counts don't match: {}, {}"
+                             .format(len(nodes_a), len(nodes_b)))
+
+        # map to internal node indexes
+        nodes_a_idx = self._node_indexes(pd.Series(nodes_a)).values
+        nodes_b_idx = self._node_indexes(pd.Series(nodes_b)).values
+
+        imp_num = self._imp_name_to_num(imp_name)
+
+        paths = self.net.shortest_paths(nodes_a_idx, nodes_b_idx, imp_num)
+
+        # map back to external node ids
+        return [self.node_ids.values[p] for p in paths]
+
     def shortest_path_length(self, node_a, node_b, imp_name=None):
         """
         Return the length of the shortest path between two node ids in the
@@ -207,6 +246,8 @@ class Network:
 
         If you have a large number of paths to calculate, don't use this
         function! Use the vectorized one instead.
+
+        Added in Pandana v0.5.
 
         Parameters
         ----------
@@ -239,6 +280,8 @@ class Network:
         origins and list of destinations and returns a corresponding list
         of shortest path lengths. Must provide an impedance name if more
         than one is available.
+
+        Added in Pandana v0.5.
 
         Parameters
         ----------
@@ -436,7 +479,7 @@ class Network:
 
     def get_node_ids(self, x_col, y_col, mapping_distance=None):
         """
-        Assign node_ids to data specified by x_col and y_col
+        Assign node_ids to data specified by x_col and y_col.
 
         Parameters
         ----------
@@ -481,15 +524,16 @@ class Network:
 
         return df.node_id
 
-    def plot(
-            self, data, bbox=None, plot_type='scatter',
-            fig_kwargs=None, bmap_kwargs=None, plot_kwargs=None,
-            cbar_kwargs=None):
+    def plot(self, data, bbox=None, plot_type='scatter', fig_kwargs=None,
+             plot_kwargs=None, cbar_kwargs=None):
         """
-        Plot an array of data on a map using matplotlib and Basemap,
-        automatically matching the data to the Pandana network node positions.
+        Plot an array of data on a map using Matplotlib, automatically matching
+        the data to the Pandana network node positions. Keyword arguments are
+        passed to the plotting routine.
 
-        Keyword arguments are passed to the plotting routine.
+        Modified in Pandana v0.6 to eliminate usage of Matplotlib's deprecated
+        Basemap toolkit. No longer accepts bmap_kwargs and no longer returns
+        a Basemap object.
 
         Parameters
         ----------
@@ -500,22 +544,17 @@ class Network:
             (lat_min, lng_min, lat_max, lng_max)
         plot_type : {'hexbin', 'scatter'}, optional
         fig_kwargs : dict, optional
-            Keyword arguments that will be passed to
-            matplotlib.pyplot.subplots. Use this to specify things like
-            figure size or background color.
-        bmap_kwargs : dict, optional
-            Keyword arguments that will be passed to the Basemap constructor.
-            This can be used to specify a projection or coastline resolution.
+            Keyword arguments that will be passed to matplotlib.pyplot.subplots.
+            Use this to specify things like figure size or background color.
         plot_kwargs : dict, optional
             Keyword arguments that will be passed to the matplotlib plotting
-            command used. Use this to control plot styles and color maps used.
+            command. Use this to control plot styles and color maps.
         cbar_kwargs : dict, optional
-            Keyword arguments passed to the Basemap.colorbar method.
+            Keyword arguments that will be passed to matplotlib.pyplot.colorbar.
             Use this to control color bar location and label.
 
         Returns
         -------
-        bmap : Basemap
         fig : matplotlib.Figure
         ax : matplotlib.Axes
 
@@ -528,14 +567,11 @@ class Network:
         try:
             import matplotlib
             import matplotlib.pyplot as plt
-            from mpl_toolkits.basemap import Basemap
         except (ModuleNotFoundError, RuntimeError):
-            raise ModuleNotFoundError("Pandana's network.plot() requires Matplotlib and "
-                                      "the Matplotlib Basemap Toolkit")
+            raise ModuleNotFoundError("Pandana's network.plot() requires Matplotlib")
 
-        fig_kwargs = fig_kwargs or {}
-        bmap_kwargs = bmap_kwargs or {}
-        plot_kwargs = plot_kwargs or {}
+        fig_kwargs = fig_kwargs or {'figsize': (10, 8)}
+        plot_kwargs = plot_kwargs or {'cmap': 'hot_r', 's': 1}
         cbar_kwargs = cbar_kwargs or {}
 
         if not bbox:
@@ -547,23 +583,20 @@ class Network:
 
         fig, ax = plt.subplots(**fig_kwargs)
 
-        bmap = Basemap(
-            bbox[1], bbox[0], bbox[3], bbox[2], ax=ax, **bmap_kwargs)
-        bmap.drawcoastlines()
-        bmap.drawmapboundary()
-
-        x, y = bmap(self.nodes_df.x.values, self.nodes_df.y.values)
+        x, y = (self.nodes_df.x.values, self.nodes_df.y.values)
 
         if plot_type == 'scatter':
-            plot = bmap.scatter(
+            plot = plt.scatter(
                 x, y, c=data.values, **plot_kwargs)
         elif plot_type == 'hexbin':
-            plot = bmap.hexbin(
+            plot = plt.hexbin(
                 x, y, C=data.values, **plot_kwargs)
 
-        bmap.colorbar(plot, **cbar_kwargs)
+        colorbar = plt.colorbar(plot, **cbar_kwargs)
 
-        return bmap, fig, ax
+        plt.show()
+
+        return fig, ax
 
     def init_pois(self, num_categories, max_dist, max_pois):
         """

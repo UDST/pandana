@@ -51,6 +51,10 @@ class Accessibility {
     // shortest path between two points
     vector<int> Route(int src, int tgt, int graphno = 0);
 
+    // shortest path between list of origins and destinations
+    vector<vector<int>> Routes(vector<long> sources, vector<long> targets,  
+                             int graphno = 0);
+
     // shortest path distance between two points
     double Distance(int src, int tgt, int graphno = 0);
     

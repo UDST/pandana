@@ -92,10 +92,10 @@ def test_node_query(bbox2):
     tags = '"amenity"="restaurant"'
     cafes = osm.node_query(*bbox2, tags=tags)
 
-    assert len(cafes) == 4
+    assert len(cafes) == 2
     assert 'lat' in cafes.columns
     assert 'lon' in cafes.columns
-    assert cafes['name'][2965338413] == 'Koja Kitchen'
+    assert cafes['name'][1419597327] == 'Cream'
 
 
 def test_node_query_raises():
