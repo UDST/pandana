@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        # Pandana no longer officially supports Python 2.7 and 3.5 because it's too much
+        # trouble to distribute binaries, but we'll continue monitoring compatibility
         python-version: [2.7, 3.5, 3.6, 3.7, 3.8]
     
     steps:
@@ -19,21 +21,21 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Compile and install Pandana and core dependencies
+    - name: Install Pandana
       run: |
         pip install .
     - name: Install extras
       run: |
         pip install -r requirements-dev.txt
         pip install -r requirements-extras.txt
-    - name: Environment diagnostics
+    - name: Print environment diagnostics
       run: | 
         pip list
         pip show pandana
-    - name: Code style checks
+    - name: Check code style
       run: |
         pycodestyle pandana
-    - name: Unit tests
+    - name: Run unit tests
       run: |
         python setup.py test --pytest-args "--cov pandana --cov-report term-missing"
       
