@@ -19,4 +19,8 @@ jobs:
     - name: Install Pandana and dependencies
       run: |
         pip install .
-        pip install 'pytest<4.0' 'pytest-cov<2.10'
+        pip install pytest pytest-cov
+        # pip install 'pytest<4.0' 'pytest-cov<2.10'
+    - name: Run unit tests
+      run: |
+        python setup.py test --pytest-args "--cov pandana --cov-report term-missing"
