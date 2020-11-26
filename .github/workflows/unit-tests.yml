@@ -1,4 +1,4 @@
-name: Code style
+name: Unit tests
 
 on:
   push:
