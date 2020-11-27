@@ -2,25 +2,21 @@ name: Unit tests
 
 on:
   push:
-  pull_request:
   workflow_dispatch:
 
 jobs:
   build:
-    
     runs-on: ubuntu-latest
-    
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
         python-version: '3.8'
-    - name: Install Pandana and dependencies
+    - name: Install Pandana
       run: |
         pip install .
-        pip install pytest pytest-cov
-        # pip install 'pytest<4.0' 'pytest-cov<2.10'
+        pip install 'pytest<4.0'
     - name: Run unit tests
       run: |
-        python setup.py test --pytest-args "--cov pandana --cov-report term-missing"
+        python setup.py test
