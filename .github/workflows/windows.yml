@@ -10,14 +10,14 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: conda-incubator/setup-miniconda@v2
       with:
         python-version: 3.8
     - name: Install Pandana
       run: |
-        conda install osmnet
         pip install .
         pip install 'pytest<4.0'
+        conda install osmnet
     - name: Run unit tests
       run: |
         python setup.py test
