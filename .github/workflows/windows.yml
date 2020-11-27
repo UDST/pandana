@@ -1,12 +1,12 @@
-name: Unit tests
+name: Windows tests
 
 on:
-  # push:
+  push:
   workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python
@@ -15,8 +15,9 @@ jobs:
         python-version: 3.8
     - name: Install Pandana
       run: |
+        conda install osmnet
         pip install .
-        pip install osmnet 'pytest<4.0'
+        pip install 'pytest<4.0'
     - name: Run unit tests
       run: |
         python setup.py test

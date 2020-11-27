@@ -31,9 +31,6 @@ jobs:
       run: | 
         pip list
         pip show pandana
-    - name: Check code style
-      run: |
-        pycodestyle pandana
     - name: Run unit tests
       run: |
         python setup.py test --pytest-args "--cov pandana --cov-report term-missing"
