@@ -17,7 +17,7 @@ jobs:
       run: |
         pip install .
         pip install 'pytest<4.0'
-        conda install osmnet
+        conda install osmnet --channel conda-forge
     - name: Run unit tests
       run: |
         python setup.py test
