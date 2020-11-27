@@ -16,7 +16,7 @@ jobs:
     - name: Install Pandana
       run: |
         pip install .
-        pip install 'pytest<4.0'
+        pip install osmnet 'pytest<4.0'
     - name: Run unit tests
       run: |
         python setup.py test
