@@ -42,4 +42,4 @@ jobs:
         pip install .
     - name: Run demo
       run: |
-        python examples/simple_examply.py
+        python examples/simple_example.py
