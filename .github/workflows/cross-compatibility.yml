@@ -27,7 +27,7 @@ jobs:
     - name: Install PyTables (py39 only)
       if: matrix.python-version == '3.9'
       run: |
-        conda install pytables
+        conda install pytables --channel conda-forge
     - name: Install OSMnet
       if: (matrix.os != 'windows-latest') && (matrix.python-version != '3.9')
       run: |
@@ -35,7 +35,7 @@ jobs:
     - name: Install OSMnet (conda - for win and py39)
       if: (matrix.os == 'windows-latest') || (matrix.python-version == '3.9')
       run: |
-        conda install osmnet
+        conda install osmnet --channel conda-forge
     - name: Install Pandana from source code
       run: |
         pip install .
