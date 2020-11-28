@@ -19,7 +19,7 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Set up Python ${{ matrix.python-version }} (Conda - for win and py39)
+    - name: Set up Python ${{ matrix.python-version }} (conda - for win and py39)
       if: (matrix.os == 'windows-latest') || (matrix.python-version == '3.9')
       uses: conda-incubator/setup-miniconda@v2
       with:
@@ -28,10 +28,14 @@ jobs:
       if: matrix.python-version == '3.9'
       run: |
         conda install pytables
-    - name: Install OSMnet (pip - for mac and ubuntu)
-      if: matrix.os != 'windows-latest'
+    - name: Install OSMnet
+      if: (matrix.os != 'windows-latest') && (matrix.python-version != '3.9')
       run: |
         pip install osmnet
+    - name: Install OSMnet (conda - for win and py39)
+      if: (matrix.os == 'windows-latest') || (matrix.python-version == '3.9')
+      run: |
+        conda install osmnet
     - name: Install Pandana from source code
       run: |
         pip install .
