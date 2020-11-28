@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
-        python-version: [3.6, 3.7, 3.8, 3.9]
+        python-version: [3.6, 3.7, 3.8]
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
@@ -30,7 +30,7 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        python-version: [3.6, 3.7, 3.8, 3.9]
+        python-version: [3.6, 3.7, 3.8]
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
@@ -41,5 +41,33 @@ jobs:
       run: |
         pip install .
     - name: Run demo
+      run: |
+        python examples/simple_example.py
+
+# The Python 3.9 builds are separate because there's no py39 binary for
+# PyTables yet through pip. When one shows up at this link, py39 can be added
+# to the run matrices above. https://pypi.org/project/tables/#files 
+
+  build-py39:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.9
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        python-version: 3.9
+    - name: Install Pandana
+      run: |
+        conda install pytables
+        pip install .
+    - name: Run unit tests
+      if: matrix.os != 'windows-latest'
+      run: |
+        python setup.py test
+    - name: Run demo
+      if: matrix.os == 'windows-latest'
       run: |
         python examples/simple_example.py
