@@ -1,7 +1,7 @@
 name: Windows tests
 
 on:
-  # push:  # TOGGLE THIS TO START RUNNING JOB AGAIN
+  # push:  # ENABLE THIS TO START RUNNING JOB AGAIN
   workflow_dispatch:
 
 jobs:

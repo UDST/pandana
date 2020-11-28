@@ -59,9 +59,6 @@ extra_link_args = []
 
 if sys.platform.startswith('darwin'):  # Mac
     
-    # Earliest OS version that the compiled code will be compatible with
-    os.environ['MACOSX_DEPLOYMENT_TARGET'] = '10.14'
-    
     extra_compile_args += ['-D NO_TR1_MEMORY', '-stdlib=libc++']
     extra_link_args += ['-stdlib=libc++']
     
