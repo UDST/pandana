@@ -1,7 +1,7 @@
 name: Cross-compatibility
 
 on:
-  # push:
+  push:
   pull_request:
   workflow_dispatch:
 
@@ -10,7 +10,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest]
         python-version: [3.6, 3.7, 3.8, 3.9]
     steps:
     - uses: actions/checkout@v2
@@ -25,3 +25,21 @@ jobs:
     - name: Run unit tests
       run: |
         python setup.py test
+
+  build-win:
+      runs-on: windows-latest
+    strategy:
+      matrix:
+        python-version: [3.6, 3.7, 3.8, 3.9]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install Pandana
+      run: |
+        pip install .
+    - name: Run demo
+      run: |
+        python examples/simple_examply.py
