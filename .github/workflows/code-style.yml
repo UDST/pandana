@@ -1,7 +1,7 @@
 name: Code style
 
 on:
-  push:
+  # push:
   workflow_dispatch:
 
 jobs:
@@ -15,6 +15,5 @@ jobs:
         python-version: '3.x'
     - name: Check code style
       run: |
-        printenv
         pip install pycodestyle
         pycodestyle pandana

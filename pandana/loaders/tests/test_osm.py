@@ -2,7 +2,7 @@ import pytest
 
 import pandana
 from pandana.loaders import osm
-from pandana.testing import skipiftravis
+from pandana.testing import skipifci
 
 
 @pytest.fixture(scope='module')
@@ -41,7 +41,7 @@ def test_process_node():
     assert osm.process_node(test_node) == expected
 
 
-@skipiftravis
+@skipifci
 def test_network_from_bbox(bbox2):
     net = osm.pdna_network_from_bbox(*bbox2)
     assert isinstance(net, pandana.Network)
