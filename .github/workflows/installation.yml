@@ -6,7 +6,7 @@ name: Installation
 # background to catch dependency updates that break Pandana.
 
 on:
-  # push:
+  push:
   # pull_request:
   workflow_dispatch:
   schedule:
@@ -34,6 +34,9 @@ jobs:
 
   build-conda:
     runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash -l {0}  # this is needed for conda persistence
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
