@@ -11,6 +11,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}  # this is needed for conda persistence
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python
