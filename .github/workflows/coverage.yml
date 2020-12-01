@@ -4,7 +4,7 @@ name: Coverage
 # unit tests) and uploads the information to Coveralls.io for reporting and analysis.
 
 on:
-  push:
+  # push:
   pull_request:
   workflow_dispatch:
 

@@ -6,7 +6,7 @@ name: Installation
 # background to catch dependency updates that break Pandana.
 
 on:
-  # push:
+  push:
   # pull_request:
   workflow_dispatch:
   schedule:
@@ -17,7 +17,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest]
+        # Pip installation for Windows is not supported. Pip installation for Mac is
+        # broken in the GitHub Actions environment with Pandana v0.6 but should be fixed
+        # in the next Pandana release.
         python-version: [3.6, 3.7, 3.8]
     steps:
     - uses: actions/checkout@v2
@@ -36,7 +39,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     defaults:
       run:
-        shell: bash -l {0}  # this is needed for conda persistence
+        shell: bash -l {0}  # needed for conda persistence
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
