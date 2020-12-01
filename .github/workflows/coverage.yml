@@ -26,8 +26,7 @@ jobs:
         pip install 'pytest<4.0' 'pytest-cov<2.10'
         python setup.py test --pytest-args "--cov pandana --cov-report term-missing"
     - name: Upload to Coveralls
+      env: GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         pip install coveralls
         coveralls
-#      with:
-#        github-token: ${{ secrets.GITHUB_TOKEN }}
