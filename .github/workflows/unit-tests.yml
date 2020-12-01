@@ -1,7 +1,12 @@
 name: Unit tests
 
+# This workflow runs the Pandana unit tests in a single generic environment (recent but
+# stable Python version on recent but stable Ubuntu). The cross-compatibility.yml
+# workflow runs the same tests across multiple platforms.
+
 on:
-  # push:
+  push:
+  # pull_request:
   workflow_dispatch:
 
 jobs:
@@ -16,7 +21,8 @@ jobs:
     - name: Install Pandana
       run: |
         pip install .
-        pip install osmnet 'pytest<4.0'
+        pip install osmnet
     - name: Run unit tests
       run: |
+        pip install 'pytest<4.0'
         python setup.py test

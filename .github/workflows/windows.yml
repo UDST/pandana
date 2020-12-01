@@ -1,7 +1,9 @@
 name: Windows tests
 
+# This workflow runs the Pandana unit tests in Windows -- this is a one-off for debugging.
+
 on:
-  # push:  # ENABLE THIS TO START RUNNING JOB AGAIN
+  # push:
   workflow_dispatch:
 
 jobs:

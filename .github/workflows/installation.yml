@@ -1,9 +1,9 @@
 name: Installation
 
-# This workflow tests installation from Pip and Conda across a range of Python versions
-# and operating systems. You can run this manually after a new release is posted to
-# confirm that it installs smoothly. This workflow also runs periodically in the
-# background to catch dependency updates that break Pandana.
+# This workflow installs Pandana from Pip and Conda across a range of Python versions and
+# operating systems. You can run this manually after a new release is posted to confirm
+# that it installs smoothly. This workflow also runs periodically in the background to
+# catch dependency updates that break Pandana.
 
 on:
   # push:

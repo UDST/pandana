@@ -1,7 +1,9 @@
 name: Code style
 
+# This workflow runs code style checks.
+
 on:
-  # push:
+  push:
   workflow_dispatch:
 
 jobs:

@@ -1,5 +1,12 @@
 name: Cross-compatibility
 
+# This workflow runs the Pandana unit tests across a comprehensive range of Python
+# versions and operating systems. 
+
+# TO DO: might be clearer to split this into a set of default-python builds and a set of
+# conda-based builds -- see installation.yml for example. Windows needs conda in order to
+# install geospatial dependencies.
+
 on:
   # push:
   pull_request:
@@ -39,9 +46,7 @@ jobs:
       run: |
         python examples/simple_example.py
     - name: Run unit tests (skipped on windows)
-      if: matrix.os != 'windows-latest'
+      if: matrix.os != 'windows-latest'  # skipped because not passing at the moment
       run: |
         pip install 'pytest<4.0'
         python setup.py test
-
-# Unit tests are skipped on Windows because they're not passing currently.
