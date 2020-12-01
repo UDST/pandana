@@ -6,7 +6,7 @@ name: Installation
 # background to catch dependency updates that break Pandana.
 
 on:
-  push:
+  # push:
   # pull_request:
   workflow_dispatch:
   schedule:
