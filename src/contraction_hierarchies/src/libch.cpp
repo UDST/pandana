@@ -20,9 +20,9 @@ or see http://www.gnu.org/licenses/agpl.txt.
 
 #include "libch.h"
 #include "POIIndex/POIIndex.h"
-#ifdef _OPENMP
-#include "Util/HyperThreading.h"
-#endif
+// #ifdef _OPENMP
+// #include "Util/HyperThreading.h"
+// #endif
 namespace CH {
 
 inline ostream& operator<< (ostream& os, const Edge& e) {

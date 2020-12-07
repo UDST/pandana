@@ -17,6 +17,8 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  or see http://www.gnu.org/licenses/agpl.txt.
  */
+
+/*
 #ifndef HYPERTHREADING_H_INCLUDED
 #define HYPERTHREADING_H_INCLUDED
 
@@ -78,3 +80,4 @@ inline int getNumberOfRealCPUs () {
 }
 
 #endif
+*/
