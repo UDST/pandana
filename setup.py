@@ -3,8 +3,7 @@ import platform
 import sys
 import sysconfig
 
-from setuptools import find_packages
-from distutils.core import setup, Extension
+from setuptools import find_packages, setup, Extension
 from setuptools.command.test import test as TestCommand
 from setuptools.command.build_ext import build_ext
 
@@ -58,12 +57,7 @@ extra_link_args = []
 # versions of Xcode Command Line Tools, or newer versions installed separately
 
 if sys.platform.startswith('darwin'):  # Mac
-    
-    # This environment variable sets the earliest OS version that the compiled
-    # code will be compatible with. In certain contexts the default is too old
-    # to allow using libc++; supporting OS X 10.9 and later seems reasonable
-    os.environ['MACOSX_DEPLOYMENT_TARGET'] = '10.9'
-    
+        
     extra_compile_args += ['-D NO_TR1_MEMORY', '-stdlib=libc++']
     extra_link_args += ['-stdlib=libc++']
     
@@ -131,7 +125,7 @@ cyaccess = Extension(
 ## Standard setup
 ###############################################
 
-version = '0.6'
+version = '0.6.1.dev0'
 
 packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"])
 
