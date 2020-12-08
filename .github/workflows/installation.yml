@@ -1,0 +1,58 @@
+name: Installation
+
+# This workflow installs Pandana from Pip and Conda across a range of Python versions and
+# operating systems. You can run this manually after a new release is posted to confirm
+# that it installs smoothly. This workflow also runs periodically in the background to
+# catch dependency updates that break Pandana.
+
+on:
+  # push:
+  # pull_request:
+  workflow_dispatch:
+  schedule:
+  - cron: '0 3 * * 1'  # every Monday at 3am UTC (Sunday evening Calif time)
+
+jobs:
+  build-pip:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        # Pip installation for Windows is not supported. Pip installation for Mac is
+        # broken in the GitHub Actions environment with Pandana v0.6 but should be fixed
+        # in the next Pandana release.
+        python-version: [3.6, 3.7, 3.8]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install Pandana
+      run: |
+        pip install pandana
+    - name: Run demo
+      run: |
+        python examples/simple_example.py
+
+  build-conda:
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash -l {0}  # needed for conda persistence
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: [3.6, 3.7, 3.8, 3.9]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install Pandana
+      run: |
+        conda install pandana --channel conda-forge
+    - name: Run demo
+      run: |
+        python examples/simple_example.py
