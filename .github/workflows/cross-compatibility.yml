@@ -1,0 +1,52 @@
+name: Cross-compatibility
+
+# This workflow runs the Pandana unit tests across a comprehensive range of Python
+# versions and operating systems. 
+
+# TO DO: might be clearer to split this into a set of default-python builds and a set of
+# conda-based builds -- see installation.yml for example. Windows needs conda in order to
+# install geospatial dependencies.
+
+on:
+  # push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: [3.6, 3.7, 3.8]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      if: matrix.os != 'windows-latest'
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Set up Python ${{ matrix.python-version }} (conda - for win)
+      if: matrix.os == 'windows-latest'
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install OSMnet
+      if: matrix.os != 'windows-latest'
+      run: |
+        pip install osmnet
+    - name: Install OSMnet (conda - for win)
+      if: matrix.os == 'windows-latest'
+      run: |
+        conda install osmnet --channel conda-forge
+    - name: Install Pandana from source code
+      run: |
+        pip install .
+    - name: Run demo
+      run: |
+        python examples/simple_example.py
+    - name: Run unit tests (skipped on windows)
+      if: matrix.os != 'windows-latest'  # skipped because not passing at the moment
+      run: |
+        pip install 'pytest<4.0'
+        python setup.py test

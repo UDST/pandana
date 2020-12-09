@@ -57,7 +57,7 @@ extra_link_args = []
 # versions of Xcode Command Line Tools, or newer versions installed separately
 
 if sys.platform.startswith('darwin'):  # Mac
-        
+
     extra_compile_args += ['-D NO_TR1_MEMORY', '-stdlib=libc++']
     extra_link_args += ['-stdlib=libc++']
     

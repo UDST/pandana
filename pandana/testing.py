@@ -2,5 +2,5 @@ import os
 
 import pytest
 
-skipiftravis = pytest.mark.skipif(
-    os.environ.get('TRAVIS') == 'true', reason='skip on Travis-CI')
+skipifci = pytest.mark.skipif(
+    os.environ.get('CI') == 'true', reason='skip on CI')
