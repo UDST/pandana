@@ -22,4 +22,4 @@ jobs:
         conda install osmnet --channel conda-forge
     - name: Run unit tests
       run: |
-        python setup.py test
+        pytest pandana -s

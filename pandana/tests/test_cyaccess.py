@@ -31,6 +31,9 @@ def net(nodes_and_edges):
     node_locations = pd.Series(np.arange(len(nodes)), index=nodes.index)
     edges["from"] = node_locations.loc[edges["from"]].values
     edges["to"] = node_locations.loc[edges["to"]].values
+    
+    print(nodes.index.values.dtype)
+    print(edges.values.dtype)
 
     net = cyaccess(
         nodes.index.values,
