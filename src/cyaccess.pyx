@@ -6,7 +6,6 @@ from libcpp.pair cimport pair
 
 import numpy as np
 cimport numpy as np
-from numpy cimport int64_t  # use instead of 'long' for cross-platform consistency
 
 # resources
 # http://cython.readthedocs.io/en/latest/src/userguide/wrapping_CPlusPlus.html
