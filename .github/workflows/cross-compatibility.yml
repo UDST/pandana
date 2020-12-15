@@ -5,7 +5,7 @@ name: Cross-compatibility
 # dependencies.
 
 on:
-  push:
+  # push:
   pull_request:
   workflow_dispatch:
 
@@ -22,12 +22,10 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install OSMnet
-      run: |
-        pip install osmnet
     - name: Install Pandana
       run: |
         pip install .
+        pip install osmnet
     - name: Run demo
       run: |
         python examples/simple_example.py
@@ -37,12 +35,13 @@ jobs:
         python setup.py test
 
   build-conda:
-    runs-on: windows-latest
+    runs-on: ${{ matrix.os }}
     defaults:
       run:
         shell: bash -l {0}  # needed for conda persistence
     strategy:
       matrix:
+        os: [windows-latest]
         python-version: [3.6, 3.7, 3.8]
     steps:
     - uses: actions/checkout@v2
@@ -50,12 +49,10 @@ jobs:
       uses: conda-incubator/setup-miniconda@v2
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install OSMnet
-      run: |
-        conda install osmnet --channel conda-forge
     - name: Install Pandana
       run: |
         pip install .
+        conda install osmnet --channel conda-forge
     - name: Run demo
       run: |
         python examples/simple_example.py
