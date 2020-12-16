@@ -33,9 +33,9 @@ def net(nodes_and_edges):
     edges["to"] = node_locations.loc[edges["to"]].values
 
     net = cyaccess(
-        nodes.index.values,
+        nodes.index.values.astype('int_'),
         nodes.values,
-        edges.values,
+        edges.values.astype('int_'),
         edge_weights.transpose().values,
         True
     )
