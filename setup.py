@@ -59,7 +59,7 @@ extra_link_args = []
 
 if sys.platform.startswith('darwin'):  # Mac
     
-    extra_compile_args += ['-D NO_TR1_MEMORY', '-stdlib=libc++']
+    extra_compile_args += ['-stdlib=libc++']
     extra_link_args += ['-stdlib=libc++']
     
     # The default compiler that ships with Macs doesn't support OpenMP multi-
