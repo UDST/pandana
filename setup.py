@@ -3,7 +3,8 @@ import platform
 import sys
 import sysconfig
 
-from setuptools import find_packages, setup, Extension
+from setuptools import find_packages
+from distutils.core import setup, Extension
 from setuptools.command.test import test as TestCommand
 from setuptools.command.build_ext import build_ext
 
@@ -57,7 +58,7 @@ extra_link_args = []
 # versions of Xcode Command Line Tools, or newer versions installed separately
 
 if sys.platform.startswith('darwin'):  # Mac
-
+    
     extra_compile_args += ['-stdlib=libc++']
     extra_link_args += ['-stdlib=libc++']
     
@@ -125,7 +126,7 @@ cyaccess = Extension(
 ## Standard setup
 ###############################################
 
-version = '0.6.1'
+version = '0.7.dev0'
 
 packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"])
 
@@ -143,7 +144,6 @@ setup(
         'code is in C++.'),
     url='https://udst.github.io/pandana/',
     ext_modules=[cyaccess],
-    python_requires = '>=3.5',
     install_requires=[
         'cython >=0.25.2',
         'numpy >=1.8',
@@ -160,11 +160,11 @@ setup(
     },
     classifiers=[
         'Development Status :: 4 - Beta',
+        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
-        'Programming Language :: Python :: 3.9',
         'License :: OSI Approved :: GNU Affero General Public License v3'
     ],
 )
