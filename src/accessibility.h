@@ -46,7 +46,7 @@ class Accessibility {
         int graphno = 0);
 
     // get nodes with the range
-    DistanceVec Range(int srcnode, float radius, int graphno = 0);
+    vector<pair<int, float>> Range(int srcnode, float radius, int graphno = 0);
 
     // shortest path between two points
     vector<int> Route(int src, int tgt, int graphno = 0);
