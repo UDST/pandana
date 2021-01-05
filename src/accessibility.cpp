@@ -81,6 +81,25 @@ Accessibility::precomputeRangeQueries(float radius) {
 }
 
 
+vector<pair<int, float>>
+Accessibility::Range(int srcnode, float radius, int graphno) {
+    DistanceVec tmp;
+    DistanceVec &distances = tmp;
+    
+    // use cached results if available
+    if (dmsradius > 0 && radius <= dmsradius) {
+        distances = dms[graphno][srcnode];
+    } else {
+        ga[graphno]->Range(
+            srcnode,
+            radius,
+            omp_get_thread_num(),
+            tmp);
+    }
+    return vector<pair<int, float>> (tmp.begin(), tmp.end());
+}
+
+
 vector<int>
 Accessibility::Route(int src, int tgt, int graphno) {
     vector<NodeID> ret = this->ga[graphno]->Route(src, tgt);
