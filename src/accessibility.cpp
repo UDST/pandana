@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <cmath>
 #include <functional>
+#include <unordered_map>
 #include <utility>
 #include "graphalg.h"
 
@@ -81,22 +82,38 @@ Accessibility::precomputeRangeQueries(float radius) {
 }
 
 
-vector<pair<int, float>>
-Accessibility::Range(int srcnode, float radius, int graphno) {
+vector<pair<long, float>>
+Accessibility::Range(int srcnode, float radius, int graphno, vector<long> ext_node_ids) {
+
+    // Set up a mapping between the external node ids and internal ones
+    std::unordered_map<long, int> int_ids(ext_node_ids.size());
+    for (int i = 0; i < ext_node_ids.size(); i++) {
+        int_ids.insert(pair<long, int>(ext_node_ids[i], i));
+    }
+
     DistanceVec tmp;
     DistanceVec &distances = tmp;
     
     // use cached results if available
     if (dmsradius > 0 && radius <= dmsradius) {
-        distances = dms[graphno][srcnode];
+        distances = dms[graphno][int_ids[srcnode]];
     } else {
         ga[graphno]->Range(
-            srcnode,
+            int_ids[srcnode],
             radius,
             omp_get_thread_num(),
             tmp);
     }
-    return vector<pair<int, float>> (tmp.begin(), tmp.end());
+    
+    // todo: check that results are returned from cache correctly
+    // todo: check that performing an aggregation creates cache
+
+    // Convert back to external node ids
+    vector<pair<long, float>> output(distances.size());
+    for (int i = 0; i < distances.size(); i++) {
+        output[i] = std::make_pair(ext_node_ids[distances[i].first], distances[i].second);
+    }
+    return output;
 }
 
 

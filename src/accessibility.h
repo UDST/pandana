@@ -46,14 +46,15 @@ class Accessibility {
         int graphno = 0);
 
     // get nodes with the range
-    vector<pair<int, float>> Range(int srcnode, float radius, int graphno = 0);
+    vector<pair<long, float>> Range(int srcnode, float radius, int graphno, 
+                                    vector<long> ext_node_ids);
 
     // shortest path between two points
     vector<int> Route(int src, int tgt, int graphno = 0);
 
     // shortest path between list of origins and destinations
     vector<vector<int>> Routes(vector<long> sources, vector<long> targets,  
-                             int graphno = 0);
+                               int graphno = 0);
 
     // shortest path distance between two points
     double Distance(int src, int tgt, int graphno = 0);

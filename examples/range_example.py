@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 import os.path
 import sys
 import time
@@ -33,8 +31,10 @@ print()
 # per the unit tests
 
 net.set(pd.Series(net.node_ids))
-s = net.aggregate(10000, type='count')
-connected_nodes = s[s==477]
+#s = net.aggregate(10000, type='count')
+#connected_nodes = s[s==477]
 
-print(net.nodes_in_range(1, 500))
+print(net.nodes_in_range(53114882, 5.0))
 
+print(net.node_idx.values)
+print(net.node_idx.index.values)
