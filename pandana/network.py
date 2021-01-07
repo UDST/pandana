@@ -390,11 +390,11 @@ class Network:
         """
         """
         # NEED TO MAP TO INTERNAL NODE INDEX
-        
+
         imp_num = self._imp_name_to_num(imp_name)
-        
+
         return self.net.nodes_in_range(node, radius, imp_num)
-    
+
     def _imp_name_to_num(self, imp_name):
         if imp_name is None:
             assert len(self.impedance_names) == 1,\
