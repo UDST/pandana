@@ -389,11 +389,10 @@ class Network:
     def nodes_in_range(self, node, radius, imp_name=None):
         """
         """
-        # NEED TO MAP TO INTERNAL NODE INDEX
-
         imp_num = self._imp_name_to_num(imp_name)
+        ext_node_ids = self.node_idx.index.values
 
-        return self.net.nodes_in_range(node, radius, imp_num)
+        return self.net.nodes_in_range(node, radius, imp_num, ext_node_ids)
 
     def _imp_name_to_num(self, imp_name):
         if imp_name is None:
