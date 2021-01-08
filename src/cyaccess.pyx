@@ -29,7 +29,7 @@ cdef extern from "accessibility.h" namespace "MTC::accessibility":
         vector[vector[int]] Routes(vector[long], vector[long], int)
         double Distance(int, int, int)
         vector[double] Distances(vector[long], vector[long], int)
-        vector[pair[long, float]] Range(int, float, int, vector[long])
+        vector[vector[pair[long, float]]] Range(vector[long], float, int, vector[long])
         void precomputeRangeQueries(double)
 
 
@@ -198,8 +198,8 @@ cdef class cyaccess:
     def precompute_range(self, double radius):
         self.access.precomputeRangeQueries(radius)
 
-    def nodes_in_range(self, int srcnode, float radius, int impno, 
-            np.ndarray[long] ext_node_ids):
+    def nodes_in_range(self, vector[long] srcnodes, float radius, int impno, 
+            np.ndarray[long] ext_ids):
         """
         """
-        return self.access.Range(srcnode, radius, impno, ext_node_ids)
+        return self.access.Range(srcnodes, radius, impno, ext_ids)
