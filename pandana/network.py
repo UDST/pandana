@@ -386,13 +386,13 @@ class Network:
         """
         self.net.precompute_range(distance)
 
-    def nodes_in_range(self, node, radius, imp_name=None):
+    def nodes_in_range(self, nodes, radius, imp_name=None):
         """
         """
         imp_num = self._imp_name_to_num(imp_name)
-        ext_node_ids = self.node_idx.index.values
+        ext_ids = self.node_idx.index.values
 
-        return self.net.nodes_in_range(node, radius, imp_num, ext_node_ids)
+        return self.net.nodes_in_range(nodes, radius, imp_num, ext_ids)
 
     def _imp_name_to_num(self, imp_name):
         if imp_name is None:

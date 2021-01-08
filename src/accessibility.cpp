@@ -82,36 +82,43 @@ Accessibility::precomputeRangeQueries(float radius) {
 }
 
 
-vector<pair<long, float>>
-Accessibility::Range(int srcnode, float radius, int graphno, vector<long> ext_node_ids) {
+vector<vector<pair<long, float>>>
+Accessibility::Range(vector<long> srcnodes, float radius, int graphno, 
+                     vector<long> ext_ids) {
 
     // Set up a mapping between the external node ids and internal ones
-    std::unordered_map<long, int> int_ids(ext_node_ids.size());
-    for (int i = 0; i < ext_node_ids.size(); i++) {
-        int_ids.insert(pair<long, int>(ext_node_ids[i], i));
+    std::unordered_map<long, int> int_ids(ext_ids.size());
+    for (int i = 0; i < ext_ids.size(); i++) {
+        int_ids.insert(pair<long, int>(ext_ids[i], i));
     }
-
-    DistanceVec tmp;
-    DistanceVec &distances = tmp;
     
     // use cached results if available
+    vector<DistanceVec> dists(srcnodes.size());
     if (dmsradius > 0 && radius <= dmsradius) {
-        distances = dms[graphno][int_ids[srcnode]];
-    } else {
-        ga[graphno]->Range(
-            int_ids[srcnode],
-            radius,
-            omp_get_thread_num(),
-            tmp);
+        for (int i = 0; i < srcnodes.size(); i++) {
+            dists[i] = dms[graphno][int_ids[srcnodes[i]]];
+        }
+    }
+    else {
+        #pragma omp parallel
+        #pragma omp for schedule(guided)
+        for (int i = 0; i < srcnodes.size(); i++) {
+            ga[graphno]->Range(int_ids[srcnodes[i]], radius,
+                omp_get_thread_num(), dists[i]);
+        }
     }
     
     // todo: check that results are returned from cache correctly
     // todo: check that performing an aggregation creates cache
 
     // Convert back to external node ids
-    vector<pair<long, float>> output(distances.size());
-    for (int i = 0; i < distances.size(); i++) {
-        output[i] = std::make_pair(ext_node_ids[distances[i].first], distances[i].second);
+    vector<vector<pair<long, float>>> output(dists.size());
+    for (int i = 0; i < dists.size(); i++) {
+        output[i].resize(dists[i].size());
+        for (int j = 0; j < dists[i].size(); j++) {
+            output[i][j] = std::make_pair(ext_ids[dists[i][j].first], 
+                                          dists[i][j].second);
+        }
     }
     return output;
 }

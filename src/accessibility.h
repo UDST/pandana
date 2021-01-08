@@ -45,9 +45,9 @@ class Accessibility {
         string decay,
         int graphno = 0);
 
-    // get nodes with the range
-    vector<pair<long, float>> Range(int srcnode, float radius, int graphno, 
-                                    vector<long> ext_node_ids);
+    // get nodes with a range for a specific list of source nodes
+    vector<vector<pair<long, float>>> Range(vector<long> srcnodes, float radius, 
+                                            int graphno, vector<long> ext_ids);
 
     // shortest path between two points
     vector<int> Route(int src, int tgt, int graphno = 0);

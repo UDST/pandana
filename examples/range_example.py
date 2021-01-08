@@ -34,7 +34,7 @@ net.set(pd.Series(net.node_ids))
 #s = net.aggregate(10000, type='count')
 #connected_nodes = s[s==477]
 
-print(net.nodes_in_range(53114882, 5.0))
+print(net.nodes_in_range([53114882, 53107159], 5.0))
 
 print(net.node_idx.values)
 print(net.node_idx.index.values)
