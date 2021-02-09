@@ -1,5 +1,8 @@
 #include "graphalg.h"
+#include <chrono>
 #include <math.h>
+
+using namespace std::chrono; 
 
 namespace MTC {
 namespace accessibility {
@@ -12,6 +15,8 @@ Graphalg::Graphalg(
     
     FILE_LOG(logINFO) << "Generating contraction hierarchies with "
                       << num << " threads.\n";
+    
+    auto start = high_resolution_clock::now();
     
     ch = CH::ContractionHierarchies(num);
 
@@ -42,6 +47,12 @@ Graphalg::Graphalg(
     
     ch.SetEdgeVector(ev);
     ch.RunPreprocessing();
+    
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<seconds>(stop - start);
+
+    FILE_LOG(logINFO) << "CH runtime "
+                      << duration.count() << " seconds\n";
 }
 
 

@@ -1,5 +1,6 @@
 #include "accessibility.h"
 #include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <functional>
 #include <utility>
@@ -12,6 +13,7 @@ using std::string;
 using std::vector;
 using std::pair;
 using std::make_pair;
+using namespace std::chrono;
 
 typedef std::pair<double, int> distance_node_pair;
 bool distance_node_pair_comparator(const distance_node_pair& l,
