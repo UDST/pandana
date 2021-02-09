@@ -46,8 +46,6 @@ Accessibility::Accessibility(
     for (int i = 0 ; i < edgeweights.size() ; i++) {
         this->addGraphalg(new Graphalg(numnodes, edges, edgeweights[i],
                           twoway));
-        this->addGraphalg(new Graphalg(numnodes, edges, edgeweights[i],
-                          twoway));
     }
 
     this->numnodes = numnodes;
