@@ -1,40 +1,39 @@
-import os.path
 import sys
 import time
 
+import pandana
+
 import numpy as np
 import pandas as pd
-import pandana.network as pdna
+from pympler.asizeof import asizeof
 
-if len(sys.argv) > 1:
-    # allow test file to be passed as an argument
-    storef = sys.argv[1]
-else:
-    # if no argument provided look for it in the test data
-    storef = os.path.normpath(os.path.join(
-        os.path.dirname(os.path.abspath(__file__)),
-        '../pandana/tests/osm_sample.h5'))
-
-if not os.path.isfile(storef):
-    raise IOError('Could not find test input file: {!r}'.format(storef))
-
-print('Building network from file: {!r}'.format(storef))
-
-store = pd.HDFStore(storef, "r")
+print()
+print("Loading data...")
+t0 = time.time()
+store = pd.HDFStore('examples/data/bayareanetwork.h5', 'r')
 nodes, edges = store.nodes, store.edges
-net = pdna.Network(nodes.x, nodes.y, edges["from"], edges.to,
-                   edges[["weight"]])
+print(round(time.time()-t0, 1), ' sec.')
+
+print()
+print("Initializing network...")
+t0 = time.time()
+net = pandana.Network(nodes.x, nodes.y, edges.from_int, edges.to_int, edges[['weight']])
 store.close()
+print(round(time.time()-t0, 1), ' sec.')
+
+print()
+print("Calculating nodes in 100m range...")
+t0 = time.time()
+r = net.nodes_in_range([53114882, 53107159], 100.0)
+print(round(time.time()-t0, 1), ' sec.')
+
+# print(net.node_idx.values)
+# print(net.node_idx.index.values)
+
+print(asizeof(r))  # 88.8 million bytes raw
+
 print()
 
-# Demonstrate "nodes in range" code - the largest connected subgraph here has 477 nodes,
-# per the unit tests
-
-net.set(pd.Series(net.node_ids))
-#s = net.aggregate(10000, type='count')
-#connected_nodes = s[s==477]
-
-print(net.nodes_in_range([53114882, 53107159], 5.0))
-
-print(net.node_idx.values)
-print(net.node_idx.index.values)
+# dataframe.info()
+# dataframe.memory_usage(deep=True)
+# .set_index(['1','2'], inplace=True)
