@@ -29,9 +29,10 @@ jobs:
         conda install cython numpy clang llvm-openmp
     - name: Build wheel
       run: |
+        git checkout v0.6
         python setup.py bdist_wheel
     - name: Save artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: wheel
+        name: wheels
         path: dist/*.whl
