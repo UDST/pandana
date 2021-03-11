@@ -12,6 +12,9 @@ jobs:
   build-manylinux:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: 'v0.6'
     - name: Build wheels
       uses: RalfG/python-wheels-manylinux-build@v0.3.3
       with:
