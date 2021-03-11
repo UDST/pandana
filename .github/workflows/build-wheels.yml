@@ -8,14 +8,28 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-conda:
+
+  build-manylinux:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Build wheels
+      uses: RalfG/python-wheels-manylinux-build
+        with:
+          build-requirements: 'cython numpy'
+    - name: Save artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: wheels
+        path: dist/*-manylinux*.whl
+
+  build-macos-windows:
     runs-on: ${{ matrix.os }}
     defaults:
       run:
         shell: bash -l {0}  # needed for conda persistence
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [macos-latest, windows-latest]
         python-version: [3.5, 3.6, 3.7, 3.8, 3.9]
     steps:
     - uses: actions/checkout@v2
