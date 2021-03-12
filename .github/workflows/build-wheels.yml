@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        ref: 'v0.6'
+        ref: 'v0.5.1'
     - name: Build wheels
       uses: RalfG/python-wheels-manylinux-build@v0.3.3
       with:
@@ -26,7 +26,7 @@ jobs:
         name: wheels
         path: dist/*-manylinux*.whl
 
-  build-macos-windows:
+  build:
     runs-on: ${{ matrix.os }}
     defaults:
       run:
@@ -38,7 +38,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        ref: 'v0.6'
+        ref: 'v0.5.1'
     - name: Set up Python ${{ matrix.python-version }}
       uses: conda-incubator/setup-miniconda@v2
       with:
