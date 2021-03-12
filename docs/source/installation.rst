@@ -1,19 +1,23 @@
 Installation
 ============
 
-Pandana is a Python package that includes a C++ extension for numerical operations. As of March 2021, binary installers are provided for Python 3.5 through 3.9 on Mac, Linux, and Windows.
+Pandana is a Python package that includes a C++ extension for numerical operations. 
 
 
 Standard installation
 ------------------------------
 
-You can install Pandana with Pip (Python 3.5 to 3.9)::
+As of March 2021, binary installers are provided for Mac, Linux, and Windows through both PyPI and Conda Forge. 
+
+You can install Pandana using Pip::
 
     pip install pandana
 
-Or with Conda (Python 3.6 to 3.9)::
+Or Conda::
 
     conda install pandana --channel conda-forge
+
+Pandana works best in Python 3.6+, although binary installers for Python 3.5 remain available on Pip. The last version of Pandana with Python 2.7 binaries is v0.4.4 on Conda Forge.
 
 
 ARM-based Macs
