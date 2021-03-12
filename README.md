@@ -11,19 +11,20 @@ Documentation: http://udst.github.io/pandana
 
 ### Installation
 
-Pandana runs on Mac, Linux, and Windows with Python 2.7, 3.6, 3.7, and 3.8.
+As of March 2021, binary installers are provided for Python 3.5 through 3.9 on Mac, Linux, and Windows.
 
-The easiest way to install Pandana is using the [Anaconda](https://www.anaconda.com/distribution/) package manager. Pandana's Anaconda distributions are pre-compiled and include multi-threading support on all platforms. 
+You can install Pandana v0.6 with Pip (Python 3.5 to 3.9):
+
+`pip install pandana`
+
+Or with Conda (Python 3.6 to 3.9):
 
 `conda install pandana --channel conda-forge`
-
-See the documentation for information about other [installation options](http://udst.github.io/pandana/installation.html).
 
 
 ### Demo
 
 [Pandana-demo.ipynb](examples/Pandana-demo.ipynb)
-
 
 
 ### Acknowledgments
