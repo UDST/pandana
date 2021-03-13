@@ -1,7 +1,7 @@
 name: Build-wheels
 
 # This workflow builds "wheels", which are the binary package installers hosted on PyPI.
-# GitHub Actions is super helpful here because each one needs to be compiled it its own
+# GitHub Actions is super helpful here because each one needs to be compiled in its own
 # target environment. The wheel files are saved as artifacts, which you can download from
 # the GitHub website. Wheels should be uploaded manually to PyPI -- see CONTRIBUTING.md.
 
