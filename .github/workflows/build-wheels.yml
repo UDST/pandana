@@ -1,10 +1,19 @@
 name: Build-wheels
 
-# Description TK
+# This workflow builds "wheels", which are the binary package installers hosted on PyPI.
+# GitHub Actions is super helpful here because each one needs to be compiled it its own
+# target environment. The wheel files are saved as artifacts, which you can download from
+# the GitHub website. Wheels should be uploaded manually to PyPI -- see CONTRIBUTING.md.
+
+# The Linux wheels cannot be generated using `ubuntu-latest` because they require a
+# special Docker image to ensure cross-Linux compatibility. There are at least a couple
+# of third-party actions set up using the official image; we could switch to another if
+# this ever breaks.
 
 on:
-  push:  # TURN OFF
+  # push:
   pull_request:
+  release:
   workflow_dispatch:
 
 jobs:
@@ -13,8 +22,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-      with:
-        ref: 'v0.4.4'
+#      with:
+#        ref: 'v0.6'  # enable to check out prior version of codebase
     - name: Build wheels
       uses: RalfG/python-wheels-manylinux-build@v0.3.3
       with:
@@ -33,12 +42,12 @@ jobs:
         shell: bash -l {0}  # needed for conda persistence
     strategy:
       matrix:
-        os: [windows-latest]
+        os: [macos-latest, windows-latest]
         python-version: [3.5, 3.6, 3.7, 3.8, 3.9]
     steps:
     - uses: actions/checkout@v2
-      with:
-        ref: 'v0.4.4'
+#      with:
+#        ref: 'v0.6'  # enable to check out prior version of codebase
     - name: Set up Python ${{ matrix.python-version }}
       uses: conda-incubator/setup-miniconda@v2
       with:
