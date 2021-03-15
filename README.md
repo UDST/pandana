@@ -1,4 +1,4 @@
-[![Coverage Status](https://coveralls.io/repos/github/UDST/pandana/badge.svg?branch=master)](https://coveralls.io/github/UDST/pandana?branch=master)
+![Coverage Status](https://img.shields.io/badge/coverage-95%25-green)
 
 # Pandana
 
