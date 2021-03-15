@@ -1,0 +1,66 @@
+name: Build-wheels
+
+# This workflow builds "wheels", which are the binary package installers hosted on PyPI.
+# GitHub Actions is super helpful here because each one needs to be compiled in its own
+# target environment. The wheel files are saved as artifacts, which you can download from
+# the GitHub website. Wheels should be uploaded manually to PyPI -- see CONTRIBUTING.md.
+
+# The Linux wheels cannot be generated using `ubuntu-latest` because they require a
+# special Docker image to ensure cross-Linux compatibility. There are at least a couple
+# of third-party actions set up using the official image; we could switch to another if
+# this ever breaks.
+
+on:
+  # push:
+  pull_request:
+  release:
+  workflow_dispatch:
+
+jobs:
+
+  build-manylinux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+#      with:
+#        ref: 'v0.6'  # enable to check out prior version of codebase
+    - name: Build wheels
+      uses: RalfG/python-wheels-manylinux-build@v0.3.3
+      with:
+        python-versions: 'cp35-cp35m cp36-cp36m cp37-cp37m cp38-cp38 cp39-cp39'
+        build-requirements: 'cython numpy'
+    - name: Save artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: wheels
+        path: dist/*-manylinux*.whl
+
+  build:
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash -l {0}  # needed for conda persistence
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest]
+        python-version: [3.6, 3.7, 3.8, 3.9]
+    steps:
+    - uses: actions/checkout@v2
+#      with:
+#        ref: 'v0.6'  # enable to check out prior version of codebase
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Set up environment
+      run: |
+        conda config --append channels conda-forge
+        conda install cython numpy clang llvm-openmp
+    - name: Build wheel
+      run: |
+        python setup.py bdist_wheel
+    - name: Save artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: wheels
+        path: dist/*.whl

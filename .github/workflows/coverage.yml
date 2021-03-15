@@ -1,7 +1,7 @@
 name: Coverage
 
 # This workflow generates a coverage report (how much of the codebase is covered by the
-# unit tests) and uploads the information to Coveralls.io for reporting and analysis.
+# unit tests) and posts headline metrics to the PR thread.
 
 on:
   # push:
@@ -21,13 +21,15 @@ jobs:
       run: |
         pip install .
         pip install osmnet
-    - name: Run unit tests
+    - name: Generate coverage report
       run: |
-        pip install 'pytest<4.0' 'pytest-cov<2.10'
+        pip install 'pytest<4.0' 'pytest-cov<2.10' coverage
         python setup.py test --pytest-args "--cov pandana --cov-report term-missing"
-    - name: Upload to Coveralls
-      run: |
-        pip install coveralls
-        coveralls
+        echo "coverage=$(coverage report | grep '^TOTAL' | grep -oE '[^ ]+$')" >> $GITHUB_ENV
+    - name: Post comment on PR
+      uses: unsplash/comment-on-pr@master
       env: 
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        msg: "Test coverage is ${{ env.coverage }}"
+        check_for_duplicate_msg: true

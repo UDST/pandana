@@ -68,11 +68,17 @@ You can contact Sam Maurer, the lead maintainer, at `maurer@urbansim.com`.
 
 - Check https://pypi.org/project/pandana/ for the new version
 
+The binary package installers or "wheels" are built using a GitHub Actions workflow, because each one needs to be compiled in its own target environment. This should run automatically when a PR is opened, to confirm nothing is broken, and again when a release is tagged in GitHub. You can download the resulting wheel files from the Action status page and then upload them to PyPI using the same command as above.
+
 
 ## Distributing a release on Conda Forge (for conda installation):
 
-- The [conda-forge/pandana-feedstock](https://github.com/conda-forge/pandana-feedstock) repository controls the Conda Forge release
+- The [conda-forge/pandana-feedstock](https://github.com/conda-forge/pandana-feedstock) repository controls the Conda Forge release, including which GitHub users have maintainer status for the repo
 
 - Conda Forge bots usually detect new releases on PyPI and set in motion the appropriate feedstock updates, which a current maintainer will need to approve and merge
+
+- Maintainers can add on additional changes before merging the PR, for example to update the requirements or edit the list of maintainers
+
+- You can also fork the feedstock and open a PR manually. It seems like this must be done from a personal account (not a group account like UDST) so that the bots can be granted permission for automated cleanup
 
 - Check https://anaconda.org/conda-forge/pandana for the new version (may take a few minutes for it to appear)

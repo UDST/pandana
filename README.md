@@ -1,4 +1,4 @@
-[![Coverage Status](https://coveralls.io/repos/github/UDST/pandana/badge.svg?branch=master)](https://coveralls.io/github/UDST/pandana?branch=master)
+![Coverage Status](https://img.shields.io/badge/coverage-95%25-green)
 
 # Pandana
 
@@ -11,11 +11,12 @@ Documentation: http://udst.github.io/pandana
 
 ### Installation
 
-Pandana runs on Mac, Linux, and Windows with Python 2.7, 3.6, 3.7, and 3.8.
+As of March 2021, binary installers are provided for Mac, Linux, and Windows through both PyPI and Conda Forge. 
 
-The easiest way to install Pandana is using the [Anaconda](https://www.anaconda.com/distribution/) package manager. Pandana's Anaconda distributions are pre-compiled and include multi-threading support on all platforms. 
+- `pip install pandana`
+- `conda install pandana --channel conda-forge`
 
-`conda install pandana --channel conda-forge`
+Pandana works best in Python 3.6+, although binary installers for Python 3.5 remain available on Pip. The last version of Pandana with Python 2.7 binaries is v0.4.4 on Conda Forge.
 
 See the documentation for information about other [installation options](http://udst.github.io/pandana/installation.html).
 
@@ -23,7 +24,6 @@ See the documentation for information about other [installation options](http://
 ### Demo
 
 [Pandana-demo.ipynb](examples/Pandana-demo.ipynb)
-
 
 
 ### Acknowledgments
