@@ -3,8 +3,7 @@ import platform
 import sys
 import sysconfig
 
-from setuptools import find_packages
-from distutils.core import setup, Extension
+from setuptools import find_packages, setup, Extension
 from setuptools.command.test import test as TestCommand
 from setuptools.command.build_ext import build_ext
 
@@ -58,7 +57,7 @@ extra_link_args = []
 # versions of Xcode Command Line Tools, or newer versions installed separately
 
 if sys.platform.startswith('darwin'):  # Mac
-    
+
     extra_compile_args += ['-stdlib=libc++']
     extra_link_args += ['-stdlib=libc++']
     
@@ -126,7 +125,7 @@ cyaccess = Extension(
 ## Standard setup
 ###############################################
 
-version = '0.6.1.dev1'
+version = '0.6.1.dev2'
 
 packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"])
 
