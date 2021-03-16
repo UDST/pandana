@@ -20,7 +20,7 @@ or see http://www.gnu.org/licenses/agpl.txt.
 
 #include "libch.h"
 #include "POIIndex/POIIndex.h"
-#ifdef _OPENMP
+#if defined(_OPENMP) && (defined(__amd64__) || defined(__i386__))
 #include "Util/HyperThreading.h"
 #endif
 namespace CH {
