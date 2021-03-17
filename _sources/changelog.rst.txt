@@ -1,6 +1,15 @@
 Change log
 ==========
 
+v0.6.1
+------
+
+2021/03/17
+
+* Adds support for non-x86 CPUs, including ARM-based Macs
+* Removes accommodations for pre-C++11 compilers
+* Formally ends support for Python 2.7
+
 v0.6
 ----
 
