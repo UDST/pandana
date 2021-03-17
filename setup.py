@@ -125,7 +125,7 @@ cyaccess = Extension(
 ## Standard setup
 ###############################################
 
-version = '0.6.1.dev2'
+version = '0.6.1'
 
 packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"])
 

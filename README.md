@@ -1,4 +1,4 @@
-![Coverage Status](https://img.shields.io/badge/coverage-95%25-green)
+![Coverage Status](https://img.shields.io/badge/coverage-90%25-green)
 
 # Pandana
 
