@@ -7,7 +7,7 @@ Pandana is a Python package that includes a C++ extension for numerical operatio
 Standard installation
 ------------------------------
 
-As of March 2021, binary installers are provided for Mac, Linux, and Windows through both PyPI and Conda Forge. 
+As of March 2021, binary installers are provided for Mac, Linux, and Windows through both PyPI and Conda Forge.
 
 You can install Pandana using Pip::
 
@@ -17,15 +17,15 @@ Or Conda::
 
     conda install pandana --channel conda-forge
 
-Pandana works best in Python 3.6+, although binary installers for Python 3.5 remain available on Pip. The last version of Pandana with Python 2.7 binaries is v0.4.4 on Conda Forge.
+Pandana is easiest to install in Python 3.6 to 3.9. The last version of Pandana with Python 2.7 binaries is v0.4.4 on Conda Forge. The last version with Python 3.5 binaries is v0.6 on Pip.
 
 
 ARM-based Macs
 ------------------------------
 
-Pandana's binary installers are optimized for x86 (Intel) Macs from 2020 and earlier, but will also run on newer ARM-based Macs.
+Native binary installers for ARM-based Macs are available on Conda Forge, but to use these your full Python stack needs to be optimized for ARM. 
 
-If you'd like to compile Pandana locally for ARM, see instructions in `issue #152 <https://github.com/UDST/pandana/issues/152>`_. In our testing, natively compiled binaries run about 35% faster than the x86 binaries with Rosetta translation. We aim to provide osx-arm64 binaries on Pip and Conda as soon as it's feasible.
+If you're running Python through Rosetta translation (which is the default), older Mac installers will continue to work fine. See `issue #152 <https://github.com/UDST/pandana/issues/152>`_ for tips and further discussion.
 
 
 Compiling from source code
@@ -35,7 +35,7 @@ You may want to compile Pandana locally if you're modifying the source code or n
 
 Mac users should start by running ``xcode-select --install`` to make sure you have Apple's Xcode command line tools, which are needed behind the scenes. Windows users will need the `Microsoft Visual C++ Build Tools <https://visualstudio.microsoft.com/visual-cpp-build-tools/>`_.
 
-Pandana's build-time requirements are ``cython``, ``numpy``, and a C++ compiler that supports the c++11 standard. Additionally, the compiler needs to support OpenMP to allow Pandana to use multithreading.
+Pandana's build-time requirements are ``cython``, ``numpy``, and a C++ compiler that supports the C++11 standard. Additionally, the compiler needs to support OpenMP to allow Pandana to use multithreading.
 
 The smoothest route is to get the compilers from Conda Forge -- you want the ``clang`` and ``llvm-openmp`` packages. Running Pandana's setup script will trigger compilation::
 
@@ -44,7 +44,7 @@ The smoothest route is to get the compilers from Conda Forge -- you want the ``c
 
 You'll see a lot of status messages go by, but hopefully no errors.
 
-MacOS 10.14 (but not later versions) often needs additional header files installed. If you see a compilation error like ``'wchar.h' file not found`` in MacOS 10.14, you can resolve it by running this command::
+MacOS 10.14 (but not newer versions) often needs additional header files installed. If you see a compilation error like ``'wchar.h' file not found`` in MacOS 10.14, you can resolve it by running this command::
 
     open /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg
 

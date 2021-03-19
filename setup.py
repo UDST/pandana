@@ -125,7 +125,7 @@ cyaccess = Extension(
 ## Standard setup
 ###############################################
 
-version = '0.6.1.dev2'
+version = '0.6.1'
 
 packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"])
 
@@ -143,6 +143,7 @@ setup(
         'code is in C++.'),
     url='https://udst.github.io/pandana/',
     ext_modules=[cyaccess],
+    python_requires = '>=3.5',
     install_requires=[
         'cython >=0.25.2',
         'numpy >=1.8',
@@ -159,11 +160,11 @@ setup(
     },
     classifiers=[
         'Development Status :: 4 - Beta',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
         'License :: OSI Approved :: GNU Affero General Public License v3'
     ],
 )

@@ -1,4 +1,4 @@
-![Coverage Status](https://img.shields.io/badge/coverage-95%25-green)
+![Coverage Status](https://img.shields.io/badge/coverage-90%25-green)
 
 # Pandana
 
@@ -16,7 +16,7 @@ As of March 2021, binary installers are provided for Mac, Linux, and Windows thr
 - `pip install pandana`
 - `conda install pandana --channel conda-forge`
 
-Pandana works best in Python 3.6+, although binary installers for Python 3.5 remain available on Pip. The last version of Pandana with Python 2.7 binaries is v0.4.4 on Conda Forge.
+Pandana is easiest to install in Python 3.6 to 3.9. The last version of Pandana with Python 2.7 binaries is v0.4.4 on Conda Forge. The last version with Python 3.5 binaries is v0.6 on Pip.
 
 See the documentation for information about other [installation options](http://udst.github.io/pandana/installation.html).
 
