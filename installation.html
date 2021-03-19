@@ -177,25 +177,25 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">pandana</span> <span class="o">--</span><span class="n">channel</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 </pre></div>
 </div>
-<p>Pandana works best in Python 3.6+, although binary installers for Python 3.5 remain available on Pip. The last version of Pandana with Python 2.7 binaries is v0.4.4 on Conda Forge.</p>
+<p>Pandana is easiest to install in Python 3.6 to 3.9. The last version of Pandana with Python 2.7 binaries is v0.4.4 on Conda Forge. The last version with Python 3.5 binaries is v0.6 on Pip.</p>
 </div>
 <div class="section" id="arm-based-macs">
 <h2>ARM-based Macs<a class="headerlink" href="#arm-based-macs" title="Permalink to this headline">¶</a></h2>
-<p>Pandana’s binary installers are optimized for x86 (Intel) Macs from 2020 and earlier, but will also run on newer ARM-based Macs.</p>
-<p>If you’d like to compile Pandana locally for ARM, see instructions in <a class="reference external" href="https://github.com/UDST/pandana/issues/152">issue #152</a>. In our testing, natively compiled binaries run about 35% faster than the x86 binaries with Rosetta translation. We aim to provide osx-arm64 binaries on Pip and Conda as soon as it’s feasible.</p>
+<p>Native binary installers for ARM-based Macs are available on Conda Forge, but to use these your full Python stack needs to be optimized for ARM.</p>
+<p>If you’re running Python through Rosetta translation (which is the default), older Mac installers will continue to work fine. See <a class="reference external" href="https://github.com/UDST/pandana/issues/152">issue #152</a> for tips and further discussion.</p>
 </div>
 <div class="section" id="compiling-from-source-code">
 <h2>Compiling from source code<a class="headerlink" href="#compiling-from-source-code" title="Permalink to this headline">¶</a></h2>
 <p>You may want to compile Pandana locally if you’re modifying the source code or need to use a version that’s missing binary installers for your platform.</p>
 <p>Mac users should start by running <code class="docutils literal notranslate"><span class="pre">xcode-select</span> <span class="pre">--install</span></code> to make sure you have Apple’s Xcode command line tools, which are needed behind the scenes. Windows users will need the <a class="reference external" href="https://visualstudio.microsoft.com/visual-cpp-build-tools/">Microsoft Visual C++ Build Tools</a>.</p>
-<p>Pandana’s build-time requirements are <code class="docutils literal notranslate"><span class="pre">cython</span></code>, <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, and a C++ compiler that supports the c++11 standard. Additionally, the compiler needs to support OpenMP to allow Pandana to use multithreading.</p>
+<p>Pandana’s build-time requirements are <code class="docutils literal notranslate"><span class="pre">cython</span></code>, <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, and a C++ compiler that supports the C++11 standard. Additionally, the compiler needs to support OpenMP to allow Pandana to use multithreading.</p>
 <p>The smoothest route is to get the compilers from Conda Forge – you want the <code class="docutils literal notranslate"><span class="pre">clang</span></code> and <code class="docutils literal notranslate"><span class="pre">llvm-openmp</span></code> packages. Running Pandana’s setup script will trigger compilation:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">cython</span> <span class="n">numpy</span> <span class="n">clang</span> <span class="n">llvm</span><span class="o">-</span><span class="n">openmp</span>
 <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">develop</span>
 </pre></div>
 </div>
 <p>You’ll see a lot of status messages go by, but hopefully no errors.</p>
-<p>MacOS 10.14 (but not later versions) often needs additional header files installed. If you see a compilation error like <code class="docutils literal notranslate"><span class="pre">'wchar.h'</span> <span class="pre">file</span> <span class="pre">not</span> <span class="pre">found</span></code> in MacOS 10.14, you can resolve it by running this command:</p>
+<p>MacOS 10.14 (but not newer versions) often needs additional header files installed. If you see a compilation error like <code class="docutils literal notranslate"><span class="pre">'wchar.h'</span> <span class="pre">file</span> <span class="pre">not</span> <span class="pre">found</span></code> in MacOS 10.14, you can resolve it by running this command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">open</span> <span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">Developer</span><span class="o">/</span><span class="n">CommandLineTools</span><span class="o">/</span><span class="n">Packages</span><span class="o">/</span><span class="n">macOS_SDK_headers_for_macOS_10</span><span class="o">.</span><span class="mf">14.</span><span class="n">pkg</span>
 </pre></div>
 </div>
