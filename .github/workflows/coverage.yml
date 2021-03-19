@@ -1,0 +1,35 @@
+name: Coverage
+
+# This workflow generates a coverage report (how much of the codebase is covered by the
+# unit tests) and posts headline metrics to the PR thread.
+
+on:
+  # push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Install Pandana
+      run: |
+        pip install .
+        pip install osmnet
+    - name: Generate coverage report
+      run: |
+        pip install 'pytest<4.0' 'pytest-cov<2.10' coverage
+        python setup.py test --pytest-args "--cov pandana --cov-report term-missing"
+        echo "coverage=$(coverage report | grep '^TOTAL' | grep -oE '[^ ]+$')" >> $GITHUB_ENV
+    - name: Post comment on PR
+      uses: unsplash/comment-on-pr@master
+      env: 
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        msg: "Test coverage is ${{ env.coverage }}"
+        check_for_duplicate_msg: true

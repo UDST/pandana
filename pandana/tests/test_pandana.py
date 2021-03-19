@@ -5,7 +5,7 @@ from numpy.testing import assert_allclose
 import pandas as pd
 import pytest
 from pandas.util import testing as pdt
-from pandana.testing import skipiftravis
+from pandana.testing import skipifci
 
 import pandana.network as pdna
 
