@@ -79,7 +79,7 @@ def random_x_y(sample_osm, ssize):
 def test_agg_variables_accuracy(sample_osm):
     net = sample_osm
 
-    # test accuracy compared to pandas functions
+    # test accuracy compared to Pandas functions
     ssize = 50
     r = random_data(ssize)
     connected_nodes = get_connected_nodes(net)
@@ -147,7 +147,7 @@ def test_non_integer_nodeids(request):
         store.close()
     request.addfinalizer(fin)
 
-    # test accuracy compared to pandas functions
+    # test accuracy compared to Pandas functions
     ssize = 50
     r = random_data(ssize)
     connected_nodes = get_connected_nodes(net)
@@ -347,7 +347,7 @@ def test_pois2(second_sample_osm):
     np.random.seed(0)
     x, y = random_x_y(second_sample_osm, ssize)
 
-    # make sure poi searches work on second graph
+    # make sure POI searches work on second graph
     net2.set_pois("restaurants", 2000, 10, x, y)
 
     net2.nearest_pois(2000, "restaurants", num_pois=10)
@@ -363,7 +363,7 @@ def test_pois_pandana3(second_sample_osm):
 
     net2.init_pois(num_categories=1, max_dist=2000, max_pois=10)
 
-    # make sure poi searches work on second graph
+    # make sure POI searches work on second graph
     net2.set_pois(category="restaurants", x_col=x, y_col=y)
 
     net2.nearest_pois(2000, "restaurants", num_pois=10)
