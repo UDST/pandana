@@ -9,7 +9,7 @@ You can contact Sam Maurer, the lead maintainer, at `maurer@urbansim.com`.
 
 - Take a look at the [open issues](https://github.com/UDST/pandana/issues) and [closed issues](https://github.com/UDST/pandana/issues?q=is%3Aissue+is%3Aclosed) to see if there's already a related discussion
 
-- Open a new issue describing the problem -- if possible, include any error messages, a full reproducable example of the code that generated the error, the operating system and version of python you're using, and versions of any libraries that may be relevant
+- Open a new issue describing the problem -- if possible, include any error messages, a full reproducible example of the code that generated the error, the operating system and version of python you're using, and versions of any libraries that may be relevant
 
 
 ## Feature proposals:
