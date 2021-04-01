@@ -1,23 +1,31 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Network API &mdash; pandana 0.6 documentation</title>
+  <title>Network API &mdash; pandana 0.6.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
   
 
   
   
-  
+
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -28,10 +36,6 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Loaders" href="loaders.html" />
@@ -59,7 +63,7 @@
             
             
               <div class="version">
-                0.6
+                0.6.1
               </div>
             
           
@@ -76,6 +80,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -101,6 +106,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -135,18 +141,20 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Network API</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/network.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -172,30 +180,30 @@ distance based from OpenStreetMap or travel time from GTFS transit data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>node_x</strong><span class="classifier">Pandas Series, float</span></dt><dd><p>Defines the x attribute for nodes in the network (e.g. longitude)</p>
+<dt><strong>node_x</strong><span class="classifier">pandas.Series, float</span></dt><dd><p>Defines the x attribute for nodes in the network (e.g. longitude)</p>
 </dd>
-<dt><strong>node_y</strong><span class="classifier">Pandas Series, float</span></dt><dd><p>Defines the y attribute for nodes in the network (e.g. latitude)
+<dt><strong>node_y</strong><span class="classifier">pandas.Series, float</span></dt><dd><p>Defines the y attribute for nodes in the network (e.g. latitude)
 This param and the one above should have the <em>same</em> index which
 should be the node_ids that are referred to in the edges below.</p>
 </dd>
-<dt><strong>edge_from</strong><span class="classifier">Pandas Series, int</span></dt><dd><p>Defines the node id that begins an edge - should refer to the index
+<dt><strong>edge_from</strong><span class="classifier">pandas.Series, int</span></dt><dd><p>Defines the node ID that begins an edge - should refer to the index
 of the two series objects above</p>
 </dd>
-<dt><strong>edge_to</strong><span class="classifier">Pandas Series, int</span></dt><dd><p>Defines the node id that ends an edge - should refer to the index
+<dt><strong>edge_to</strong><span class="classifier">pandas.Series, int</span></dt><dd><p>Defines the node ID that ends an edge - should refer to the index
 of the two series objects above</p>
 </dd>
-<dt><strong>edge_weights</strong><span class="classifier">Pandas DataFrame, all numerics</span></dt><dd><p>Specifies one or more <em>impedances</em> on the network which define the
+<dt><strong>edge_weights</strong><span class="classifier">pandas.DataFrame, all numerics</span></dt><dd><p>Specifies one or more <em>impedances</em> on the network which define the
 distances between nodes.  Multiple impedances can be used to
 capture travel times at different times of day, for instance</p>
 </dd>
 <dt><strong>twoway</strong><span class="classifier">boolean, optional</span></dt><dd><p>Whether the edges in this network are two way edges or one way (
 where the one direction is directed from the from node to the to
-node). If twoway = True, it is assumed that the from and to id in the
+node). If twoway = True, it is assumed that the from and to ID in the
 edge table occurs once and that travel can occur in both directions
 on the single edge record. Pandana will internally flip and append
-the from and to ids to the original edges to create a two direction
+the from and to IDs to the original edges to create a two direction
 network. If twoway = False, it is assumed that travel can only occur
-in the explicit direction indicated by the from and to id in the edge
+in the explicit direction indicated by the from and to ID in the edge
 table.</p>
 </dd>
 </dl>
@@ -249,7 +257,7 @@ without giving a name will be the variable used.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>agg</strong><span class="classifier">Pandas Series</span></dt><dd><p>Returns a Pandas Series for every origin node in the network,
+<dt><strong>agg</strong><span class="classifier">pandas.Series</span></dt><dd><p>Returns a Pandas Series for every origin node in the network,
 with the index which is the same as the node_ids passed to the
 init method and the values are the aggregations for each source
 node in the network.</p>
@@ -290,10 +298,10 @@ node in the network.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>x_col</strong><span class="classifier">Pandas series (float)</span></dt><dd><p>A Pandas Series where values specify the x (e.g. longitude)
+<dt><strong>x_col</strong><span class="classifier">pandas.Series (float)</span></dt><dd><p>A Pandas Series where values specify the x (e.g. longitude)
 location of dataset.</p>
 </dd>
-<dt><strong>y_col</strong><span class="classifier">Pandas series (float)</span></dt><dd><p>A Pandas Series where values specify the y (e.g. latitude)
+<dt><strong>y_col</strong><span class="classifier">pandas.Series (float)</span></dt><dd><p>A Pandas Series where values specify the y (e.g. latitude)
 location of dataset.  x_col and y_col should use the same index.</p>
 </dd>
 <dt><strong>mapping_distance</strong><span class="classifier">float, optional</span></dt><dd><p>The maximum distance that will be considered a match between the
@@ -307,7 +315,7 @@ the nearest node.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>node_ids</strong><span class="classifier">Pandas series (int)</span></dt><dd><p>Returns a Pandas Series of node_ids for each x, y in the
+<dt><strong>node_ids</strong><span class="classifier">pandas.Series (int)</span></dt><dd><p>Returns a Pandas Series of node_ids for each x, y in the
 input data. The index is the same as the indexes of the
 x, y input data, and the values are the mapped node_ids.
 If mapping distance is not passed and if there are no nans in the
@@ -323,8 +331,9 @@ input x, y’s that were successfully mapped to node_ids.</p>
 <dl class="py method">
 <dt id="pandana.network.Network.init_pois">
 <code class="sig-name descname"><span class="pre">init_pois</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_categories</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_dist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_pois</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.init_pois" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize the point of interest infrastructure. This is no longer
-needed in Pandana 0.4+ and will be removed in a future version.</p>
+<dd><p>Initialize the point of interest (POI) infrastructure.
+This is no longer needed in Pandana 0.4+ and will be removed in a
+future version.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -335,7 +344,7 @@ usually be a distance unit in meters however if you have
 customized the impedance this could be in other
 units such as utility or time etc.</p>
 </dd>
-<dt><strong>max_pois :</strong></dt><dd><p>Maximum number of POIs to return in the nearest query</p>
+<dt><strong>max_pois</strong><span class="classifier">int</span></dt><dd><p>Maximum number of POIs to return in the nearest query</p>
 </dd>
 </dl>
 </dd>
@@ -378,22 +387,22 @@ passed in the constructor, which will be used.</p>
 <dl class="py method">
 <dt id="pandana.network.Network.nearest_pois">
 <code class="sig-name descname"><span class="pre">nearest_pois</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_pois</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imp_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_poi_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.nearest_pois" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find the distance to the nearest pois from each source node.  The
-bigger values in this case mean less accessibility.</p>
+<dd><p>Find the distance to the nearest points of interest (POI)s from each
+source node.  The bigger values in this case mean less accessibility.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>distance</strong><span class="classifier">float</span></dt><dd><p>The maximum distance to look for pois. This will usually be a
+<dt><strong>distance</strong><span class="classifier">float</span></dt><dd><p>The maximum distance to look for POIs. This will usually be a
 distance unit in meters however if you have customized the
 impedance this could be in other units such as utility or time
 etc.</p>
 </dd>
-<dt><strong>category</strong><span class="classifier">string</span></dt><dd><p>The name of the category of poi to look for</p>
+<dt><strong>category</strong><span class="classifier">string</span></dt><dd><p>The name of the category of POI to look for</p>
 </dd>
-<dt><strong>num_pois</strong><span class="classifier">int</span></dt><dd><p>The number of pois to look for, this also sets the number of
+<dt><strong>num_pois</strong><span class="classifier">int</span></dt><dd><p>The number of POIs to look for, this also sets the number of
 columns in the DataFrame that gets returned</p>
 </dd>
-<dt><strong>max_distance</strong><span class="classifier">float, optional</span></dt><dd><p>The value to set the distance to if there is NO poi within the
+<dt><strong>max_distance</strong><span class="classifier">float, optional</span></dt><dd><p>The value to set the distance to if there is no POI within the
 specified distance - if not specified, gets set to distance. This
 will usually be a distance unit in meters however if you have
 customized the impedance this could be in other units such as
@@ -407,21 +416,21 @@ passed in the constructor, which will be used.</p>
 <dt><strong>include_poi_ids</strong><span class="classifier">bool, optional</span></dt><dd><p>If this flag is set to true, the call will add columns to the
 return DataFrame - instead of just returning the distance for
 the nth POI, it will also return the id of that POI.  The names
-of the columns with the poi ids will be poi1, poi2, etc - it
-will take roughly twice as long to include these ids as to not
+of the columns with the POI IDs will be poi1, poi2, etc - it
+will take roughly twice as long to include these IDs as to not
 include them</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>d</strong><span class="classifier">Pandas DataFrame</span></dt><dd><p>Like aggregate, this series has an index of all the node ids for
+<dt><strong>d</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>Like aggregate, this series has an index of all the node ids for
 the network.  Unlike aggregate, this method returns a dataframe
 with the number of columns equal to the distances to the Nth
-closest poi.  For instance, if you ask for the 10 closest poi to
-each node, column d[1] wil be the distance to the 1st closest poi
+closest POI.  For instance, if you ask for the 10 closest poi to
+each node, column d[1] wil be the distance to the 1st closest POI
 of that category while column d[2] will be the distance to the 2nd
-closest poi, and so on.</p>
+closest POI, and so on.</p>
 </dd>
 </dl>
 </dd>
@@ -431,7 +440,7 @@ closest poi, and so on.</p>
 <dl class="py method">
 <dt id="pandana.network.Network.node_ids">
 <em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">node_ids</span></code><a class="headerlink" href="#pandana.network.Network.node_ids" title="Permalink to this definition">¶</a></dt>
-<dd><p>The node ids which will be used as the index of many return series</p>
+<dd><p>The node IDs which will be used as the index of many return series</p>
 </dd></dl>
 
 <dl class="py method">
@@ -521,10 +530,10 @@ the network.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>node_ids</strong><span class="classifier">Pandas Series, int</span></dt><dd><p>A series of node_ids which are usually computed using
+<dt><strong>node_ids</strong><span class="classifier">pandas.Series, int</span></dt><dd><p>A series of node_ids which are usually computed using
 get_node_ids on this object.</p>
 </dd>
-<dt><strong>variable</strong><span class="classifier">Pandas Series, numeric, optional</span></dt><dd><p>A series which represents some variable defined in urban space.
+<dt><strong>variable</strong><span class="classifier">pandas.Series, numeric, optional</span></dt><dd><p>A series which represents some variable defined in urban space.
 It could be the location of buildings, or the income of all
 households - just about anything can be aggregated using the
 network queries provided here and this provides the api to set
@@ -557,22 +566,26 @@ setting names.</p>
 <dl class="py method">
 <dt id="pandana.network.Network.set_pois">
 <code class="sig-name descname"><span class="pre">set_pois</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxdist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxitems</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.set_pois" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the location of all the pois of this category. The pois are
-connected to the closest node in the Pandana network which assumes
-no impedance between the location of the variable and the location
-of the closest network node.</p>
+<dd><dl class="simple">
+<dt>Set the location of all the points of interest (POIs) of this category.</dt><dd><p>The POIs are connected to the closest node in the Pandana network
+which assumes no impedance between the location of the variable and
+the location of the closest network node.</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>category</strong><span class="classifier">string</span></dt><dd><p>The name of the category for this set of pois</p>
+<dt><strong>category</strong><span class="classifier">string</span></dt><dd><p>The name of the category for this set of POIs</p>
 </dd>
-<dt><strong>maxdist - the maximum distance that will later be used in</strong></dt><dd><p>find_all_nearest_pois</p>
+<dt><strong>maxdist</strong><span class="classifier">float</span></dt><dd><p>The maximum distance that will later be used in
+find_all_nearest_pois()</p>
 </dd>
-<dt><strong>maxitems - the maximum number of items that will later be requested</strong></dt><dd><p>in find_all_nearest_pois</p>
+<dt><strong>maxitems</strong><span class="classifier">int</span></dt><dd><p>The maximum number of items that will later be requested
+in find_all_nearest_pois()</p>
 </dd>
-<dt><strong>x_col</strong><span class="classifier">Pandas Series (float)</span></dt><dd><p>The x location (longitude) of pois in this category</p>
+<dt><strong>x_col</strong><span class="classifier">pandas.Series (float)</span></dt><dd><p>The x location (longitude) of POIs in this category</p>
 </dd>
-<dt><strong>y_col</strong><span class="classifier">Pandas Series (Float)</span></dt><dd><p>The y location (latitude) of pois in this category</p>
+<dt><strong>y_col</strong><span class="classifier">pandas.Series (float)</span></dt><dd><p>The y location (latitude) of POIs in this category</p>
 </dd>
 </dl>
 </dd>
@@ -587,14 +600,14 @@ of the closest network node.</p>
 <dl class="py method">
 <dt id="pandana.network.Network.shortest_path">
 <code class="sig-name descname"><span class="pre">shortest_path</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imp_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.shortest_path" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the shortest path between two node ids in the network. Must
+<dd><p>Return the shortest path between two node IDs in the network. Must
 provide an impedance name if more than one is available.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>node_a</strong><span class="classifier">int</span></dt><dd><p>Source node id</p>
+<dt><strong>node_a</strong><span class="classifier">int</span></dt><dd><p>Source node ID</p>
 </dd>
-<dt><strong>node_b</strong><span class="classifier">int</span></dt><dd><p>Destination node id</p>
+<dt><strong>node_b</strong><span class="classifier">int</span></dt><dd><p>Destination node ID</p>
 </dd>
 <dt><strong>imp_name</strong><span class="classifier">string, optional</span></dt><dd><p>The impedance name to use for the shortest path</p>
 </dd>
@@ -612,7 +625,7 @@ provide an impedance name if more than one is available.</p>
 <dl class="py method">
 <dt id="pandana.network.Network.shortest_path_length">
 <code class="sig-name descname"><span class="pre">shortest_path_length</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imp_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.shortest_path_length" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the length of the shortest path between two node ids in the
+<dd><p>Return the length of the shortest path between two node IDs in the
 network. Must provide an impedance name if more than one is
 available.</p>
 <p>If you have a large number of paths to calculate, don’t use this
@@ -621,9 +634,9 @@ function! Use the vectorized one instead.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>node_a</strong><span class="classifier">int</span></dt><dd><p>Source node id</p>
+<dt><strong>node_a</strong><span class="classifier">int</span></dt><dd><p>Source node ID</p>
 </dd>
-<dt><strong>node_b</strong><span class="classifier">int</span></dt><dd><p>Destination node id</p>
+<dt><strong>node_b</strong><span class="classifier">int</span></dt><dd><p>Destination node ID</p>
 </dd>
 <dt><strong>imp_name</strong><span class="classifier">string</span></dt><dd><p>The impedance name to use for the shortest path</p>
 </dd>
@@ -648,9 +661,9 @@ than one is available.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>nodes_a</strong><span class="classifier">list-like of ints</span></dt><dd><p>Source node ids</p>
+<dt><strong>nodes_a</strong><span class="classifier">list-like of ints</span></dt><dd><p>Source node IDs</p>
 </dd>
-<dt><strong>nodes_b</strong><span class="classifier">list-like of ints</span></dt><dd><p>Corresponding destination node ids</p>
+<dt><strong>nodes_b</strong><span class="classifier">list-like of ints</span></dt><dd><p>Corresponding destination node IDs</p>
 </dd>
 <dt><strong>imp_name</strong><span class="classifier">string</span></dt><dd><p>The impedance name to use for the shortest path</p>
 </dd>
@@ -658,7 +671,7 @@ than one is available.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>lenths</strong><span class="classifier">list of floats</span></dt><dd></dd>
+<dt><strong>lengths</strong><span class="classifier">list of floats</span></dt><dd></dd>
 </dl>
 </dd>
 </dl>
@@ -675,9 +688,9 @@ one is available.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>nodes_a</strong><span class="classifier">list-like of ints</span></dt><dd><p>Source node ids</p>
+<dt><strong>nodes_a</strong><span class="classifier">list-like of ints</span></dt><dd><p>Source node IDs</p>
 </dd>
-<dt><strong>nodes_b</strong><span class="classifier">list-like of ints</span></dt><dd><p>Corresponding destination node ids</p>
+<dt><strong>nodes_b</strong><span class="classifier">list-like of ints</span></dt><dd><p>Corresponding destination node IDs</p>
 </dd>
 <dt><strong>imp_name</strong><span class="classifier">string</span></dt><dd><p>The impedance name to use for the shortest path</p>
 </dd>
@@ -703,7 +716,7 @@ future version.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>num</strong><span class="classifier">int</span></dt><dd><p>Number of graph to be reserved in memory</p>
+<dt><strong>num</strong><span class="classifier">int</span></dt><dd><p>Number of graphs to be reserved in memory</p>
 </dd>
 </dl>
 </dd>
@@ -725,29 +738,29 @@ specified by category in the <a class="reference internal" href="#pandana.networ
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="loaders.html" class="btn btn-neutral float-right" title="Loaders" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="tutorial.html" class="btn btn-neutral float-left" title="Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="loaders.html" class="btn btn-neutral float-right" title="Loaders" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="tutorial.html" class="btn btn-neutral float-left" title="Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2021, UrbanSim Inc.
+        &#169; Copyright 2021, UrbanSim Inc..
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -755,7 +768,6 @@ specified by category in the <a class="reference internal" href="#pandana.networ
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
