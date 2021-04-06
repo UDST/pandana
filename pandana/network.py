@@ -18,7 +18,7 @@ def reserve_num_graphs(num):
     Parameters
     ----------
     num : int
-        Number of graph to be reserved in memory
+        Number of graphs to be reserved in memory
 
     """
     warnings.warn(
@@ -36,31 +36,31 @@ class Network:
 
     Parameters
     ----------
-    node_x : Pandas Series, float
+    node_x : pandas.Series, float
         Defines the x attribute for nodes in the network (e.g. longitude)
-    node_y : Pandas Series, float
+    node_y : pandas.Series, float
         Defines the y attribute for nodes in the network (e.g. latitude)
         This param and the one above should have the *same* index which
         should be the node_ids that are referred to in the edges below.
-    edge_from : Pandas Series, int
-        Defines the node id that begins an edge - should refer to the index
+    edge_from : pandas.Series, int
+        Defines the node ID that begins an edge - should refer to the index
         of the two series objects above
-    edge_to : Pandas Series, int
-        Defines the node id that ends an edge - should refer to the index
+    edge_to : pandas.Series, int
+        Defines the node ID that ends an edge - should refer to the index
         of the two series objects above
-    edge_weights : Pandas DataFrame, all numerics
+    edge_weights : pandas.DataFrame, all numerics
         Specifies one or more *impedances* on the network which define the
         distances between nodes.  Multiple impedances can be used to
         capture travel times at different times of day, for instance
     twoway : boolean, optional
         Whether the edges in this network are two way edges or one way (
         where the one direction is directed from the from node to the to
-        node). If twoway = True, it is assumed that the from and to id in the
+        node). If twoway = True, it is assumed that the from and to ID in the
         edge table occurs once and that travel can occur in both directions
         on the single edge record. Pandana will internally flip and append
-        the from and to ids to the original edges to create a two direction
+        the from and to IDs to the original edges to create a two direction
         network. If twoway = False, it is assumed that travel can only occur
-        in the explicit direction indicated by the from and to id in the edge
+        in the explicit direction indicated by the from and to ID in the edge
         table.
 
     """
@@ -79,11 +79,11 @@ class Network:
         self.poi_category_names = []
         self.poi_category_indexes = {}
 
-        # this maps ids to indexes which are used internally
+        # this maps IDs to indexes which are used internally
         # this is a constant source of headaches, but all node identifiers
         # in the c extension are actually indexes ordered from 0 to numnodes-1
-        # node ids are thus translated back and forth in the python layer, which
-        # allows non-integer node ids as well
+        # node IDs are thus translated back and forth in the python layer,
+        # which allows non-integer node IDs as well
         self.node_idx = pd.Series(np.arange(len(nodes_df), dtype="int"),
                                   index=nodes_df.index)
 
@@ -155,7 +155,7 @@ class Network:
     @property
     def node_ids(self):
         """
-        The node ids which will be used as the index of many return series
+        The node IDs which will be used as the index of many return series
         """
         return self.node_idx.index
 
@@ -169,15 +169,15 @@ class Network:
 
     def shortest_path(self, node_a, node_b, imp_name=None):
         """
-        Return the shortest path between two node ids in the network. Must
+        Return the shortest path between two node IDs in the network. Must
         provide an impedance name if more than one is available.
 
         Parameters
         ----------
         node_a : int
-            Source node id
+            Source node ID
         node_b : int
-            Destination node id
+            Destination node ID
         imp_name : string, optional
             The impedance name to use for the shortest path
 
@@ -196,7 +196,7 @@ class Network:
 
         path = self.net.shortest_path(node_a, node_b, imp_num)
 
-        # map back to external node ids
+        # map back to external node IDs
         return self.node_ids.values[path]
 
     def shortest_paths(self, nodes_a, nodes_b, imp_name=None):
@@ -211,9 +211,9 @@ class Network:
         Parameters
         ----------
         nodes_a : list-like of ints
-            Source node ids
+            Source node IDs
         nodes_b : list-like of ints
-            Corresponding destination node ids
+            Corresponding destination node IDs
         imp_name : string
             The impedance name to use for the shortest path
 
@@ -240,7 +240,7 @@ class Network:
 
     def shortest_path_length(self, node_a, node_b, imp_name=None):
         """
-        Return the length of the shortest path between two node ids in the
+        Return the length of the shortest path between two node IDs in the
         network. Must provide an impedance name if more than one is
         available.
 
@@ -252,9 +252,9 @@ class Network:
         Parameters
         ----------
         node_a : int
-            Source node id
+            Source node ID
         node_b : int
-            Destination node id
+            Destination node ID
         imp_name : string
             The impedance name to use for the shortest path
 
@@ -286,15 +286,15 @@ class Network:
         Parameters
         ----------
         nodes_a : list-like of ints
-            Source node ids
+            Source node IDs
         nodes_b : list-like of ints
-            Corresponding destination node ids
+            Corresponding destination node IDs
         imp_name : string
             The impedance name to use for the shortest path
 
         Returns
         -------
-        lenths : list of floats
+        lengths : list of floats
 
         """
         if len(nodes_a) != len(nodes_b):
@@ -318,10 +318,10 @@ class Network:
 
         Parameters
         ----------
-        node_ids : Pandas Series, int
+        node_ids : pandas.Series, int
             A series of node_ids which are usually computed using
             get_node_ids on this object.
-        variable : Pandas Series, numeric, optional
+        variable : pandas.Series, numeric, optional
             A series which represents some variable defined in urban space.
             It could be the location of buildings, or the income of all
             households - just about anything can be aggregated using the
@@ -446,7 +446,7 @@ class Network:
 
         Returns
         -------
-        agg : Pandas Series
+        agg : pandas.Series
             Returns a Pandas Series for every origin node in the network,
             with the index which is the same as the node_ids passed to the
             init method and the values are the aggregations for each source
@@ -483,10 +483,10 @@ class Network:
 
         Parameters
         ----------
-        x_col : Pandas series (float)
+        x_col : pandas.Series (float)
             A Pandas Series where values specify the x (e.g. longitude)
             location of dataset.
-        y_col : Pandas series (float)
+        y_col : pandas.Series (float)
             A Pandas Series where values specify the y (e.g. latitude)
             location of dataset.  x_col and y_col should use the same index.
         mapping_distance : float, optional
@@ -499,7 +499,7 @@ class Network:
 
         Returns
         -------
-        node_ids : Pandas series (int)
+        node_ids : pandas.Series (int)
             Returns a Pandas Series of node_ids for each x, y in the
             input data. The index is the same as the indexes of the
             x, y input data, and the values are the mapped node_ids.
@@ -600,8 +600,9 @@ class Network:
 
     def init_pois(self, num_categories, max_dist, max_pois):
         """
-        Initialize the point of interest infrastructure. This is no longer
-        needed in Pandana 0.4+ and will be removed in a future version.
+        Initialize the point of interest (POI) infrastructure.
+        This is no longer needed in Pandana 0.4+ and will be removed in a
+        future version.
 
         Parameters
         ----------
@@ -612,7 +613,7 @@ class Network:
             usually be a distance unit in meters however if you have
             customized the impedance this could be in other
             units such as utility or time etc.
-        max_pois :
+        max_pois : int
             Maximum number of POIs to return in the nearest query
 
         """
@@ -628,23 +629,25 @@ class Network:
 
     def set_pois(self, category=None, maxdist=None, maxitems=None, x_col=None, y_col=None):
         """
-        Set the location of all the pois of this category. The pois are
-        connected to the closest node in the Pandana network which assumes
-        no impedance between the location of the variable and the location
-        of the closest network node.
+        Set the location of all the points of interest (POIs) of this category.
+         The POIs are connected to the closest node in the Pandana network
+         which assumes no impedance between the location of the variable and
+         the location of the closest network node.
 
         Parameters
         ----------
         category : string
-            The name of the category for this set of pois
-        maxdist - the maximum distance that will later be used in
-            find_all_nearest_pois
-        maxitems - the maximum number of items that will later be requested
-            in find_all_nearest_pois
-        x_col : Pandas Series (float)
-            The x location (longitude) of pois in this category
-        y_col : Pandas Series (Float)
-            The y location (latitude) of pois in this category
+            The name of the category for this set of POIs
+        maxdist : float
+            The maximum distance that will later be used in
+            find_all_nearest_pois()
+        maxitems : int
+            The maximum number of items that will later be requested
+            in find_all_nearest_pois()
+        x_col : pandas.Series (float)
+            The x location (longitude) of POIs in this category
+        y_col : pandas.Series (float)
+            The y location (latitude) of POIs in this category
 
         Returns
         -------
@@ -685,23 +688,23 @@ class Network:
     def nearest_pois(self, distance, category, num_pois=1, max_distance=None,
                      imp_name=None, include_poi_ids=False):
         """
-        Find the distance to the nearest pois from each source node.  The
-        bigger values in this case mean less accessibility.
+        Find the distance to the nearest points of interest (POI)s from each
+        source node.  The bigger values in this case mean less accessibility.
 
         Parameters
         ----------
         distance : float
-            The maximum distance to look for pois. This will usually be a
+            The maximum distance to look for POIs. This will usually be a
             distance unit in meters however if you have customized the
             impedance this could be in other units such as utility or time
             etc.
         category : string
-            The name of the category of poi to look for
+            The name of the category of POI to look for
         num_pois : int
-            The number of pois to look for, this also sets the number of
+            The number of POIs to look for, this also sets the number of
             columns in the DataFrame that gets returned
         max_distance : float, optional
-            The value to set the distance to if there is NO poi within the
+            The value to set the distance to if there is no POI within the
             specified distance - if not specified, gets set to distance. This
             will usually be a distance unit in meters however if you have
             customized the impedance this could be in other units such as
@@ -715,20 +718,20 @@ class Network:
             If this flag is set to true, the call will add columns to the
             return DataFrame - instead of just returning the distance for
             the nth POI, it will also return the id of that POI.  The names
-            of the columns with the poi ids will be poi1, poi2, etc - it
-            will take roughly twice as long to include these ids as to not
+            of the columns with the POI IDs will be poi1, poi2, etc - it
+            will take roughly twice as long to include these IDs as to not
             include them
 
         Returns
         -------
-        d : Pandas DataFrame
+        d : pandas.DataFrame
             Like aggregate, this series has an index of all the node ids for
             the network.  Unlike aggregate, this method returns a dataframe
             with the number of columns equal to the distances to the Nth
-            closest poi.  For instance, if you ask for the 10 closest poi to
-            each node, column d[1] wil be the distance to the 1st closest poi
+            closest POI.  For instance, if you ask for the 10 closest poi to
+            each node, column d[1] wil be the distance to the 1st closest POI
             of that category while column d[2] will be the distance to the 2nd
-            closest poi, and so on.
+            closest POI, and so on.
         """
         if max_distance is None:
             max_distance = distance
@@ -737,7 +740,7 @@ class Network:
             assert 0, "Need to call set_pois for this category"
 
         if num_pois > self.max_pois:
-            assert 0, "Asking for more pois than set in init_pois"
+            assert 0, "Asking for more POIs than set in init_pois"
 
         imp_num = self._imp_name_to_num(imp_name)
 
@@ -759,7 +762,7 @@ class Network:
                 # the great magic trick is now to turn the integer position of
                 # the poi, which is painstakingly returned from the c++ code,
                 # and turn it into the actual index that was used when it was
-                # initialized as a pandas series - this really is pandas-like
+                # initialized as a pandas.Series - this really is pandas-like
                 # thinking.  it's complicated on the inside, but quite
                 # intuitive to the user I think
                 s = df2[col].astype('int')
