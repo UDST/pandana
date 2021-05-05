@@ -145,7 +145,6 @@ setup(
     ext_modules=[cyaccess],
     python_requires = '>=3.5',
     install_requires=[
-        'cython >=0.25.2',
         'numpy >=1.8',
         'pandas >=0.17',
         'requests >=2.0',
