@@ -11,7 +11,7 @@ name: Build-wheels
 # this ever breaks.
 
 on:
-  # push:
+  push:  # disable
   pull_request:
   release:
   workflow_dispatch:
