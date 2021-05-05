@@ -31,8 +31,8 @@ jobs:
         python examples/simple_example.py
     - name: Run unit tests
       run: |
-        pip install 'pytest<4.0'
-        python setup.py test
+        pip install pytest
+        pytest -s
 
   build-conda:
     runs-on: ${{ matrix.os }}
@@ -58,5 +58,5 @@ jobs:
         python examples/simple_example.py
     - name: Run unit tests
       run: |
-        pip install 'pytest<4.0'
-        python setup.py test
+        pip install pytest
+        pytest -s

@@ -23,8 +23,9 @@ jobs:
         pip install osmnet
     - name: Generate coverage report
       run: |
-        pip install 'pytest<4.0' 'pytest-cov<2.10' coverage
-        python setup.py test --pytest-args "--cov pandana --cov-report term-missing"
+        pip install pytest coverage
+        coverage run --source orca --module pytest --verbose
+        coverage report --show-missing
         echo "coverage=$(coverage report | grep '^TOTAL' | grep -oE '[^ ]+$')" >> $GITHUB_ENV
     - name: Post comment on PR
       uses: unsplash/comment-on-pr@master
