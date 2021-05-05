@@ -1,6 +1,8 @@
 import os
 import sys
 
+import numpy as np  # for c++ headers
+
 from setuptools import find_packages, setup, Extension
 
 
@@ -74,7 +76,7 @@ cyaccess = Extension(
             'src/cyaccess.pyx',
             'src/contraction_hierarchies/src/libch.cpp'],
         language='c++',
-        include_dirs=['.'],
+        include_dirs=['.', np.get_include()],
         extra_compile_args=extra_compile_args,
         extra_link_args=extra_link_args)
 
