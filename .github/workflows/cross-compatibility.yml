@@ -52,7 +52,7 @@ jobs:
     - name: Install Pandana
       run: |
         pip install .
-        conda install osmnet --channel conda-forge
+#        conda install osmnet --channel conda-forge
     - name: Run demo
       run: |
         python examples/simple_example.py
