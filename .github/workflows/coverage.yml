@@ -4,7 +4,7 @@ name: Coverage
 # unit tests) and posts headline metrics to the PR thread.
 
 on:
-  # push:
+  push:  # disable
   pull_request:
   workflow_dispatch:
 
