@@ -24,7 +24,7 @@ jobs:
     - name: Generate coverage report
       run: |
         pip install pytest coverage
-        coverage run --source orca --module pytest --verbose
+        coverage run --source pandana --module pytest --verbose
         coverage report --show-missing
         echo "coverage=$(coverage report | grep '^TOTAL' | grep -oE '[^ ]+$')" >> $GITHUB_ENV
     - name: Post comment on PR
