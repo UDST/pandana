@@ -5,34 +5,34 @@ name: Cross-compatibility
 # dependencies.
 
 on:
-  # push:
+  push:  # disable
   pull_request:
   workflow_dispatch:
 
 jobs:
-  build-pip:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-        python-version: [3.6, 3.7, 3.8]
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install Pandana
-      run: |
-        pip install .
-        pip install osmnet
-    - name: Run demo
-      run: |
-        python examples/simple_example.py
-    - name: Run unit tests
-      run: |
-        pip install pytest
-        pytest -s
+#  build-pip:
+#    runs-on: ${{ matrix.os }}
+#    strategy:
+#      matrix:
+#        os: [ubuntu-latest, macos-latest]
+#        python-version: [3.6, 3.7, 3.8]
+#    steps:
+#    - uses: actions/checkout@v2
+#    - name: Set up Python ${{ matrix.python-version }}
+#      uses: actions/setup-python@v2
+#      with:
+#        python-version: ${{ matrix.python-version }}
+#    - name: Install Pandana
+#      run: |
+#        pip install .
+#        pip install osmnet
+#    - name: Run demo
+#      run: |
+#        python examples/simple_example.py
+#    - name: Run unit tests
+#      run: |
+#        pip install pytest
+#        pytest -s
 
   build-conda:
     runs-on: ${{ matrix.os }}
