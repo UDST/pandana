@@ -438,7 +438,11 @@ class Network:
                 for r, ix in zip(raw_result, nodes)
             ]
         )[["source", "destination", imp_name]]
-        return clean_result.drop_duplicates(subset=["source", "destination"])
+        return (
+            clean_result.drop_duplicates(subset=["source", "destination"])
+            .reset_index(drop=True)
+            .query("{} <= {}".format(imp_name, radius))
+        )
 
     def _imp_name_to_num(self, imp_name):
         if imp_name is None:
