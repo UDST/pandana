@@ -201,5 +201,9 @@ cdef class cyaccess:
     def nodes_in_range(self, vector[long] srcnodes, float radius, int impno, 
             np.ndarray[long] ext_ids):
         """
+        srcnodes - node ids of origins
+        radius - maximum range in which to search for nearby nodes
+        impno - the impedance id to use
+        ext_ids - all node ids in the network
         """
         return self.access.Range(srcnodes, radius, impno, ext_ids)
