@@ -432,12 +432,13 @@ class Network:
         ext_ids = self.node_idx.index.values
 
         raw_result = self.net.nodes_in_range(nodes, radius, imp_num, ext_ids)
-        return pd.concat(
+        clean_result = pd.concat(
             [
                 pd.DataFrame(r, columns=["destination", imp_name]).assign(source=ix)
                 for r, ix in zip(raw_result, nodes)
             ]
         )[["source", "destination", imp_name]]
+        return clean_result.drop_duplicates(subset=["source", "destination"])
 
     def _imp_name_to_num(self, imp_name):
         if imp_name is None:
