@@ -115,9 +115,14 @@ Accessibility::Range(vector<long> srcnodes, float radius, int graphno,
     vector<vector<pair<long, float>>> output(dists.size());
     for (int i = 0; i < dists.size(); i++) {
         output[i].resize(dists[i].size());
+        //int acc = 0;
         for (int j = 0; j < dists[i].size(); j++) {
-            output[i][j] = std::make_pair(ext_ids[dists[i][j].first], 
-                                          dists[i][j].second);
+            if (dists[i][j].second <= radius){
+                output[i][j] = std::make_pair(ext_ids[dists[i][j].first], 
+                                              dists[i][j].second);
+         //       acc += 1;
+            }
+        //output[i].resize(acc+1);
         }
     }
     return output;
