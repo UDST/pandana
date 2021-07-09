@@ -362,7 +362,6 @@ class Network:
         """
         if variable is None:
             variable = pd.Series(np.ones(len(node_ids)), index=node_ids.index)
-
         df = pd.DataFrame({name: variable, "node_idx": self._node_indexes(node_ids)})
 
         length = len(df)
@@ -429,9 +428,16 @@ class Network:
             source to the nearby node.
         """
         imp_num = self._imp_name_to_num(imp_name)
+        imp_name = self.impedance_names[imp_num]
         ext_ids = self.node_idx.index.values
 
-        return self.net.nodes_in_range(nodes, radius, imp_num, ext_ids)
+        raw_result = self.net.nodes_in_range(nodes, radius, imp_num, ext_ids)
+        return pd.concat(
+            [
+                pd.DataFrame(r, columns=["destination", imp_name]).assign(source=ix)
+                for r, ix in zip(raw_result, nodes)
+            ]
+        )[["source", "destination", imp_name]]
 
     def _imp_name_to_num(self, imp_name):
         if imp_name is None:
