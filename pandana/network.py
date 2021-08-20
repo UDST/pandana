@@ -319,7 +319,7 @@ class Network:
              unconnected_nodes = [(nodes_a[i],nodes_b[i]) for i in unconnected_idx]
              warnings.warn(
              "Unsigned integer: shortest path distance is trying to be calculated \
-             between the following unconnected nodes: %s"%(unconnected_nodes))
+             between the following external unconnected nodes: %s"%(unconnected_nodes))
 
         return lens
 
