@@ -272,6 +272,12 @@ class Network:
 
         len = self.net.shortest_path_distance(node_a, node_b, imp_num)
 
+        if len == 4294967.295:
+            warnings.warn(
+            "Unsigned integer: shortest path distance is trying to be calculated between\
+            external %s and %s unconntected nodes"%(node_a, node_b)
+            )
+
         return len
 
     def shortest_path_lengths(self, nodes_a, nodes_b, imp_name=None):
@@ -298,8 +304,7 @@ class Network:
 
         """
         if len(nodes_a) != len(nodes_b):
-            raise ValueError("Origin and destination counts don't match: {}, {}"
-                             .format(len(nodes_a), len(nodes_b)))
+            raise ValueError("Origin and destination counts don't match: {}, {}".format(len(nodes_a), len(nodes_b)))
 
         # map to internal node indexes
         nodes_a_idx = self._node_indexes(pd.Series(nodes_a)).values
@@ -308,6 +313,13 @@ class Network:
         imp_num = self._imp_name_to_num(imp_name)
 
         lens = self.net.shortest_path_distances(nodes_a_idx, nodes_b_idx, imp_num)
+
+        if 4294967.295 in lens:
+             unconnected_idx = [i for i,v in enumerate(lens) if v == 4294967.295]
+             unconnected_nodes = [(nodes_a[i],nodes_b[i]) for i in unconnected_idx]
+             warnings.warn(
+             "Unsigned integer: shortest path distance is trying to be calculated \
+             between the following unconnected nodes: %s"%(unconnected_nodes))
 
         return lens
 
