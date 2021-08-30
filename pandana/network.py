@@ -627,7 +627,8 @@ class Network:
         )
         return None
 
-    def set_pois(self, category=None, maxdist=None, maxitems=None, x_col=None, y_col=None):
+    def set_pois(self, category=None, maxdist=None, maxitems=None, x_col=None, y_col=None,
+                 mapping_distance=None):
         """
         Set the location of all the points of interest (POIs) of this category.
          The POIs are connected to the closest node in the Pandana network
@@ -648,6 +649,13 @@ class Network:
             The x location (longitude) of POIs in this category
         y_col : pandas.Series (float)
             The y location (latitude) of POIs in this category
+        mapping_distance : float, optional
+            The maximum distance that will be considered a match between the
+            POIs and the nearest node in the network.  This will usually
+            be a distance unit in meters however if you have customized the
+            impedance this could be in other units such as utility or time
+            etc. If not specified, every POI will be mapped to
+            the nearest node.
 
         Returns
         -------
@@ -677,7 +685,7 @@ class Network:
 
         self.max_pois = maxitems
 
-        node_ids = self.get_node_ids(x_col, y_col)
+        node_ids = self.get_node_ids(x_col, y_col, mapping_distance=mapping_distance)
 
         self.poi_category_indexes[category] = node_ids.index
 
