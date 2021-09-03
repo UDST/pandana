@@ -11,7 +11,7 @@ name: Build-wheels
 # this ever breaks.
 
 on:
-  push:  # disable before merging
+  # push:
   pull_request:
   release:
   workflow_dispatch:
