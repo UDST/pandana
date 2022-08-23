@@ -21,7 +21,7 @@ jobs:
         # Pip installation for Windows is not supported. Pip installation for Mac is
         # broken in the GitHub Actions environment with Pandana v0.6 but should be fixed
         # in the next Pandana release.
-        python-version: [3.6, 3.7, 3.8]
+        python-version: [3.6, 3.7, 3.8, 3.9, '3.10']
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}

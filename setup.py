@@ -50,12 +50,12 @@ if sys.platform.startswith("darwin"):  # Mac
             )
         )
 
-        if "10.15" in os.popen("sw_vers").read():
+        if " 10.15" in os.popen("sw_vers").read():
             os.environ["CC"] = cc_catalina
-        elif "11." in os.popen("sw_vers").read():
-            os.environ["CC"] = cc_catalina
-        else:
+        elif " 10." in os.popen("sw_vers").read():  # 10.14 and earlier
             os.environ["CC"] = cc
+        else:  # 11.x, 12.x, etc.
+            os.environ["CC"] = cc_catalina
 
     else:
         print(
@@ -93,7 +93,7 @@ cyaccess = Extension(
 ## Standard setup
 ###############################################
 
-version = "0.7.dev0"
+version = "0.7"
 
 packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"])
 
@@ -117,16 +117,15 @@ setup(
         'pandas >=0.17',
         'requests >=2.0',
         'scikit-learn >=0.18',
-        'tables >=3.1, <3.6; python_version <"3.6"',
-        'tables >=3.1, <3.7; python_version >="3.6"'
+        'tables >=3.1'
     ],
     classifiers=[
         "Development Status :: 4 - Beta",
-        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
         "License :: OSI Approved :: GNU Affero General Public License v3",
     ],
 )

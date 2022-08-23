@@ -1,3 +1,15 @@
+v0.7
+====
+
+2022/08/24
+
+* Adds support for calculating accessibility isochrones: which nodes are within x network distance of a source node
+* Allows a maximum distance to be set for POIs
+* Supports PyTables 3.7+
+* Switches to pyproject.toml packaging standards
+* Adds newer binaries on PyPI
+* Improves compilation in MacOS 12+
+
 v0.6.1
 ======
 
