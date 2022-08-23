@@ -10,62 +10,70 @@ from setuptools import find_packages, setup, Extension
 ## Building the C++ extension
 ###############################################
 
-extra_compile_args = ['-w', '-std=c++11', '-O3']
+extra_compile_args = ["-w", "-std=c++11", "-O3"]
 extra_link_args = []
 
 # Mac compilation: flags are for the llvm compilers included with recent
 # versions of Xcode Command Line Tools, or newer versions installed separately
 
-if sys.platform.startswith('darwin'):  # Mac
+if sys.platform.startswith("darwin"):  # Mac
 
-    extra_compile_args += ['-stdlib=libc++']
-    extra_link_args += ['-stdlib=libc++']
-    
+    extra_compile_args += ["-stdlib=libc++"]
+    extra_link_args += ["-stdlib=libc++"]
+
     # The default compiler that ships with Macs doesn't support OpenMP multi-
     # threading. We recommend using the Conda toolchain instead, but will also
     # try to detect if people are using another alternative like Homebrew.
 
-    if 'CC' in os.environ:
-        extra_compile_args += ['-fopenmp']
-        print('Attempting Pandana compilation with OpenMP multi-threading '
-              'support, with user-specified compiler:\n{}'.format(
-              os.environ['CC']))
+    if "CC" in os.environ:
+        extra_compile_args += ["-fopenmp"]
+        print(
+            "Attempting Pandana compilation with OpenMP multi-threading "
+            "support, with user-specified compiler:\n{}".format(os.environ["CC"])
+        )
 
     # Otherwise, if the default clang has been replaced but nothing specified
     # in the 'CC' environment variable, assume they've followed our instructions
     # for using the Conda toolchain.
-    
-    elif os.popen('which clang').read().strip() != '/usr/bin/clang':
-        cc = 'clang'
-        cc_catalina = 'clang --sysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk'
-        
-        extra_compile_args += ['-fopenmp']
-        print('Attempting Pandana compilation with OpenMP multi-threading '
-              'support, with the following compiler:\n{}'.format(
-              os.popen('which clang').read()))
 
-        if '10.15' in os.popen('sw_vers').read():
-            os.environ['CC'] = cc_catalina
-        elif '11.' in os.popen('sw_vers').read():
-            os.environ['CC'] = cc_catalina
+    elif os.popen("which clang").read().strip() != "/usr/bin/clang":
+        cc = "clang"
+        cc_catalina = (
+            "clang --sysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
+        )
+
+        extra_compile_args += ["-fopenmp"]
+        print(
+            "Attempting Pandana compilation with OpenMP multi-threading "
+            "support, with the following compiler:\n{}".format(
+                os.popen("which clang").read()
+            )
+        )
+
+        if "10.15" in os.popen("sw_vers").read():
+            os.environ["CC"] = cc_catalina
+        elif "11." in os.popen("sw_vers").read():
+            os.environ["CC"] = cc_catalina
         else:
-            os.environ['CC'] = cc
+            os.environ["CC"] = cc
 
     else:
-        print('Attempting Pandana compilation without support for '
-              'multi-threading. See installation instructions for alternative '
-              'options')
+        print(
+            "Attempting Pandana compilation without support for "
+            "multi-threading. See installation instructions for alternative "
+            "options"
+        )
 
 # Window compilation: flags are for Visual C++
 
-elif sys.platform.startswith('win'):  # Windows
-    extra_compile_args = ['/w', '/openmp']
+elif sys.platform.startswith("win"):  # Windows
+    extra_compile_args = ["/w", "/openmp"]
 
 # Linux compilation: flags are for gcc 4.8 and later
 
 else:  # Linux
-    extra_compile_args += ['-fopenmp']
-    extra_link_args += ['-lgomp']
+    extra_compile_args += ["-fopenmp"]
+    extra_link_args += ["-lgomp"]
 
 
 cyaccess = Extension(
@@ -85,25 +93,25 @@ cyaccess = Extension(
 ## Standard setup
 ###############################################
 
-version = '0.6.1'
+version = "0.7.dev0"
 
 packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"])
 
 setup(
     packages=packages,
-    name='pandana',
-    author='UrbanSim Inc.',
+    name="pandana",
+    author="UrbanSim Inc.",
     version=version,
-    license='AGPL',
-    description=('Python library for network analysis'),
+    license="AGPL",
+    description=("Python library for network analysis"),
     long_description=(
-        'Pandana is a Python library for network analysis that uses '
-        'contraction hierarchies to calculate super-fast travel '
-        'accessibility metrics and shortest paths. The numerical '
-        'code is in C++.'),
-    url='https://udst.github.io/pandana/',
+        "Pandana is a Python library for network analysis that uses "
+        "contraction hierarchies to calculate super-fast travel "
+        "accessibility metrics and shortest paths. The numerical "
+        "code is in C++."
+    ),
+    url="https://udst.github.io/pandana/",
     ext_modules=[cyaccess],
-    python_requires = '>=3.5',
     install_requires=[
         'numpy >=1.8',
         'pandas >=0.17',
@@ -113,12 +121,12 @@ setup(
         'tables >=3.1, <3.7; python_version >="3.6"'
     ],
     classifiers=[
-        'Development Status :: 4 - Beta',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
-        'Programming Language :: Python :: 3.9',
-        'License :: OSI Approved :: GNU Affero General Public License v3'
+        "Development Status :: 4 - Beta",
+        "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "License :: OSI Approved :: GNU Affero General Public License v3",
     ],
 )
