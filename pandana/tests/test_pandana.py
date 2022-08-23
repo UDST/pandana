@@ -12,17 +12,16 @@ import pandana.network as pdna
 
 @pytest.fixture(scope="module")
 def sample_osm(request):
-    store = pd.HDFStore(
-        os.path.join(os.path.dirname(__file__), 'osm_sample.h5'), "r")
+    store = pd.HDFStore(os.path.join(os.path.dirname(__file__), "osm_sample.h5"), "r")
     nodes, edges = store.nodes, store.edges
 
-    net = pdna.Network(nodes.x, nodes.y, edges["from"], edges.to,
-                       edges[["weight"]])
+    net = pdna.Network(nodes.x, nodes.y, edges["from"], edges.to, edges[["weight"]])
 
     net.precompute(2000)
 
     def fin():
         store.close()
+
     request.addfinalizer(fin)
 
     return net
@@ -31,16 +30,15 @@ def sample_osm(request):
 # initialize a second network
 @pytest.fixture(scope="module")
 def second_sample_osm(request):
-    store = pd.HDFStore(
-        os.path.join(os.path.dirname(__file__), 'osm_sample.h5'), "r")
+    store = pd.HDFStore(os.path.join(os.path.dirname(__file__), "osm_sample.h5"), "r")
     nodes, edges = store.nodes, store.edges
-    net = pdna.Network(nodes.x, nodes.y, edges["from"], edges.to,
-                       edges[["weight"]])
+    net = pdna.Network(nodes.x, nodes.y, edges["from"], edges.to, edges[["weight"]])
 
     net.precompute(2000)
 
     def fin():
         store.close()
+
     request.addfinalizer(fin)
 
     return net
@@ -91,48 +89,47 @@ def test_agg_variables_accuracy(sample_osm):
     assert s.iloc[0] == 50
 
     s = net.aggregate(100000, type="AVE").loc[connected_nodes]
-    assert s.describe()['std'] < .01  # assert almost equal
+    assert s.describe()["std"] < 0.01  # assert almost equal
     assert_allclose(s.mean(), r.mean(), atol=1e-3)
 
     s = net.aggregate(100000, type="mean").loc[connected_nodes]
-    assert s.describe()['std'] < .01  # assert almost equal
+    assert s.describe()["std"] < 0.01  # assert almost equal
     assert_allclose(s.mean(), r.mean(), atol=1e-3)
 
     s = net.aggregate(100000, type="min").loc[connected_nodes]
-    assert s.describe()['std'] < .01  # assert almost equal
+    assert s.describe()["std"] < 0.01  # assert almost equal
     assert_allclose(s.mean(), r.min(), atol=1e-3)
 
     s = net.aggregate(100000, type="max").loc[connected_nodes]
-    assert s.describe()['std'] < .01  # assert almost equal
+    assert s.describe()["std"] < 0.01  # assert almost equal
     assert_allclose(s.mean(), r.max(), atol=1e-3)
 
     r.sort_values(inplace=True)
 
     s = net.aggregate(100000, type="median").loc[connected_nodes]
-    assert s.describe()['std'] < .01  # assert almost equal
+    assert s.describe()["std"] < 0.01  # assert almost equal
     assert_allclose(s.mean(), r.iloc[25], atol=1e-2)
 
     s = net.aggregate(100000, type="25pct").loc[connected_nodes]
-    assert s.describe()['std'] < .01  # assert almost equal
+    assert s.describe()["std"] < 0.01  # assert almost equal
     assert_allclose(s.mean(), r.iloc[12], atol=1e-2)
 
     s = net.aggregate(100000, type="75pct").loc[connected_nodes]
-    assert s.describe()['std'] < .01  # assert almost equal
+    assert s.describe()["std"] < 0.01  # assert almost equal
     assert_allclose(s.mean(), r.iloc[37], atol=1e-2)
 
     s = net.aggregate(100000, type="SUM").loc[connected_nodes]
-    assert s.describe()['std'] < .05  # assert almost equal
+    assert s.describe()["std"] < 0.05  # assert almost equal
     assert_allclose(s.mean(), r.sum(), atol=1e-2)
 
     s = net.aggregate(100000, type="std").loc[connected_nodes]
-    assert s.describe()['std'] < .01  # assert almost equal
+    assert s.describe()["std"] < 0.01  # assert almost equal
     assert_allclose(s.mean(), r.std(), atol=1e-2)
 
 
 def test_non_integer_nodeids(request):
 
-    store = pd.HDFStore(
-        os.path.join(os.path.dirname(__file__), 'osm_sample.h5'), "r")
+    store = pd.HDFStore(os.path.join(os.path.dirname(__file__), "osm_sample.h5"), "r")
     nodes, edges = store.nodes, store.edges
 
     # convert to string!
@@ -140,11 +137,11 @@ def test_non_integer_nodeids(request):
     edges["from"] = edges["from"].astype("str")
     edges["to"] = edges["to"].astype("str")
 
-    net = pdna.Network(nodes.x, nodes.y, edges["from"], edges.to,
-                       edges[["weight"]])
+    net = pdna.Network(nodes.x, nodes.y, edges["from"], edges.to, edges[["weight"]])
 
     def fin():
         store.close()
+
     request.addfinalizer(fin)
 
     # test accuracy compared to Pandas functions
@@ -162,16 +159,15 @@ def test_agg_variables(sample_osm):
     net = sample_osm
 
     ssize = 50
-    net.set(random_node_ids(sample_osm, ssize),
-            variable=random_data(ssize))
+    net.set(random_node_ids(sample_osm, ssize), variable=random_data(ssize))
 
     for type in net.aggregations:
         for decay in net.decays:
             for distance in [5, 10, 20]:
-                t = type.decode(encoding='UTF-8')
-                d = decay.decode(encoding='UTF-8')
+                t = type.decode(encoding="UTF-8")
+                d = decay.decode(encoding="UTF-8")
                 s = net.aggregate(distance, type=t, decay=d)
-                assert s.describe()['std'] > 0
+                assert s.describe()["std"] > 0
 
     # testing w/o setting variable
     ssize = 50
@@ -180,30 +176,32 @@ def test_agg_variables(sample_osm):
     for type in net.aggregations:
         for decay in net.decays:
             for distance in [5, 10, 20]:
-                t = type.decode(encoding='UTF-8')
-                d = decay.decode(encoding='UTF-8')
+                t = type.decode(encoding="UTF-8")
+                d = decay.decode(encoding="UTF-8")
                 s = net.aggregate(distance, type=t, decay=d)
                 if t != "std":
-                    assert s.describe()['std'] > 0
+                    assert s.describe()["std"] > 0
                 else:
                     # no variance in data
-                    assert s.describe()['std'] == 0
+                    assert s.describe()["std"] == 0
 
 
 def test_non_float_node_values(sample_osm):
     net = sample_osm
 
     ssize = 50
-    net.set(random_node_ids(sample_osm, ssize),
-            variable=(random_data(ssize)*100).astype('int'))
+    net.set(
+        random_node_ids(sample_osm, ssize),
+        variable=(random_data(ssize) * 100).astype("int"),
+    )
 
     for type in net.aggregations:
         for decay in net.decays:
             for distance in [5, 10, 20]:
-                t = type.decode(encoding='UTF-8')
-                d = decay.decode(encoding='UTF-8')
+                t = type.decode(encoding="UTF-8")
+                d = decay.decode(encoding="UTF-8")
                 s = net.aggregate(distance, type=t, decay=d)
-                assert s.describe()['std'] > 0
+                assert s.describe()["std"] > 0
 
 
 def test_missing_nodeid(sample_osm):
@@ -238,13 +236,12 @@ def test_named_variable(sample_osm):
     net = sample_osm
 
     ssize = 50
-    net.set(random_node_ids(sample_osm, ssize),
-            variable=random_data(ssize), name="foo")
+    net.set(random_node_ids(sample_osm, ssize), variable=random_data(ssize), name="foo")
 
     net.aggregate(500, type="sum", decay="linear", name="foo")
 
 
-'''
+"""
 def test_plot(sample_osm):
     net = sample_osm
 
@@ -255,7 +252,7 @@ def test_plot(sample_osm):
     s = net.aggregate(500, type="sum", decay="linear")
 
     sample_osm.plot(s)
-'''
+"""
 
 
 def test_shortest_path(sample_osm):
@@ -274,8 +271,8 @@ def test_shortest_paths(sample_osm):
     vec_paths = sample_osm.shortest_paths(nodes[0:50], nodes[50:100])
 
     for i in range(50):
-        path = sample_osm.shortest_path(nodes[i], nodes[i+50])
-        assert(np.array_equal(vec_paths[i], path))
+        path = sample_osm.shortest_path(nodes[i], nodes[i + 50])
+        assert np.array_equal(vec_paths[i], path)
 
     # check mismatched OD lists
     try:
@@ -331,13 +328,12 @@ def test_pois(sample_osm):
 
     net = sample_osm
     x, y = random_x_y(sample_osm, 100)
-    x.index = ['lab%d' % i for i in range(len(x))]
+    x.index = ["lab%d" % i for i in range(len(x))]
     y.index = x.index
 
     net.set_pois("restaurants", 2000, 10, x, y)
 
-    d = net.nearest_pois(2000, "restaurants", num_pois=10,
-                         include_poi_ids=True)
+    d = net.nearest_pois(2000, "restaurants", num_pois=10, include_poi_ids=True)
 
 
 def test_pois2(second_sample_osm):
@@ -384,6 +380,7 @@ def test_pois_pandana3_pos_args(second_sample_osm):
 
     net2.nearest_pois(2000, "restaurants", num_pois=10)
 
+
 # test items are sorted
 
 
@@ -407,12 +404,14 @@ def test_repeat_pois(sample_osm):
     net = sample_osm
 
     def get_nearest_nodes(x, y, x2=None, y2=None, n=2):
-        coords_dict = [{'x': x, 'y': y, 'var': 1} for i in range(2)]
+        coords_dict = [{"x": x, "y": y, "var": 1} for i in range(2)]
         if x2 and y2:
-            coords_dict.append({'x': x2, 'y': y2, 'var': 1})
+            coords_dict.append({"x": x2, "y": y2, "var": 1})
         df = pd.DataFrame(coords_dict)
-        sample_osm.set_pois("restaurants", 2000, 10, df['x'], df['y'])
-        res = sample_osm.nearest_pois(2000, "restaurants", num_pois=5, include_poi_ids=True)
+        sample_osm.set_pois("restaurants", 2000, 10, df["x"], df["y"])
+        res = sample_osm.nearest_pois(
+            2000, "restaurants", num_pois=5, include_poi_ids=True
+        )
         return res
 
     # these are the min-max values of the network
@@ -426,8 +425,45 @@ def test_repeat_pois(sample_osm):
     assert test1.equals(test3)
 
     test4 = get_nearest_nodes(-122.31, 47.60, -122.32, 47.61, n=3)
-    assert_allclose(test4.loc[53114882], [7, 13, 13, 2000, 2000, 2, 0, 1, np.nan, np.nan])
-    assert_allclose(test4.loc[53114880], [6, 14, 14, 2000, 2000, 2, 0, 1, np.nan, np.nan])
+    assert_allclose(
+        test4.loc[53114882], [7, 13, 13, 2000, 2000, 2, 0, 1, np.nan, np.nan]
+    )
+    assert_allclose(
+        test4.loc[53114880], [6, 14, 14, 2000, 2000, 2, 0, 1, np.nan, np.nan]
+    )
     assert_allclose(
         test4.loc[53227769],
-        [2000, 2000, 2000, 2000, 2000, np.nan, np.nan, np.nan, np.nan, np.nan])
+        [2000, 2000, 2000, 2000, 2000, np.nan, np.nan, np.nan, np.nan, np.nan],
+    )
+
+
+def test_nodes_in_range(sample_osm):
+    net = sample_osm
+
+    np.random.seed(0)
+    ssize = 10
+    x, y = random_x_y(net, 10)
+    snaps = net.get_node_ids(x, y)
+
+    test1 = net.nodes_in_range(snaps, 1)
+    net.precompute(10)
+    test5 = net.nodes_in_range(snaps, 5)
+    test11 = net.nodes_in_range(snaps, 11)
+    assert test1.weight.max() == 1
+    assert test5.weight.max() == 5
+    assert test11.weight.max() == 11
+
+    focus_id = snaps[0]
+    all_distances = net.shortest_path_lengths(
+        [focus_id] * len(net.node_ids), net.node_ids
+    )
+    all_distances = np.asarray(all_distances)
+    assert (all_distances <= 1).sum() == len(
+        test1.query("source == {}".format(focus_id))
+    )
+    assert (all_distances <= 5).sum() == len(
+        test5.query("source == {}".format(focus_id))
+    )
+    assert (all_distances <= 11).sum() == len(
+        test11.query("source == {}".format(focus_id))
+    )
