@@ -24,5 +24,5 @@ jobs:
         pip install osmnet
     - name: Run unit tests
       run: |
-        pip install 'pytest<4.0'
-        python setup.py test
+        pip install pytest
+        pytest -s
