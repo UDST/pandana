@@ -117,8 +117,7 @@ setup(
         'pandas >=0.17',
         'requests >=2.0',
         'scikit-learn >=0.18',
-        'tables >=3.1, <3.6; python_version <"3.6"',
-        'tables >=3.1, <3.7; python_version >="3.6"'
+        'tables >=3.1'
     ],
     classifiers=[
         "Development Status :: 4 - Beta",
