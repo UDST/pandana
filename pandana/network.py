@@ -24,7 +24,7 @@ def reserve_num_graphs(num):
     warnings.warn(
         "Function reserve_num_graphs() is no longer needed in Pandana 0.4+\
          and will be removed in a future version",
-        DeprecationWarning
+        DeprecationWarning,
     )
     return None
 
@@ -65,11 +65,9 @@ class Network:
 
     """
 
-    def __init__(self, node_x, node_y, edge_from, edge_to, edge_weights,
-                 twoway=True):
-        nodes_df = pd.DataFrame({'x': node_x, 'y': node_y})
-        edges_df = pd.DataFrame({'from': edge_from, 'to': edge_to}).\
-            join(edge_weights)
+    def __init__(self, node_x, node_y, edge_from, edge_to, edge_weights, twoway=True):
+        nodes_df = pd.DataFrame({"x": node_x, "y": node_y})
+        edges_df = pd.DataFrame({"from": edge_from, "to": edge_to}).join(edge_weights)
 
         self.nodes_df = nodes_df
         self.edges_df = edges_df
@@ -84,19 +82,22 @@ class Network:
         # in the c extension are actually indexes ordered from 0 to numnodes-1
         # node IDs are thus translated back and forth in the python layer,
         # which allows non-integer node IDs as well
-        self.node_idx = pd.Series(np.arange(len(nodes_df), dtype="int"),
-                                  index=nodes_df.index)
+        self.node_idx = pd.Series(
+            np.arange(len(nodes_df), dtype="int"), index=nodes_df.index
+        )
 
-        edges = pd.concat([self._node_indexes(edges_df["from"]),
-                           self._node_indexes(edges_df["to"])], axis=1)
+        edges = pd.concat(
+            [self._node_indexes(edges_df["from"]), self._node_indexes(edges_df["to"])],
+            axis=1,
+        )
 
-        self.net = cyaccess(self.node_idx.values,
-                            nodes_df.astype('double').values,
-                            edges.values,
-                            edges_df[edge_weights.columns].transpose()
-                                                          .astype('double')
-                                                          .values,
-                            twoway)
+        self.net = cyaccess(
+            self.node_idx.values,
+            nodes_df.astype("double").values,
+            edges.values,
+            edges_df[edge_weights.columns].transpose().astype("double").values,
+            twoway,
+        )
 
         self._twoway = twoway
 
@@ -137,11 +138,13 @@ class Network:
 
     def _node_indexes(self, node_ids):
         # for some reason, merge is must faster than .loc
-        df = pd.merge(pd.DataFrame({"node_ids": node_ids}),
-                      pd.DataFrame({"node_idx": self.node_idx}),
-                      left_on="node_ids",
-                      right_index=True,
-                      how="left")
+        df = pd.merge(
+            pd.DataFrame({"node_ids": node_ids}),
+            pd.DataFrame({"node_idx": self.node_idx}),
+            left_on="node_ids",
+            right_index=True,
+            how="left",
+        )
         return df.node_idx
 
     @property
@@ -164,8 +167,12 @@ class Network:
         """
         The bounding box for nodes in this network [xmin, ymin, xmax, ymax]
         """
-        return [self.nodes_df.x.min(), self.nodes_df.y.min(),
-                self.nodes_df.x.max(), self.nodes_df.y.max()]
+        return [
+            self.nodes_df.x.min(),
+            self.nodes_df.y.min(),
+            self.nodes_df.x.max(),
+            self.nodes_df.y.max(),
+        ]
 
     def shortest_path(self, node_a, node_b, imp_name=None):
         """
@@ -224,8 +231,11 @@ class Network:
 
         """
         if len(nodes_a) != len(nodes_b):
-            raise ValueError("Origin and destination counts don't match: {}, {}"
-                             .format(len(nodes_a), len(nodes_b)))
+            raise ValueError(
+                "Origin and destination counts don't match: {}, {}".format(
+                    len(nodes_a), len(nodes_b)
+                )
+            )
 
         # map to internal node indexes
         nodes_a_idx = self._node_indexes(pd.Series(nodes_a)).values
@@ -304,7 +314,11 @@ class Network:
 
         """
         if len(nodes_a) != len(nodes_b):
-            raise ValueError("Origin and destination counts don't match: {}, {}".format(len(nodes_a), len(nodes_b)))
+            raise ValueError(
+                "Origin and destination counts don't match: {}, {}".format(
+                    len(nodes_a), len(nodes_b)
+                )
+            )
 
         # map to internal node indexes
         nodes_a_idx = self._node_indexes(pd.Series(nodes_a)).values
@@ -361,23 +375,23 @@ class Network:
         """
         if variable is None:
             variable = pd.Series(np.ones(len(node_ids)), index=node_ids.index)
-
-        df = pd.DataFrame({name: variable,
-                           "node_idx": self._node_indexes(node_ids)})
+        df = pd.DataFrame({name: variable, "node_idx": self._node_indexes(node_ids)})
 
         length = len(df)
         df = df.dropna(how="any")
         newl = len(df)
-        if length-newl > 0:
+        if length - newl > 0:
             print(
-                "Removed %d rows because they contain missing values" %
-                (length-newl))
+                "Removed %d rows because they contain missing values" % (length - newl)
+            )
 
         self.variable_names.add(name)
 
-        self.net.initialize_access_var(name.encode('utf-8'),
-                                       df.node_idx.values.astype('int'),
-                                       df[name].values.astype('double'))
+        self.net.initialize_access_var(
+            name.encode("utf-8"),
+            df.node_idx.values.astype("int"),
+            df[name].values.astype("double"),
+        )
 
     def precompute(self, distance):
         """
@@ -398,19 +412,67 @@ class Network:
         """
         self.net.precompute_range(distance)
 
+    def nodes_in_range(self, nodes, radius, imp_name=None):
+        """
+        Computes the range queries (the reachable nodes within this maximum
+        distance) for each input node.
+
+        Parameters
+        ----------
+        nodes : list-like of ints
+            Source node IDs
+        radius : float
+            Maximum distance to use. This will usually be a distance unit in
+            meters however if you have customized the impedance (using the
+            imp_name option) this could be in other units such as utility or
+            time etc.
+        imp_name : string, optional
+            The impedance name to use for the aggregation on this network.
+            Must be one of the impedance names passed in the constructor of
+            this object.  If not specified, there must be only one impedance
+            passed in the constructor, which will be used.
+
+        Returns
+        -------
+        d : pandas.DataFrame
+            Like nearest_pois, this is a dataframe containing the input node
+            index, the index of the nearby nodes within the search radius,
+            and the distance (according to the requested impedance) from the
+            source to the nearby node.
+        """
+        imp_num = self._imp_name_to_num(imp_name)
+        imp_name = self.impedance_names[imp_num]
+        ext_ids = self.node_idx.index.values
+
+        raw_result = self.net.nodes_in_range(nodes, radius, imp_num, ext_ids)
+        clean_result = pd.concat(
+            [
+                pd.DataFrame(r, columns=["destination", imp_name]).assign(source=ix)
+                for r, ix in zip(raw_result, nodes)
+            ]
+        )[["source", "destination", imp_name]]
+        return (
+            clean_result.drop_duplicates(subset=["source", "destination"])
+            .reset_index(drop=True)
+            .query("{} <= {}".format(imp_name, radius))
+        )
+
     def _imp_name_to_num(self, imp_name):
         if imp_name is None:
-            assert len(self.impedance_names) == 1,\
-                "must pass impedance name if there are multiple impedances set"
+            assert (
+                len(self.impedance_names) == 1
+            ), "must pass impedance name if there are multiple impedances set"
             imp_name = self.impedance_names[0]
 
-        assert imp_name in self.impedance_names, "An impedance with that name" \
-                                                 "was not found"
+        assert imp_name in self.impedance_names, (
+            "An impedance with that name" "was not found"
+        )
 
         return self.impedance_names.index(imp_name)
 
-    def aggregate(self, distance, type="sum", decay="linear", imp_name=None,
-                  name="tmp"):
+    def aggregate(
+        self, distance, type="sum", decay="linear", imp_name=None, name="tmp"
+    ):
         """
         Aggregate information for every source node in the network - this is
         really the main purpose of this library.  This allows you to touch
@@ -469,23 +531,26 @@ class Network:
         type = type.lower()
 
         # Resolve aliases
-        if type in ['ave', 'avg', 'average']:
-            type = 'mean'
+        if type in ["ave", "avg", "average"]:
+            type = "mean"
 
-        if type in ['stddev']:
-            type = 'std'
+        if type in ["stddev"]:
+            type = "std"
 
-        if type in ['med']:
-            type = 'median'
+        if type in ["med"]:
+            type = "median"
 
-        assert name in self.variable_names, "A variable with that name " \
-                                            "has not yet been initialized"
+        assert name in self.variable_names, (
+            "A variable with that name " "has not yet been initialized"
+        )
 
-        res = self.net.get_all_aggregate_accessibility_variables(distance,
-                                                                 name.encode('utf-8'),
-                                                                 type.encode('utf-8'),
-                                                                 decay.encode('utf-8'),
-                                                                 imp_num)
+        res = self.net.get_all_aggregate_accessibility_variables(
+            distance,
+            name.encode("utf-8"),
+            type.encode("utf-8"),
+            decay.encode("utf-8"),
+            imp_num,
+        )
 
         return pd.Series(res, index=self.node_ids)
 
@@ -520,7 +585,7 @@ class Network:
             If the mapping is imperfect, this function returns all the
             input x, y's that were successfully mapped to node_ids.
         """
-        xys = pd.DataFrame({'x': x_col, 'y': y_col})
+        xys = pd.DataFrame({"x": x_col, "y": y_col})
 
         distances, indexes = self.kdtree.query(xys.values)
         indexes = np.transpose(indexes)[0]
@@ -528,16 +593,22 @@ class Network:
 
         node_ids = self.nodes_df.iloc[indexes].index
 
-        df = pd.DataFrame({"node_id": node_ids, "distance": distances},
-                          index=xys.index)
+        df = pd.DataFrame({"node_id": node_ids, "distance": distances}, index=xys.index)
 
         if mapping_distance is not None:
             df = df[df.distance <= mapping_distance]
 
         return df.node_id
 
-    def plot(self, data, bbox=None, plot_type='scatter', fig_kwargs=None,
-             plot_kwargs=None, cbar_kwargs=None):
+    def plot(
+        self,
+        data,
+        bbox=None,
+        plot_type="scatter",
+        fig_kwargs=None,
+        plot_kwargs=None,
+        cbar_kwargs=None,
+    ):
         """
         Plot an array of data on a map using Matplotlib, automatically matching
         the data to the Pandana network node positions. Keyword arguments are
@@ -582,8 +653,8 @@ class Network:
         except (ModuleNotFoundError, RuntimeError):
             raise ModuleNotFoundError("Pandana's network.plot() requires Matplotlib")
 
-        fig_kwargs = fig_kwargs or {'figsize': (10, 8)}
-        plot_kwargs = plot_kwargs or {'cmap': 'hot_r', 's': 1}
+        fig_kwargs = fig_kwargs or {"figsize": (10, 8)}
+        plot_kwargs = plot_kwargs or {"cmap": "hot_r", "s": 1}
         cbar_kwargs = cbar_kwargs or {}
 
         if not bbox:
@@ -591,18 +662,17 @@ class Network:
                 self.nodes_df.y.min(),
                 self.nodes_df.x.min(),
                 self.nodes_df.y.max(),
-                self.nodes_df.x.max())
+                self.nodes_df.x.max(),
+            )
 
         fig, ax = plt.subplots(**fig_kwargs)
 
         x, y = (self.nodes_df.x.values, self.nodes_df.y.values)
 
-        if plot_type == 'scatter':
-            plot = plt.scatter(
-                x, y, c=data.values, **plot_kwargs)
-        elif plot_type == 'hexbin':
-            plot = plt.hexbin(
-                x, y, C=data.values, **plot_kwargs)
+        if plot_type == "scatter":
+            plot = plt.scatter(x, y, c=data.values, **plot_kwargs)
+        elif plot_type == "hexbin":
+            plot = plt.hexbin(x, y, C=data.values, **plot_kwargs)
 
         colorbar = plt.colorbar(plot, **cbar_kwargs)
 
@@ -635,11 +705,12 @@ class Network:
         warnings.warn(
             "Method init_pois() is no longer needed in Pandana 0.4+ and will be removed in a \
             future version; maxdist and maxitems should now be passed to set_pois()",
-            DeprecationWarning
+            DeprecationWarning,
         )
         return None
 
-    def set_pois(self, category=None, maxdist=None, maxitems=None, x_col=None, y_col=None):
+    def set_pois(self, category=None, maxdist=None, maxitems=None, x_col=None, y_col=None,
+                 mapping_distance=None):
         """
         Set the location of all the points of interest (POIs) of this category.
          The POIs are connected to the closest node in the Pandana network
@@ -660,6 +731,13 @@ class Network:
             The x location (longitude) of POIs in this category
         y_col : pandas.Series (float)
             The y location (latitude) of POIs in this category
+        mapping_distance : float, optional
+            The maximum distance that will be considered a match between the
+            POIs and the nearest node in the network.  This will usually
+            be a distance unit in meters however if you have customized the
+            impedance this could be in other units such as utility or time
+            etc. If not specified, every POI will be mapped to
+            the nearest node.
 
         Returns
         -------
@@ -668,7 +746,7 @@ class Network:
         """
         # condition to check if missing arguments for keyword arguments using set_pois() from v0.3
         if maxitems is None:
-            print('Reading parameters from init_pois()')
+            print("Reading parameters from init_pois()")
             maxitems = self.max_pois
 
         # condition to check for positional arguments in set_pois() from v0.3
@@ -677,7 +755,7 @@ class Network:
             maxitems = self.max_pois
 
         if maxdist is None:
-            print('Reading parameters from init_pois()')
+            print("Reading parameters from init_pois()")
             maxdist = self.max_dist
 
         elif isinstance(maxdist, type(pd.Series())):
@@ -689,16 +767,25 @@ class Network:
 
         self.max_pois = maxitems
 
-        node_ids = self.get_node_ids(x_col, y_col)
+        node_ids = self.get_node_ids(x_col, y_col, mapping_distance=mapping_distance)
 
         self.poi_category_indexes[category] = node_ids.index
 
         node_idx = self._node_indexes(node_ids)
 
-        self.net.initialize_category(maxdist, maxitems, category.encode('utf-8'), node_idx.values)
+        self.net.initialize_category(
+            maxdist, maxitems, category.encode("utf-8"), node_idx.values
+        )
 
-    def nearest_pois(self, distance, category, num_pois=1, max_distance=None,
-                     imp_name=None, include_poi_ids=False):
+    def nearest_pois(
+        self,
+        distance,
+        category,
+        num_pois=1,
+        max_distance=None,
+        imp_name=None,
+        include_poi_ids=False,
+    ):
         """
         Find the distance to the nearest points of interest (POI)s from each
         source node.  The bigger values in this case mean less accessibility.
@@ -757,18 +844,16 @@ class Network:
         imp_num = self._imp_name_to_num(imp_name)
 
         dists, poi_ids = self.net.find_all_nearest_pois(
-            distance,
-            num_pois,
-            category.encode('utf-8'),
-            imp_num)
+            distance, num_pois, category.encode("utf-8"), imp_num
+        )
         dists[dists == -1] = max_distance
 
         df = pd.DataFrame(dists, index=self.node_ids)
-        df.columns = list(range(1, num_pois+1))
+        df.columns = list(range(1, num_pois + 1))
 
         if include_poi_ids:
             df2 = pd.DataFrame(poi_ids, index=self.node_ids)
-            df2.columns = ["poi%d" % i for i in range(1, num_pois+1)]
+            df2.columns = ["poi%d" % i for i in range(1, num_pois + 1)]
             for col in df2.columns:
                 # if this is still all working according to plan at this point
                 # the great magic trick is now to turn the integer position of
@@ -777,7 +862,7 @@ class Network:
                 # initialized as a pandas.Series - this really is pandas-like
                 # thinking.  it's complicated on the inside, but quite
                 # intuitive to the user I think
-                s = df2[col].astype('int')
+                s = df2[col].astype("int")
                 df2[col] = self.poi_category_indexes[category].values[s]
                 df2.loc[s == -1, col] = np.nan
 
@@ -814,10 +899,9 @@ class Network:
 
         """
         # set a counter variable on all nodes
-        self.set(self.node_ids.to_series(), name='counter')
+        self.set(self.node_ids.to_series(), name="counter")
 
         # count nodes within impedance range
-        agg = self.aggregate(
-            impedance, type='count', imp_name=imp_name, name='counter')
+        agg = self.aggregate(impedance, type="count", imp_name=imp_name, name="counter")
 
         return np.array(agg[agg < count].index)

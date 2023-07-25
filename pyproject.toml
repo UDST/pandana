@@ -1,0 +1,9 @@
+[build-system]
+# Requirements for building the compiled package
+requires = [
+        "wheel",
+        "setuptools >=40.8",
+        "cython >=0.25.2",
+        "oldest-supported-numpy"
+]
+build-backend = "setuptools.build_meta"

@@ -31,7 +31,7 @@ else:
     # if no argument provided look for it in the test data
     storef = os.path.normpath(os.path.join(
         os.path.dirname(os.path.abspath(__file__)),
-        '../pandana/tests/osm_sample.h5'))
+        '../tests/osm_sample.h5'))
 
 if not os.path.isfile(storef):
     raise IOError('Could not find test input file: {!r}'.format(storef))
