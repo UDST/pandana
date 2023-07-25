@@ -7,7 +7,7 @@ from setuptools import find_packages, setup, Extension
 
 
 ###############################################
-## Building the C++ extension
+# Building the C++ extension
 ###############################################
 
 extra_compile_args = ["-w", "-std=c++11", "-O3"]
@@ -77,20 +77,20 @@ else:  # Linux
 
 
 cyaccess = Extension(
-        name='pandana.cyaccess',
-        sources=[
-            'src/accessibility.cpp',
-            'src/graphalg.cpp',
-            'src/cyaccess.pyx',
-            'src/contraction_hierarchies/src/libch.cpp'],
-        language='c++',
-        include_dirs=['.', np.get_include()],
-        extra_compile_args=extra_compile_args,
-        extra_link_args=extra_link_args)
+    name='pandana.cyaccess',
+    sources=[
+        'src/accessibility.cpp',
+        'src/graphalg.cpp',
+        'src/cyaccess.pyx',
+        'src/contraction_hierarchies/src/libch.cpp'],
+    language='c++',
+    include_dirs=['.', np.get_include()],
+    extra_compile_args=extra_compile_args,
+    extra_link_args=extra_link_args)
 
 
 ###############################################
-## Standard setup
+# Standard setup
 ###############################################
 
 version = "0.7"
