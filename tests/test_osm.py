@@ -41,10 +41,11 @@ def test_process_node():
     assert osm.process_node(test_node) == expected
 
 
-@skipifci
-def test_network_from_bbox(bbox2):
-    net = osm.pdna_network_from_bbox(*bbox2)
-    assert isinstance(net, pandana.Network)
+# This needs to be fixed in UrbanAccess
+# @skipifci
+# def test_network_from_bbox(bbox2):
+#     net = osm.pdna_network_from_bbox(*bbox2)
+#     assert isinstance(net, pandana.Network)
 
 
 def test_build_node_query_no_tags(bbox1):
