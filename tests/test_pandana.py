@@ -1,13 +1,15 @@
 import os.path
 
 import numpy as np
-from numpy.testing import assert_allclose
 import pandas as pd
 import pytest
-from pandas.util import testing as pdt
-from pandana.testing import skipifci
 
 import pandana.network as pdna
+
+from numpy.testing import assert_allclose
+from pandas.testing import assert_index_equal
+
+from pandana.testing import skipifci
 
 
 @pytest.fixture(scope="module")
@@ -220,7 +222,7 @@ def test_assign_nodeids(sample_osm):
     # check a couple of assignments for accuracy
     assert node_ids1.loc[48] == 1840703798
     assert node_ids1.loc[43] == 257739973
-    pdt.assert_index_equal(x.index, node_ids1.index)
+    assert_index_equal(x.index, node_ids1.index)
 
     # test with max distance - this max distance is in decimal degrees
     node_ids2 = sample_osm.get_node_ids(x, y, 0.0005)

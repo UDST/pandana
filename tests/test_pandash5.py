@@ -4,11 +4,12 @@ import tempfile
 import pandas as pd
 import pytest
 
-import pandas.util.testing as pdt
-from pandana import Network
-from pandana.testing import skipifci
+from pandas.testing import assert_frame_equal
+from pandas.testing import assert_series_equal
 
+from pandana import Network
 from pandana.loaders import pandash5 as ph5
+from pandana.testing import skipifci
 
 
 @pytest.fixture(scope='module')
@@ -92,8 +93,8 @@ def test_remove_nodes(network, rm_nodes):
         index=[1, 4, 5, 7, 8])
     exp_edges = exp_edges[['from', 'to', 'distance', 'time']]  # order columns
 
-    pdt.assert_frame_equal(nodes, exp_nodes)
-    pdt.assert_frame_equal(edges, exp_edges)
+    assert_frame_equal(nodes, exp_nodes)
+    assert_frame_equal(edges, exp_edges)
 
 
 @skipifci
@@ -103,10 +104,10 @@ def test_network_to_pandas_hdf5(
 
     store = pd.HDFStore(tmpfile)
 
-    pdt.assert_frame_equal(store['nodes'], nodes)
-    pdt.assert_frame_equal(store['edges'], edges_df)
-    pdt.assert_series_equal(store['two_way'], pd.Series([two_way]))
-    pdt.assert_series_equal(
+    assert_frame_equal(store['nodes'], nodes)
+    assert_frame_equal(store['edges'], edges_df)
+    assert_series_equal(store['two_way'], pd.Series([two_way]))
+    assert_series_equal(
         store['impedance_names'], pd.Series(impedance_names))
 
 
@@ -118,10 +119,10 @@ def test_network_to_pandas_hdf5_removal(
 
     store = pd.HDFStore(tmpfile)
 
-    pdt.assert_frame_equal(store['nodes'], nodes)
-    pdt.assert_frame_equal(store['edges'], edges)
-    pdt.assert_series_equal(store['two_way'], pd.Series([two_way]))
-    pdt.assert_series_equal(
+    assert_frame_equal(store['nodes'], nodes)
+    assert_frame_equal(store['edges'], edges)
+    assert_series_equal(store['two_way'], pd.Series([two_way]))
+    assert_series_equal(
         store['impedance_names'], pd.Series(impedance_names))
 
 
@@ -131,8 +132,8 @@ def test_network_from_pandas_hdf5(
     ph5.network_to_pandas_hdf5(network, tmpfile)
     new_net = ph5.network_from_pandas_hdf5(Network, tmpfile)
 
-    pdt.assert_frame_equal(new_net.nodes_df, nodes)
-    pdt.assert_frame_equal(new_net.edges_df, edges_df)
+    assert_frame_equal(new_net.nodes_df, nodes)
+    assert_frame_equal(new_net.edges_df, edges_df)
     assert new_net._twoway == two_way
     assert new_net.impedance_names == impedance_names
 
@@ -145,8 +146,8 @@ def test_network_save_load_hdf5(
 
     nodes, edges = ph5.remove_nodes(network, rm_nodes)
 
-    pdt.assert_frame_equal(new_net.nodes_df, nodes)
-    pdt.assert_frame_equal(new_net.edges_df, edges)
+    assert_frame_equal(new_net.nodes_df, nodes)
+    assert_frame_equal(new_net.edges_df, edges)
     assert new_net._twoway == two_way
     assert new_net.impedance_names == impedance_names
 
