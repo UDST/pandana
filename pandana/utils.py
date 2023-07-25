@@ -25,3 +25,10 @@ def reindex(series1, series2):
                   right_index=True,
                   how="left")
     return df.right
+
+def adjacency_matrix(edges_df, plot_matrix=False):
+    df = pd.crosstab(edges_df['from'], edges_df['to'])
+    idx = df.columns.union(df.index)
+    df = df.reindex(index = idx, columns=idx, fill_value=0)
+
+    return df
