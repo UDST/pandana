@@ -284,8 +284,8 @@ class Network:
 
         if len == 4294967.295:
             warnings.warn(
-            "Unsigned integer: shortest path distance is trying to be calculated between\
-            external %s and %s unconntected nodes"%(node_a, node_b)
+                "Unsigned integer: shortest path distance is trying to be calculated between\
+                external %s and %s unconntected nodes" % (node_a, node_b)
             )
 
         return len
@@ -329,11 +329,11 @@ class Network:
         lens = self.net.shortest_path_distances(nodes_a_idx, nodes_b_idx, imp_num)
 
         if 4294967.295 in lens:
-             unconnected_idx = [i for i,v in enumerate(lens) if v == 4294967.295]
-             unconnected_nodes = [(nodes_a[i],nodes_b[i]) for i in unconnected_idx]
-             warnings.warn(
-             "Unsigned integer: shortest path distance is trying to be calculated \
-             between the following external unconnected nodes: %s"%(unconnected_nodes))
+            unconnected_idx = [i for i, v in enumerate(lens) if v == 4294967.295]
+            unconnected_nodes = [(nodes_a[i], nodes_b[i]) for i in unconnected_idx]
+            warnings.warn(
+                "Unsigned integer: shortest path distance is trying to be calculated \
+                between the following external unconnected nodes: %s" % (unconnected_nodes))
 
         return lens
 

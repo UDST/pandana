@@ -7,7 +7,7 @@ from setuptools import find_packages, setup, Extension
 
 
 ###############################################
-## Building the C++ extension
+# Building the C++ extension
 ###############################################
 
 extra_compile_args = ["-w", "-std=c++11", "-O3"]
@@ -50,12 +50,12 @@ if sys.platform.startswith("darwin"):  # Mac
             )
         )
 
-        if "10.15" in os.popen("sw_vers").read():
+        if " 10.15" in os.popen("sw_vers").read():
             os.environ["CC"] = cc_catalina
-        elif "11." in os.popen("sw_vers").read():
-            os.environ["CC"] = cc_catalina
-        else:
+        elif " 10." in os.popen("sw_vers").read():  # 10.14 and earlier
             os.environ["CC"] = cc
+        else:  # 11.x, 12.x, etc.
+            os.environ["CC"] = cc_catalina
 
     else:
         print(
@@ -77,23 +77,23 @@ else:  # Linux
 
 
 cyaccess = Extension(
-        name='pandana.cyaccess',
-        sources=[
-            'src/accessibility.cpp',
-            'src/graphalg.cpp',
-            'src/cyaccess.pyx',
-            'src/contraction_hierarchies/src/libch.cpp'],
-        language='c++',
-        include_dirs=['.', np.get_include()],
-        extra_compile_args=extra_compile_args,
-        extra_link_args=extra_link_args)
+    name='pandana.cyaccess',
+    sources=[
+        'src/accessibility.cpp',
+        'src/graphalg.cpp',
+        'src/cyaccess.pyx',
+        'src/contraction_hierarchies/src/libch.cpp'],
+    language='c++',
+    include_dirs=['.', np.get_include()],
+    extra_compile_args=extra_compile_args,
+    extra_link_args=extra_link_args)
 
 
 ###############################################
-## Standard setup
+# Standard setup
 ###############################################
 
-version = "0.7.dev0"
+version = "0.7"
 
 packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"])
 
@@ -120,12 +120,12 @@ setup(
         'tables >=3.1'
     ],
     classifiers=[
-        "Development Status :: 4 - Beta",
-        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
         "License :: OSI Approved :: GNU Affero General Public License v3",
     ],
 )
