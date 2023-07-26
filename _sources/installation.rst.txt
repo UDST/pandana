@@ -17,7 +17,7 @@ Or Conda::
 
     conda install pandana --channel conda-forge
 
-Pandana is easiest to install in Python 3.6 to 3.9. The last version of Pandana with Python 2.7 binaries is v0.4.4 on Conda Forge. The last version with Python 3.5 binaries is v0.6 on Pip.
+Pandana is easiest to install in Python 3.8 to 3.11. The last version of Pandana with Python 2.7 binaries is v0.4.4 on Conda Forge. The last version with Python 3.5 binaries is v0.6 on Pip.
 
 
 ARM-based Macs

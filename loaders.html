@@ -1,93 +1,48 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Loaders &mdash; pandana 0.6.1 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
+  <title>Loaders &mdash; pandana 0.7 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Utilities" href="utilities.html" />
     <link rel="prev" title="Network API" href="network.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="index.html" class="icon icon-home"> pandana
           
-
-          
+          <a href="index.html" class="icon icon-home">
+            pandana
           </a>
-
-          
-            
-            
               <div class="version">
-                0.6.1
+                0.7
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Getting started</a></li>
@@ -96,8 +51,16 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Loaders</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#openstreetmap">OpenStreetMap</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pandas-hdf5">Pandas HDF5</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#openstreetmap-api">OpenStreetMap API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#pandas-hdf5-api">Pandas HDF5 API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#openstreetmap-api">OpenStreetMap API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pandana.loaders.osm.pdna_network_from_bbox"><code class="docutils literal notranslate"><span class="pre">pdna_network_from_bbox()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pandana.loaders.osm.node_query"><code class="docutils literal notranslate"><span class="pre">node_query()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pandas-hdf5-api">Pandas HDF5 API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pandana.loaders.pandash5.network_to_pandas_hdf5"><code class="docutils literal notranslate"><span class="pre">network_to_pandas_hdf5()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pandana.loaders.pandash5.network_from_pandas_hdf5"><code class="docutils literal notranslate"><span class="pre">network_from_pandas_hdf5()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
@@ -105,80 +68,39 @@
 <li class="toctree-l1"><a class="reference internal" href="futurework.html">Road map</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">pandana</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-        
-      <li>Loaders</li>
-    
-    
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Loaders</li>
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="_sources/loaders.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="loaders">
-<h1>Loaders<a class="headerlink" href="#loaders" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="loaders">
+<h1>Loaders<a class="headerlink" href="#loaders" title="Permalink to this heading">¶</a></h1>
 <p>Pandana has some support for creating a
 <a class="reference internal" href="network.html#pandana.network.Network" title="pandana.network.Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">Network</span></code></a> from
 the <a class="reference external" href="http://www.openstreetmap.org/">OpenStreetMap</a> API,
 and for storing <code class="docutils literal notranslate"><span class="pre">Network</span></code> data to disk as HDF5 so that it can be
 restored later.</p>
-<div class="section" id="openstreetmap">
-<h2>OpenStreetMap<a class="headerlink" href="#openstreetmap" title="Permalink to this headline">¶</a></h2>
+<section id="openstreetmap">
+<h2>OpenStreetMap<a class="headerlink" href="#openstreetmap" title="Permalink to this heading">¶</a></h2>
 <p>A <a class="reference internal" href="network.html#pandana.network.Network" title="pandana.network.Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">Network</span></code></a> is created from OpenStreetMap using
 the <a class="reference internal" href="#pandana.loaders.osm.pdna_network_from_bbox" title="pandana.loaders.osm.pdna_network_from_bbox"><code class="xref py py-func docutils literal notranslate"><span class="pre">pdna_network_from_bbox()</span></code></a> function:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pandana.loaders</span> <span class="kn">import</span> <span class="n">osm</span>
@@ -207,9 +129,9 @@ This can be used to populate a network with points of interest:</p>
 <a class="reference external" href="http://wiki.openstreetmap.org/wiki/Overpass_API/Language_Guide">Overpass API Language Guide</a>
 and the list of
 <a class="reference external" href="http://wiki.openstreetmap.org/wiki/Map_Features">OSM map features</a>.</p>
-</div>
-<div class="section" id="pandas-hdf5">
-<h2>Pandas HDF5<a class="headerlink" href="#pandas-hdf5" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="pandas-hdf5">
+<h2>Pandas HDF5<a class="headerlink" href="#pandas-hdf5" title="Permalink to this heading">¶</a></h2>
 <p>Saving a <code class="docutils literal notranslate"><span class="pre">Network</span></code> to HDF5 is a way to share a <code class="docutils literal notranslate"><span class="pre">Network</span></code> or to preserve
 it between sessions. For example. you can build a <code class="docutils literal notranslate"><span class="pre">Network</span></code> using the
 OpenStreetMap API, then save the <code class="docutils literal notranslate"><span class="pre">Network</span></code> to HDF5 so you can reuse it
@@ -239,17 +161,17 @@ then exclude those nodes when saving to HDF5:</p>
 <span class="n">network</span><span class="o">.</span><span class="n">save_hdf5</span><span class="p">(</span><span class="s1">&#39;mynetwork.h5&#39;</span><span class="p">,</span> <span class="n">rm_nodes</span><span class="o">=</span><span class="n">lcn</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="openstreetmap-api">
-<h2>OpenStreetMap API<a class="headerlink" href="#openstreetmap-api" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="openstreetmap-api">
+<h2>OpenStreetMap API<a class="headerlink" href="#openstreetmap-api" title="Permalink to this heading">¶</a></h2>
 <dl class="py function">
-<dt id="pandana.loaders.osm.pdna_network_from_bbox">
-<code class="sig-prename descclassname"><span class="pre">pandana.loaders.osm.</span></code><code class="sig-name descname"><span class="pre">pdna_network_from_bbox</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lng_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lng_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'walk'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">two_way</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">180</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_query_area_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2500000000</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.loaders.osm.pdna_network_from_bbox" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pandana.loaders.osm.pdna_network_from_bbox">
+<span class="sig-prename descclassname"><span class="pre">pandana.loaders.osm.</span></span><span class="sig-name descname"><span class="pre">pdna_network_from_bbox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lng_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lng_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'walk'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">two_way</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">180</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_query_area_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2500000000</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.loaders.osm.pdna_network_from_bbox" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a Pandana network from a bounding lat/lon box via a request to the
 OpenStreetMap Overpass API. Distance will be in meters. Requires installing
 the OSMnet library.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>lat_min, lng_min, lat_max, lng_max</strong><span class="classifier">float</span></dt><dd></dd>
 <dt><strong>bbox</strong><span class="classifier">tuple</span></dt><dd><p>Bounding box formatted as a 4 element tuple:
@@ -272,7 +194,7 @@ If none, server will use its default allocation size</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>network</strong><span class="classifier">pandana.Network</span></dt><dd></dd>
 </dl>
@@ -281,11 +203,11 @@ If none, server will use its default allocation size</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="pandana.loaders.osm.node_query">
-<code class="sig-prename descclassname"><span class="pre">pandana.loaders.osm.</span></code><code class="sig-name descname"><span class="pre">node_query</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat_min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lng_min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lng_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.loaders.osm.node_query" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pandana.loaders.osm.node_query">
+<span class="sig-prename descclassname"><span class="pre">pandana.loaders.osm.</span></span><span class="sig-name descname"><span class="pre">node_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat_min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lng_min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lng_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.loaders.osm.node_query" title="Permalink to this definition">¶</a></dt>
 <dd><p>Search for OSM nodes within a bounding box that match given tags.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>lat_min, lng_min, lat_max, lng_max</strong><span class="classifier">float</span></dt><dd></dd>
 <dt><strong>tags</strong><span class="classifier">str or list of str, optional</span></dt><dd><p>Node tags that will be used to filter the search.
@@ -296,7 +218,7 @@ for a list of tags.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>nodes</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>Will have ‘lat’ and ‘lon’ columns, plus other columns for the
 tags associated with the node (these will vary based on the query).
@@ -307,17 +229,17 @@ Index will be the OSM node IDs.</p>
 </dl>
 </dd></dl>
 
-</div>
-<div class="section" id="pandas-hdf5-api">
-<h2>Pandas HDF5 API<a class="headerlink" href="#pandas-hdf5-api" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="pandas-hdf5-api">
+<h2>Pandas HDF5 API<a class="headerlink" href="#pandas-hdf5-api" title="Permalink to this heading">¶</a></h2>
 <dl class="py method">
-<dt>
-<code class="sig-prename descclassname"><span class="pre">Network.</span></code><code class="sig-name descname"><span class="pre">save_hdf5</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rm_nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">Network.</span></span><span class="sig-name descname"><span class="pre">save_hdf5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rm_nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Save network data to a Pandas HDF5 file.</p>
 <p>Only the nodes and edges of the actual network are saved,
 points-of-interest and data attached to nodes are not saved.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>filename</strong><span class="classifier">str</span></dt><dd></dd>
 <dt><strong>rm_nodes</strong><span class="classifier">array_like</span></dt><dd><p>A list, array, Index, or Series of node IDs that should <em>not</em>
@@ -329,16 +251,16 @@ be saved as part of the Network.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-prename descclassname"><span class="pre">Network.</span></code><code class="sig-name descname"><span class="pre">from_hdf5</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Network.</span></span><span class="sig-name descname"><span class="pre">from_hdf5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Load a previously saved Network from a Pandas HDF5 file.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>filename</strong><span class="classifier">str</span></dt><dd></dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>network</strong><span class="classifier">pandana.Network</span></dt><dd></dd>
 </dl>
@@ -347,11 +269,11 @@ be saved as part of the Network.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="pandana.loaders.pandash5.network_to_pandas_hdf5">
-<code class="sig-prename descclassname"><span class="pre">pandana.loaders.pandash5.</span></code><code class="sig-name descname"><span class="pre">network_to_pandas_hdf5</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">network</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rm_nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.loaders.pandash5.network_to_pandas_hdf5" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pandana.loaders.pandash5.network_to_pandas_hdf5">
+<span class="sig-prename descclassname"><span class="pre">pandana.loaders.pandash5.</span></span><span class="sig-name descname"><span class="pre">network_to_pandas_hdf5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">network</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rm_nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.loaders.pandash5.network_to_pandas_hdf5" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save a Network’s data to a Pandas HDFStore.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>network</strong><span class="classifier">pandana.Network</span></dt><dd></dd>
 <dt><strong>filename</strong><span class="classifier">str</span></dt><dd></dd>
@@ -364,18 +286,18 @@ be saved as part of the Network.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="pandana.loaders.pandash5.network_from_pandas_hdf5">
-<code class="sig-prename descclassname"><span class="pre">pandana.loaders.pandash5.</span></code><code class="sig-name descname"><span class="pre">network_from_pandas_hdf5</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.loaders.pandash5.network_from_pandas_hdf5" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pandana.loaders.pandash5.network_from_pandas_hdf5">
+<span class="sig-prename descclassname"><span class="pre">pandana.loaders.pandash5.</span></span><span class="sig-name descname"><span class="pre">network_from_pandas_hdf5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.loaders.pandash5.network_from_pandas_hdf5" title="Permalink to this definition">¶</a></dt>
 <dd><p>Build a Network from data in a Pandas HDFStore.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>cls</strong><span class="classifier">class</span></dt><dd><p>Class to instantiate, usually pandana.Network.</p>
 </dd>
 <dt><strong>filename</strong><span class="classifier">str</span></dt><dd></dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>network</strong><span class="classifier">pandana.Network</span></dt><dd></dd>
 </dl>
@@ -383,55 +305,38 @@ be saved as part of the Network.</p>
 </dl>
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="utilities.html" class="btn btn-neutral float-right" title="Utilities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="network.html" class="btn btn-neutral float-left" title="Network API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="utilities.html" class="btn btn-neutral float-right" title="Utilities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2021, UrbanSim Inc..
-
-    </p>
+    <p>&#169; Copyright 2021, UrbanSim Inc..</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>
