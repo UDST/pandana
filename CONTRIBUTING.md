@@ -71,6 +71,8 @@ You can contact Sam Maurer, the lead maintainer, at `maurer@urbansim.com`.
 
 The binary package installers or "wheels" are built using a GitHub Actions workflow, because each one needs to be compiled in its own target environment. This should run automatically when a PR is opened, to confirm nothing is broken, and again when a release is tagged in GitHub. You can download the resulting wheel files from the Action status page and then upload them to PyPI using the same command as above.
 
+How to create wheels for ARM Macs: As of 7/2023, GitHub Actions doesn't provide this environment yet. You'll need an ARM Mac to create the wheels. One at a time, set up a Conda environment with Python 3.8, 3.9, etc. Include cython, numpy, clang, llvm-openmp, and pytables. These need to be ARM-native Conda environments -- check that you're getting `osx-arm64` versions of libraries. Run `python setup.py bdist_wheel` to generate a wheel file. Once one is built for each Python version, upload them to PyPI using the command above.
+
 
 ## Distributing a release on Conda Forge (for conda installation):
 
