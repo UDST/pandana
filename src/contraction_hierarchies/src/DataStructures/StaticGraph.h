@@ -73,7 +73,7 @@ public:
                 _edges[i].target = graph[edge].target;
                 _edges[i].data = graph[edge].data;
                 if(0 >= _edges[i].data.distance)
-                    INFO("i: " << i); 
+                    INFO("i: " << i);
                 assert(_edges[i].data.distance > 0);
                 edge++;
             }

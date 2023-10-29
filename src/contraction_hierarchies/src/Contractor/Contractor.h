@@ -111,7 +111,7 @@ public:
             _ImportEdge edge;
             edge.source = i->source();
             edge.target = i->target();
-            
+
             edge.data.distance = std::max((int)i->weight(), 1 );
             assert( edge.data.distance > 0 );
 #ifdef DEBUG

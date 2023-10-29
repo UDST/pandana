@@ -9,10 +9,10 @@ Graphalg::Graphalg(
     this->numnodes = numnodes;
 
     int num = omp_get_max_threads();
-    
+
     FILE_LOG(logINFO) << "Generating contraction hierarchies with "
                       << num << " threads.\n";
-    
+
     ch = CH::ContractionHierarchies(num);
 
     vector<CH::Node> nv;
@@ -39,7 +39,7 @@ Graphalg::Graphalg(
 
     FILE_LOG(logINFO) << "Setting CH edge vector of size "
                       << ev.size() << "\n";
-    
+
     ch.SetEdgeVector(ev);
     ch.RunPreprocessing();
 }

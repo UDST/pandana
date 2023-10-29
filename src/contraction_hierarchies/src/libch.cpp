@@ -53,7 +53,7 @@ inline ostream& operator<< (ostream& os, const Edge& e) {
         }
         poiIndexMap.clear();
         queryObjects.clear();
-        
+
         //delete all objects, clean up space
         CHDELETE (contractor );
         CHDELETE (staticGraph);
@@ -87,7 +87,7 @@ inline ostream& operator<< (ostream& os, const Edge& e) {
 		}
 		CHASSERT(ev.size() == this->edgeList.size(), "edge lists sizes differ");
 		this->contractor = new Contractor( this->nodeVector.size(), this->edgeList );
-        this->rangeGraph = BuildRangeGraph(this->nodeVector.size(), this->edgeList);        
+        this->rangeGraph = BuildRangeGraph(this->nodeVector.size(), this->edgeList);
 	}
 
 	std::string ContractionHierarchies::GetVersionString () {
@@ -150,7 +150,7 @@ inline ostream& operator<< (ostream& os, const Edge& e) {
             const NodeID middle = edges[i].data.middleName.nameID;
 
             assert(edges[i].data.distance > 0);
-            
+
            // const short type = 0; //edges[i].data.type;
             //assert(type >= 0);
             //remove eigenloops
@@ -174,7 +174,7 @@ inline ostream& operator<< (ostream& os, const Edge& e) {
                     forwardEdge.data.distance = std::min( edges[i].data.distance, forwardEdge.data.distance );
                 if ( edges[i].data.backward )
                     backwardEdge.data.distance = std::min( edges[i].data.distance, backwardEdge.data.distance );
-                
+
                 assert(edges[i].data.distance > 0);
                 assert(forwardEdge.data.distance > 0);
                 assert(backwardEdge.data.distance > 0);
@@ -202,10 +202,10 @@ inline ostream& operator<< (ostream& os, const Edge& e) {
                 }
             }
         }
-        
-        FILE_LOG(logINFO) << "Range graph removed " << edges.size() - edge 
+
+        FILE_LOG(logINFO) << "Range graph removed " << edges.size() - edge
                           << " edges of " << edges.size() << "\n";
-        
+
         //INFO("Range graph removed " << edges.size() - edge << " edges of " << edges.size());
         assert(edge <= edges.size());
         edges.resize( edge );
@@ -242,13 +242,13 @@ inline ostream& operator<< (ostream& os, const Edge& e) {
 		CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
 		NodeID start(UINT_MAX);
 		NodeID target(UINT_MAX);
-        
+
 		if(s.id < nodeVector.size()) {
 			start = s.id;
 		} else {
 			return UINT_MAX;
 		}
-        
+
 		if(t.id < nodeVector.size()) {
 			target = t.id;
 		} else {
@@ -260,7 +260,7 @@ inline ostream& operator<< (ostream& os, const Edge& e) {
     int ContractionHierarchies::computeShortestPath(const Node &s, const Node& t, vector<NodeID> & ResultingPath){
         return computeShortestPath(s, t, ResultingPath, 0);
     }
-    
+
 	int ContractionHierarchies::computeShortestPath(const Node &s, const Node& t, vector<NodeID> & ResultingPath, unsigned threadID){
 		CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
         CHASSERT(queryObjects.size() > threadID, "Accessing invalid threadID");
@@ -298,7 +298,7 @@ inline ostream& operator<< (ostream& os, const Edge& e) {
 
         queryObjects[threadID]->RangeQuery(start, maxDistance, ResultingNodes);
 	}
-    
+
     /** POI queries single threaded */
     void ContractionHierarchies::createPOIIndex(const POIKeyType &category, unsigned maxDistanceToConsider,
                                                 unsigned maxNumberOfPOIsInBucket)
@@ -311,7 +311,7 @@ inline ostream& operator<< (ostream& os, const Edge& e) {
          poiIndexMap.insert(CHPOIIndexMap::value_type(category, CHPOIIndex(this->staticGraph, maxDistanceToConsider,
                                                                            maxNumberOfPOIsInBucket, numberOfThreads)));
     }
-    
+
 
     void ContractionHierarchies::addPOIToIndex(const POIKeyType &category, NodeID node)
     {
@@ -320,7 +320,7 @@ inline ostream& operator<< (ostream& os, const Edge& e) {
         if(category_poi != poiIndexMap.end())
             category_poi->second.addPOIToIndex(node);
     }
-    
+
 
     void ContractionHierarchies::getNearest(const POIKeyType &category, NodeID node, std::vector<BucketEntry>& resultingVenues) {
         CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
@@ -328,7 +328,7 @@ inline ostream& operator<< (ostream& os, const Edge& e) {
         if(category_poi != poiIndexMap.end())
             category_poi->second.getNearestPOIs(node, resultingVenues);
     }
-    
+
 
     void ContractionHierarchies::getNearestWithUpperBoundOnDistance(const POIKeyType &category, NodeID node, EdgeWeight maxDistance,
                                                                     std::vector<BucketEntry>& resultingVenues) {
@@ -346,7 +346,7 @@ inline ostream& operator<< (ostream& os, const Edge& e) {
         if(category_poi != poiIndexMap.end())
             category_poi->second.getNearestPOIsWithUpperBoundOnLocations(node, maxLocations, resultingVenues);
     }
-    
+
 
     void ContractionHierarchies::getNearestWithUpperBoundOnDistanceAndLocations(const POIKeyType &category, NodeID node,
                                                                                 EdgeWeight maxDistance, unsigned maxLocations,
@@ -356,9 +356,9 @@ inline ostream& operator<< (ostream& os, const Edge& e) {
         if(category_poi != poiIndexMap.end())
             category_poi->second.getNearestPOIs(node, resultingVenues, maxDistance, maxLocations);
     }
-    
 
-    /** POI queries multi-threaded */    
+
+    /** POI queries multi-threaded */
     void ContractionHierarchies::getNearest(const POIKeyType &category, NodeID node, std::vector<BucketEntry>& resultingVenues,
                                             unsigned threadID) {
         CHASSERT(this->staticGraph != NULL, "Preprocessing not finished");
@@ -367,7 +367,7 @@ inline ostream& operator<< (ostream& os, const Edge& e) {
             category_poi->second.getNearestPOIs(node, resultingVenues, threadID);
     }
 
-    
+
     void ContractionHierarchies::getNearestWithUpperBoundOnDistance(const POIKeyType &category, NodeID node,
                                                                     EdgeWeight maxDistance, std::vector<BucketEntry>& resultingVenues,
                                                                     unsigned threadID) {
@@ -376,7 +376,7 @@ inline ostream& operator<< (ostream& os, const Edge& e) {
         if(category_poi != poiIndexMap.end())
             category_poi->second.getNearestPOIsWithUpperBoundOnDistance(node, maxDistance, resultingVenues, threadID);
     }
-    
+
 
     void ContractionHierarchies::getNearestWithUpperBoundOnLocations(const POIKeyType &category, NodeID node, unsigned maxLocations,
                                                                      std::vector<BucketEntry>& resultingVenues, unsigned threadID) {
