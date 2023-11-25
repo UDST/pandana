@@ -83,7 +83,7 @@ Accessibility::precomputeRangeQueries(float radius) {
 
 
 vector<vector<pair<long, float>>>
-Accessibility::Range(vector<long> srcnodes, float radius, int graphno, 
+Accessibility::Range(vector<long> srcnodes, float radius, int graphno,
                      vector<long> ext_ids) {
 
     // Set up a mapping between the external node ids and internal ones
@@ -91,7 +91,7 @@ Accessibility::Range(vector<long> srcnodes, float radius, int graphno,
     for (int i = 0; i < ext_ids.size(); i++) {
         int_ids.insert(pair<long, int>(ext_ids[i], i));
     }
-    
+
     // use cached results if available
     vector<DistanceVec> dists(srcnodes.size());
     if (dmsradius > 0 && radius <= dmsradius) {
@@ -107,7 +107,7 @@ Accessibility::Range(vector<long> srcnodes, float radius, int graphno,
                 omp_get_thread_num(), dists[i]);
         }
     }
-    
+
     // todo: check that results are returned from cache correctly
     // todo: check that performing an aggregation creates cache
 
@@ -116,7 +116,7 @@ Accessibility::Range(vector<long> srcnodes, float radius, int graphno,
     for (int i = 0; i < dists.size(); i++) {
         output[i].resize(dists[i].size());
         for (int j = 0; j < dists[i].size(); j++) {
-            output[i][j] = std::make_pair(ext_ids[dists[i][j].first], 
+            output[i][j] = std::make_pair(ext_ids[dists[i][j].first],
                                           dists[i][j].second);
         }
     }
@@ -140,7 +140,7 @@ Accessibility::Routes(vector<long> sources, vector<long> targets, int graphno) {
     #pragma omp parallel
     #pragma omp for schedule(guided)
     for (int i = 0 ; i < n ; i++) {
-        vector<NodeID> ret = this->ga[graphno]->Route(sources[i], targets[i], 
+        vector<NodeID> ret = this->ga[graphno]->Route(sources[i], targets[i],
             omp_get_thread_num());
         routes[i] = vector<int> (ret.begin(), ret.end());
     }
@@ -155,17 +155,17 @@ Accessibility::Distance(int src, int tgt, int graphno) {
 
 
 vector<double>
-Accessibility::Distances(vector<long> sources, vector<long> targets, int graphno) {                       
-    
+Accessibility::Distances(vector<long> sources, vector<long> targets, int graphno) {
+
     int n = std::min(sources.size(), targets.size()); // in case lists don't match
     vector<double> distances(n);
-    
+
     #pragma omp parallel
     #pragma omp for schedule(guided)
     for (int i = 0 ; i < n ; i++) {
         distances[i] = this->ga[graphno]->Distance(
-            sources[i], 
-            targets[i], 
+            sources[i],
+            targets[i],
             omp_get_thread_num());
     }
     return distances;
@@ -216,11 +216,11 @@ Accessibility::findNearestPOIs(int srcnode, float maxradius, unsigned number,
         maxradius, number, omp_get_thread_num());
 
     vector<distance_node_pair> distance_node_pairs;
-    std::map<POIKeyType, accessibility_vars_t>::iterator cat_for_pois = 
+    std::map<POIKeyType, accessibility_vars_t>::iterator cat_for_pois =
         accessibilityVarsForPOIs.find(cat);
     if(cat_for_pois == accessibilityVarsForPOIs.end())
         return distance_node_pairs;
-    
+
     accessibility_vars_t &vars = cat_for_pois->second;
 
     /* need to account for the possibility of having

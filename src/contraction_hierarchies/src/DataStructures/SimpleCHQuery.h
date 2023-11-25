@@ -1,17 +1,17 @@
 /*
  open source routing machine
  Copyright (C) Dennis Luxen, others 2010
- 
+
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU AFFERO General Public License as published by
  the Free Software Foundation; either version 3 of the License, or
  any later version.
- 
+
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
- 
+
  You should have received a copy of the GNU Affero General Public License
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -109,19 +109,19 @@ public:
     void RangeQuery(const NodeID start, const unsigned int maxDistance, std::vector<std::pair<NodeID, unsigned> > & resultNodes) {
         _rangeHeap->Clear();
         _rangeHeap->Insert(start, 0, start);
-        
+
         while(_rangeHeap->Size() > 0) {
             const NodeID node = _rangeHeap->DeleteMin(); //_forwardHeap->DeleteMin();
             const unsigned distance = _rangeHeap->GetKey( node ); //_forwardHeap->GetKey( node );
             resultNodes.push_back(std::make_pair(node, distance));
-            
+
             for ( typename GraphT::EdgeIterator edge = _range->BeginEdges( node ); edge < _range->EndEdges(node); edge++ ) {
                 const NodeID to = _range->GetTarget(edge);
                 const EdgeWeight edgeWeight = _range->GetEdgeData(edge).distance;
-                
+
                 assert( edgeWeight > 0 );
                 const unsigned int toDistance = distance + edgeWeight;
-                
+
                 if(toDistance <= maxDistance && _range->GetEdgeData(edge).forward) {
                     //New Node discovered -> Add to Heap + Node Info Storage
                     if ( !_rangeHeap->WasInserted( to ) ) {
@@ -137,25 +137,25 @@ public:
             }
         }
     }
-    
+
     //Don't use in production code. This is for verification purposes only
     int SimpleDijkstraQuery(const NodeID start, const NodeID target) {
         HeapT dijkstraHeap( _range->GetNumberOfNodes() );
         dijkstraHeap.Insert(start, 0, start);
         while(dijkstraHeap.Size() > 0) {
-            const NodeID node = dijkstraHeap.DeleteMin(); 
+            const NodeID node = dijkstraHeap.DeleteMin();
             const unsigned distance = dijkstraHeap.GetKey( node );
             if(node == target) {
                 return distance;
             }
-            
+
             for ( typename GraphT::EdgeIterator edge = _range->BeginEdges( node ); edge < _range->EndEdges(node); edge++ ) {
                 const NodeID to = _range->GetTarget(edge);
                 const EdgeWeight edgeWeight = _range->GetEdgeData(edge).distance;
-                
+
                 assert( edgeWeight > 0 );
                 const unsigned int toDistance = distance + edgeWeight;
-                
+
                 if(_range->GetEdgeData(edge).forward) {
                     //New Node discovered -> Add to Heap + Node Info Storage
                     if ( !dijkstraHeap.WasInserted( to ) ) {
@@ -278,4 +278,4 @@ private:
 
 };
 
-#endif 
+#endif
