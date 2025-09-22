@@ -21,19 +21,29 @@ class Accessibility {
  public:
     Accessibility(
         int numnodes,
-        vector< vector<long> > edges,
+        vector< vector<long long> > edges,
         vector< vector<double> >  edgeweights,
         bool twoway);
 
     // initialize the category number with POIs at the node_id locations
-    void initializeCategory(const double maxdist, const int maxitems, string category, vector<long> node_idx);
+    void initializeCategory(const double maxdist, const int maxitems, string category, vector<long long> node_idx);
 
     // find the nearest pois for all nodes in the network
     pair<vector<vector<double>>, vector<vector<int>>>
     findAllNearestPOIs(float maxradius, unsigned maxnumber,
                        string category, int graphno = 0);
 
-    void initializeAccVar(string category, vector<long> node_idx,
+    // Enhanced POI search using partial ordering optimization
+    pair<vector<vector<double>>, vector<vector<int>>>
+    findNearestPOIsPartial(int source_node, float maxradius, unsigned maxnumber,
+                          string category, int graphno = 0);
+
+    // Enhanced batch POI search with frontier compression concepts
+    pair<vector<vector<vector<double>>>, vector<vector<vector<int>>>>
+    findBatchNearestPOIs(vector<long long> source_nodes, float maxradius, unsigned maxnumber,
+                        string category, int graphno = 0);
+
+    void initializeAccVar(string category, vector<long long> node_idx,
                           vector<double> values);
 
     // computes the accessibility for every node in the network
@@ -45,22 +55,36 @@ class Accessibility {
         string decay,
         int graphno = 0);
 
+    // Enhanced batch accessibility computation with frontier compression
+    vector<vector<double>>
+    getBatchAggregateAccessibilityVariables(
+        vector<long long> source_nodes,
+        float radius,
+        string index,
+        string aggtyp,
+        string decay,
+        int graphno = 0);
+
     // get nodes with a range for a specific list of source nodes
-    vector<vector<pair<long, float>>> Range(vector<long> srcnodes, float radius, 
-                                            int graphno, vector<long> ext_ids);
+    vector<vector<pair<long long, float>>> Range(vector<long long> srcnodes, float radius, 
+                                            int graphno, vector<long long> ext_ids);
+
+    // Enhanced range query using hybrid approach with bounded relaxation concepts
+    vector<vector<pair<long long, float>>> HybridRange(vector<long long> srcnodes, float radius, 
+                                                  int graphno, vector<long long> ext_ids, int k_rounds = 3);
 
     // shortest path between two points
     vector<int> Route(int src, int tgt, int graphno = 0);
 
     // shortest path between list of origins and destinations
-    vector<vector<int>> Routes(vector<long> sources, vector<long> targets,  
+    vector<vector<int>> Routes(vector<long long> sources, vector<long long> targets,  
                                int graphno = 0);
 
     // shortest path distance between two points
     double Distance(int src, int tgt, int graphno = 0);
     
     // shortest path distances between list of origins and destinations
-    vector<double> Distances(vector<long> sources, vector<long> targets,  
+    vector<double> Distances(vector<long long> sources, vector<long long> targets,  
                              int graphno = 0);
 
     // precompute the range queries and reuse them
@@ -124,6 +148,27 @@ class Accessibility {
         accessibility_vars_t &vars,
         float quantile,
         float radius);
+
+    // Helper methods for batch processing with frontier compression
+    vector<vector<int>> clusterSources(const vector<long long>& sources, float cluster_radius);
+    
+    vector<double> processClusterWithFrontierCompression(
+        const vector<int>& cluster,
+        const vector<long long>& source_nodes,
+        float radius,
+        const string& category,
+        const string& aggtyp,
+        const string& decay,
+        int graphno);
+    
+    // Helper for individual accessibility computation
+    double computeIndividualAccessibility(
+        long long source_node, 
+        float radius,
+        const string& category,
+        const string& aggtyp,
+        const string& decay,
+        int graphno);
 };
 }  // namespace accessibility
 }  // namespace MTC
