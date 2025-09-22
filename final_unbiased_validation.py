@@ -5,9 +5,6 @@ Final Validation Test Suite for Enhanced Pandana BMSSP
 
 Unbiased comprehensive testing without hardcoded expectations.
 Tests actual performance and correctness across diverse network types.
-
-Author: Enhanced Pandana Development Team
-Date: September 2025
 """
 
 import sys
