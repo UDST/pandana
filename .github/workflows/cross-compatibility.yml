@@ -24,6 +24,9 @@ jobs:
         python -m pip install --upgrade pip setuptools wheel
         python -m pip install .
         python -m pip install pytest
+    - name: Build extension in source tree
+      run: |
+        python setup.py build_ext --inplace --force
     - name: Run demo
       run: |
         python examples/simple_example.py

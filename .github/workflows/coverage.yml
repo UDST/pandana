@@ -18,6 +18,9 @@ jobs:
         python -m pip install --upgrade pip setuptools wheel
         python -m pip install .
         python -m pip install pytest pytest-cov
+    - name: Build extension in source tree
+      run: |
+        python setup.py build_ext --inplace --force
     - name: Generate coverage report
       run: |
         python -m pytest --cov=pandana --cov-report=term-missing -q
