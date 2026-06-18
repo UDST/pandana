@@ -102,13 +102,12 @@ def test_network_to_pandas_hdf5(
         tmpfile, network, nodes, edges_df, impedance_names, two_way):
     ph5.network_to_pandas_hdf5(network, tmpfile)
 
-    store = pd.HDFStore(tmpfile)
-
-    assert_frame_equal(store['nodes'], nodes)
-    assert_frame_equal(store['edges'], edges_df)
-    assert_series_equal(store['two_way'], pd.Series([two_way]))
-    assert_series_equal(
-        store['impedance_names'], pd.Series(impedance_names))
+    with pd.HDFStore(tmpfile) as store:
+        assert_frame_equal(store['nodes'], nodes)
+        assert_frame_equal(store['edges'], edges_df)
+        assert_series_equal(store['two_way'], pd.Series([two_way]))
+        assert_series_equal(
+            store['impedance_names'], pd.Series(impedance_names))
 
 
 @skipifci
@@ -117,13 +116,12 @@ def test_network_to_pandas_hdf5_removal(
     nodes, edges = ph5.remove_nodes(network, rm_nodes)
     ph5.network_to_pandas_hdf5(network, tmpfile, rm_nodes)
 
-    store = pd.HDFStore(tmpfile)
-
-    assert_frame_equal(store['nodes'], nodes)
-    assert_frame_equal(store['edges'], edges)
-    assert_series_equal(store['two_way'], pd.Series([two_way]))
-    assert_series_equal(
-        store['impedance_names'], pd.Series(impedance_names))
+    with pd.HDFStore(tmpfile) as store:
+        assert_frame_equal(store['nodes'], nodes)
+        assert_frame_equal(store['edges'], edges)
+        assert_series_equal(store['two_way'], pd.Series([two_way]))
+        assert_series_equal(
+            store['impedance_names'], pd.Series(impedance_names))
 
 
 @skipifci

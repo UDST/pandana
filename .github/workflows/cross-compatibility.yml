@@ -1,66 +1,32 @@
 name: Cross-compatibility
 
-# This workflow runs the Pandana unit tests across a comprehensive range of Python
-# versions and operating systems. Windows needs conda in order to install geospatial
-# dependencies.
-
 on:
-  # push:
   pull_request:
   workflow_dispatch:
 
 jobs:
-  build-pip:
+  test:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
-        python-version: [3.8, 3.9, '3.10', '3.11']
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ['3.10', '3.11', '3.12', '3.13', '3.14']
+
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install Pandana
       run: |
-        pip install .
-        pip install osmnet
+        python -m pip install --upgrade pip setuptools wheel
+        python -m pip install .
+        python -m pip install pytest
     - name: Run demo
       run: |
         python examples/simple_example.py
     - name: Run unit tests
       run: |
-        pip install pytest
-        pytest -s
-
-  build-conda:
-    runs-on: ${{ matrix.os }}
-    defaults:
-      run:
-        shell: bash -l {0}  # needed for conda persistence
-    strategy:
-      matrix:
-        os: [windows-latest]
-        python-version: [3.8, 3.9, '3.10', '3.11']
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: conda-incubator/setup-miniconda@v2
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install Pandana
-      run: |
-        pip install .
-
-# OSMNet is causing a version of Pandas to be installed that crashes in GitHub Actions.
-# Assume this will resolve itself on its own. (11-May-2021)
-
-#        conda install osmnet --channel conda-forge
-    - name: Run demo
-      run: |
-        python examples/simple_example.py
-#    - name: Run unit tests
-#      run: |
-#        pip install pytest
-#        pytest -s
+        python -m pytest -q

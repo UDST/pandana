@@ -22,7 +22,7 @@ class Graphalg {
  public:
     Graphalg(
         int numnodes,
-        vector< vector<long> > edges, vector<double> edgeweights,
+        vector< vector<PandanaNodeID> > edges, vector<double> edgeweights,
         bool twoway);
 
     std::vector<NodeID> Route(int src, int tgt, int threadNum = 0);

@@ -121,11 +121,23 @@ def make_osm_query(query):
     data : dict
 
     """
-    osm_url = 'http://www.overpass-api.de/api/interpreter'
-    req = requests.get(osm_url, params={'data': query})
-    req.raise_for_status()
+    osm_urls = (
+        'https://overpass-api.de/api/interpreter',
+        'https://overpass.kumi.systems/api/interpreter',
+    )
+    headers = {'User-Agent': 'pandana Python package'}
 
-    return req.json()
+    last_error = None
+    for osm_url in osm_urls:
+        try:
+            req = requests.post(
+                osm_url, data={'data': query}, headers=headers, timeout=60)
+            req.raise_for_status()
+            return req.json()
+        except requests.RequestException as err:
+            last_error = err
+
+    raise last_error
 
 
 def build_node_query(lat_min, lng_min, lat_max, lng_max, tags=None):

@@ -29,6 +29,7 @@ or see http://www.gnu.org/licenses/agpl.txt.
 #include "../DataStructures/Percent.h"
 #include "../DataStructures/BinaryHeap.h"
 #include <ctime>
+#include <random>
 #include <vector>
 #include <queue>
 #include <set>
@@ -36,7 +37,7 @@ or see http://www.gnu.org/licenses/agpl.txt.
 #include <limits>
 #ifdef _OPENMP
 #include <omp.h>
-#else
+#elif !defined(PANDANA_OMP_FALLBACK)
 #define omp_get_thread_num() 0
 #define omp_get_max_threads() 1
 #endif
@@ -233,7 +234,8 @@ public:
 #pragma omp parallel for schedule ( guided )
         for ( int x = 0; x < ( int ) numberOfNodes; ++x )
             remainingNodes[x].first = x;
-        std::random_shuffle( remainingNodes.begin(), remainingNodes.end() );
+        std::mt19937 randomGenerator(0);
+        std::shuffle( remainingNodes.begin(), remainingNodes.end(), randomGenerator );
         for ( int x = 0; x < ( int ) numberOfNodes; ++x )
             nodeData[remainingNodes[x].first].bias = x;
 

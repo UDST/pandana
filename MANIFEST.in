@@ -8,4 +8,4 @@ include requirements-extras.txt
 include setup.cfg
 
 recursive-include examples *.ipynb *.py
-recursive-include src *.h *.cpp
+recursive-include src *.h *.cpp *.pyx

@@ -1,3 +1,14 @@
+v0.7.1
+======
+
+Unreleased
+
+* Adds support for NumPy 2, Cython 3, Python 3.12+, and modern Windows builds.
+* Updates compiled extension dtype handling to use explicit 64-bit NumPy types.
+* Replaces removed C++ standard library APIs used by the contraction hierarchy backend.
+* Preserves shortest-path behavior on a fixed graph with regression coverage.
+* Adds compatibility handling for legacy Pandana HDF files with newer Pandas/PyTables.
+
 v0.7
 ====
 

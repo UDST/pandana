@@ -1,40 +1,23 @@
 name: Coverage
 
-# This workflow generates a coverage report (how much of the codebase is covered by the
-# unit tests) and posts headline metrics to the PR thread.
-
 on:
-  # push:
   pull_request:
   workflow_dispatch:
 
 jobs:
-  build:
+  coverage:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5
       with:
-        python-version: '3.10'
+        python-version: '3.14'
     - name: Install Pandana
       run: |
-        pip install .
-        pip install osmnet
-
-# `coverage run ...` is failing in GitHub Actions, but I'm not able to reproduce the
-# problem locally. We should look into this again another time. (11-May-2021)
-
-#    - name: Generate coverage report
-#      run: |
-#        pip install pytest coverage
-#        coverage run --source pandana --module pytest --verbose
-#        coverage report --show-missing
-#        echo "coverage=$(coverage report | grep '^TOTAL' | grep -oE '[^ ]+$')" >> $GITHUB_ENV
-#    - name: Post comment on PR
-#      uses: unsplash/comment-on-pr@master
-#      env: 
-#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#      with:
-#        msg: "Test coverage is ${{ env.coverage }}"
-#        check_for_duplicate_msg: true
+        python -m pip install --upgrade pip setuptools wheel
+        python -m pip install .
+        python -m pip install pytest pytest-cov
+    - name: Generate coverage report
+      run: |
+        python -m pytest --cov=pandana --cov-report=term-missing -q

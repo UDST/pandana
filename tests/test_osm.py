@@ -89,7 +89,27 @@ def test_build_node_query_tag_list(bbox1):
         'out;').format(*bbox1)
 
 
-def test_node_query(bbox2):
+def test_node_query(monkeypatch, bbox2):
+    def mock_query(query):
+        return {
+            'elements': [
+                {
+                    'id': 1419597327,
+                    'lat': 37.8672,
+                    'lon': -122.2589,
+                    'tags': {'amenity': 'restaurant', 'name': 'Cream'},
+                },
+                {
+                    'id': 2,
+                    'lat': 37.8674,
+                    'lon': -122.2588,
+                    'tags': {'amenity': 'restaurant', 'name': 'Other'},
+                },
+            ]
+        }
+
+    monkeypatch.setattr(osm, 'make_osm_query', mock_query)
+
     tags = '"amenity"="restaurant"'
     cafes = osm.node_query(*bbox2, tags=tags)
 
@@ -99,6 +119,8 @@ def test_node_query(bbox2):
     assert cafes['name'][1419597327] == 'Cream'
 
 
-def test_node_query_raises():
+def test_node_query_raises(monkeypatch):
+    monkeypatch.setattr(osm, 'make_osm_query', lambda query: {'elements': []})
+
     with pytest.raises(RuntimeError):
         osm.node_query(37.8, -122.282, 37.8, -122.252)

@@ -6,19 +6,19 @@ import pytest
 import os
 from numpy.testing import assert_almost_equal
 from pandana.cyaccess import cyaccess
+from pandana.loaders.pandash5 import _legacy_compatible_hdf_store
+
+
+def sample_path():
+    return os.path.join(os.path.dirname(__file__), 'osm_sample.h5')
 
 
 @pytest.fixture(scope="module")
-def nodes_and_edges(request):
-    store = pd.HDFStore(
-        os.path.join(os.path.dirname(__file__), 'osm_sample.h5'), "r")
-    nodes = store.nodes
-    edges = store.edges[["from", "to"]]
-    edge_weights = store.edges[["weight"]]
-
-    def fin():
-        store.close()
-    request.addfinalizer(fin)
+def nodes_and_edges():
+    with _legacy_compatible_hdf_store(sample_path()) as store:
+        nodes = store.nodes.copy()
+        edges = store.edges[["from", "to"]].copy()
+        edge_weights = store.edges[["weight"]].copy()
 
     return nodes, edges, edge_weights
 
@@ -33,9 +33,9 @@ def net(nodes_and_edges):
     edges["to"] = node_locations.loc[edges["to"]].values
 
     net = cyaccess(
-        nodes.index.values.astype('int_'),
+        nodes.index.values.astype('int64'),
         nodes.values,
-        edges.values.astype('int_'),
+        edges.values.astype('int64'),
         edge_weights.transpose().values,
         True
     )
@@ -59,7 +59,7 @@ def test_agg_analysis(net, nodes_and_edges):
 
     # test missing aggregation type
     ret = net.get_all_aggregate_accessibility_variables(10, b'test', b'this is', b'bogus')
-    assert np.alltrue(np.isnan(ret))
+    assert np.all(np.isnan(ret))
 
 
 def test_poi_analysis(net, nodes_and_edges):
@@ -93,6 +93,42 @@ def test_shortest_path(net):
     assert route[12] == 1314
     assert route.iloc[20] == 345
     assert net.shortest_path_distance(996, 71) == 23
+
+
+def test_fixed_graph_shortest_path_distances(net):
+    node_pairs_and_distances = np.array([
+        (342, 45, 17),
+        (444, 936, 28),
+        (1140, 1, 35),
+        (317, 1316, 33),
+        (1196, 1129, 22),
+        (921, 1065, 35),
+        (184, 1036, 17),
+        (748, 511, 11),
+        (820, 1074, 34),
+        (1247, 866, 6),
+        (938, 346, 28),
+        (596, 164, 7),
+        (1301, 990, 30),
+        (959, 270, 5),
+        (1055, 1488, 19),
+        (142, 1208, 15),
+        (663, 65, 9),
+        (996, 796, 6),
+        (1271, 867, 21),
+        (164, 39, 32),
+        (1203, 905, 18),
+        (1189, 959, 11),
+        (1025, 437, 26),
+    ], dtype=np.int64)
+
+    actual = np.array([
+        net.shortest_path_distance(origin, destination)
+        for origin, destination in node_pairs_and_distances[:, :2]
+    ], dtype=np.int64)
+
+    expected = node_pairs_and_distances[:, 2]
+    assert np.array_equal(actual, expected)
 
 
 '''
