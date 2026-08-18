@@ -15,7 +15,8 @@ def sample_path():
 
 @pytest.fixture(scope="module")
 def nodes_and_edges():
-    with _legacy_compatible_hdf_store(sample_path()) as store:
+    with _legacy_compatible_hdf_store(
+            sample_path(), migrate_legacy=True) as store:
         nodes = store.nodes.copy()
         edges = store.edges[["from", "to"]].copy()
         edge_weights = store.edges[["weight"]].copy()

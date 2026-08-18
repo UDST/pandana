@@ -109,20 +109,25 @@ class Network:
         self.kdtree = KDTree(nodes_df.to_numpy(dtype=FLOAT_DTYPE, copy=False))
 
     @classmethod
-    def from_hdf5(cls, filename):
+    def from_hdf5(cls, filename, migrate_legacy=False):
         """
         Load a previously saved Network from a Pandas HDF5 file.
 
         Parameters
         ----------
         filename : str
+        migrate_legacy : bool, optional
+            If True, legacy Pandas HDF5 metadata is migrated into a temporary
+            copy before reading. The default is False so large network files
+            are not copied implicitly.
 
         Returns
         -------
         network : pandana.Network
 
         """
-        return ph5.network_from_pandas_hdf5(cls, filename)
+        return ph5.network_from_pandas_hdf5(
+            cls, filename, migrate_legacy=migrate_legacy)
 
     def save_hdf5(self, filename, rm_nodes=None):
         """

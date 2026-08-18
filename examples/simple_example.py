@@ -36,7 +36,7 @@ if not os.path.isfile(storef):
 
 print('Building network from file: {!r}'.format(storef))
 
-with _legacy_compatible_hdf_store(storef) as store:
+with _legacy_compatible_hdf_store(storef, migrate_legacy=True) as store:
     nodes, edges = store.nodes.copy(), store.edges.copy()
 net = pdna.Network(nodes.x, nodes.y, edges["from"], edges.to,
                    edges[["weight"]])

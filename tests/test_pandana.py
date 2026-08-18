@@ -18,7 +18,8 @@ def sample_path():
 
 
 def load_sample():
-    with _legacy_compatible_hdf_store(sample_path()) as store:
+    with _legacy_compatible_hdf_store(
+            sample_path(), migrate_legacy=True) as store:
         return store.nodes.copy(), store.edges.copy()
 
 
