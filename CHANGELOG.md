@@ -2,6 +2,7 @@ Unreleased
 ==========
 
 * Adds support for NumPy 2, Cython 3, Python 3.12+, and modern Windows builds.
+* Incorporates and extends NumPy 2 compatibility work from @knaaptime in [PR #196](https://github.com/UDST/pandana/pull/196).
 * Updates compiled extension dtype handling to use explicit 64-bit NumPy types.
 * Replaces removed C++ standard library APIs used by the contraction hierarchy backend.
 * Preserves shortest-path behavior on a fixed graph with regression coverage.
