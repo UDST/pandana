@@ -5,44 +5,72 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
-    name: ${{ matrix.dependency-set }} dependencies
-    runs-on: ubuntu-latest
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
         include:
-        - dependency-set: lower-bound
+        - name: Lower-bound dependencies
+          os: ubuntu-latest
           python-version: '3.12'
           constraints: requirements-lower-bound.txt
-        - dependency-set: latest
+          coverage: 'false'
+        - name: Latest dependencies
+          os: ubuntu-latest
           python-version: '3.14'
           constraints: ''
+          coverage: 'true'
+        - name: Latest dependencies on Windows
+          os: windows-latest
+          python-version: '3.14'
+          constraints: ''
+          coverage: 'false'
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install Pandana
+    - name: Install dependencies
       shell: bash
       run: |
-        python -m pip install --upgrade pip setuptools wheel build
-        python -m build --wheel
+        python -m pip install --upgrade pip setuptools wheel cython
         if [ -n "${{ matrix.constraints }}" ]; then
-          python -m pip install -c "${{ matrix.constraints }}" dist/*.whl
+          python -m pip install -c "${{ matrix.constraints }}" numpy pandas requests scikit-learn tables
         else
-          python -m pip install dist/*.whl
+          python -m pip install numpy pandas requests scikit-learn tables
         fi
         python -m pip install pytest
+        if [ "${{ matrix.coverage }}" = "true" ]; then
+          python -m pip install pytest-cov
+        fi
+    - name: Build extension in source tree
+      shell: bash
+      run: |
+        python setup.py build_ext --inplace --force
+        python -m pip install --no-build-isolation --editable . --no-deps
     - name: Show dependency versions
       run: |
         python -c "import numpy, pandas, pandana; print('numpy', numpy.__version__); print('pandas', pandas.__version__); print('pandana', pandana.__version__)"
         python -m pip check
+    - name: Run demo
+      run: python examples/simple_example.py
     - name: Run unit tests
       shell: bash
       run: |
-        mkdir test-run
-        cd test-run
-        python -m pytest --import-mode=importlib "$GITHUB_WORKSPACE/tests" -q
+        if [ "${{ matrix.coverage }}" = "true" ]; then
+          python -m pytest --cov=pandana --cov-report=term-missing -q
+        else
+          python -m pytest -q
+        fi
