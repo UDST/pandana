@@ -1,7 +1,5 @@
-v0.7.1
-======
-
 Unreleased
+==========
 
 * Adds support for NumPy 2, Cython 3, Python 3.12+, and modern Windows builds.
 * Updates compiled extension dtype handling to use explicit 64-bit NumPy types.
