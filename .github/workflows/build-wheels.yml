@@ -29,6 +29,10 @@ jobs:
           os: macos-15-intel
           cibw-archs: x86_64
           openmp: Apple clang build without OpenMP by default
+        - name: macOS arm64 wheels
+          os: macos-15
+          cibw-archs: arm64
+          openmp: Apple clang build without OpenMP by default
         - name: Windows AMD64 wheels
           os: windows-latest
           cibw-archs: AMD64
