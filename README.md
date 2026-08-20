@@ -26,14 +26,18 @@ See the documentation for information about other [installation options](http://
 [Pandana-demo.ipynb](examples/Pandana-demo.ipynb)
 
 
-### Acknowledgments
+### Origins and acknowledgments
 
-Pandana was created by [Fletcher Foti](https://github.com/fscottfoti), with subsequent contributions from [Matt Davis](https://github.com/jiffyclub), [Federico Fernandez](https://github.com/federicofernandez), [Sam Maurer](https://github.com/smmaurer), and others. Sam Maurer is currently the lead maintainer. Pandana relies on contraction hierarchy code from [Dennis Luxen](https://github.com/DennisOSRM) and his [OSRM project](https://github.com/DennisOSRM/Project-OSRM).
+Pandana originated in research led by [Paul Waddell](https://github.com/waddell) at the University of California, Berkeley. Waddell conceived the network-accessibility application with [Fletcher Foti](https://github.com/fscottfoti), then his doctoral student and graduate student researcher, and [Dennis Luxen](https://github.com/DennisOSRM) of the Karlsruhe Institute of Technology, and directed and funded the initial development.
+
+Foti led implementation of the original Pandana software and its pandas-oriented interface. Luxen contributed contraction-hierarchy expertise and code developed through the [Open Source Routing Machine project](https://github.com/DennisOSRM/Project-OSRM). Initial development was supported in part by National Science Foundation award [IIS-0964412](https://www.nsf.gov/awardsearch/showAward?AWD_ID=0964412), for which Waddell was the UC Berkeley principal investigator, and by the Metropolitan Transportation Commission.
+
+Subsequent development has included major contributions from [Matt Davis](https://github.com/jiffyclub), [Federico Fernandez](https://github.com/federicofernandez), [Sam Maurer](https://github.com/smmaurer), [Joaquim Gromicho](https://github.com/gromicho), [Eli Knaap](https://github.com/knaaptime), and other community contributors. See the [project history](HISTORY.md) for additional context. The Git history remains the authoritative record of individual code contributions.
 
 
 ### Academic literature
 
-A [paper on Pandana](http://onlinepubs.trb.org/onlinepubs/conferences/2012/4thITM/Papers-A/0117-000062.pdf) was presented at the Transportation Research Board Annual Conference in 2012. Please cite this paper when referring to the methodology implemented by this library.
+A [paper on Pandana](http://onlinepubs.trb.org/onlinepubs/conferences/2012/4thITM/Papers-A/0117-000062.pdf) by Fletcher Foti, Paul Waddell, and Dennis Luxen was presented at the Transportation Research Board Conference on Innovations in Travel Modeling in 2012. Please cite this paper when referring to the methodology implemented by this library.
 
 
 ### Related UDST libraries
