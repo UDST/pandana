@@ -4,7 +4,7 @@
 namespace MTC {
 namespace accessibility {
 Graphalg::Graphalg(
-        int numnodes, vector< vector<long> > edges, vector<double> edgeweights,
+        int numnodes, vector< vector<PandanaNodeID> > edges, vector<double> edgeweights,
         bool twoway) {
     this->numnodes = numnodes;
 

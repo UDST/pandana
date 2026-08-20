@@ -4,19 +4,19 @@
 
 Pandana is a Python library for network analysis that uses [contraction hierarchies](https://en.wikipedia.org/wiki/Contraction_hierarchies) to calculate super-fast travel accessibility metrics and shortest paths. The numerical code is in C++.
 
-New in v0.5 and v0.6 is vectorized, multi-threaded calculation of shortest path routes and distances: [network.shortest_paths()](http://udst.github.io/pandana/network.html#pandana.network.Network.shortest_paths), [network.shortest_path_lengths()](http://udst.github.io/pandana/network.html#pandana.network.Network.shortest_path_lengths). 
+New in v0.5 and v0.6 is vectorized, multi-threaded calculation of shortest path routes and distances: [network.shortest_paths()](http://udst.github.io/pandana/network.html#pandana.network.Network.shortest_paths), [network.shortest_path_lengths()](http://udst.github.io/pandana/network.html#pandana.network.Network.shortest_path_lengths).
 
 Documentation: http://udst.github.io/pandana
 
 
 ### Installation
 
-As of March 2021, binary installers are provided for Mac, Linux, and Windows through both PyPI and Conda Forge. 
+Binary installers are provided for Mac, Linux, and Windows through both PyPI and Conda Forge when the corresponding release artifacts are available.
 
 - `pip install pandana`
 - `conda install pandana --channel conda-forge`
 
-Pandana is easiest to install in Python 3.8 to 3.11. The last version of Pandana with Python 2.7 binaries is v0.4.4 on Conda Forge. The last version with Python 3.5 binaries is v0.6 on Pip.
+Current source builds target Python 3.10 to 3.14. The last version of Pandana with Python 2.7 binaries is v0.4.4 on Conda Forge. The last version with Python 3.5 binaries is v0.6 on Pip.
 
 See the documentation for information about other [installation options](http://udst.github.io/pandana/installation.html).
 

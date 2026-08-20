@@ -9,39 +9,38 @@ import pandana.network as pdna
 from numpy.testing import assert_allclose
 from pandas.testing import assert_index_equal
 
+from pandana.loaders.pandash5 import _legacy_compatible_hdf_store
 from pandana.testing import skipifci
 
 
+def sample_path():
+    return os.path.join(os.path.dirname(__file__), "osm_sample.h5")
+
+
+def load_sample():
+    with _legacy_compatible_hdf_store(
+            sample_path(), migrate_legacy=True) as store:
+        return store.nodes.copy(), store.edges.copy()
+
+
 @pytest.fixture(scope="module")
-def sample_osm(request):
-    store = pd.HDFStore(os.path.join(os.path.dirname(__file__), "osm_sample.h5"), "r")
-    nodes, edges = store.nodes, store.edges
+def sample_osm():
+    nodes, edges = load_sample()
 
     net = pdna.Network(nodes.x, nodes.y, edges["from"], edges.to, edges[["weight"]])
 
     net.precompute(2000)
-
-    def fin():
-        store.close()
-
-    request.addfinalizer(fin)
 
     return net
 
 
 # initialize a second network
 @pytest.fixture(scope="module")
-def second_sample_osm(request):
-    store = pd.HDFStore(os.path.join(os.path.dirname(__file__), "osm_sample.h5"), "r")
-    nodes, edges = store.nodes, store.edges
+def second_sample_osm():
+    nodes, edges = load_sample()
     net = pdna.Network(nodes.x, nodes.y, edges["from"], edges.to, edges[["weight"]])
 
     net.precompute(2000)
-
-    def fin():
-        store.close()
-
-    request.addfinalizer(fin)
 
     return net
 
@@ -129,10 +128,9 @@ def test_agg_variables_accuracy(sample_osm):
     assert_allclose(s.mean(), r.std(), atol=1e-2)
 
 
-def test_non_integer_nodeids(request):
+def test_non_integer_nodeids():
 
-    store = pd.HDFStore(os.path.join(os.path.dirname(__file__), "osm_sample.h5"), "r")
-    nodes, edges = store.nodes, store.edges
+    nodes, edges = load_sample()
 
     # convert to string!
     nodes.index = nodes.index.astype("str")
@@ -140,11 +138,6 @@ def test_non_integer_nodeids(request):
     edges["to"] = edges["to"].astype("str")
 
     net = pdna.Network(nodes.x, nodes.y, edges["from"], edges.to, edges[["weight"]])
-
-    def fin():
-        store.close()
-
-    request.addfinalizer(fin)
 
     # test accuracy compared to Pandas functions
     ssize = 50

@@ -1,6 +1,7 @@
 #cython: language_level=3
 
 cimport cython
+from libc.stdint cimport int64_t
 from libcpp cimport bool
 from libcpp.vector cimport vector
 from libcpp.string cimport string
@@ -9,6 +10,8 @@ from libcpp.pair cimport pair
 import numpy as np
 cimport numpy as np
 
+np.import_array()
+
 # resources
 # http://cython.readthedocs.io/en/latest/src/userguide/wrapping_CPlusPlus.html
 # http://www.birving.com/blog/2014/05/13/passing-numpy-arrays-between-python-and/
@@ -16,45 +19,54 @@ cimport numpy as np
 
 cdef extern from "accessibility.h" namespace "MTC::accessibility":
     cdef cppclass Accessibility:
-        Accessibility(int, vector[vector[long]], vector[vector[double]], bool) except +
+        Accessibility(int, vector[vector[int64_t]], vector[vector[double]], bool) except +
         vector[string] aggregations
         vector[string] decays
-        void initializeCategory(double, int, string, vector[long])
+        void initializeCategory(double, int, string, vector[int64_t])
         pair[vector[vector[double]], vector[vector[int]]] findAllNearestPOIs(
             float, int, string, int)
-        void initializeAccVar(string, vector[long], vector[double])
+        void initializeAccVar(string, vector[int64_t], vector[double])
         vector[double] getAllAggregateAccessibilityVariables(
             float, string, string, string, int)
         vector[int] Route(int, int, int)
-        vector[vector[int]] Routes(vector[long], vector[long], int)
+        vector[vector[int]] Routes(vector[int64_t], vector[int64_t], int)
         double Distance(int, int, int)
-        vector[double] Distances(vector[long], vector[long], int)
-        vector[vector[pair[long, float]]] Range(vector[long], float, int, vector[long])
+        vector[double] Distances(vector[int64_t], vector[int64_t], int)
+        vector[vector[pair[int64_t, float]]] Range(vector[int64_t], float, int, vector[int64_t])
         void precomputeRangeQueries(double)
 
 
-cdef np.ndarray[double] convert_vector_to_array_dbl(vector[double] vec):
-    cdef np.ndarray arr = np.zeros(len(vec), dtype="double")
+cdef np.ndarray[np.float64_t, ndim=1] convert_vector_to_array_dbl(vector[double] vec):
+    cdef Py_ssize_t i
+    cdef np.ndarray[np.float64_t, ndim=1] arr = np.empty(vec.size(), dtype=np.float64)
     for i in range(len(vec)):
         arr[i] = vec[i]
     return arr
 
 
-cdef np.ndarray[double, ndim = 2] convert_2D_vector_to_array_dbl(
+cdef np.ndarray[np.float64_t, ndim=2] convert_2D_vector_to_array_dbl(
         vector[vector[double]] vec):
-    cdef np.ndarray arr = np.empty_like(vec, dtype="double")
-    for i in range(arr.shape[0]):
-        for j in range(arr.shape[1]):
-            arr[i][j] = vec[i][j]
+    cdef Py_ssize_t i
+    cdef Py_ssize_t j
+    cdef Py_ssize_t rows = vec.size()
+    cdef Py_ssize_t cols = vec[0].size() if rows else 0
+    cdef np.ndarray[np.float64_t, ndim=2] arr = np.empty((rows, cols), dtype=np.float64)
+    for i in range(rows):
+        for j in range(cols):
+            arr[i, j] = vec[i][j]
     return arr
 
 
-cdef np.ndarray[int, ndim = 2] convert_2D_vector_to_array_int(
+cdef np.ndarray[np.int32_t, ndim=2] convert_2D_vector_to_array_int(
         vector[vector[int]] vec):
-    cdef np.ndarray arr = np.empty_like(vec, dtype="int")
-    for i in range(arr.shape[0]):
-        for j in range(arr.shape[1]):
-            arr[i][j] = vec[i][j]
+    cdef Py_ssize_t i
+    cdef Py_ssize_t j
+    cdef Py_ssize_t rows = vec.size()
+    cdef Py_ssize_t cols = vec[0].size() if rows else 0
+    cdef np.ndarray[np.int32_t, ndim=2] arr = np.empty((rows, cols), dtype=np.int32)
+    for i in range(rows):
+        for j in range(cols):
+            arr[i, j] = vec[i][j]
     return arr
 
 
@@ -63,10 +75,10 @@ cdef class cyaccess:
 
     def __cinit__(
         self,
-        np.ndarray[long] node_ids,
-        np.ndarray[double, ndim=2] node_xys,
-        np.ndarray[long, ndim=2] edges,
-        np.ndarray[double, ndim=2] edge_weights,
+        np.ndarray[np.int64_t, ndim=1] node_ids,
+        np.ndarray[np.float64_t, ndim=2] node_xys,
+        np.ndarray[np.int64_t, ndim=2] edges,
+        np.ndarray[np.float64_t, ndim=2] edge_weights,
         bool twoway=True
     ):
         """
@@ -90,7 +102,7 @@ cdef class cyaccess:
         double maxdist,
         int maxitems,
         string category,
-        np.ndarray[long] node_ids
+        np.ndarray[np.int64_t, ndim=1] node_ids
     ):
         """
         maxdist - the maximum distance that will later be used in
@@ -125,8 +137,8 @@ cdef class cyaccess:
     def initialize_access_var(
         self,
         string category,
-        np.ndarray[long] node_ids,
-        np.ndarray[double] values
+        np.ndarray[np.int64_t, ndim=1] node_ids,
+        np.ndarray[np.float64_t, ndim=1] values
     ):
         """
         category - category name
@@ -169,8 +181,8 @@ cdef class cyaccess:
         """
         return self.access.Route(srcnode, destnode, impno)
 
-    def shortest_paths(self, np.ndarray[long] srcnodes, 
-            np.ndarray[long] destnodes, int impno=0):
+    def shortest_paths(self, np.ndarray[np.int64_t, ndim=1] srcnodes,
+            np.ndarray[np.int64_t, ndim=1] destnodes, int impno=0):
         """
         srcnodes - node ids of origins
         destnodes - node ids of destinations
@@ -186,8 +198,8 @@ cdef class cyaccess:
         """
         return self.access.Distance(srcnode, destnode, impno)
 
-    def shortest_path_distances(self, np.ndarray[long] srcnodes, 
-            np.ndarray[long] destnodes, int impno=0):
+    def shortest_path_distances(self, np.ndarray[np.int64_t, ndim=1] srcnodes,
+            np.ndarray[np.int64_t, ndim=1] destnodes, int impno=0):
         """
         srcnodes - node ids of origins
         destnodes - node ids of destinations
@@ -198,8 +210,8 @@ cdef class cyaccess:
     def precompute_range(self, double radius):
         self.access.precomputeRangeQueries(radius)
 
-    def nodes_in_range(self, vector[long] srcnodes, float radius, int impno, 
-            np.ndarray[long] ext_ids):
+    def nodes_in_range(self, vector[int64_t] srcnodes, float radius, int impno,
+            np.ndarray[np.int64_t, ndim=1] ext_ids):
         """
         srcnodes - node ids of origins
         radius - maximum range in which to search for nearby nodes

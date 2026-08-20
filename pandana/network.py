@@ -8,6 +8,9 @@ from .cyaccess import cyaccess
 from .loaders import pandash5 as ph5
 import warnings
 
+INDEX_DTYPE = np.int64
+FLOAT_DTYPE = np.float64
+
 
 def reserve_num_graphs(num):
     """
@@ -83,7 +86,7 @@ class Network:
         # node IDs are thus translated back and forth in the python layer,
         # which allows non-integer node IDs as well
         self.node_idx = pd.Series(
-            np.arange(len(nodes_df), dtype="int"), index=nodes_df.index
+            np.arange(len(nodes_df), dtype=INDEX_DTYPE), index=nodes_df.index
         )
 
         edges = pd.concat(
@@ -92,32 +95,39 @@ class Network:
         )
 
         self.net = cyaccess(
-            self.node_idx.values,
-            nodes_df.astype("double").values,
-            edges.values,
-            edges_df[edge_weights.columns].transpose().astype("double").values,
+            self.node_idx.to_numpy(dtype=INDEX_DTYPE, copy=False),
+            nodes_df.to_numpy(dtype=FLOAT_DTYPE, copy=False),
+            edges.to_numpy(dtype=INDEX_DTYPE, copy=False),
+            edges_df[edge_weights.columns]
+            .transpose()
+            .to_numpy(dtype=FLOAT_DTYPE, copy=False),
             twoway,
         )
 
         self._twoway = twoway
 
-        self.kdtree = KDTree(nodes_df.values)
+        self.kdtree = KDTree(nodes_df.to_numpy(dtype=FLOAT_DTYPE, copy=False))
 
     @classmethod
-    def from_hdf5(cls, filename):
+    def from_hdf5(cls, filename, migrate_legacy=False):
         """
         Load a previously saved Network from a Pandas HDF5 file.
 
         Parameters
         ----------
         filename : str
+        migrate_legacy : bool, optional
+            If True, legacy Pandas HDF5 metadata is migrated into a temporary
+            copy before reading. The default is False so large network files
+            are not copied implicitly.
 
         Returns
         -------
         network : pandana.Network
 
         """
-        return ph5.network_from_pandas_hdf5(cls, filename)
+        return ph5.network_from_pandas_hdf5(
+            cls, filename, migrate_legacy=migrate_legacy)
 
     def save_hdf5(self, filename, rm_nodes=None):
         """
@@ -238,8 +248,12 @@ class Network:
             )
 
         # map to internal node indexes
-        nodes_a_idx = self._node_indexes(pd.Series(nodes_a)).values
-        nodes_b_idx = self._node_indexes(pd.Series(nodes_b)).values
+        nodes_a_idx = self._node_indexes(pd.Series(nodes_a)).to_numpy(
+            dtype=INDEX_DTYPE, copy=False
+        )
+        nodes_b_idx = self._node_indexes(pd.Series(nodes_b)).to_numpy(
+            dtype=INDEX_DTYPE, copy=False
+        )
 
         imp_num = self._imp_name_to_num(imp_name)
 
@@ -321,8 +335,12 @@ class Network:
             )
 
         # map to internal node indexes
-        nodes_a_idx = self._node_indexes(pd.Series(nodes_a)).values
-        nodes_b_idx = self._node_indexes(pd.Series(nodes_b)).values
+        nodes_a_idx = self._node_indexes(pd.Series(nodes_a)).to_numpy(
+            dtype=INDEX_DTYPE, copy=False
+        )
+        nodes_b_idx = self._node_indexes(pd.Series(nodes_b)).to_numpy(
+            dtype=INDEX_DTYPE, copy=False
+        )
 
         imp_num = self._imp_name_to_num(imp_name)
 
@@ -389,8 +407,8 @@ class Network:
 
         self.net.initialize_access_var(
             name.encode("utf-8"),
-            df.node_idx.values.astype("int"),
-            df[name].values.astype("double"),
+            df.node_idx.to_numpy(dtype=INDEX_DTYPE, copy=False),
+            df[name].to_numpy(dtype=FLOAT_DTYPE, copy=False),
         )
 
     def precompute(self, distance):
@@ -442,7 +460,8 @@ class Network:
         """
         imp_num = self._imp_name_to_num(imp_name)
         imp_name = self.impedance_names[imp_num]
-        ext_ids = self.node_idx.index.values
+        nodes = np.asarray(nodes, dtype=INDEX_DTYPE)
+        ext_ids = self.node_idx.index.to_numpy(dtype=INDEX_DTYPE, copy=False)
 
         raw_result = self.net.nodes_in_range(nodes, radius, imp_num, ext_ids)
         clean_result = pd.concat(
@@ -587,7 +606,9 @@ class Network:
         """
         xys = pd.DataFrame({"x": x_col, "y": y_col})
 
-        distances, indexes = self.kdtree.query(xys.values)
+        distances, indexes = self.kdtree.query(
+            xys.to_numpy(dtype=FLOAT_DTYPE, copy=False)
+        )
         indexes = np.transpose(indexes)[0]
         distances = np.transpose(distances)[0]
 
@@ -774,7 +795,10 @@ class Network:
         node_idx = self._node_indexes(node_ids)
 
         self.net.initialize_category(
-            maxdist, maxitems, category.encode("utf-8"), node_idx.values
+            maxdist,
+            maxitems,
+            category.encode("utf-8"),
+            node_idx.to_numpy(dtype=INDEX_DTYPE, copy=False),
         )
 
     def nearest_pois(

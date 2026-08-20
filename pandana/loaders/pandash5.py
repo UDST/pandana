@@ -1,4 +1,82 @@
+import os
+import shutil
+import tempfile
+from contextlib import contextmanager
+
 import pandas as pd
+
+
+def _has_legacy_pandas_attrs(filename):
+    try:
+        import tables
+    except ImportError:
+        return False
+
+    with tables.open_file(filename, mode="r") as h5:
+        for node in h5.walk_nodes("/"):
+            attrs = node._v_attrs
+            for name in attrs._v_attrnames:
+                value = getattr(attrs, name)
+                if not isinstance(value, str) and hasattr(value, "decode"):
+                    return True
+
+    return False
+
+
+def migrate_legacy_hdf(filename, output_filename=None):
+    """
+    Normalize legacy Pandas HDF5 metadata written as byte strings.
+
+    Older Pandas/PyTables combinations stored attributes such as
+    ``pandas_type`` as bytes. Pandas 3 expects text when it reconstructs
+    storers. This utility explicitly migrates those attributes either in
+    place or into ``output_filename`` if one is supplied.
+    """
+    try:
+        import tables
+    except ImportError:
+        return None
+
+    target = output_filename or filename
+    if output_filename is not None:
+        shutil.copyfile(filename, output_filename)
+
+    with tables.open_file(target, mode="a") as h5:
+        for node in h5.walk_nodes("/"):
+            attrs = node._v_attrs
+            for name in attrs._v_attrnames:
+                value = getattr(attrs, name)
+                if isinstance(value, str) or not hasattr(value, "decode"):
+                    continue
+
+                setattr(attrs, name, value.decode("utf-8"))
+
+    return target
+
+
+@contextmanager
+def _legacy_compatible_hdf_store(filename, mode="r", migrate_legacy=False):
+    temp_filename = None
+    store_filename = filename
+
+    if mode == "r" and _has_legacy_pandas_attrs(filename):
+        if not migrate_legacy:
+            raise ValueError(
+                "Legacy Pandas HDF5 metadata detected. Run "
+                "pandana.loaders.pandash5.migrate_legacy_hdf(...) first, "
+                "or pass migrate_legacy=True to explicitly use a temporary "
+                "migrated copy during this read."
+            )
+        fd, temp_filename = tempfile.mkstemp(suffix=".h5")
+        os.close(fd)
+        store_filename = migrate_legacy_hdf(filename, temp_filename)
+
+    try:
+        with pd.HDFStore(store_filename, mode=mode) as store:
+            yield store
+    finally:
+        if temp_filename and os.path.exists(temp_filename):
+            os.remove(temp_filename)
 
 
 def remove_nodes(network, rm_nodes):
@@ -53,7 +131,7 @@ def network_to_pandas_hdf5(network, filename, rm_nodes=None):
         store['impedance_names'] = pd.Series(network.impedance_names)
 
 
-def network_from_pandas_hdf5(cls, filename):
+def network_from_pandas_hdf5(cls, filename, migrate_legacy=False):
     """
     Build a Network from data in a Pandas HDFStore.
 
@@ -62,13 +140,18 @@ def network_from_pandas_hdf5(cls, filename):
     cls : class
         Class to instantiate, usually pandana.Network.
     filename : str
+    migrate_legacy : bool, optional
+        If True, legacy Pandas HDF5 metadata is migrated into a temporary
+        copy before reading. The default is False so large network files are
+        not copied implicitly.
 
     Returns
     -------
     network : pandana.Network
 
     """
-    with pd.HDFStore(filename) as store:
+    with _legacy_compatible_hdf_store(
+            filename, migrate_legacy=migrate_legacy) as store:
         nodes = store['nodes']
         edges = store['edges']
         two_way = store['two_way'][0]

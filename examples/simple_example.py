@@ -19,8 +19,8 @@ from __future__ import print_function
 import os.path
 import sys
 
-import pandas as pd
 import pandana.network as pdna
+from pandana.loaders.pandash5 import _legacy_compatible_hdf_store
 
 if len(sys.argv) > 1:
     # allow test file to be passed as an argument
@@ -36,8 +36,7 @@ if not os.path.isfile(storef):
 
 print('Building network from file: {!r}'.format(storef))
 
-store = pd.HDFStore(storef, "r")
-nodes, edges = store.nodes, store.edges
+with _legacy_compatible_hdf_store(storef, migrate_legacy=True) as store:
+    nodes, edges = store.nodes.copy(), store.edges.copy()
 net = pdna.Network(nodes.x, nodes.y, edges["from"], edges.to,
                    edges[["weight"]])
-store.close()

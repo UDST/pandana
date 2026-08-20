@@ -12,6 +12,10 @@ from pandana.loaders import pandash5 as ph5
 from pandana.testing import skipifci
 
 
+def sample_path():
+    return os.path.join(os.path.dirname(__file__), 'osm_sample.h5')
+
+
 @pytest.fixture(scope='module')
 def nodes():
     return pd.DataFrame(
@@ -102,13 +106,12 @@ def test_network_to_pandas_hdf5(
         tmpfile, network, nodes, edges_df, impedance_names, two_way):
     ph5.network_to_pandas_hdf5(network, tmpfile)
 
-    store = pd.HDFStore(tmpfile)
-
-    assert_frame_equal(store['nodes'], nodes)
-    assert_frame_equal(store['edges'], edges_df)
-    assert_series_equal(store['two_way'], pd.Series([two_way]))
-    assert_series_equal(
-        store['impedance_names'], pd.Series(impedance_names))
+    with pd.HDFStore(tmpfile) as store:
+        assert_frame_equal(store['nodes'], nodes)
+        assert_frame_equal(store['edges'], edges_df)
+        assert_series_equal(store['two_way'], pd.Series([two_way]))
+        assert_series_equal(
+            store['impedance_names'], pd.Series(impedance_names))
 
 
 @skipifci
@@ -117,13 +120,12 @@ def test_network_to_pandas_hdf5_removal(
     nodes, edges = ph5.remove_nodes(network, rm_nodes)
     ph5.network_to_pandas_hdf5(network, tmpfile, rm_nodes)
 
-    store = pd.HDFStore(tmpfile)
-
-    assert_frame_equal(store['nodes'], nodes)
-    assert_frame_equal(store['edges'], edges)
-    assert_series_equal(store['two_way'], pd.Series([two_way]))
-    assert_series_equal(
-        store['impedance_names'], pd.Series(impedance_names))
+    with pd.HDFStore(tmpfile) as store:
+        assert_frame_equal(store['nodes'], nodes)
+        assert_frame_equal(store['edges'], edges)
+        assert_series_equal(store['two_way'], pd.Series([two_way]))
+        assert_series_equal(
+            store['impedance_names'], pd.Series(impedance_names))
 
 
 @skipifci
@@ -150,6 +152,39 @@ def test_network_save_load_hdf5(
     assert_frame_equal(new_net.edges_df, edges)
     assert new_net._twoway == two_way
     assert new_net.impedance_names == impedance_names
+
+
+def test_legacy_hdf_requires_explicit_migration():
+    if not ph5._has_legacy_pandas_attrs(sample_path()):
+        pytest.skip('sample file does not contain legacy Pandas metadata')
+
+    with pytest.raises(ValueError, match='migrate_legacy_hdf'):
+        with ph5._legacy_compatible_hdf_store(sample_path()):
+            pass
+
+
+def test_legacy_hdf_store_allows_explicit_temp_migration():
+    if not ph5._has_legacy_pandas_attrs(sample_path()):
+        pytest.skip('sample file does not contain legacy Pandas metadata')
+
+    with ph5._legacy_compatible_hdf_store(
+            sample_path(), migrate_legacy=True) as store:
+        assert '/nodes' in store.keys()
+        assert '/edges' in store.keys()
+
+
+def test_migrate_legacy_hdf_output_file(tmpfile):
+    if not ph5._has_legacy_pandas_attrs(sample_path()):
+        pytest.skip('sample file does not contain legacy Pandas metadata')
+
+    migrated = ph5.migrate_legacy_hdf(sample_path(), tmpfile)
+
+    assert migrated == tmpfile
+    assert not ph5._has_legacy_pandas_attrs(tmpfile)
+
+    with pd.HDFStore(tmpfile) as store:
+        assert '/nodes' in store.keys()
+        assert '/edges' in store.keys()
 
 
 # this is an odd place for this test because it's not related to HDF5,

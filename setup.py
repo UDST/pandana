@@ -10,7 +10,7 @@ from setuptools import find_packages, setup, Extension
 # Building the C++ extension
 ###############################################
 
-extra_compile_args = ["-w", "-std=c++11", "-O3"]
+extra_compile_args = ["-w", "-std=c++17", "-O3"]
 extra_link_args = []
 
 # Mac compilation: flags are for the llvm compilers included with recent
@@ -67,7 +67,7 @@ if sys.platform.startswith("darwin"):  # Mac
 # Window compilation: flags are for Visual C++
 
 elif sys.platform.startswith("win"):  # Windows
-    extra_compile_args = ["/w", "/openmp"]
+    extra_compile_args = ["/w", "/openmp", "/std:c++17"]
 
 # Linux compilation: flags are for gcc 4.8 and later
 
@@ -85,6 +85,7 @@ cyaccess = Extension(
         'src/contraction_hierarchies/src/libch.cpp'],
     language='c++',
     include_dirs=['.', np.get_include()],
+    define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_20_API_VERSION")],
     extra_compile_args=extra_compile_args,
     extra_link_args=extra_link_args)
 
@@ -102,7 +103,8 @@ setup(
     name="pandana",
     author="UrbanSim Inc.",
     version=version,
-    license="AGPL",
+    license="AGPL-3.0-or-later",
+    python_requires=">=3.10",
     description=("Python library for network analysis"),
     long_description=(
         "Pandana is a Python library for network analysis that uses "
@@ -113,19 +115,17 @@ setup(
     url="https://udst.github.io/pandana/",
     ext_modules=[cyaccess],
     install_requires=[
-        'numpy >=1.8',
-        'pandas >=0.17',
+        'numpy >=1.26',
+        'pandas >=2.2',
         'requests >=2.0',
-        'scikit-learn >=0.18',
-        'tables >=3.1'
+        'scikit-learn >=1.5',
+        'tables >=3.10'
     ],
     classifiers=[
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
-        "License :: OSI Approved :: GNU Affero General Public License v3",
+        "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
+        "Programming Language :: Python :: 3.14",
     ],
 )
