@@ -26,7 +26,7 @@ Binary installers
 Each release includes wheels for these platforms, all built with OpenMP multithreading enabled:
 
 * Linux x86_64 and aarch64
-* Mac, Intel and Apple Silicon (requires macOS 15 or later)
+* Mac, Intel (requires macOS 14 or later) and Apple Silicon (requires macOS 15 or later)
 * Windows x86_64
 
 The wheels are built and tested by a GitHub Actions workflow. If there's no wheel for your platform, Pip will try to compile Pandana from source, which needs the build tools described below.
@@ -59,7 +59,7 @@ The default C++ compiler on Macs doesn't include OpenMP, so a plain source build
 
 On an Intel Mac, use ``clang_osx-64`` and ``clangxx_osx-64`` instead. These packages set the ``CC`` and ``CXX`` environment variables when the Conda environment is active, and Pandana's setup script will detect them and link against OpenMP.
 
-Alternatively, if you prefer Homebrew, ``brew install libomp`` and then build with ``CC=clang`` and ``CPPFLAGS``/``LDFLAGS`` pointing at the libomp install location. This is how the release wheels are built; see ``.github/workflows/build-wheels.yml`` for the details, and the writeup in `PR #137 <https://github.com/UDST/pandana/pull/137>`_ for background on Mac compilers. If you need to make additional modifications, you can edit the compilation script in your local copy of ``setup.py``.
+Alternatively, if you prefer Homebrew, ``brew install libomp`` and then build with ``CC=clang`` and ``CPPFLAGS``/``LDFLAGS`` pointing at the libomp install location (``brew --prefix libomp``). Homebrew's ``llvm`` package also works, with ``CC`` pointing at its ``clang`` and ``LDFLAGS`` at its ``lib`` directory. This is how the release wheels are built; see ``.github/workflows/build-wheels.yml`` for the details, and the writeup in `PR #137 <https://github.com/UDST/pandana/pull/137>`_ for background on Mac compilers. If you need to make additional modifications, you can edit the compilation script in your local copy of ``setup.py``.
 
 
 Multithreading
