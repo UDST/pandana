@@ -17,7 +17,7 @@ Or Conda::
 
     conda install pandana --channel conda-forge
 
-Pandana v0.8 supports Python 3.10 to 3.14. The last version with Python 3.8 and 3.9 binaries is v0.7. The last version with Python 2.7 binaries is v0.4.4 on Conda Forge, and the last version with Python 3.5 binaries is v0.6 on Pip.
+Pandana v0.8 supports Python 3.10 to 3.14. The last version with Python 3.8 and 3.9 binaries is v0.7, and the last with Python 3.5 through 3.7 is v0.6.1. The last version with Python 2.7 binaries is v0.4.4 on Conda Forge.
 
 
 Binary installers
@@ -29,13 +29,13 @@ Each release includes wheels for these platforms, all built with OpenMP multithr
 * Mac, Intel (requires macOS 14 or later) and Apple Silicon (requires macOS 15 or later)
 * Windows x86_64
 
-The wheels are built and tested by a GitHub Actions workflow. If there's no wheel for your platform, Pip will try to compile Pandana from source, which needs the build tools described below.
+The wheels are built and tested by a GitHub Actions workflow. If there's no wheel for your platform, Pip will try to compile Pandana from source, which needs the build tools described below. You can also force a source build with ``pip install --no-binary pandana pandana``.
 
 
 Compiling from source code
 ------------------------------
 
-You may want to compile Pandana locally if you're modifying the source code or need to use a version that's missing binary installers for your platform.
+You may want to compile Pandana locally if you're modifying the source code, or if you need a build with different options than the binary installers (for example, with OpenMP enabled on an older Mac).
 
 Pandana's build-time requirements are ``cython``, ``numpy``, and a C++ compiler that supports the C++17 standard. Additionally, the compiler needs to support OpenMP to allow Pandana to use multithreading.
 
@@ -65,4 +65,4 @@ Alternatively, if you prefer Homebrew, ``brew install libomp`` and then build wi
 Multithreading
 ------------------------------
 
-You can check how many threads Pandana is able to use on your machine by running the ``examples/simple_example.py`` script, or ``python tests/check_openmp.py``, which fails if fewer than two threads are available.
+You can check how many threads Pandana is able to use on your machine by running the ``examples/simple_example.py`` script from a source checkout, or ``python tests/check_openmp.py``, which fails if fewer than two threads are available.

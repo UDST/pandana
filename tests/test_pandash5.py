@@ -172,7 +172,6 @@ def test_legacy_hdf_read(sample_legacy):
 
 
 def test_migrate_legacy_hdf_output_file(sample_legacy, tmpfile):
-
     migrated = ph5.migrate_legacy_hdf(sample_path(), tmpfile)
 
     assert migrated == tmpfile

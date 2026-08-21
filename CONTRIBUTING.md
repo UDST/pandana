@@ -27,7 +27,7 @@ You can contact Sam Maurer, the lead maintainer, at `maurer@urbansim.com`.
 
 - Add [tests](https://github.com/UDST/pandana/tree/main/tests) if possible!
 
-- Open a pull request to the `UDST/pandana` main branch, including a writeup of your changes -- take a look at some of the closed PR's for examples
+- Open a pull request to the `UDST/pandana` main branch, including a writeup of your changes -- take a look at some of the closed PR's for examples. (Before v0.8, development happened on a `dev` branch; as of the v0.8 release, `main` is the integration branch and `dev` is retired.)
 
 - Current maintainers will review the code, suggest changes, and hopefully merge it!
 
@@ -76,7 +76,7 @@ You can contact Sam Maurer, the lead maintainer, at `maurer@urbansim.com`.
 
 - Check https://pypi.org/project/pandana/ for the new version, and try `pip install pandana` in a fresh environment. The `Installation` GitHub Actions workflow can also be run manually to test installation across platforms and Python versions.
 
-- A deferred pull request (#203) adds a job that publishes to PyPI directly from GitHub Actions using Trusted Publishing. Once that's in place, the manual upload steps above become the fallback.
+- The plan is to eventually publish to PyPI directly from GitHub Actions using Trusted Publishing, once the repository and organization settings support it. The manual upload steps above will then become the fallback.
 
 
 ## Distributing a release on Conda Forge (for conda installation):

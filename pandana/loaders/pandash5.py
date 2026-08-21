@@ -97,10 +97,9 @@ def open_hdf_store(filename, mode="r", migrate_legacy=False):
     temp_filename = None
     store_filename = filename
 
-    needs_migration = all([
-        mode == "r",
-        not _pandas_can_read(filename),
-        _has_legacy_pandas_attrs(filename)])
+    needs_migration = False
+    if mode == "r" and not _pandas_can_read(filename):
+        needs_migration = _has_legacy_pandas_attrs(filename)
 
     if needs_migration:
         if not migrate_legacy:

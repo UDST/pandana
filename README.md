@@ -49,7 +49,7 @@ Binary installers are provided for Mac, Linux, and Windows through both PyPI and
 - `pip install pandana`
 - `conda install pandana --channel conda-forge`
 
-Pandana v0.8 supports Python 3.10 to 3.14. The last version with Python 3.8 and 3.9 binaries is v0.7.
+Pandana v0.8 supports Python 3.10 to 3.14. The last version with Python 3.8 and 3.9 binaries is v0.7, and the last with Python 3.5 through 3.7 is v0.6.1.
 
 See the documentation for information about other [installation options](http://udst.github.io/pandana/installation.html).
 
