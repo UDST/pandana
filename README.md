@@ -4,6 +4,37 @@
 
 Pandana is a Python library for network analysis that uses [contraction hierarchies](https://en.wikipedia.org/wiki/Contraction_hierarchies) to calculate super-fast travel accessibility metrics and shortest paths. The numerical code is in C++.
 
+## Project scope
+
+**Status:** LTS / Compatibility
+
+**Mission:** Pandana provides the established UDST network-accessibility and
+shortest-path API for existing applications and users.
+
+**Architecture:** Pandana retains its established CPU and native-code reference
+execution architecture as part of its compatibility mission. Architectural
+rewrites are outside normal LTS maintenance and require broader scope review.
+
+The project focuses on:
+
+- compatibility with supported Python and scientific Python releases;
+- reliable installation and binary packaging;
+- correctness and security fixes;
+- preservation of established Pandana APIs and behavior; and
+- documentation needed to support existing applications.
+
+Pandana is maintained as a stable compatibility library within UDST.
+Continuing development of general-purpose network accessibility functionality
+takes place in [Pandarm](https://github.com/oturns/pandarm).
+
+Changes that improve reliability, compatibility, and maintainability are
+welcome within this mission and architecture. Material changes to the
+project's mission or execution architecture are considered through UDST's
+organization-level governance process.
+
+See the [UDST Project Directory](https://github.com/UDST/.github/blob/main/PROJECTS.md)
+for organization-wide project status and policy.
+
 New in v0.5 and v0.6 is vectorized, multi-threaded calculation of shortest path routes and distances: [network.shortest_paths()](http://udst.github.io/pandana/network.html#pandana.network.Network.shortest_paths), [network.shortest_path_lengths()](http://udst.github.io/pandana/network.html#pandana.network.Network.shortest_path_lengths).
 
 Documentation: http://udst.github.io/pandana
