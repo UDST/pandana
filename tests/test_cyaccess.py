@@ -6,7 +6,7 @@ import pytest
 import os
 from numpy.testing import assert_almost_equal
 from pandana.cyaccess import cyaccess
-from pandana.loaders.pandash5 import _legacy_compatible_hdf_store
+from pandana.loaders.pandash5 import open_hdf_store
 
 
 def sample_path():
@@ -15,7 +15,7 @@ def sample_path():
 
 @pytest.fixture(scope="module")
 def nodes_and_edges():
-    with _legacy_compatible_hdf_store(
+    with open_hdf_store(
             sample_path(), migrate_legacy=True) as store:
         nodes = store.nodes.copy()
         edges = store.edges[["from", "to"]].copy()

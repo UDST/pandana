@@ -92,4 +92,10 @@ Pandas HDF5 API
 
 .. autofunction:: pandana.loaders.pandash5.network_from_pandas_hdf5
 
+Network files saved with older versions of Pandas have metadata that Pandas 3 can no longer read. These helpers handle that:
+
+.. autofunction:: pandana.loaders.pandash5.open_hdf_store
+
+.. autofunction:: pandana.loaders.pandash5.migrate_legacy_hdf
+
 .. _OSMnet: https://github.com/udst/osmnet

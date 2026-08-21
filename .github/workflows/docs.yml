@@ -1,0 +1,35 @@
+name: Docs
+
+# This workflow checks that the Sphinx documentation builds without warnings.
+# Publishing the docs is still a manual step; see docs/README.md.
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+    - uses: actions/checkout@v6
+    - name: Set up Python
+      uses: actions/setup-python@v6
+      with:
+        python-version: '3.14'
+    - name: Install Pandana and docs tools
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install .
+        python -m pip install sphinx sphinx_rtd_theme numpydoc
+    - name: Build docs
+      run: |
+        sphinx-build -W --keep-going -b html docs/source docs/build

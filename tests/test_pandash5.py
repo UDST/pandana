@@ -15,6 +15,12 @@ def sample_path():
     return os.path.join(os.path.dirname(__file__), 'osm_sample.h5')
 
 
+@pytest.fixture
+def sample_legacy():
+    if not ph5._has_legacy_pandas_attrs(sample_path()):
+        pytest.skip('sample file does not contain legacy Pandas metadata')
+
+
 @pytest.fixture(scope='module')
 def nodes():
     return pd.DataFrame(
@@ -148,29 +154,24 @@ def test_network_save_load_hdf5(
     assert new_net.impedance_names == impedance_names
 
 
-def test_legacy_hdf_requires_explicit_migration():
-    if not ph5._has_legacy_pandas_attrs(sample_path()):
-        pytest.skip('sample file does not contain legacy Pandas metadata')
-
-    with pytest.raises(ValueError, match='migrate_legacy_hdf'):
-        with ph5._legacy_compatible_hdf_store(sample_path()):
-            pass
-
-
-def test_legacy_hdf_store_allows_explicit_temp_migration():
-    if not ph5._has_legacy_pandas_attrs(sample_path()):
-        pytest.skip('sample file does not contain legacy Pandas metadata')
-
-    with ph5._legacy_compatible_hdf_store(
-            sample_path(), migrate_legacy=True) as store:
+def test_legacy_hdf_read(sample_legacy):
+    # The sample file was written by an old Pandas. Newer Pandas may or may
+    # not be able to read it directly; either way it should load with
+    # migrate_legacy=True, and without it should either load or explain.
+    with ph5.open_hdf_store(sample_path(), migrate_legacy=True) as store:
         assert '/nodes' in store.keys()
         assert '/edges' in store.keys()
 
+    if ph5._pandas_can_read(sample_path()):
+        with ph5.open_hdf_store(sample_path()) as store:
+            assert '/nodes' in store.keys()
+    else:
+        with pytest.raises(ValueError, match='migrate_legacy_hdf'):
+            with ph5.open_hdf_store(sample_path()):
+                pass
 
-def test_migrate_legacy_hdf_output_file(tmpfile):
-    if not ph5._has_legacy_pandas_attrs(sample_path()):
-        pytest.skip('sample file does not contain legacy Pandas metadata')
 
+def test_migrate_legacy_hdf_output_file(sample_legacy, tmpfile):
     migrated = ph5.migrate_legacy_hdf(sample_path(), tmpfile)
 
     assert migrated == tmpfile
