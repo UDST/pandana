@@ -5,8 +5,8 @@ v0.8
 
 * Adds support for Python 3.10 to 3.14, NumPy 2, Pandas 3, and Cython 3; drops Python 3.8 and 3.9
 * Builds binary installers for all platforms automatically, including Apple Silicon Macs and ARM Linux, and tests each one before release
-* Fixes shortest path calculations on Windows by using explicit 64-bit integer types
-* Improves support for network files saved with older versions of Pandas
+* Fixes failures on Windows caused by 32-bit `long` integers in the compiled extension, by using explicit 64-bit integer types
+* Improves support for network files saved with older versions of Pandas: `Network.from_hdf5()` reads them directly when the installed Pandas can, and otherwise accepts `migrate_legacy=True`; adds `pandana.loaders.pandash5.open_hdf_store()` and `migrate_legacy_hdf()`
 * Modernizes the build and test infrastructure, including compatibility testing against the oldest supported dependency versions
 * Thanks to @knaaptime (PR #196) and @gromicho (PR #198) for the compatibility work, and to the Pandarm project for the approach to bundling OpenMP in Mac wheels
 
