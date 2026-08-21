@@ -9,7 +9,7 @@ import pandana.network as pdna
 from numpy.testing import assert_allclose
 from pandas.testing import assert_index_equal
 
-from pandana.loaders.pandash5 import _legacy_compatible_hdf_store
+from pandana.loaders.pandash5 import open_hdf_store
 
 
 def sample_path():
@@ -17,7 +17,7 @@ def sample_path():
 
 
 def load_sample():
-    with _legacy_compatible_hdf_store(
+    with open_hdf_store(
             sample_path(), migrate_legacy=True) as store:
         return store.nodes.copy(), store.edges.copy()
 

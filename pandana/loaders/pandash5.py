@@ -54,18 +54,62 @@ def migrate_legacy_hdf(filename, output_filename=None):
     return target
 
 
+def _pandas_can_read(filename):
+    """Return True if Pandas can open every table in the file as-is."""
+    try:
+        with pd.HDFStore(filename, mode="r") as store:
+            for key in store.keys():
+                store.get_storer(key)
+    except Exception:
+        return False
+    return True
+
+
 @contextmanager
-def _legacy_compatible_hdf_store(filename, mode="r", migrate_legacy=False):
+def open_hdf_store(filename, mode="r", migrate_legacy=False):
+    """
+    Open a Pandas HDFStore, handling files written by older Pandas versions.
+
+    Pandana network files saved with older Pandas/PyTables combinations have
+    metadata stored as byte strings, which Pandas 3 can no longer read. This
+    context manager opens the file normally when Pandas can read it. If it
+    can't and the file has legacy metadata, the file is either migrated into
+    a temporary copy for the duration of the read (``migrate_legacy=True``),
+    or a ``ValueError`` is raised explaining how to migrate the file with
+    :func:`migrate_legacy_hdf`.
+
+    Parameters
+    ----------
+    filename : str
+    mode : str, optional
+        Passed to ``pandas.HDFStore``. Legacy handling only applies to
+        read mode.
+    migrate_legacy : bool, optional
+        If True, migrate legacy metadata into a temporary copy when Pandas
+        can't read the file directly. The default is False so large network
+        files are not copied implicitly.
+
+    Yields
+    ------
+    store : pandas.HDFStore
+
+    """
     temp_filename = None
     store_filename = filename
 
-    if mode == "r" and _has_legacy_pandas_attrs(filename):
+    needs_migration = all([
+        mode == "r",
+        not _pandas_can_read(filename),
+        _has_legacy_pandas_attrs(filename)])
+
+    if needs_migration:
         if not migrate_legacy:
             raise ValueError(
-                "Legacy Pandas HDF5 metadata detected. Run "
-                "pandana.loaders.pandash5.migrate_legacy_hdf(...) first, "
-                "or pass migrate_legacy=True to explicitly use a temporary "
-                "migrated copy during this read."
+                "This file has legacy Pandas HDF5 metadata that the "
+                "installed version of Pandas can't read. Run "
+                "pandana.loaders.pandash5.migrate_legacy_hdf(...) to "
+                "migrate it, or pass migrate_legacy=True to read from a "
+                "temporary migrated copy."
             )
         fd, temp_filename = tempfile.mkstemp(suffix=".h5")
         os.close(fd)
@@ -141,17 +185,16 @@ def network_from_pandas_hdf5(cls, filename, migrate_legacy=False):
         Class to instantiate, usually pandana.Network.
     filename : str
     migrate_legacy : bool, optional
-        If True, legacy Pandas HDF5 metadata is migrated into a temporary
-        copy before reading. The default is False so large network files are
-        not copied implicitly.
+        If True and the installed Pandas can't read the file's legacy
+        metadata, migrate it into a temporary copy before reading. The
+        default is False so large network files are not copied implicitly.
 
     Returns
     -------
     network : pandana.Network
 
     """
-    with _legacy_compatible_hdf_store(
-            filename, migrate_legacy=migrate_legacy) as store:
+    with open_hdf_store(filename, migrate_legacy=migrate_legacy) as store:
         nodes = store['nodes']
         edges = store['edges']
         two_way = store['two_way'][0]

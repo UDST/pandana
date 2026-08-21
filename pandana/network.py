@@ -117,9 +117,10 @@ class Network:
         ----------
         filename : str
         migrate_legacy : bool, optional
-            If True, legacy Pandas HDF5 metadata is migrated into a temporary
-            copy before reading. The default is False so large network files
-            are not copied implicitly.
+            If True and the installed Pandas can't read the file's legacy
+            metadata (files saved with older Pandas versions), migrate it
+            into a temporary copy before reading. The default is False so
+            large network files are not copied implicitly.
 
         Returns
         -------

@@ -23,6 +23,7 @@ import time
 import numpy as np
 import pandas as pd
 import pandana.network as pdna
+from pandana.loaders.pandash5 import open_hdf_store
 
 if len(sys.argv) > 1:
     # allow test file to be passed as an argument
@@ -38,11 +39,10 @@ if not os.path.isfile(storef):
 
 print('Building network from file: {!r}'.format(storef))
 
-store = pd.HDFStore(storef, "r")
-nodes, edges = store.nodes, store.edges
+with open_hdf_store(storef, migrate_legacy=True) as store:
+    nodes, edges = store.nodes.copy(), store.edges.copy()
 net = pdna.Network(nodes.x, nodes.y, edges["from"], edges.to,
                    edges[["weight"]])
-store.close()
 print()
 
 # Demonstrate shortest path code - the largest connected subgraph here has 477 nodes,
