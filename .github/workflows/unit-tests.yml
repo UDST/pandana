@@ -23,7 +23,7 @@ jobs:
         include:
         - name: Lower-bound dependencies
           os: ubuntu-latest
-          python-version: '3.12'
+          python-version: '3.10'
           constraints: requirements-lower-bound.txt
           coverage: 'false'
         - name: Latest dependencies

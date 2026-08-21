@@ -25,14 +25,18 @@ jobs:
           os: ubuntu-latest
           cibw-archs: x86_64
           openmp: GCC/libgomp OpenMP enabled
+        - name: Linux aarch64 wheels
+          os: ubuntu-24.04-arm
+          cibw-archs: aarch64
+          openmp: GCC/libgomp OpenMP enabled
         - name: macOS x86_64 wheels
           os: macos-15-intel
           cibw-archs: x86_64
-          openmp: Apple clang build without OpenMP by default
+          openmp: Apple clang with Homebrew libomp bundled by delocate
         - name: macOS arm64 wheels
           os: macos-15
           cibw-archs: arm64
-          openmp: Apple clang build without OpenMP by default
+          openmp: Apple clang with Homebrew libomp bundled by delocate
         - name: Windows AMD64 wheels
           os: windows-latest
           cibw-archs: AMD64
@@ -50,8 +54,27 @@ jobs:
         CIBW_BUILD: "cp310-* cp311-* cp312-* cp313-* cp314-*"
         CIBW_SKIP: "*-musllinux_*"
         CIBW_ARCHS: ${{ matrix.cibw-archs }}
+        CIBW_BUILD_VERBOSITY: 1
         CIBW_TEST_REQUIRES: "pytest"
-        CIBW_TEST_COMMAND: "python -m pytest --import-mode=importlib {project}/tests -q"
+        # Run the unit tests, then confirm the wheel is actually multithreaded.
+        CIBW_TEST_COMMAND: >
+          python -m pytest --import-mode=importlib {project}/tests -q &&
+          python {project}/tests/check_openmp.py
+        # macOS: Apple's clang has no OpenMP runtime of its own, so install
+        # LLVM's libomp from Homebrew on the runner, point the compiler at it,
+        # and let delocate copy the dylib into the wheel so it is self-contained.
+        # The deployment target has to match the Homebrew bottle's minimum OS
+        # for delocate to accept the library. Same approach as Pandarm PR #59
+        # (github.com/oturns/pandarm/pull/59).
+        CIBW_BEFORE_BUILD_MACOS: brew install libomp
+        CIBW_ENVIRONMENT_MACOS: >
+          CC=clang
+          CXX=clang++
+          CPPFLAGS="-I$(brew --prefix libomp)/include"
+          LDFLAGS="-L$(brew --prefix libomp)/lib"
+          MACOSX_DEPLOYMENT_TARGET=15.0
+        CIBW_REPAIR_WHEEL_COMMAND_MACOS: >
+          delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}
     - name: Save artifacts
       uses: actions/upload-artifact@v7
       with:

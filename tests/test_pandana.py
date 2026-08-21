@@ -10,7 +10,6 @@ from numpy.testing import assert_allclose
 from pandas.testing import assert_index_equal
 
 from pandana.loaders.pandash5 import _legacy_compatible_hdf_store
-from pandana.testing import skipifci
 
 
 def sample_path():
