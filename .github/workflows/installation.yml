@@ -1,13 +1,14 @@
 name: Installation
 
-# This workflow installs Pandana from Pip and Conda across a range of Python versions and
-# operating systems. You can run this manually after a new release is posted to confirm
-# that it installs smoothly. This workflow also runs periodically in the background to
-# catch dependency updates that break Pandana.
+# This workflow installs the latest released Pandana from PyPI and Conda Forge across
+# a range of Python versions and operating systems. You can run it manually after a
+# new release is posted to confirm that it installs smoothly. It also runs weekly in
+# the background to catch dependency updates that break Pandana.
+#
+# It tests whatever is currently published, not this branch, so expect failures for
+# Python versions that the latest release doesn't yet provide binaries for.
 
 on:
-  # push:
-  # pull_request:
   workflow_dispatch:
   schedule:
   - cron: '0 3 * * 1'  # every Monday at 3am UTC (Sunday evening Calif time)
@@ -21,15 +22,14 @@ concurrency:
 
 jobs:
   build-pip:
+    name: pip / ${{ matrix.os }} / ${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 20
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest]
-        # Pip installation for Windows is not supported. Pip installation for Mac is
-        # broken in the GitHub Actions environment with Pandana v0.6 but should be fixed
-        # in the next Pandana release.
-        python-version: [3.8, 3.9, '3.10', '3.11']
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ['3.10', '3.11', '3.12', '3.13', '3.14']
     steps:
     - uses: actions/checkout@v6
     - name: Set up Python ${{ matrix.python-version }}
@@ -38,21 +38,23 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install Pandana
       run: |
-        pip install pandana
+        pip install --only-binary pandana pandana
     - name: Run demo
       run: |
         python examples/simple_example.py
 
   build-conda:
+    name: conda / ${{ matrix.os }} / ${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 45
     defaults:
       run:
         shell: bash -l {0}  # needed for conda persistence
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: [3.8, 3.9, '3.10', '3.11']
+        python-version: ['3.10', '3.11', '3.12', '3.13', '3.14']
     steps:
     - uses: actions/checkout@v6
     - name: Set up Python ${{ matrix.python-version }}

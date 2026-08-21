@@ -9,7 +9,6 @@ from pandas.testing import assert_series_equal
 
 from pandana import Network
 from pandana.loaders import pandash5 as ph5
-from pandana.testing import skipifci
 
 
 def sample_path():
@@ -76,7 +75,6 @@ def tmpfile(request):
     return fname
 
 
-@skipifci
 def test_remove_nodes(network, rm_nodes):
     # node 0 is connected to node 4, which is in turn connected to node 5
     # node 7 is connected to node 11, which has no other connections
@@ -101,7 +99,6 @@ def test_remove_nodes(network, rm_nodes):
     assert_frame_equal(edges, exp_edges)
 
 
-@skipifci
 def test_network_to_pandas_hdf5(
         tmpfile, network, nodes, edges_df, impedance_names, two_way):
     ph5.network_to_pandas_hdf5(network, tmpfile)
@@ -114,7 +111,6 @@ def test_network_to_pandas_hdf5(
             store['impedance_names'], pd.Series(impedance_names))
 
 
-@skipifci
 def test_network_to_pandas_hdf5_removal(
         tmpfile, network, impedance_names, two_way, rm_nodes):
     nodes, edges = ph5.remove_nodes(network, rm_nodes)
@@ -128,7 +124,6 @@ def test_network_to_pandas_hdf5_removal(
             store['impedance_names'], pd.Series(impedance_names))
 
 
-@skipifci
 def test_network_from_pandas_hdf5(
         tmpfile, network, nodes, edges_df, impedance_names, two_way):
     ph5.network_to_pandas_hdf5(network, tmpfile)
@@ -140,7 +135,6 @@ def test_network_from_pandas_hdf5(
     assert new_net.impedance_names == impedance_names
 
 
-@skipifci
 def test_network_save_load_hdf5(
         tmpfile, network, impedance_names, two_way, rm_nodes):
     network.save_hdf5(tmpfile, rm_nodes)
@@ -189,7 +183,6 @@ def test_migrate_legacy_hdf_output_file(tmpfile):
 
 # this is an odd place for this test because it's not related to HDF5,
 # but my test Network is perfect.
-@skipifci
 def test_network_low_connectivity_nodes(network, impedance_names):
     nodes = network.low_connectivity_nodes(10, 3, imp_name=impedance_names[0])
     assert list(nodes) == [7, 11]
