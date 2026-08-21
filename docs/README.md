@@ -13,7 +13,7 @@ The files in `docs/source`, along with docstrings in the source code, determine 
 Install the copy of Pandana that the documentation is meant to reflect. Install the documentation tools.
 
 ```
-pip install . 
+pip install .
 pip install sphinx sphinx_rtd_theme numpydoc
 ```
 
@@ -28,4 +28,4 @@ The HTML files will show up in `docs/build/`.
 
 ### Uploading changes
 
-Clone a second copy of the repository and check out the `gh-pages` branch. Copy over the updated HTML files, commit them, and push the changes to GitHub.
+Clone a second copy of the repository and check out the `gh-pages` branch. Copy over the updated HTML files (the contents of `docs/build/`, not the directory itself), commit them, and push the changes to GitHub. GitHub Pages will update within a few minutes.

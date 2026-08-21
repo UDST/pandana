@@ -7,7 +7,7 @@ Pandana is a Python package that includes a C++ extension for numerical operatio
 Standard installation
 ------------------------------
 
-Binary installers are provided for Mac, Linux, and Windows through both PyPI and Conda Forge when the corresponding release artifacts are available.
+Binary installers are provided for Mac, Linux, and Windows through both PyPI and Conda Forge.
 
 You can install Pandana using Pip::
 
@@ -17,25 +17,19 @@ Or Conda::
 
     conda install pandana --channel conda-forge
 
-Current source builds target Python 3.10 to 3.14. The last version of Pandana with Python 2.7 binaries is v0.4.4 on Conda Forge. The last version with Python 3.5 binaries is v0.6 on Pip.
+Pandana v0.8 supports Python 3.10 to 3.14. The last version with Python 3.8 and 3.9 binaries is v0.7. The last version with Python 2.7 binaries is v0.4.4 on Conda Forge, and the last version with Python 3.5 binaries is v0.6 on Pip.
 
 
-Wheel targets
+Binary installers
 ------------------------------
 
-The GitHub Actions wheel workflow builds and tests installed wheels for these targets:
+Each release includes wheels for these platforms, all built with OpenMP multithreading enabled:
 
-* Linux x86_64, built with GCC and OpenMP enabled through ``libgomp``.
-* Windows AMD64, built with Microsoft Visual C++ and OpenMP enabled through ``/openmp``.
-* macOS x86_64, built with Apple's default clang toolchain and without OpenMP by default.
+* Linux x86_64 and aarch64
+* Mac, Intel and Apple Silicon (requires macOS 15 or later)
+* Windows x86_64
 
-
-ARM-based Macs
-------------------------------
-
-Native binary installers for ARM-based Macs are available on Conda Forge, but to use these your full Python stack needs to be optimized for ARM.
-
-If you're running Python through Rosetta translation (which is the default), older Mac installers will continue to work fine. See `issue #152 <https://github.com/UDST/pandana/issues/152>`_ for tips and further discussion.
+The wheels are built and tested by a GitHub Actions workflow. If there's no wheel for your platform, Pip will try to compile Pandana from source, which needs the build tools described below.
 
 
 Compiling from source code
@@ -43,33 +37,32 @@ Compiling from source code
 
 You may want to compile Pandana locally if you're modifying the source code or need to use a version that's missing binary installers for your platform.
 
-Mac users should start by running ``xcode-select --install`` to make sure you have Apple's Xcode command line tools, which are needed behind the scenes. Windows users will need the `Microsoft Visual C++ Build Tools <https://visualstudio.microsoft.com/visual-cpp-build-tools/>`_.
-
 Pandana's build-time requirements are ``cython``, ``numpy``, and a C++ compiler that supports the C++17 standard. Additionally, the compiler needs to support OpenMP to allow Pandana to use multithreading.
 
-The smoothest route is to get the compilers from Conda Forge -- you want the ``clang`` and ``llvm-openmp`` packages. Running Pandana's setup script will trigger compilation::
+On Linux, your system's GCC should be fine. Windows users will need the `Microsoft Visual C++ Build Tools <https://visualstudio.microsoft.com/visual-cpp-build-tools/>`_. Mac users should start by running ``xcode-select --install`` to make sure you have Apple's Xcode command line tools, which are needed behind the scenes.
 
-    conda install cython numpy clang llvm-openmp
-    python setup.py develop
+Running Pandana's setup script will trigger compilation::
+
+    pip install setuptools cython numpy
+    pip install --no-build-isolation --editable .
 
 You'll see a lot of status messages go by, but hopefully no errors.
 
-MacOS 10.14 (but not newer versions) often needs additional header files installed. If you see a compilation error like ``'wchar.h' file not found`` in MacOS 10.14, you can resolve it by running this command::
 
-    open /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg
-
-
-Advanced compilation tips
+Compiling with OpenMP on a Mac
 ------------------------------
 
-If you prefer not to use Conda, you can skip the ``clang`` and ``llvm-openmp`` packages. Compilation will likely work fine with your system's built-in toolchain. 
+The default C++ compiler on Macs doesn't include OpenMP, so a plain source build will work but run single-threaded. To get multithreading, use the compilers and OpenMP runtime from Conda Forge. On an Apple Silicon Mac::
 
-The default C++ compiler on Macs doesn't support OpenMP, though, meaning that Pandana won't be able to use multithreading.
+    conda install setuptools cython numpy clang_osx-arm64 clangxx_osx-arm64 llvm-openmp
+    pip install --no-build-isolation --editable .
 
-You can set the ``CC`` environment variable to specify a compiler of your choice. See writeup in `PR #137 <https://github.com/UDST/pandana/pull/137>`_ for discussion of this. If you need to make additional modifications, you can edit the compilation script in your local copy of ``setup.py``.
+On an Intel Mac, use ``clang_osx-64`` and ``clangxx_osx-64`` instead. These packages set the ``CC`` and ``CXX`` environment variables when the Conda environment is active, and Pandana's setup script will detect them and link against OpenMP.
+
+Alternatively, if you prefer Homebrew, ``brew install libomp`` and then build with ``CC=clang`` and ``CPPFLAGS``/``LDFLAGS`` pointing at the libomp install location. This is how the release wheels are built; see ``.github/workflows/build-wheels.yml`` for the details, and the writeup in `PR #137 <https://github.com/UDST/pandana/pull/137>`_ for background on Mac compilers. If you need to make additional modifications, you can edit the compilation script in your local copy of ``setup.py``.
 
 
 Multithreading
 ------------------------------
 
-You can check how many threads Pandana is able to use on your machine by running the ``examples/simple_example.py`` script.
+You can check how many threads Pandana is able to use on your machine by running the ``examples/simple_example.py`` script, or ``python tests/check_openmp.py``, which fails if fewer than two threads are available.
