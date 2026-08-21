@@ -41,7 +41,7 @@ def test_process_node():
 
 
 # This needs to be fixed in UrbanAccess
-# # def test_network_from_bbox(bbox2):
+# def test_network_from_bbox(bbox2):
 #     net = osm.pdna_network_from_bbox(*bbox2)
 #     assert isinstance(net, pandana.Network)
 

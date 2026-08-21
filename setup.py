@@ -16,10 +16,10 @@ extra_link_args = []
 # Mac compilation: Apple's clang doesn't ship an OpenMP runtime, so
 # multithreading needs LLVM's libomp from somewhere else. Three cases:
 #
-#   1. CC is set: the user chose a compiler (e.g. Homebrew clang, or Apple
-#      clang with Homebrew libomp -- this is also what cibuildwheel does).
-#      Compile with OpenMP pragmas enabled and link against libomp, honoring
-#      any CPPFLAGS/LDFLAGS that point at it.
+#   1. CC is set: the user chose a compiler, e.g. Homebrew or Conda Forge
+#      LLVM clang, or Apple clang with Homebrew libomp (which is what
+#      cibuildwheel does). Enable OpenMP in whichever way that compiler
+#      supports, honoring any CPPFLAGS/LDFLAGS that point at libomp.
 #   2. A non-Apple clang is first on the PATH, e.g. from the Conda Forge
 #      'clang' + 'llvm-openmp' packages: use it with -fopenmp.
 #   3. Otherwise, build single-threaded with the system compiler.
@@ -30,10 +30,18 @@ if sys.platform.startswith("darwin"):  # Mac
     extra_link_args += ["-stdlib=libc++"]
 
     if "CC" in os.environ:
-        # '-Xpreprocessor -fopenmp' enables OpenMP in both Apple clang and
-        # LLVM clang; '-lomp' then links the runtime explicitly.
-        extra_compile_args += ["-Xpreprocessor", "-fopenmp"]
-        extra_link_args += ["-lomp"]
+        cc_version = os.popen("{} --version".format(os.environ["CC"])).read()
+        if "Apple" in cc_version:
+            # Apple clang rejects -fopenmp, but can still build OpenMP code
+            # if libomp is installed (e.g. from Homebrew): enable the pragmas
+            # in the frontend and link the runtime explicitly. Point CPPFLAGS
+            # and LDFLAGS at libomp if it isn't on the default search path.
+            extra_compile_args += ["-Xpreprocessor", "-fopenmp"]
+            extra_link_args += ["-lomp"]
+        else:
+            # LLVM clang or GCC: the driver finds its own OpenMP runtime
+            extra_compile_args += ["-fopenmp"]
+            extra_link_args += ["-fopenmp"]
         print(
             "Attempting Pandana compilation with OpenMP multi-threading "
             "support, with user-specified compiler:\n{}".format(os.environ["CC"])

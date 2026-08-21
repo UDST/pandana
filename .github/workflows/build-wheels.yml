@@ -33,10 +33,12 @@ jobs:
           os: macos-15-intel
           cibw-archs: x86_64
           openmp: Apple clang with Homebrew libomp bundled by delocate
+          macos-target: '14.0'  # Homebrew's Intel libomp bottle is built for Sonoma
         - name: macOS arm64 wheels
           os: macos-15
           cibw-archs: arm64
           openmp: Apple clang with Homebrew libomp bundled by delocate
+          macos-target: '15.0'
         - name: Windows AMD64 wheels
           os: windows-latest
           cibw-archs: AMD64
@@ -64,7 +66,7 @@ jobs:
         # LLVM's libomp from Homebrew on the runner, point the compiler at it,
         # and let delocate copy the dylib into the wheel so it is self-contained.
         # The deployment target has to match the Homebrew bottle's minimum OS
-        # for delocate to accept the library. Same approach as Pandarm PR #59
+        # for delocate to accept the library; it differs by architecture. Same approach as Pandarm PR #59
         # (github.com/oturns/pandarm/pull/59).
         CIBW_BEFORE_BUILD_MACOS: brew install libomp
         CIBW_ENVIRONMENT_MACOS: >
@@ -72,7 +74,7 @@ jobs:
           CXX=clang++
           CPPFLAGS="-I$(brew --prefix libomp)/include"
           LDFLAGS="-L$(brew --prefix libomp)/lib"
-          MACOSX_DEPLOYMENT_TARGET=15.0
+          MACOSX_DEPLOYMENT_TARGET=${{ matrix.macos-target }}
         CIBW_REPAIR_WHEEL_COMMAND_MACOS: >
           delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}
     - name: Save artifacts
