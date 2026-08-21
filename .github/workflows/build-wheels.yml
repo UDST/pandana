@@ -45,13 +45,13 @@ jobs:
           openmp: MSVC /openmp enabled
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
     - name: Show wheel target
       run: |
         echo "cibuildwheel architectures: ${{ matrix.cibw-archs }}"
         echo "OpenMP target: ${{ matrix.openmp }}"
     - name: Build wheels
-      uses: pypa/cibuildwheel@v4.1.1
+      uses: pypa/cibuildwheel@v4.2.0
       env:
         CIBW_BUILD: "cp310-* cp311-* cp312-* cp313-* cp314-*"
         CIBW_SKIP: "*-musllinux_*"
@@ -88,9 +88,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
     - name: Set up Python
-      uses: actions/setup-python@v6
+      uses: actions/setup-python@v7
       with:
         python-version: '3.14'
     - name: Build sdist
