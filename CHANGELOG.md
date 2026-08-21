@@ -1,12 +1,14 @@
-Unreleased
-==========
+v0.8
+====
 
-* Adds support for NumPy 2, Cython 3, Python 3.12+, and modern Windows builds.
-* Incorporates and extends NumPy 2 compatibility work from @knaaptime in [PR #196](https://github.com/UDST/pandana/pull/196).
-* Updates compiled extension dtype handling to use explicit 64-bit NumPy types.
-* Replaces removed C++ standard library APIs used by the contraction hierarchy backend.
-* Preserves shortest-path behavior on a fixed graph with regression coverage.
-* Adds compatibility handling for legacy Pandana HDF files with newer Pandas/PyTables.
+2026/08/21 (release candidate 1)
+
+* Adds support for Python 3.10 to 3.14, NumPy 2, Pandas 3, and Cython 3; drops Python 3.8 and 3.9
+* Builds binary installers for all platforms automatically, including Apple Silicon Macs and ARM Linux, and tests each one before release
+* Fixes shortest path calculations on Windows by using explicit 64-bit integer types
+* Improves support for network files saved with older versions of Pandas
+* Modernizes the build and test infrastructure, including compatibility testing against the oldest supported dependency versions
+* Thanks to @knaaptime (PR #196) and @gromicho (PR #198) for the compatibility work, and to the Pandarm project for the approach to bundling OpenMP in Mac wheels
 
 v0.7
 ====
