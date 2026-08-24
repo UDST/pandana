@@ -3,6 +3,7 @@ name: Build wheels
 on:
   pull_request:
   release:
+    types: [published]
   workflow_dispatch:
 
 permissions:
