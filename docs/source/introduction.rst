@@ -4,7 +4,7 @@ Getting started
 .. note::
     This guide was last updated in 2017 and may not be current. The best place
     to start is with the Pandana `demo notebook 
-    <https://github.com/UDST/pandana/tree/master/examples/Pandana-demo.ipynb>`_.
+    <https://github.com/UDST/pandana/blob/main/examples/Pandana-demo.ipynb>`_.
 
 Introduction
 ~~~~~~~~~~~~
@@ -18,7 +18,7 @@ Beyond simple access to destination queries, this library also implements more g
 we think network queries are a more accurate representation of how people
 interact with their environment.
 
-We look forward to creative uses of a general library like this - please let us know when you think you have a great use case by tweeting us at ``@urbansim`` or post on the UrbanSim `forum`_.
+We look forward to creative uses of a general library like this - please let us know when you think you have a great use case by posting on the UrbanSim `forum`_.
 
 General workflow
 ~~~~~~~~~~~~~~~~
