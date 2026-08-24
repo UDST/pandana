@@ -96,7 +96,7 @@ cyaccess = Extension(
 # Standard setup
 ###############################################
 
-version = "0.8rc1"
+version = "0.8"
 
 packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"])
 
@@ -108,6 +108,7 @@ setup(
     license="AGPL-3.0-or-later",
     python_requires=">=3.10",
     description=("Python library for network analysis"),
+    long_description_content_type="text/x-rst",
     long_description=(
         "Pandana is a Python library for network analysis that uses "
         "contraction hierarchies to calculate super-fast travel "

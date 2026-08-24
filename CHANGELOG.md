@@ -1,7 +1,7 @@
 v0.8
 ====
 
-2026/08/21 (release candidate 1)
+2026/08/24
 
 * Adds support for Python 3.10 to 3.14, NumPy 2, Pandas 3, and Cython 3; drops Python 3.8 and 3.9
 * Builds binary installers for all platforms automatically, including Apple Silicon Macs and ARM Linux, and tests each one before release
