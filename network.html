@@ -1,19 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Network API &mdash; pandana 0.7 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <title>Network API &mdash; pandana 0.8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=a0e24af7"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -32,9 +34,6 @@
           <a href="index.html" class="icon icon-home">
             pandana
           </a>
-              <div class="version">
-                0.7
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -107,12 +106,12 @@
            <div itemprop="articleBody">
              
   <section id="network-api">
-<h1>Network API<a class="headerlink" href="#network-api" title="Permalink to this heading">¶</a></h1>
+<h1>Network API<a class="headerlink" href="#network-api" title="Link to this heading"></a></h1>
 <section id="module-pandana.network">
-<span id="api"></span><h2>API<a class="headerlink" href="#module-pandana.network" title="Permalink to this heading">¶</a></h2>
+<span id="api"></span><h2>API<a class="headerlink" href="#module-pandana.network" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pandana.network.Network">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pandana.network.</span></span><span class="sig-name descname"><span class="pre">Network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_from</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_to</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_weights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">twoway</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network" title="Permalink to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pandana.network.</span></span><span class="sig-name descname"><span class="pre">Network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_from</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_to</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_weights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">twoway</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network" title="Link to this definition"></a></dt>
 <dd><p>Create the transportation network in the city.  Typical data would be
 distance based from OpenStreetMap or travel time from GTFS transit data.</p>
 <dl class="field-list simple">
@@ -149,7 +148,7 @@ table.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="pandana.network.Network.aggregate">
-<span class="sig-name descname"><span class="pre">aggregate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sum'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'linear'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imp_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tmp'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.aggregate" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">aggregate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sum'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'linear'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imp_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tmp'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.aggregate" title="Link to this definition"></a></dt>
 <dd><p>Aggregate information for every source node in the network - this is
 really the main purpose of this library.  This allows you to touch
 the data specified by calling set and perform some aggregation on it
@@ -207,18 +206,23 @@ node in the network.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pandana.network.Network.bbox">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bbox</span></span><a class="headerlink" href="#pandana.network.Network.bbox" title="Permalink to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">bbox</span></span><a class="headerlink" href="#pandana.network.Network.bbox" title="Link to this definition"></a></dt>
 <dd><p>The bounding box for nodes in this network [xmin, ymin, xmax, ymax]</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pandana.network.Network.from_hdf5">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_hdf5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.from_hdf5" title="Permalink to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">from_hdf5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">migrate_legacy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.from_hdf5" title="Link to this definition"></a></dt>
 <dd><p>Load a previously saved Network from a Pandas HDF5 file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>filename</strong><span class="classifier">str</span></dt><dd></dd>
+<dt><strong>migrate_legacy</strong><span class="classifier">bool, optional</span></dt><dd><p>If True and the installed Pandas can’t read the file’s legacy
+metadata (files saved with older Pandas versions), migrate it
+into a temporary copy before reading. The default is False so
+large network files are not copied implicitly.</p>
+</dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -231,7 +235,7 @@ node in the network.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pandana.network.Network.get_node_ids">
-<span class="sig-name descname"><span class="pre">get_node_ids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.get_node_ids" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_node_ids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.get_node_ids" title="Link to this definition"></a></dt>
 <dd><p>Assign node_ids to data specified by x_col and y_col.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -268,7 +272,7 @@ input x, y’s that were successfully mapped to node_ids.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pandana.network.Network.init_pois">
-<span class="sig-name descname"><span class="pre">init_pois</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_categories</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_dist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_pois</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.init_pois" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">init_pois</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_categories</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_dist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_pois</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.init_pois" title="Link to this definition"></a></dt>
 <dd><p>Initialize the point of interest (POI) infrastructure.
 This is no longer needed in Pandana 0.4+ and will be removed in a
 future version.</p>
@@ -291,7 +295,7 @@ units such as utility or time etc.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pandana.network.Network.low_connectivity_nodes">
-<span class="sig-name descname"><span class="pre">low_connectivity_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">impedance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imp_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.low_connectivity_nodes" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">low_connectivity_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">impedance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imp_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.low_connectivity_nodes" title="Link to this definition"></a></dt>
 <dd><p>Identify nodes that are connected to fewer than some threshold
 of other nodes within a given distance.</p>
 <dl class="field-list simple">
@@ -324,7 +328,7 @@ passed in the constructor, which will be used.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pandana.network.Network.nearest_pois">
-<span class="sig-name descname"><span class="pre">nearest_pois</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_pois</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imp_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_poi_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.nearest_pois" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">nearest_pois</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_pois</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imp_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_poi_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.nearest_pois" title="Link to this definition"></a></dt>
 <dd><p>Find the distance to the nearest points of interest (POI)s from each
 source node.  The bigger values in this case mean less accessibility.</p>
 <dl class="field-list simple">
@@ -377,13 +381,13 @@ closest POI, and so on.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pandana.network.Network.node_ids">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">node_ids</span></span><a class="headerlink" href="#pandana.network.Network.node_ids" title="Permalink to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">node_ids</span></span><a class="headerlink" href="#pandana.network.Network.node_ids" title="Link to this definition"></a></dt>
 <dd><p>The node IDs which will be used as the index of many return series</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pandana.network.Network.nodes_in_range">
-<span class="sig-name descname"><span class="pre">nodes_in_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imp_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.nodes_in_range" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">nodes_in_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imp_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.nodes_in_range" title="Link to this definition"></a></dt>
 <dd><p>Computes the range queries (the reachable nodes within this maximum
 distance) for each input node.</p>
 <dl class="field-list simple">
@@ -417,7 +421,7 @@ source to the nearby node.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pandana.network.Network.plot">
-<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'scatter'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbar_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.plot" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'scatter'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbar_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.plot" title="Link to this definition"></a></dt>
 <dd><p>Plot an array of data on a map using Matplotlib, automatically matching
 the data to the Pandana network node positions. Keyword arguments are
 passed to the plotting routine.</p>
@@ -455,7 +459,7 @@ Use this to control color bar location and label.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pandana.network.Network.precompute">
-<span class="sig-name descname"><span class="pre">precompute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distance</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.precompute" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">precompute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distance</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.precompute" title="Link to this definition"></a></dt>
 <dd><p>Precomputes the range queries (the reachable nodes within this
 maximum distance.  So as long as you use a smaller distance, cached
 results will be used.)</p>
@@ -478,7 +482,7 @@ be in other units such as utility or time etc.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pandana.network.Network.save_hdf5">
-<span class="sig-name descname"><span class="pre">save_hdf5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rm_nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.save_hdf5" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">save_hdf5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rm_nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.save_hdf5" title="Link to this definition"></a></dt>
 <dd><p>Save network data to a Pandas HDF5 file.</p>
 <p>Only the nodes and edges of the actual network are saved,
 points-of-interest and data attached to nodes are not saved.</p>
@@ -496,7 +500,7 @@ be saved as part of the Network.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pandana.network.Network.set">
-<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tmp'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tmp'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.set" title="Link to this definition"></a></dt>
 <dd><p>Characterize urban space with a variable that is related to nodes in
 the network.</p>
 <dl class="field-list simple">
@@ -537,7 +541,7 @@ setting names.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pandana.network.Network.set_pois">
-<span class="sig-name descname"><span class="pre">set_pois</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxdist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxitems</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.set_pois" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_pois</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxdist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxitems</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.set_pois" title="Link to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>Set the location of all the points of interest (POIs) of this category.</dt><dd><p>The POIs are connected to the closest node in the Pandana network
 which assumes no impedance between the location of the variable and
@@ -578,7 +582,7 @@ the nearest node.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pandana.network.Network.shortest_path">
-<span class="sig-name descname"><span class="pre">shortest_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imp_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.shortest_path" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">shortest_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imp_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.shortest_path" title="Link to this definition"></a></dt>
 <dd><p>Return the shortest path between two node IDs in the network. Must
 provide an impedance name if more than one is available.</p>
 <dl class="field-list simple">
@@ -603,7 +607,7 @@ provide an impedance name if more than one is available.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pandana.network.Network.shortest_path_length">
-<span class="sig-name descname"><span class="pre">shortest_path_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imp_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.shortest_path_length" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">shortest_path_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imp_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.shortest_path_length" title="Link to this definition"></a></dt>
 <dd><p>Return the length of the shortest path between two node IDs in the
 network. Must provide an impedance name if more than one is
 available.</p>
@@ -631,7 +635,7 @@ function! Use the vectorized one instead.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pandana.network.Network.shortest_path_lengths">
-<span class="sig-name descname"><span class="pre">shortest_path_lengths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imp_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.shortest_path_lengths" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">shortest_path_lengths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imp_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.shortest_path_lengths" title="Link to this definition"></a></dt>
 <dd><p>Vectorized calculation of shortest path lengths. Accepts a list of
 origins and list of destinations and returns a corresponding list
 of shortest path lengths. Must provide an impedance name if more
@@ -658,7 +662,7 @@ than one is available.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pandana.network.Network.shortest_paths">
-<span class="sig-name descname"><span class="pre">shortest_paths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imp_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.shortest_paths" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">shortest_paths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imp_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.Network.shortest_paths" title="Link to this definition"></a></dt>
 <dd><p>Vectorized calculation of shortest paths. Accepts a list of origins
 and list of destinations and returns a corresponding list of
 shortest path routes. Must provide an impedance name if more than
@@ -688,7 +692,7 @@ one is available.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pandana.network.reserve_num_graphs">
-<span class="sig-prename descclassname"><span class="pre">pandana.network.</span></span><span class="sig-name descname"><span class="pre">reserve_num_graphs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.reserve_num_graphs" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pandana.network.</span></span><span class="sig-name descname"><span class="pre">reserve_num_graphs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.network.reserve_num_graphs" title="Link to this definition"></a></dt>
 <dd><p>This function was previously used to reserve memory space for multiple
 graphs. It is no longer needed in Pandana 0.4+, and will be removed in a
 future version.</p>
@@ -704,7 +708,7 @@ future version.</p>
 
 </section>
 <section id="deprecations-in-v0-4">
-<h2>Deprecations in v0.4<a class="headerlink" href="#deprecations-in-v0-4" title="Permalink to this heading">¶</a></h2>
+<h2>Deprecations in v0.4<a class="headerlink" href="#deprecations-in-v0-4" title="Link to this heading"></a></h2>
 <p>Beginning with Pandana v0.4, calls to <code class="docutils literal notranslate"><span class="pre">init_pois</span></code> are no longer necessary due to an improvement in the
 C++ backend. From that version on, the <code class="docutils literal notranslate"><span class="pre">max_distance</span></code> and the <code class="docutils literal notranslate"><span class="pre">max_pois</span></code> parameters are directly
 specified by category in the <a class="reference internal" href="#pandana.network.Network.set_pois" title="pandana.network.Network.set_pois"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pandana.network.Network.set_pois()</span></code></a> call.</p>

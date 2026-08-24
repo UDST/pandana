@@ -1,19 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Installation &mdash; pandana 0.7 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <title>Installation &mdash; pandana 0.8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=a0e24af7"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -32,9 +34,6 @@
           <a href="index.html" class="icon icon-home">
             pandana
           </a>
-              <div class="version">
-                0.7
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -46,9 +45,9 @@
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#standard-installation">Standard installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#arm-based-macs">ARM-based Macs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#binary-installers">Binary installers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#compiling-from-source-code">Compiling from source code</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#advanced-compilation-tips">Advanced compilation tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#compiling-with-openmp-on-a-mac">Compiling with OpenMP on a Mac</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#multithreading">Multithreading</a></li>
 </ul>
 </li>
@@ -86,11 +85,11 @@
            <div itemprop="articleBody">
              
   <section id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h1>
+<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
 <p>Pandana is a Python package that includes a C++ extension for numerical operations.</p>
 <section id="standard-installation">
-<h2>Standard installation<a class="headerlink" href="#standard-installation" title="Permalink to this heading">¶</a></h2>
-<p>As of March 2021, binary installers are provided for Mac, Linux, and Windows through both PyPI and Conda Forge.</p>
+<h2>Standard installation<a class="headerlink" href="#standard-installation" title="Link to this heading"></a></h2>
+<p>Binary installers are provided for Mac, Linux, and Windows through both PyPI and Conda Forge.</p>
 <p>You can install Pandana using Pip:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">pandana</span>
 </pre></div>
@@ -99,38 +98,43 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">pandana</span> <span class="o">--</span><span class="n">channel</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 </pre></div>
 </div>
-<p>Pandana is easiest to install in Python 3.8 to 3.11. The last version of Pandana with Python 2.7 binaries is v0.4.4 on Conda Forge. The last version with Python 3.5 binaries is v0.6 on Pip.</p>
+<p>Pandana v0.8 supports Python 3.10 to 3.14. The last version with Python 3.8 and 3.9 binaries is v0.7, and the last with Python 3.5 through 3.7 is v0.6.1. The last version with Python 2.7 binaries is v0.4.4 on Conda Forge.</p>
 </section>
-<section id="arm-based-macs">
-<h2>ARM-based Macs<a class="headerlink" href="#arm-based-macs" title="Permalink to this heading">¶</a></h2>
-<p>Native binary installers for ARM-based Macs are available on Conda Forge, but to use these your full Python stack needs to be optimized for ARM.</p>
-<p>If you’re running Python through Rosetta translation (which is the default), older Mac installers will continue to work fine. See <a class="reference external" href="https://github.com/UDST/pandana/issues/152">issue #152</a> for tips and further discussion.</p>
+<section id="binary-installers">
+<h2>Binary installers<a class="headerlink" href="#binary-installers" title="Link to this heading"></a></h2>
+<p>Each release includes wheels for these platforms, all built with OpenMP multithreading enabled:</p>
+<ul class="simple">
+<li><p>Linux x86_64 and aarch64</p></li>
+<li><p>Mac, Intel (requires macOS 14 or later) and Apple Silicon (requires macOS 15 or later)</p></li>
+<li><p>Windows x86_64</p></li>
+</ul>
+<p>The wheels are built and tested by a GitHub Actions workflow. If there’s no wheel for your platform, Pip will try to compile Pandana from source, which needs the build tools described below. You can also force a source build with <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">--no-binary</span> <span class="pre">pandana</span> <span class="pre">pandana</span></code>.</p>
 </section>
 <section id="compiling-from-source-code">
-<h2>Compiling from source code<a class="headerlink" href="#compiling-from-source-code" title="Permalink to this heading">¶</a></h2>
-<p>You may want to compile Pandana locally if you’re modifying the source code or need to use a version that’s missing binary installers for your platform.</p>
-<p>Mac users should start by running <code class="docutils literal notranslate"><span class="pre">xcode-select</span> <span class="pre">--install</span></code> to make sure you have Apple’s Xcode command line tools, which are needed behind the scenes. Windows users will need the <a class="reference external" href="https://visualstudio.microsoft.com/visual-cpp-build-tools/">Microsoft Visual C++ Build Tools</a>.</p>
-<p>Pandana’s build-time requirements are <code class="docutils literal notranslate"><span class="pre">cython</span></code>, <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, and a C++ compiler that supports the C++11 standard. Additionally, the compiler needs to support OpenMP to allow Pandana to use multithreading.</p>
-<p>The smoothest route is to get the compilers from Conda Forge – you want the <code class="docutils literal notranslate"><span class="pre">clang</span></code> and <code class="docutils literal notranslate"><span class="pre">llvm-openmp</span></code> packages. Running Pandana’s setup script will trigger compilation:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">cython</span> <span class="n">numpy</span> <span class="n">clang</span> <span class="n">llvm</span><span class="o">-</span><span class="n">openmp</span>
-<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">develop</span>
+<h2>Compiling from source code<a class="headerlink" href="#compiling-from-source-code" title="Link to this heading"></a></h2>
+<p>You may want to compile Pandana locally if you’re modifying the source code, or if you need a build with different options than the binary installers (for example, with OpenMP enabled on an older Mac).</p>
+<p>Pandana’s build-time requirements are <code class="docutils literal notranslate"><span class="pre">cython</span></code>, <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, and a C++ compiler that supports the C++17 standard. Additionally, the compiler needs to support OpenMP to allow Pandana to use multithreading.</p>
+<p>On Linux, your system’s GCC should be fine. Windows users will need the <a class="reference external" href="https://visualstudio.microsoft.com/visual-cpp-build-tools/">Microsoft Visual C++ Build Tools</a>. Mac users should start by running <code class="docutils literal notranslate"><span class="pre">xcode-select</span> <span class="pre">--install</span></code> to make sure you have Apple’s Xcode command line tools, which are needed behind the scenes.</p>
+<p>Running Pandana’s setup script will trigger compilation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">setuptools</span> <span class="n">cython</span> <span class="n">numpy</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">build</span><span class="o">-</span><span class="n">isolation</span> <span class="o">--</span><span class="n">editable</span> <span class="o">.</span>
 </pre></div>
 </div>
 <p>You’ll see a lot of status messages go by, but hopefully no errors.</p>
-<p>MacOS 10.14 (but not newer versions) often needs additional header files installed. If you see a compilation error like <code class="docutils literal notranslate"><span class="pre">'wchar.h'</span> <span class="pre">file</span> <span class="pre">not</span> <span class="pre">found</span></code> in MacOS 10.14, you can resolve it by running this command:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">open</span> <span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">Developer</span><span class="o">/</span><span class="n">CommandLineTools</span><span class="o">/</span><span class="n">Packages</span><span class="o">/</span><span class="n">macOS_SDK_headers_for_macOS_10</span><span class="mf">.14</span><span class="o">.</span><span class="n">pkg</span>
+</section>
+<section id="compiling-with-openmp-on-a-mac">
+<h2>Compiling with OpenMP on a Mac<a class="headerlink" href="#compiling-with-openmp-on-a-mac" title="Link to this heading"></a></h2>
+<p>The default C++ compiler on Macs doesn’t include OpenMP, so a plain source build will work but run single-threaded. To get multithreading, use the compilers and OpenMP runtime from Conda Forge. On an Apple Silicon Mac:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">setuptools</span> <span class="n">cython</span> <span class="n">numpy</span> <span class="n">clang_osx</span><span class="o">-</span><span class="n">arm64</span> <span class="n">clangxx_osx</span><span class="o">-</span><span class="n">arm64</span> <span class="n">llvm</span><span class="o">-</span><span class="n">openmp</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">build</span><span class="o">-</span><span class="n">isolation</span> <span class="o">--</span><span class="n">editable</span> <span class="o">.</span>
 </pre></div>
 </div>
-</section>
-<section id="advanced-compilation-tips">
-<h2>Advanced compilation tips<a class="headerlink" href="#advanced-compilation-tips" title="Permalink to this heading">¶</a></h2>
-<p>If you prefer not to use Conda, you can skip the <code class="docutils literal notranslate"><span class="pre">clang</span></code> and <code class="docutils literal notranslate"><span class="pre">llvm-openmp</span></code> packages. Compilation will likely work fine with your system’s built-in toolchain.</p>
-<p>The default C++ compiler on Macs doesn’t support OpenMP, though, meaning that Pandana won’t be able to use multithreading.</p>
-<p>You can set the <code class="docutils literal notranslate"><span class="pre">CC</span></code> environment variable to specify a compiler of your choice. See writeup in <a class="reference external" href="https://github.com/UDST/pandana/pull/137">PR #137</a> for discussion of this. If you need to make additional modifications, you can edit the compilation script in your local copy of <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>.</p>
+<p>On an Intel Mac, use <code class="docutils literal notranslate"><span class="pre">clang_osx-64</span></code> and <code class="docutils literal notranslate"><span class="pre">clangxx_osx-64</span></code> instead. These packages set the <code class="docutils literal notranslate"><span class="pre">CC</span></code> and <code class="docutils literal notranslate"><span class="pre">CXX</span></code> environment variables when the Conda environment is active, and Pandana’s setup script will detect them and link against OpenMP.</p>
+<p>Alternatively, if you prefer Homebrew, <code class="docutils literal notranslate"><span class="pre">brew</span> <span class="pre">install</span> <span class="pre">libomp</span></code> and then build with <code class="docutils literal notranslate"><span class="pre">CC=clang</span></code> and <code class="docutils literal notranslate"><span class="pre">CPPFLAGS</span></code>/<code class="docutils literal notranslate"><span class="pre">LDFLAGS</span></code> pointing at the libomp install location (<code class="docutils literal notranslate"><span class="pre">brew</span> <span class="pre">--prefix</span> <span class="pre">libomp</span></code>). Homebrew’s <code class="docutils literal notranslate"><span class="pre">llvm</span></code> package also works, with <code class="docutils literal notranslate"><span class="pre">CC</span></code> pointing at its <code class="docutils literal notranslate"><span class="pre">clang</span></code> and <code class="docutils literal notranslate"><span class="pre">LDFLAGS</span></code> at its <code class="docutils literal notranslate"><span class="pre">lib</span></code> directory. This is how the release wheels are built; see <code class="docutils literal notranslate"><span class="pre">.github/workflows/build-wheels.yml</span></code> for the details, and the writeup in <a class="reference external" href="https://github.com/UDST/pandana/pull/137">PR #137</a> for background on Mac compilers. If you need to make additional modifications, you can edit the compilation script in your local copy of <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>.</p>
 </section>
 <section id="multithreading">
-<h2>Multithreading<a class="headerlink" href="#multithreading" title="Permalink to this heading">¶</a></h2>
-<p>You can check how many threads Pandana is able to use on your machine by running the <code class="docutils literal notranslate"><span class="pre">examples/simple_example.py</span></code> script.</p>
+<h2>Multithreading<a class="headerlink" href="#multithreading" title="Link to this heading"></a></h2>
+<p>You can check how many threads Pandana is able to use on your machine by running the <code class="docutils literal notranslate"><span class="pre">examples/simple_example.py</span></code> script from a source checkout, or <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">tests/check_openmp.py</span></code>, which fails if fewer than two threads are available.</p>
 </section>
 </section>
 

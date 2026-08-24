@@ -1,19 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pandana &mdash; pandana 0.7 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <title>Pandana &mdash; pandana 0.8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=a0e24af7"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -31,9 +33,6 @@
           <a href="#" class="icon icon-home">
             pandana
           </a>
-              <div class="version">
-                0.7
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -78,24 +77,26 @@
            <div itemprop="articleBody">
              
   <section id="pandana">
-<h1>Pandana<a class="headerlink" href="#pandana" title="Permalink to this heading">¶</a></h1>
+<h1>Pandana<a class="headerlink" href="#pandana" title="Link to this heading"></a></h1>
 <p>Pandana is a Python library for network analysis that uses <a class="reference external" href="https://en.wikipedia.org/wiki/Contraction_hierarchies">contraction hierarchies</a> to calculate super-fast travel accessibility metrics and shortest paths. The numerical code is in C++.</p>
-<p>v0.7, released July 26, 2023.</p>
-<section id="acknowledgments">
-<h2>Acknowledgments<a class="headerlink" href="#acknowledgments" title="Permalink to this heading">¶</a></h2>
-<p>Pandana was created by Fletcher Foti, with subsequent contributions from Matt Davis, Federico Fernandez, Sam Maurer, and others. Sam Maurer is currently the lead maintainer. Pandana relies on contraction hierarchy code from Dennis Luxen and his <a class="reference external" href="https://github.com/DennisOSRM/Project-OSRM">OSRM project</a>.</p>
+<p>v0.8, released August 24, 2026.</p>
+<section id="origins-and-acknowledgments">
+<h2>Origins and acknowledgments<a class="headerlink" href="#origins-and-acknowledgments" title="Link to this heading"></a></h2>
+<p>Pandana originated in research led by Paul Waddell at the University of California, Berkeley. Waddell conceived the network-accessibility application with Fletcher Foti, then his doctoral student and graduate student researcher, and Dennis Luxen of the Karlsruhe Institute of Technology, and directed and funded the initial development.</p>
+<p>Foti led implementation of the original software and its pandas-oriented interface. Luxen contributed contraction-hierarchy expertise and code developed through the <a class="reference external" href="https://github.com/DennisOSRM/Project-OSRM">Open Source Routing Machine project</a>. Initial development was supported in part by National Science Foundation award <a class="reference external" href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=0964412">IIS-0964412</a> and by the Metropolitan Transportation Commission.</p>
+<p>Subsequent development has included major contributions from Matt Davis, Federico Fernandez, Sam Maurer, Joaquim Gromicho, Eli Knaap, and other community contributors. The repository’s <code class="docutils literal notranslate"><span class="pre">HISTORY.md</span></code> file provides additional context, while the Git history remains the authoritative record of individual code contributions.</p>
 <p>A <a class="reference external" href="http://onlinepubs.trb.org/onlinepubs/conferences/2012/4thITM/Papers-A/0117-000062.pdf">paper on Pandana</a>
 was presented at the Transportation Research Board Annual Conference in 2012. Please cite this paper when referring to the methodology implemented by this library.</p>
 </section>
 <section id="contents">
-<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this heading">¶</a></h2>
+<h2>Contents<a class="headerlink" href="#contents" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#standard-installation">Standard installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#arm-based-macs">ARM-based Macs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#binary-installers">Binary installers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#compiling-from-source-code">Compiling from source code</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#advanced-compilation-tips">Advanced compilation tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#compiling-with-openmp-on-a-mac">Compiling with OpenMP on a Mac</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#multithreading">Multithreading</a></li>
 </ul>
 </li>
@@ -150,7 +151,7 @@ was presented at the Transportation Research Board Annual Conference in 2012. Pl
 </section>
 </section>
 <section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading">¶</a></h1>
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h1>
 <ul class="simple">
 <li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
 <li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>

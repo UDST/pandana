@@ -1,19 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tutorial &mdash; pandana 0.7 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <title>Tutorial &mdash; pandana 0.8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=a0e24af7"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -32,9 +34,6 @@
           <a href="index.html" class="icon icon-home">
             pandana
           </a>
-              <div class="version">
-                0.7
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -85,7 +84,7 @@
            <div itemprop="articleBody">
              
   <section id="tutorial">
-<h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this heading">¶</a></h1>
+<h1>Tutorial<a class="headerlink" href="#tutorial" title="Link to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This tutorial was last updated in 2017 and may not be current. The best place
@@ -97,12 +96,12 @@ in the <code class="docutils literal notranslate"><span class="pre">Pandana</spa
 but the discussion here will take things line-by-line with a sufficient
 summary of the functionality.</p>
 <p>Note that these code samples assume you have imported pandas and pandana as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">pandana</span> <span class="k">as</span> <span class="nn">pdna</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandana</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pdna</span>
 </pre></div>
 </div>
 <section id="create-the-network">
-<h2>Create the network<a class="headerlink" href="#create-the-network" title="Permalink to this heading">¶</a></h2>
+<h2>Create the network<a class="headerlink" href="#create-the-network" title="Link to this heading"></a></h2>
 <p>First create the network.  Although the API is incredibly simple,
 this is likely to be the most difficult part of using Pandana.  In the future
 we will leverage the import functionality of tools like <code class="docutils literal notranslate"><span class="pre">geopandas</span></code> to
@@ -128,7 +127,7 @@ We can access them as follows (the demo data file can be
 
 <span class="p">[</span><span class="mi">3</span> <span class="n">rows</span> <span class="n">x</span> <span class="mi">2</span> <span class="n">columns</span><span class="p">]</span>
 
-   <span class="kn">from</span>  <span class="nn">to</span>      <span class="n">weight</span>
+   <span class="kn">from</span><span class="w">  </span><span class="nn">to</span>      <span class="n">weight</span>
 <span class="mi">6</span>     <span class="mi">8</span>   <span class="mi">9</span>  <span class="mf">338.255005</span>
 <span class="mi">7</span>     <span class="mi">9</span>  <span class="mi">10</span>  <span class="mf">322.532990</span>
 <span class="mi">8</span>    <span class="mi">10</span>  <span class="mi">11</span>  <span class="mf">218.505997</span>
@@ -167,7 +166,7 @@ check the IPython Notebook output (on the console) for a statement that says</st
 a multi-core cpu, there is probably a way to speed up the computation.</strong></p>
 </section>
 <section id="nearest-queries">
-<h2>Nearest queries<a class="headerlink" href="#nearest-queries" title="Permalink to this heading">¶</a></h2>
+<h2>Nearest queries<a class="headerlink" href="#nearest-queries" title="Link to this heading"></a></h2>
 <p>Now for the fun part.  Nearest queries are slightly easier, so let’s cover that
 first.</p>
 <p>First initialize the POI (point-of-interest) category:</p>
@@ -224,7 +223,7 @@ executed in half a second:</p>
 <p>Here is a link to the docs: <a class="reference internal" href="network.html#pandana.network.Network.nearest_pois" title="pandana.network.Network.nearest_pois"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pandana.network.Network.nearest_pois()</span></code></a></p>
 </section>
 <section id="aggregation-queries">
-<h2>Aggregation queries<a class="headerlink" href="#aggregation-queries" title="Permalink to this heading">¶</a></h2>
+<h2>Aggregation queries<a class="headerlink" href="#aggregation-queries" title="Link to this heading"></a></h2>
 <p>Performing a general network aggregation isn’t much harder.  In this case,
 it is assumed that DataFrames are much larger and that queries have
 a lot more variety.</p>
@@ -260,7 +259,7 @@ the aggregations should take less than a second up to a distance of roughly
 three kilometers for a network with a few hundred thousand nodes.</p>
 </section>
 <section id="display-the-results">
-<h2>Display the results<a class="headerlink" href="#display-the-results" title="Permalink to this heading">¶</a></h2>
+<h2>Display the results<a class="headerlink" href="#display-the-results" title="Link to this heading"></a></h2>
 <p>An experimental feature for displaying the points of the node_ids and their
 associated computed values using matplotlib (so that the entire workflow can
 happen in the notebook) is also available.</p>

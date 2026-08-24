@@ -1,19 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Loaders &mdash; pandana 0.7 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <title>Loaders &mdash; pandana 0.8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=a0e24af7"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -32,9 +34,6 @@
           <a href="index.html" class="icon icon-home">
             pandana
           </a>
-              <div class="version">
-                0.7
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -59,6 +58,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#pandas-hdf5-api">Pandas HDF5 API</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pandana.loaders.pandash5.network_to_pandas_hdf5"><code class="docutils literal notranslate"><span class="pre">network_to_pandas_hdf5()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pandana.loaders.pandash5.network_from_pandas_hdf5"><code class="docutils literal notranslate"><span class="pre">network_from_pandas_hdf5()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pandana.loaders.pandash5.open_hdf_store"><code class="docutils literal notranslate"><span class="pre">open_hdf_store()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pandana.loaders.pandash5.migrate_legacy_hdf"><code class="docutils literal notranslate"><span class="pre">migrate_legacy_hdf()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -93,17 +94,17 @@
            <div itemprop="articleBody">
              
   <section id="loaders">
-<h1>Loaders<a class="headerlink" href="#loaders" title="Permalink to this heading">¶</a></h1>
+<h1>Loaders<a class="headerlink" href="#loaders" title="Link to this heading"></a></h1>
 <p>Pandana has some support for creating a
 <a class="reference internal" href="network.html#pandana.network.Network" title="pandana.network.Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">Network</span></code></a> from
 the <a class="reference external" href="http://www.openstreetmap.org/">OpenStreetMap</a> API,
 and for storing <code class="docutils literal notranslate"><span class="pre">Network</span></code> data to disk as HDF5 so that it can be
 restored later.</p>
 <section id="openstreetmap">
-<h2>OpenStreetMap<a class="headerlink" href="#openstreetmap" title="Permalink to this heading">¶</a></h2>
+<h2>OpenStreetMap<a class="headerlink" href="#openstreetmap" title="Link to this heading"></a></h2>
 <p>A <a class="reference internal" href="network.html#pandana.network.Network" title="pandana.network.Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">Network</span></code></a> is created from OpenStreetMap using
 the <a class="reference internal" href="#pandana.loaders.osm.pdna_network_from_bbox" title="pandana.loaders.osm.pdna_network_from_bbox"><code class="xref py py-func docutils literal notranslate"><span class="pre">pdna_network_from_bbox()</span></code></a> function:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pandana.loaders</span> <span class="kn">import</span> <span class="n">osm</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pandana.loaders</span><span class="w"> </span><span class="kn">import</span> <span class="n">osm</span>
 <span class="n">network</span> <span class="o">=</span> <span class="n">osm</span><span class="o">.</span><span class="n">pdna_network_from_bbox</span><span class="p">(</span><span class="mf">37.859</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.282</span><span class="p">,</span> <span class="mf">37.881</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.252</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -131,7 +132,7 @@ and the list of
 <a class="reference external" href="http://wiki.openstreetmap.org/wiki/Map_Features">OSM map features</a>.</p>
 </section>
 <section id="pandas-hdf5">
-<h2>Pandas HDF5<a class="headerlink" href="#pandas-hdf5" title="Permalink to this heading">¶</a></h2>
+<h2>Pandas HDF5<a class="headerlink" href="#pandas-hdf5" title="Link to this heading"></a></h2>
 <p>Saving a <code class="docutils literal notranslate"><span class="pre">Network</span></code> to HDF5 is a way to share a <code class="docutils literal notranslate"><span class="pre">Network</span></code> or to preserve
 it between sessions. For example. you can build a <code class="docutils literal notranslate"><span class="pre">Network</span></code> using the
 OpenStreetMap API, then save the <code class="docutils literal notranslate"><span class="pre">Network</span></code> to HDF5 so you can reuse it
@@ -163,10 +164,10 @@ then exclude those nodes when saving to HDF5:</p>
 </div>
 </section>
 <section id="openstreetmap-api">
-<h2>OpenStreetMap API<a class="headerlink" href="#openstreetmap-api" title="Permalink to this heading">¶</a></h2>
+<h2>OpenStreetMap API<a class="headerlink" href="#openstreetmap-api" title="Link to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="pandana.loaders.osm.pdna_network_from_bbox">
-<span class="sig-prename descclassname"><span class="pre">pandana.loaders.osm.</span></span><span class="sig-name descname"><span class="pre">pdna_network_from_bbox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lng_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lng_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'walk'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">two_way</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">180</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_query_area_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2500000000</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.loaders.osm.pdna_network_from_bbox" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pandana.loaders.osm.</span></span><span class="sig-name descname"><span class="pre">pdna_network_from_bbox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lng_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lng_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'walk'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">two_way</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">180</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_query_area_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2500000000</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.loaders.osm.pdna_network_from_bbox" title="Link to this definition"></a></dt>
 <dd><p>Make a Pandana network from a bounding lat/lon box via a request to the
 OpenStreetMap Overpass API. Distance will be in meters. Requires installing
 the OSMnet library.</p>
@@ -204,7 +205,7 @@ If none, server will use its default allocation size</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pandana.loaders.osm.node_query">
-<span class="sig-prename descclassname"><span class="pre">pandana.loaders.osm.</span></span><span class="sig-name descname"><span class="pre">node_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat_min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lng_min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lng_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.loaders.osm.node_query" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pandana.loaders.osm.</span></span><span class="sig-name descname"><span class="pre">node_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat_min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lng_min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lng_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.loaders.osm.node_query" title="Link to this definition"></a></dt>
 <dd><p>Search for OSM nodes within a bounding box that match given tags.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -231,7 +232,7 @@ Index will be the OSM node IDs.</p>
 
 </section>
 <section id="pandas-hdf5-api">
-<h2>Pandas HDF5 API<a class="headerlink" href="#pandas-hdf5-api" title="Permalink to this heading">¶</a></h2>
+<h2>Pandas HDF5 API<a class="headerlink" href="#pandas-hdf5-api" title="Link to this heading"></a></h2>
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-prename descclassname"><span class="pre">Network.</span></span><span class="sig-name descname"><span class="pre">save_hdf5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rm_nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
@@ -252,12 +253,17 @@ be saved as part of the Network.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Network.</span></span><span class="sig-name descname"><span class="pre">from_hdf5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span></dt>
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">Network.</span></span><span class="sig-name descname"><span class="pre">from_hdf5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">migrate_legacy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Load a previously saved Network from a Pandas HDF5 file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>filename</strong><span class="classifier">str</span></dt><dd></dd>
+<dt><strong>migrate_legacy</strong><span class="classifier">bool, optional</span></dt><dd><p>If True and the installed Pandas can’t read the file’s legacy
+metadata (files saved with older Pandas versions), migrate it
+into a temporary copy before reading. The default is False so
+large network files are not copied implicitly.</p>
+</dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -270,7 +276,7 @@ be saved as part of the Network.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pandana.loaders.pandash5.network_to_pandas_hdf5">
-<span class="sig-prename descclassname"><span class="pre">pandana.loaders.pandash5.</span></span><span class="sig-name descname"><span class="pre">network_to_pandas_hdf5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">network</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rm_nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.loaders.pandash5.network_to_pandas_hdf5" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pandana.loaders.pandash5.</span></span><span class="sig-name descname"><span class="pre">network_to_pandas_hdf5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">network</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rm_nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.loaders.pandash5.network_to_pandas_hdf5" title="Link to this definition"></a></dt>
 <dd><p>Save a Network’s data to a Pandas HDFStore.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -287,7 +293,7 @@ be saved as part of the Network.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pandana.loaders.pandash5.network_from_pandas_hdf5">
-<span class="sig-prename descclassname"><span class="pre">pandana.loaders.pandash5.</span></span><span class="sig-name descname"><span class="pre">network_from_pandas_hdf5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.loaders.pandash5.network_from_pandas_hdf5" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pandana.loaders.pandash5.</span></span><span class="sig-name descname"><span class="pre">network_from_pandas_hdf5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">migrate_legacy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.loaders.pandash5.network_from_pandas_hdf5" title="Link to this definition"></a></dt>
 <dd><p>Build a Network from data in a Pandas HDFStore.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -295,6 +301,10 @@ be saved as part of the Network.</p>
 <dt><strong>cls</strong><span class="classifier">class</span></dt><dd><p>Class to instantiate, usually pandana.Network.</p>
 </dd>
 <dt><strong>filename</strong><span class="classifier">str</span></dt><dd></dd>
+<dt><strong>migrate_legacy</strong><span class="classifier">bool, optional</span></dt><dd><p>If True and the installed Pandas can’t read the file’s legacy
+metadata, migrate it into a temporary copy before reading. The
+default is False so large network files are not copied implicitly.</p>
+</dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -303,6 +313,49 @@ be saved as part of the Network.</p>
 </dl>
 </dd>
 </dl>
+</dd></dl>
+
+<p>Network files saved with older versions of Pandas have metadata that Pandas 3 can no longer read. These helpers handle that:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="pandana.loaders.pandash5.open_hdf_store">
+<span class="sig-prename descclassname"><span class="pre">pandana.loaders.pandash5.</span></span><span class="sig-name descname"><span class="pre">open_hdf_store</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'r'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">migrate_legacy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.loaders.pandash5.open_hdf_store" title="Link to this definition"></a></dt>
+<dd><p>Open a Pandas HDFStore, handling files written by older Pandas versions.</p>
+<p>Pandana network files saved with older Pandas/PyTables combinations have
+metadata stored as byte strings, which Pandas 3 can no longer read. This
+context manager opens the file normally when Pandas can read it. If it
+can’t and the file has legacy metadata, the file is either migrated into
+a temporary copy for the duration of the read (<code class="docutils literal notranslate"><span class="pre">migrate_legacy=True</span></code>),
+or a <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> is raised explaining how to migrate the file with
+<a class="reference internal" href="#pandana.loaders.pandash5.migrate_legacy_hdf" title="pandana.loaders.pandash5.migrate_legacy_hdf"><code class="xref py py-func docutils literal notranslate"><span class="pre">migrate_legacy_hdf()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>filename</strong><span class="classifier">str</span></dt><dd></dd>
+<dt><strong>mode</strong><span class="classifier">str, optional</span></dt><dd><p>Passed to <code class="docutils literal notranslate"><span class="pre">pandas.HDFStore</span></code>. Legacy handling only applies to
+read mode.</p>
+</dd>
+<dt><strong>migrate_legacy</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, migrate legacy metadata into a temporary copy when Pandas
+can’t read the file directly. The default is False so large network
+files are not copied implicitly.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Yields<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>store</strong><span class="classifier">pandas.HDFStore</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pandana.loaders.pandash5.migrate_legacy_hdf">
+<span class="sig-prename descclassname"><span class="pre">pandana.loaders.pandash5.</span></span><span class="sig-name descname"><span class="pre">migrate_legacy_hdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pandana.loaders.pandash5.migrate_legacy_hdf" title="Link to this definition"></a></dt>
+<dd><p>Normalize legacy Pandas HDF5 metadata written as byte strings.</p>
+<p>Older Pandas/PyTables combinations stored attributes such as
+<code class="docutils literal notranslate"><span class="pre">pandas_type</span></code> as bytes. Pandas 3 expects text when it reconstructs
+storers. This utility explicitly migrates those attributes either in
+place or into <code class="docutils literal notranslate"><span class="pre">output_filename</span></code> if one is supplied.</p>
 </dd></dl>
 
 </section>
