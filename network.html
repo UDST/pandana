@@ -72,7 +72,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#pandana.network.reserve_num_graphs"><code class="docutils literal notranslate"><span class="pre">reserve_num_graphs()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#deprecations-in-v0-4">Deprecations in v0.4</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="loaders.html">Loaders</a></li>
@@ -707,13 +706,6 @@ future version.</p>
 </dd></dl>
 
 </section>
-<section id="deprecations-in-v0-4">
-<h2>Deprecations in v0.4<a class="headerlink" href="#deprecations-in-v0-4" title="Link to this heading"></a></h2>
-<p>Beginning with Pandana v0.4, calls to <code class="docutils literal notranslate"><span class="pre">init_pois</span></code> are no longer necessary due to an improvement in the
-C++ backend. From that version on, the <code class="docutils literal notranslate"><span class="pre">max_distance</span></code> and the <code class="docutils literal notranslate"><span class="pre">max_pois</span></code> parameters are directly
-specified by category in the <a class="reference internal" href="#pandana.network.Network.set_pois" title="pandana.network.Network.set_pois"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pandana.network.Network.set_pois()</span></code></a> call.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">reserve_num_graphs</span></code> call is also no longer required.  Pandana Network objects can now be created and destroyed on-the-fly and no initialization need be done in advance.</p>
-</section>
 </section>
 
 
@@ -727,7 +719,7 @@ specified by category in the <a class="reference internal" href="#pandana.networ
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2021, UrbanSim Inc..</p>
+    <p>&#169; Copyright 2026, UrbanSim Inc..</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

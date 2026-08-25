@@ -88,7 +88,7 @@
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This tutorial was last updated in 2017 and may not be current. The best place
-to start is with the Pandana <a class="reference external" href="https://github.com/UDST/pandana/tree/master/examples/Pandana-demo.ipynb">demo notebook</a>.</p>
+to start is with the Pandana <a class="reference external" href="https://github.com/UDST/pandana/blob/main/examples/Pandana-demo.ipynb">demo notebook</a>.</p>
 </div>
 <p>At this point it is probably helpful to make concrete the topics discussed in
 the introduction by giving code sample.  There is also an IPython Notebook
@@ -115,8 +115,8 @@ We can access them as follows (the demo data file can be
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">store</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">HDFStore</span><span class="p">(</span><span class="s1">&#39;data/osm_bayarea.h5&#39;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
 <span class="n">nodes</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">nodes</span>
 <span class="n">edges</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">edges</span>
-<span class="nb">print</span> <span class="n">nodes</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="nb">print</span> <span class="n">edges</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nodes</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">edges</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>The output of the above code shows:</p>
@@ -273,17 +273,13 @@ and sample code and images are included below.</p>
 
 <span class="n">net</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span><span class="n">sf_bbox</span><span class="p">,</span>
          <span class="n">fig_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;figsize&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">]},</span>
-         <span class="n">bmap_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;suppress_ticks&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-                      <span class="s1">&#39;resolution&#39;</span><span class="p">:</span> <span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;epsg&#39;</span><span class="p">:</span> <span class="s1">&#39;26943&#39;</span><span class="p">},</span>
          <span class="n">plot_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;cmap&#39;</span><span class="p">:</span> <span class="s1">&#39;BrBG&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;edgecolor&#39;</span><span class="p">:</span> <span class="s1">&#39;none&#39;</span><span class="p">})</span>
 </pre></div>
 </div>
 <img alt="_images/500metersum.png" src="_images/500metersum.png" />
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span><span class="n">sf_bbox</span><span class="p">,</span>
          <span class="n">fig_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;figsize&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">]},</span>
-         <span class="n">bmap_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;suppress_ticks&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-                      <span class="s1">&#39;resolution&#39;</span><span class="p">:</span> <span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;epsg&#39;</span><span class="p">:</span> <span class="s1">&#39;26943&#39;</span><span class="p">},</span>
-         <span class="n">plot_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;cmap&#39;</span><span class="p">:</span> <span class="s1">&#39;BrBG&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;edgecolor&#39;</span><span class="p">:</span> <span class="s1">&#39;none&#39;</span><span class="p">}</span>
+         <span class="n">plot_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;cmap&#39;</span><span class="p">:</span> <span class="s1">&#39;BrBG&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;edgecolor&#39;</span><span class="p">:</span> <span class="s1">&#39;none&#39;</span><span class="p">})</span>
 </pre></div>
 </div>
 <img alt="_images/2000metersum.png" src="_images/2000metersum.png" />
@@ -301,7 +297,7 @@ and sample code and images are included below.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2021, UrbanSim Inc..</p>
+    <p>&#169; Copyright 2026, UrbanSim Inc..</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

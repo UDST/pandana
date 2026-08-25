@@ -50,6 +50,8 @@
 <li class="toctree-l1"><a class="reference internal" href="loaders.html">Loaders</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Change log</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v0-8">v0.8</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-7">v0.7</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-6-1">v0.6.1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-6">v0.6</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-5-1">v0.5.1</a></li>
@@ -91,6 +93,32 @@
              
   <section id="change-log">
 <h1>Change log<a class="headerlink" href="#change-log" title="Link to this heading"></a></h1>
+<section id="v0-8">
+<h2>v0.8<a class="headerlink" href="#v0-8" title="Link to this heading"></a></h2>
+<p>2026/08/24</p>
+<ul class="simple">
+<li><p>Adds support for Python 3.10 to 3.14, NumPy 2, Pandas 3, and Cython 3; drops Python 3.8 and 3.9</p></li>
+<li><p>Builds binary installers for all platforms automatically, including Apple Silicon Macs and ARM Linux, and tests each one before release</p></li>
+<li><p>Fixes failures on Windows caused by 32-bit <code class="docutils literal notranslate"><span class="pre">long</span></code> integers in the compiled extension, by using explicit 64-bit integer types</p></li>
+<li><p>Improves support for network files saved with older versions of Pandas: <a class="reference external" href="network.html#pandana.network.Network.from_hdf5">Network.from_hdf5()</a> reads them directly when the installed Pandas can, and otherwise accepts <code class="docutils literal notranslate"><span class="pre">migrate_legacy=True</span></code>; adds <a class="reference external" href="loaders.html#pandana.loaders.pandash5.open_hdf_store">open_hdf_store()</a> and <a class="reference external" href="loaders.html#pandana.loaders.pandash5.migrate_legacy_hdf">migrate_legacy_hdf()</a></p></li>
+<li><p>Modernizes the build and test infrastructure, including compatibility testing against the oldest supported dependency versions</p></li>
+<li><p>Thanks to Eli Knaap and Joaquim Gromicho for the compatibility work, and to the Pandarm project for the approach to bundling OpenMP in Mac wheels</p></li>
+</ul>
+</section>
+<section id="v0-7">
+<h2>v0.7<a class="headerlink" href="#v0-7" title="Link to this heading"></a></h2>
+<p>2023/07/26</p>
+<ul class="simple">
+<li><p>Adds support for calculating <a class="reference external" href="network.html#pandana.network.Network.nodes_in_range">accessibility isochrones</a>: which nodes are within x network distance of a source node</p></li>
+<li><p>Allows a maximum distance to be set for <a class="reference external" href="network.html#pandana.network.Network.set_pois">POIs</a></p></li>
+<li><p>Adds a warning when a shortest path is requested between unconnected nodes</p></li>
+<li><p>Supports PyTables 3.7+</p></li>
+<li><p>Supports Pandas 2.0</p></li>
+<li><p>Switches to pyproject.toml packaging standards</p></li>
+<li><p>Adds binaries on PyPI to support Python 3.10 and 3.11</p></li>
+<li><p>Improves compilation in MacOS 12+</p></li>
+</ul>
+</section>
 <section id="v0-6-1">
 <h2>v0.6.1<a class="headerlink" href="#v0-6-1" title="Link to this heading"></a></h2>
 <p>2021/03/17</p>
@@ -198,7 +226,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2021, UrbanSim Inc..</p>
+    <p>&#169; Copyright 2026, UrbanSim Inc..</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
