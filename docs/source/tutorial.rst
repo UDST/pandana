@@ -4,7 +4,7 @@ Tutorial
 .. note::
     This tutorial was last updated in 2017 and may not be current. The best place
     to start is with the Pandana `demo notebook 
-    <https://github.com/UDST/pandana/tree/master/examples/Pandana-demo.ipynb>`_.
+    <https://github.com/UDST/pandana/blob/main/examples/Pandana-demo.ipynb>`_.
 
 At this point it is probably helpful to make concrete the topics discussed in
 the introduction by giving code sample.  There is also an IPython Notebook
@@ -36,8 +36,8 @@ We can access them as follows (the demo data file can be
     store = pd.HDFStore('data/osm_bayarea.h5', "r")
     nodes = store.nodes
     edges = store.edges
-    print nodes.head(3)
-    print edges.head(3)
+    print(nodes.head(3))
+    print(edges.head(3))
 
 
 The output of the above code shows: ::
@@ -209,8 +209,6 @@ and sample code and images are included below. ::
 
     net.plot(s, bbox=sf_bbox,
              fig_kwargs={'figsize': [20, 20]},
-             bmap_kwargs={'suppress_ticks': False,
-                          'resolution': 'h', 'epsg': '26943'},
              plot_kwargs={'cmap': 'BrBG', 's': 8, 'edgecolor': 'none'})
 
 .. image:: img/500metersum.png
@@ -219,8 +217,6 @@ and sample code and images are included below. ::
 
     net.plot(u, bbox=sf_bbox,
              fig_kwargs={'figsize': [20, 20]},
-             bmap_kwargs={'suppress_ticks': False,
-                          'resolution': 'h', 'epsg': '26943'},
-             plot_kwargs={'cmap': 'BrBG', 's': 8, 'edgecolor': 'none'}
+             plot_kwargs={'cmap': 'BrBG', 's': 8, 'edgecolor': 'none'})
 
 .. image:: img/2000metersum.png

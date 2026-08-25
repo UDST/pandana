@@ -2,9 +2,10 @@ Road map
 --------
 
 .. note::
-    This is the original road map from 2014. Take a look at the open and
-    closed `GitHub issues <https://github.com/udst/pandana/issues>`_ for
-    up-to-date information about work in progress.
+    This is the original road map from 2014. Take a look at the
+    `changelog <changelog.html>`_ and the open and closed
+    `GitHub issues <https://github.com/udst/pandana/issues>`_ for
+    a more current view.
     
     Network structure metrics are unlikely to be added to Pandana; consider
     using the `OSMnx <https://github.com/gboeing/osmnx/>`_ library instead.
