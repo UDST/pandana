@@ -299,6 +299,23 @@ def test_shortest_path_lengths(sample_osm):
         pass
 
 
+def test_shortest_path_lengths_unconnected_warning_is_bounded():
+    nodes_a = np.arange(20)
+    nodes_b = np.arange(100, 120)
+    lens = np.full(20, pdna.UNCONNECTED_DISTANCE)
+
+    with pytest.warns(UserWarning) as record:
+        pdna._warn_unconnected_shortest_paths(nodes_a, nodes_b, lens)
+
+    message = str(record[0].message)
+    assert "20 external unconnected node pairs" in message
+    assert "Sample:" in message
+    assert "(0, 100)" in message
+    assert "(9, 109)" in message
+    assert "(10, 110)" not in message
+    assert "(19, 119)" not in message
+
+
 def test_pois(sample_osm):
     net = sample_osm
 
