@@ -11,6 +11,40 @@ import warnings
 INDEX_DTYPE = np.int64
 FLOAT_DTYPE = np.float64
 
+_UNCONNECTED_DISTANCE = 4294967.295
+_UNCONNECTED_WARNING_SAMPLE_SIZE = 10
+
+
+def _python_scalar(value):
+    if hasattr(value, "item"):
+        return value.item()
+    return value
+
+
+def _warn_unconnected_shortest_paths(nodes_a, nodes_b, lens):
+    lens_array = np.asarray(lens)
+    unconnected_count = 0
+    sample_idx = []
+    for idx, distance in enumerate(lens_array):
+        if distance == _UNCONNECTED_DISTANCE:
+            unconnected_count += 1
+            if len(sample_idx) < _UNCONNECTED_WARNING_SAMPLE_SIZE:
+                sample_idx.append(idx)
+    if unconnected_count == 0:
+        return
+
+    nodes_a_array = np.asarray(nodes_a)
+    nodes_b_array = np.asarray(nodes_b)
+    sample = [
+        (_python_scalar(nodes_a_array[i]), _python_scalar(nodes_b_array[i]))
+        for i in sample_idx
+    ]
+    warnings.warn(
+        "Unsigned integer: shortest path distance is trying to be calculated "
+        "between %d external unconnected node pairs. Sample: %s"
+        % (unconnected_count, sample),
+        stacklevel=3)
+
 
 def reserve_num_graphs(num):
     """
@@ -347,13 +381,7 @@ class Network:
 
         lens = self.net.shortest_path_distances(nodes_a_idx, nodes_b_idx, imp_num)
 
-        if 4294967.295 in lens:
-            unconnected_idx = [i for i, v in enumerate(lens) if v == 4294967.295]
-            unconnected_nodes = [(nodes_a[i], nodes_b[i]) for i in unconnected_idx]
-            warnings.warn(
-                "Unsigned integer: shortest path distance is trying to be calculated \
-                between the following external unconnected nodes: %s" % (unconnected_nodes))
-
+        _warn_unconnected_shortest_paths(nodes_a, nodes_b, lens)
         return lens
 
     def set(self, node_ids, variable=None, name="tmp"):
