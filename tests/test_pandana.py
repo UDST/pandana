@@ -302,7 +302,7 @@ def test_shortest_path_lengths(sample_osm):
 def test_shortest_path_lengths_unconnected_warning_is_bounded():
     nodes_a = np.arange(20)
     nodes_b = np.arange(100, 120)
-    lens = np.full(20, pdna.UNCONNECTED_DISTANCE)
+    lens = np.full(20, pdna._UNCONNECTED_DISTANCE)
 
     with pytest.warns(UserWarning) as record:
         pdna._warn_unconnected_shortest_paths(nodes_a, nodes_b, lens)
@@ -314,6 +314,23 @@ def test_shortest_path_lengths_unconnected_warning_is_bounded():
     assert "(9, 109)" in message
     assert "(10, 110)" not in message
     assert "(19, 119)" not in message
+
+
+def test_shortest_path_lengths_warns_for_disconnected_public_path():
+    node_x = pd.Series([0.0, 1.0, 10.0, 11.0], index=[10, 11, 20, 21])
+    node_y = pd.Series([0.0, 0.0, 0.0, 0.0], index=node_x.index)
+    edge_from = pd.Series([10, 20])
+    edge_to = pd.Series([11, 21])
+    edge_weights = pd.DataFrame({"weight": [1.0, 1.0]})
+    net = pdna.Network(node_x, node_y, edge_from, edge_to, edge_weights)
+
+    with pytest.warns(UserWarning) as record:
+        lens = net.shortest_path_lengths([10, 10, 20], [11, 20, 21])
+
+    assert np.array_equal(lens, np.array([1.0, pdna._UNCONNECTED_DISTANCE, 1.0]))
+    message = str(record[0].message)
+    assert "1 external unconnected node pairs" in message
+    assert "(10, 20)" in message
 
 
 def test_pois(sample_osm):

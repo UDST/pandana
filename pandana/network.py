@@ -11,8 +11,8 @@ import warnings
 INDEX_DTYPE = np.int64
 FLOAT_DTYPE = np.float64
 
-UNCONNECTED_DISTANCE = 4294967.295
-UNCONNECTED_WARNING_SAMPLE_SIZE = 10
+_UNCONNECTED_DISTANCE = 4294967.295
+_UNCONNECTED_WARNING_SAMPLE_SIZE = 10
 
 
 def _python_scalar(value):
@@ -23,12 +23,16 @@ def _python_scalar(value):
 
 def _warn_unconnected_shortest_paths(nodes_a, nodes_b, lens):
     lens_array = np.asarray(lens)
-    unconnected_mask = lens_array == UNCONNECTED_DISTANCE
-    unconnected_count = int(np.count_nonzero(unconnected_mask))
+    unconnected_count = 0
+    sample_idx = []
+    for idx, distance in enumerate(lens_array):
+        if distance == _UNCONNECTED_DISTANCE:
+            unconnected_count += 1
+            if len(sample_idx) < _UNCONNECTED_WARNING_SAMPLE_SIZE:
+                sample_idx.append(idx)
     if unconnected_count == 0:
         return
 
-    sample_idx = np.flatnonzero(unconnected_mask)[:UNCONNECTED_WARNING_SAMPLE_SIZE]
     nodes_a_array = np.asarray(nodes_a)
     nodes_b_array = np.asarray(nodes_b)
     sample = [
@@ -38,7 +42,8 @@ def _warn_unconnected_shortest_paths(nodes_a, nodes_b, lens):
     warnings.warn(
         "Unsigned integer: shortest path distance is trying to be calculated "
         "between %d external unconnected node pairs. Sample: %s"
-        % (unconnected_count, sample))
+        % (unconnected_count, sample),
+        stacklevel=3)
 
 
 def reserve_num_graphs(num):
