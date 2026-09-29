@@ -11,6 +11,10 @@ import warnings
 INDEX_DTYPE = np.int64
 FLOAT_DTYPE = np.float64
 
+# Distance reported for node pairs with no connecting path. The contraction
+# hierarchy stores edge weights as unsigned 32-bit integers scaled by
+# DISTANCEMULTFACT (1000, see src/graphalg.h) and returns UINT_MAX when a
+# target is unreachable, so the unscaled result is 4294967295 / 1000.
 _UNCONNECTED_DISTANCE = 4294967.295
 _UNCONNECTED_WARNING_SAMPLE_SIZE = 10
 
@@ -41,10 +45,18 @@ def _warn_unconnected_shortest_paths(nodes_a, nodes_b, lens):
         (_python_scalar(nodes_a_values[i]), _python_scalar(nodes_b_values[i]))
         for i in sample_idx
     ]
+    if unconnected_count > len(sample):
+        sample_label = "First %d pairs" % len(sample)
+    elif unconnected_count == 1:
+        sample_label = "Pair"
+    else:
+        sample_label = "Pairs"
     warnings.warn(
-        "Unsigned integer: shortest path distance is trying to be calculated "
-        "between %d external unconnected node pairs. Sample: %s"
-        % (unconnected_count, sample),
+        "Shortest path distances were requested for %d node pair%s not "
+        "connected in the network; those distances are returned as the "
+        "sentinel value %s. %s (external node IDs): %s"
+        % (unconnected_count, "" if unconnected_count == 1 else "s",
+           _UNCONNECTED_DISTANCE, sample_label, sample),
         stacklevel=3)
 
 

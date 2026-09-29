@@ -302,6 +302,14 @@ def test_shortest_path_lengths(sample_osm):
         pass
 
 
+def _unconnected_warnings(record):
+    # Select only the unconnected-pair warning, so that unrelated warnings
+    # raised by dependencies (e.g. pandas deprecations) don't affect the
+    # assertions below.
+    warned = [w for w in record if issubclass(w.category, UserWarning)]
+    return [w for w in warned if "not connected in the network" in str(w.message)]
+
+
 def test_shortest_path_lengths_unconnected_warning_is_bounded():
     nodes_a = np.arange(20)
     nodes_b = np.arange(100, 120)
@@ -310,9 +318,11 @@ def test_shortest_path_lengths_unconnected_warning_is_bounded():
     with pytest.warns(UserWarning) as record:
         pdna._warn_unconnected_shortest_paths(nodes_a, nodes_b, lens)
 
-    message = str(record[0].message)
-    assert "20 external unconnected node pairs" in message
-    assert "Sample:" in message
+    warned = _unconnected_warnings(record)
+    assert len(warned) == 1
+    message = str(warned[0].message)
+    assert "for 20 node pairs" in message
+    assert "First 10 pairs" in message
     assert "(0, 100)" in message
     assert "(9, 109)" in message
     assert "(10, 110)" not in message
@@ -341,12 +351,14 @@ def test_shortest_path_lengths_warns_for_disconnected_public_path(input_kind):
 
     assert isinstance(lens, list)
     assert np.array_equal(lens, np.array([1.0, pdna._UNCONNECTED_DISTANCE, 1.0]))
-    assert len(record) == 1
-    assert record[0].filename == __file__
-    assert record[0].lineno == call_line
-    message = str(record[0].message)
-    assert "1 external unconnected node pairs" in message
-    assert "(10, 20)" in message
+    warned = _unconnected_warnings(record)
+    assert len(warned) == 1
+    assert warned[0].filename == __file__
+    assert warned[0].lineno == call_line
+    message = str(warned[0].message)
+    assert "for 1 node pair not connected" in message
+    assert str(pdna._UNCONNECTED_DISTANCE) in message
+    assert "Pair (external node IDs): [(10, 20)]" in message
 
 
 @pytest.mark.parametrize("disconnected", [False, True])
@@ -364,7 +376,7 @@ def test_shortest_path_warning_extra_memory_is_bounded(disconnected):
             tracemalloc.stop()
     # Inputs already exist: even a single full-sized temporary exceeds this.
     assert peak < 65536
-    assert len(record) == int(disconnected)
+    assert len(_unconnected_warnings(record)) == int(disconnected)
 
 
 @pytest.mark.parametrize("size, positions", [
@@ -379,12 +391,19 @@ def test_shortest_path_warning_sample_positions(size, positions):
     with warnings.catch_warnings(record=True) as record:
         warnings.simplefilter("always")
         pdna._warn_unconnected_shortest_paths(nodes_a, nodes_b, lens)
-    assert len(record) == bool(positions)
+    warned = _unconnected_warnings(record)
+    assert len(warned) == bool(positions)
     if positions:
-        message = str(record[0].message)
+        message = str(warned[0].message)
         expected = [(nodes_a[i], nodes_b[i]) for i in positions[:10]]
-        assert "%d external unconnected node pairs" % len(positions) in message
-        assert "Sample: %s" % expected in message
+        if len(positions) > 10:
+            count_text, label = "%d node pairs" % len(positions), "First 10 pairs"
+        elif len(positions) == 1:
+            count_text, label = "1 node pair", "Pair"
+        else:
+            count_text, label = "%d node pairs" % len(positions), "Pairs"
+        assert "for %s not connected" % count_text in message
+        assert "%s (external node IDs): %s" % (label, expected) in message
 
 
 def test_pois(sample_osm):
