@@ -1,4 +1,7 @@
 import os.path
+import inspect
+import tracemalloc
+import warnings
 
 import numpy as np
 import pandas as pd
@@ -297,6 +300,110 @@ def test_shortest_path_lengths(sample_osm):
         assert 0
     except ValueError as e:
         pass
+
+
+def _unconnected_warnings(record):
+    # Select only the unconnected-pair warning, so that unrelated warnings
+    # raised by dependencies (e.g. pandas deprecations) don't affect the
+    # assertions below.
+    warned = [w for w in record if issubclass(w.category, UserWarning)]
+    return [w for w in warned if "not connected in the network" in str(w.message)]
+
+
+def test_shortest_path_lengths_unconnected_warning_is_bounded():
+    nodes_a = np.arange(20)
+    nodes_b = np.arange(100, 120)
+    lens = [pdna._UNCONNECTED_DISTANCE] * 20
+
+    with pytest.warns(UserWarning) as record:
+        pdna._warn_unconnected_shortest_paths(nodes_a, nodes_b, lens)
+
+    warned = _unconnected_warnings(record)
+    assert len(warned) == 1
+    message = str(warned[0].message)
+    assert "for 20 node pairs" in message
+    assert "First 10 pairs" in message
+    assert "(0, 100)" in message
+    assert "(9, 109)" in message
+    assert "(10, 110)" not in message
+    assert "(19, 119)" not in message
+
+
+@pytest.mark.parametrize("input_kind", ["list", "array", "series"])
+def test_shortest_path_lengths_warns_for_disconnected_public_path(input_kind):
+    node_x = pd.Series([0.0, 1.0, 10.0, 11.0], index=[10, 11, 20, 21])
+    node_y = pd.Series([0.0, 0.0, 0.0, 0.0], index=node_x.index)
+    edge_from = pd.Series([10, 20])
+    edge_to = pd.Series([11, 21])
+    edge_weights = pd.DataFrame({"weight": [1.0, 1.0]})
+    net = pdna.Network(node_x, node_y, edge_from, edge_to, edge_weights)
+
+    nodes_a, nodes_b = [10, 10, 20], [11, 20, 21]
+    if input_kind == "array":
+        nodes_a, nodes_b = np.array(nodes_a), np.array(nodes_b)
+    elif input_kind == "series":
+        nodes_a = pd.Series(nodes_a, index=[100, 200, 300])
+        nodes_b = pd.Series(nodes_b, index=[400, 500, 600])
+
+    with pytest.warns(UserWarning) as record:
+        call_line = inspect.currentframe().f_lineno + 1
+        lens = net.shortest_path_lengths(nodes_a, nodes_b)
+
+    assert isinstance(lens, list)
+    assert np.array_equal(lens, np.array([1.0, pdna._UNCONNECTED_DISTANCE, 1.0]))
+    warned = _unconnected_warnings(record)
+    assert len(warned) == 1
+    assert warned[0].filename == __file__
+    assert warned[0].lineno == call_line
+    message = str(warned[0].message)
+    assert "for 1 node pair not connected" in message
+    assert str(pdna._UNCONNECTED_DISTANCE) in message
+    assert "Pair (external node IDs): [(10, 20)]" in message
+
+
+@pytest.mark.parametrize("disconnected", [False, True])
+def test_shortest_path_warning_extra_memory_is_bounded(disconnected):
+    size = 200000
+    nodes_a, nodes_b = [10] * size, [20] * size
+    lens = [pdna._UNCONNECTED_DISTANCE if disconnected else 1.0] * size
+    with warnings.catch_warnings(record=True) as record:
+        warnings.simplefilter("always")
+        tracemalloc.start()
+        try:
+            pdna._warn_unconnected_shortest_paths(nodes_a, nodes_b, lens)
+            _, peak = tracemalloc.get_traced_memory()
+        finally:
+            tracemalloc.stop()
+    # Inputs already exist: even a single full-sized temporary exceeds this.
+    assert peak < 65536
+    assert len(_unconnected_warnings(record)) == int(disconnected)
+
+
+@pytest.mark.parametrize("size, positions", [
+    (0, []), (100, []), (100, [99]), (100, [0, 50, 99]),
+    (100, list(range(80, 100))),
+])
+def test_shortest_path_warning_sample_positions(size, positions):
+    nodes_a, nodes_b = list(range(size)), list(range(1000, 1000 + size))
+    lens = [1.0] * size
+    for i in positions:
+        lens[i] = pdna._UNCONNECTED_DISTANCE
+    with warnings.catch_warnings(record=True) as record:
+        warnings.simplefilter("always")
+        pdna._warn_unconnected_shortest_paths(nodes_a, nodes_b, lens)
+    warned = _unconnected_warnings(record)
+    assert len(warned) == bool(positions)
+    if positions:
+        message = str(warned[0].message)
+        expected = [(nodes_a[i], nodes_b[i]) for i in positions[:10]]
+        if len(positions) > 10:
+            count_text, label = "%d node pairs" % len(positions), "First 10 pairs"
+        elif len(positions) == 1:
+            count_text, label = "1 node pair", "Pair"
+        else:
+            count_text, label = "%d node pairs" % len(positions), "Pairs"
+        assert "for %s not connected" % count_text in message
+        assert "%s (external node IDs): %s" % (label, expected) in message
 
 
 def test_pois(sample_osm):

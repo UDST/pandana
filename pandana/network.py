@@ -11,6 +11,54 @@ import warnings
 INDEX_DTYPE = np.int64
 FLOAT_DTYPE = np.float64
 
+# Distance reported for node pairs with no connecting path. The contraction
+# hierarchy stores edge weights as unsigned 32-bit integers scaled by
+# DISTANCEMULTFACT (1000, see src/graphalg.h) and returns UINT_MAX when a
+# target is unreachable, so the unscaled result is 4294967295 / 1000.
+_UNCONNECTED_DISTANCE = 4294967.295
+_UNCONNECTED_WARNING_SAMPLE_SIZE = 10
+
+
+def _python_scalar(value):
+    if hasattr(value, "item"):
+        return value.item()
+    return value
+
+
+def _warn_unconnected_shortest_paths(nodes_a, nodes_b, lens):
+    # The Cython distance query returns a list; count in C without a copy.
+    unconnected_count = lens.count(_UNCONNECTED_DISTANCE)
+    if unconnected_count == 0:
+        return
+
+    sample_idx = []
+    start = 0
+    # Search disjoint intervals in C, without slicing or scanning in Python.
+    for _ in range(min(unconnected_count, _UNCONNECTED_WARNING_SAMPLE_SIZE)):
+        idx = lens.index(_UNCONNECTED_DISTANCE, start)
+        sample_idx.append(idx)
+        start = idx + 1
+
+    nodes_a_values = nodes_a.iloc if isinstance(nodes_a, pd.Series) else nodes_a
+    nodes_b_values = nodes_b.iloc if isinstance(nodes_b, pd.Series) else nodes_b
+    sample = [
+        (_python_scalar(nodes_a_values[i]), _python_scalar(nodes_b_values[i]))
+        for i in sample_idx
+    ]
+    if unconnected_count > len(sample):
+        sample_label = "First %d pairs" % len(sample)
+    elif unconnected_count == 1:
+        sample_label = "Pair"
+    else:
+        sample_label = "Pairs"
+    warnings.warn(
+        "Shortest path distances were requested for %d node pair%s not "
+        "connected in the network; those distances are returned as the "
+        "sentinel value %s. %s (external node IDs): %s"
+        % (unconnected_count, "" if unconnected_count == 1 else "s",
+           _UNCONNECTED_DISTANCE, sample_label, sample),
+        stacklevel=3)
+
 
 def reserve_num_graphs(num):
     """
@@ -347,13 +395,7 @@ class Network:
 
         lens = self.net.shortest_path_distances(nodes_a_idx, nodes_b_idx, imp_num)
 
-        if 4294967.295 in lens:
-            unconnected_idx = [i for i, v in enumerate(lens) if v == 4294967.295]
-            unconnected_nodes = [(nodes_a[i], nodes_b[i]) for i in unconnected_idx]
-            warnings.warn(
-                "Unsigned integer: shortest path distance is trying to be calculated \
-                between the following external unconnected nodes: %s" % (unconnected_nodes))
-
+        _warn_unconnected_shortest_paths(nodes_a, nodes_b, lens)
         return lens
 
     def set(self, node_ids, variable=None, name="tmp"):
