@@ -16,4 +16,6 @@
 #endif
 #define FILE_LOG(logINFO) (std::cout)
 
-typedef int64_t PandanaNodeID;
+// External (OSM or user) node IDs stay 64-bit. Internal graph indices are
+// dense positions 0..numnodes-1 and use int.
+typedef int64_t PandanaExternalNodeID;

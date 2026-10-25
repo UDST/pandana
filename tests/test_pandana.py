@@ -406,6 +406,16 @@ def test_shortest_path_warning_sample_positions(size, positions):
         assert "%s (external node IDs): %s" % (label, expected) in message
 
 
+def test_internal_index_capacity_guard():
+    max_nodes = np.iinfo(pdna.INDEX_DTYPE).max
+    pdna._check_internal_index_capacity(max_nodes)
+
+    with pytest.raises(ValueError, match="internal index limit"):
+        pdna._check_internal_index_capacity(max_nodes + 1)
+
+    assert pdna.EXTERNAL_NODE_DTYPE == np.int64
+
+
 def test_pois(sample_osm):
     net = sample_osm
 

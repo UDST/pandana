@@ -21,21 +21,21 @@ class Accessibility {
  public:
     Accessibility(
         int numnodes,
-        vector< vector<PandanaNodeID> > edges,
+        vector< vector<int> > edges,
         vector< vector<double> >  edgeweights,
         bool twoway);
 
     // initialize the category number with POIs at the node_id locations
     void initializeCategory(
         const double maxdist, const int maxitems, string category,
-        vector<PandanaNodeID> node_idx);
+        vector<int> node_idx);
 
     // find the nearest pois for all nodes in the network
     pair<vector<vector<double>>, vector<vector<int>>>
     findAllNearestPOIs(float maxradius, unsigned maxnumber,
                        string category, int graphno = 0);
 
-    void initializeAccVar(string category, vector<PandanaNodeID> node_idx,
+    void initializeAccVar(string category, vector<int> node_idx,
                           vector<double> values);
 
     // computes the accessibility for every node in the network
@@ -48,21 +48,22 @@ class Accessibility {
         int graphno = 0);
 
     // get nodes with a range for a specific list of source nodes
-    vector<vector<pair<PandanaNodeID, float>>> Range(vector<PandanaNodeID> srcnodes, float radius,
-                                                     int graphno, vector<PandanaNodeID> ext_ids);
+    vector<vector<pair<PandanaExternalNodeID, float>>> Range(
+        vector<PandanaExternalNodeID> srcnodes, float radius, int graphno,
+        vector<PandanaExternalNodeID> ext_ids);
 
     // shortest path between two points
     vector<int> Route(int src, int tgt, int graphno = 0);
 
     // shortest path between list of origins and destinations
-    vector<vector<int>> Routes(vector<PandanaNodeID> sources, vector<PandanaNodeID> targets,
+    vector<vector<int>> Routes(vector<int> sources, vector<int> targets,
                                int graphno = 0);
 
     // shortest path distance between two points
     double Distance(int src, int tgt, int graphno = 0);
     
     // shortest path distances between list of origins and destinations
-    vector<double> Distances(vector<PandanaNodeID> sources, vector<PandanaNodeID> targets,
+    vector<double> Distances(vector<int> sources, vector<int> targets,
                              int graphno = 0);
 
     // precompute the range queries and reuse them

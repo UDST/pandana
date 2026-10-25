@@ -8,7 +8,8 @@ from .cyaccess import cyaccess
 from .loaders import pandash5 as ph5
 import warnings
 
-INDEX_DTYPE = np.int64
+INDEX_DTYPE = np.int32
+EXTERNAL_NODE_DTYPE = np.int64
 FLOAT_DTYPE = np.float64
 
 # Distance reported for node pairs with no connecting path. The contraction
@@ -58,6 +59,16 @@ def _warn_unconnected_shortest_paths(nodes_a, nodes_b, lens):
         % (unconnected_count, "" if unconnected_count == 1 else "s",
            _UNCONNECTED_DISTANCE, sample_label, sample),
         stacklevel=3)
+
+
+def _check_internal_index_capacity(numnodes):
+    max_nodes = np.iinfo(INDEX_DTYPE).max
+    if numnodes > max_nodes:
+        raise ValueError(
+            "Pandana internal graph has %d nodes, which exceeds the %s "
+            "internal index limit of %d"
+            % (numnodes, np.dtype(INDEX_DTYPE).name, max_nodes)
+        )
 
 
 def reserve_num_graphs(num):
@@ -122,6 +133,8 @@ class Network:
 
         self.nodes_df = nodes_df
         self.edges_df = edges_df
+
+        _check_internal_index_capacity(len(nodes_df))
 
         self.impedance_names = list(edge_weights.columns)
         self.variable_names = set()
@@ -503,8 +516,8 @@ class Network:
         """
         imp_num = self._imp_name_to_num(imp_name)
         imp_name = self.impedance_names[imp_num]
-        nodes = np.asarray(nodes, dtype=INDEX_DTYPE)
-        ext_ids = self.node_idx.index.to_numpy(dtype=INDEX_DTYPE, copy=False)
+        nodes = np.asarray(nodes, dtype=EXTERNAL_NODE_DTYPE)
+        ext_ids = self.node_idx.index.to_numpy(dtype=EXTERNAL_NODE_DTYPE, copy=False)
 
         raw_result = self.net.nodes_in_range(nodes, radius, imp_num, ext_ids)
         clean_result = pd.concat(
