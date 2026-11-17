@@ -155,6 +155,16 @@ class Network:
             axis=1,
         )
 
+        # An edge endpoint that isn't in the node table has no internal index
+        # (it comes back as NaN), and would be passed to the C++ code as an
+        # arbitrary, platform-dependent integer
+        unmatched = edges.isna().any(axis=1)
+        if unmatched.any():
+            raise ValueError(
+                "Some edges refer to node IDs that are not in the node table "
+                "(%d of %d)" % (unmatched.sum(), len(edges))
+            )
+
         self.net = cyaccess(
             self.node_idx.to_numpy(dtype=INDEX_DTYPE, copy=False),
             nodes_df.to_numpy(dtype=FLOAT_DTYPE, copy=False),
