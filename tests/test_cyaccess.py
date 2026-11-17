@@ -34,9 +34,9 @@ def net(nodes_and_edges):
     edges["to"] = node_locations.loc[edges["to"]].values
 
     net = cyaccess(
-        nodes.index.values.astype('int64'),
+        nodes.index.values.astype('int32'),
         nodes.values,
-        edges.values.astype('int64'),
+        edges.values.astype('int32'),
         edge_weights.transpose().values,
         True
     )
@@ -50,7 +50,7 @@ def test_agg_analysis(net, nodes_and_edges):
     nodes = nodes_and_edges[0]
     NUM_NODES = 30
     np.random.seed(0)
-    random_node_ids = np.random.choice(np.arange(len(nodes)), NUM_NODES)
+    random_node_ids = np.random.choice(np.arange(len(nodes)), NUM_NODES).astype("int32")
     random_vals = np.random.random(NUM_NODES) * 100
     net.initialize_access_var(b'test', random_node_ids, random_vals)
     ret = net.get_all_aggregate_accessibility_variables(10, b'test', b'sum', b'flat')
@@ -67,7 +67,7 @@ def test_poi_analysis(net, nodes_and_edges):
     nodes = nodes_and_edges[0]
     NUM_NODES = 30
     np.random.seed(0)
-    random_node_ids = np.random.choice(np.arange(len(nodes)), NUM_NODES)
+    random_node_ids = np.random.choice(np.arange(len(nodes)), NUM_NODES).astype("int32")
     net.initialize_category(10, 3, b'0', random_node_ids)
     dists, poi_ids = net.find_all_nearest_pois(10, 3, b'0')
     df = pd.DataFrame(poi_ids)
@@ -145,9 +145,9 @@ def test_memory_leak(nodes_and_edges):
     for i in range(8000):
         print i
         net = cyaccess(
-            nodes.index.values,
+            nodes.index.values.astype('int32'),
             nodes.values,
-            edges.values,
+            edges.values.astype('int32'),
             edge_weights.transpose().values,
             True
         )

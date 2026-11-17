@@ -19,19 +19,19 @@ np.import_array()
 
 cdef extern from "accessibility.h" namespace "MTC::accessibility":
     cdef cppclass Accessibility:
-        Accessibility(int, vector[vector[int64_t]], vector[vector[double]], bool) except +
+        Accessibility(int, vector[vector[int]], vector[vector[double]], bool) except +
         vector[string] aggregations
         vector[string] decays
-        void initializeCategory(double, int, string, vector[int64_t])
+        void initializeCategory(double, int, string, vector[int])
         pair[vector[vector[double]], vector[vector[int]]] findAllNearestPOIs(
             float, int, string, int)
-        void initializeAccVar(string, vector[int64_t], vector[double])
+        void initializeAccVar(string, vector[int], vector[double])
         vector[double] getAllAggregateAccessibilityVariables(
             float, string, string, string, int)
         vector[int] Route(int, int, int)
-        vector[vector[int]] Routes(vector[int64_t], vector[int64_t], int)
+        vector[vector[int]] Routes(vector[int], vector[int], int)
         double Distance(int, int, int)
-        vector[double] Distances(vector[int64_t], vector[int64_t], int)
+        vector[double] Distances(vector[int], vector[int], int)
         vector[vector[pair[int64_t, float]]] Range(vector[int64_t], float, int, vector[int64_t])
         void precomputeRangeQueries(double)
 
@@ -75,9 +75,9 @@ cdef class cyaccess:
 
     def __cinit__(
         self,
-        np.ndarray[np.int64_t, ndim=1] node_ids,
+        np.ndarray[np.int32_t, ndim=1] node_ids,
         np.ndarray[np.float64_t, ndim=2] node_xys,
-        np.ndarray[np.int64_t, ndim=2] edges,
+        np.ndarray[np.int32_t, ndim=2] edges,
         np.ndarray[np.float64_t, ndim=2] edge_weights,
         bool twoway=True
     ):
@@ -102,7 +102,7 @@ cdef class cyaccess:
         double maxdist,
         int maxitems,
         string category,
-        np.ndarray[np.int64_t, ndim=1] node_ids
+        np.ndarray[np.int32_t, ndim=1] node_ids
     ):
         """
         maxdist - the maximum distance that will later be used in
@@ -137,7 +137,7 @@ cdef class cyaccess:
     def initialize_access_var(
         self,
         string category,
-        np.ndarray[np.int64_t, ndim=1] node_ids,
+        np.ndarray[np.int32_t, ndim=1] node_ids,
         np.ndarray[np.float64_t, ndim=1] values
     ):
         """
@@ -181,8 +181,8 @@ cdef class cyaccess:
         """
         return self.access.Route(srcnode, destnode, impno)
 
-    def shortest_paths(self, np.ndarray[np.int64_t, ndim=1] srcnodes,
-            np.ndarray[np.int64_t, ndim=1] destnodes, int impno=0):
+    def shortest_paths(self, np.ndarray[np.int32_t, ndim=1] srcnodes,
+            np.ndarray[np.int32_t, ndim=1] destnodes, int impno=0):
         """
         srcnodes - node ids of origins
         destnodes - node ids of destinations
@@ -198,8 +198,8 @@ cdef class cyaccess:
         """
         return self.access.Distance(srcnode, destnode, impno)
 
-    def shortest_path_distances(self, np.ndarray[np.int64_t, ndim=1] srcnodes,
-            np.ndarray[np.int64_t, ndim=1] destnodes, int impno=0):
+    def shortest_path_distances(self, np.ndarray[np.int32_t, ndim=1] srcnodes,
+            np.ndarray[np.int32_t, ndim=1] destnodes, int impno=0):
         """
         srcnodes - node ids of origins
         destnodes - node ids of destinations

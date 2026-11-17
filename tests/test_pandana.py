@@ -406,6 +406,27 @@ def test_shortest_path_warning_sample_positions(size, positions):
         assert "%s (external node IDs): %s" % (label, expected) in message
 
 
+def test_internal_index_capacity_guard():
+    max_nodes = np.iinfo(pdna.INDEX_DTYPE).max
+    pdna._check_internal_index_capacity(max_nodes)
+
+    with pytest.raises(ValueError, match="internal index limit"):
+        pdna._check_internal_index_capacity(max_nodes + 1)
+
+    assert pdna.EXTERNAL_NODE_DTYPE == np.int64
+
+
+def test_edges_with_unknown_node_ids_raise():
+    node_x = pd.Series([0.0, 1.0, 2.0], index=[10, 11, 12])
+    node_y = pd.Series([0.0, 0.0, 0.0], index=node_x.index)
+    edge_from = pd.Series([10, 11, 12])
+    edge_to = pd.Series([11, 99, 10])
+    edge_weights = pd.DataFrame({"weight": [1.0, 1.0, 1.0]})
+
+    with pytest.raises(ValueError, match=r"not in the node table \(1 of 3\)"):
+        pdna.Network(node_x, node_y, edge_from, edge_to, edge_weights)
+
+
 def test_pois(sample_osm):
     net = sample_osm
 
