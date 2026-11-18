@@ -50,42 +50,39 @@ You can contact Sam Maurer, the lead maintainer, at `maurer@urbansim.com`.
   
 - Make sure all the tests are passing, and check if updates are needed to `README.md` or to the documentation
 
-- Open a pull request to the main branch to finalize it
+- Open a pull request to the main branch, and merge it once the checks pass
 
-- After merging, tag the release on GitHub and follow the distribution procedures below
+- Publish the release on GitHub: create a tag on the merge commit named with a `v` prefix (e.g. `v0.8.1` for version `0.8.1`), and use the changelog text as the release notes. Publishing the release starts the `Build wheels` workflow described below
 
-- For anything more than a trivial release, do a dry run first with a release candidate: set the version to e.g. `0.8rc1`, tag it `v0.8rc1`, mark the GitHub release as a pre-release, and publish it to PyPI the same way as a final release. Pip ignores pre-releases unless asked for them (`pip install --pre pandana==0.8rc1`), and the Conda Forge bots ignore them too, so this is a safe way to test the whole process and let others try the binaries. There's no need to delete the release candidate from PyPI afterward; if necessary, it can be "yanked" from the project's management page. Then repeat with the final version number.
+- For anything more than a trivial release, do a dry run first with a release candidate: set the version to e.g. `0.8.1rc1`, tag it `v0.8.1rc1`, and mark the GitHub release as a pre-release. Pip ignores pre-releases unless asked for them (`pip install --pre pandana==0.8.1rc1`), and the Conda Forge bots ignore them too, so this is a safe way to test the whole process and let others try the binaries. There's no need to delete the release candidate from PyPI afterward; if necessary, it can be "yanked" from the project's management page. Then repeat with the final version number
+
+- After the release, rebuild and publish the documentation (see `docs/README.md`)
 
 
 ## Distributing a release on PyPI (for pip installation):
 
-- Register an account at https://pypi.org with two-factor authentication enabled, ask one of the current maintainers to add you to the project, and `pip install twine`
+- The binary installers ("wheels") and the source distribution are built by the `Build wheels` GitHub Actions workflow (`.github/workflows/build-wheels.yml`), because each wheel needs to be compiled in its own target environment. The workflow runs on every pull request, to confirm nothing is broken, and again when a release is published on GitHub. Each wheel is installed and tested as part of the build
 
-- Create an API token at https://pypi.org/manage/account/token/ scoped to the Pandana project. PyPI uploads no longer accept a username and password.
+- When a release is published, the workflow goes on to check the files with `twine check --strict`, confirm that the version in every file matches the release tag (and that a pre-release version is marked as a pre-release on GitHub, and a final version is not), and then upload them to PyPI using [Trusted Publishing](https://docs.pypi.org/trusted-publishers/), so no PyPI credentials are stored on GitHub
 
-- The binary installers ("wheels") and the source distribution are built by the `Build wheels` GitHub Actions workflow, because each wheel needs to be compiled in its own target environment. The workflow runs automatically when a PR is opened, to confirm nothing is broken, and again when a release is published on GitHub. Each wheel is installed and tested as part of the build.
+- The upload step runs in the repository's `pypi` deployment environment, which requires approval from a maintainer: once the builds and checks succeed, the workflow pauses until a reviewer approves the deployment from the workflow run page. Merging to `main` never publishes anything
 
-- Publish the release on GitHub (tag plus release notes), wait for the `Build wheels` workflow run for the tag to finish, then download its artifacts from the Actions status page: one `wheels-*` archive per platform plus `sdist`. Unzip them into an empty `dist` directory.
+- Check https://pypi.org/project/pandana/ for the new version, and try `pip install pandana` in a fresh environment. The `Installation` GitHub Actions workflow can also be run manually to test installation across platforms and Python versions
 
-- Check and upload the files:
+- One-time setup, in case it needs to be repeated: a PyPI owner of the project registers the trusted publisher at https://pypi.org/manage/project/pandana/settings/publishing/ with owner `UDST`, repository `pandana`, workflow `build-wheels.yml`, and environment `pypi`; and a repository admin creates the `pypi` environment at https://github.com/UDST/pandana/settings/environments with required reviewers
 
-      twine check dist/*
-      twine upload dist/*
-
-  When prompted, enter `__token__` as the username and the API token as the password.
-
-- Check https://pypi.org/project/pandana/ for the new version, and try `pip install pandana` in a fresh environment. The `Installation` GitHub Actions workflow can also be run manually to test installation across platforms and Python versions.
-
-- The plan is to eventually publish to PyPI directly from GitHub Actions using Trusted Publishing, once the repository and organization settings support it. The manual upload steps above will then become the fallback.
+- Manual fallback, if the upload step can't be used: register an account at https://pypi.org with two-factor authentication enabled, ask one of the current maintainers to add you to the project, and create an API token scoped to the Pandana project. Download the artifacts of the `Build wheels` workflow run for the release from the Actions status page (one `wheels-*` archive per platform plus `sdist`) and unzip them into an empty `dist` directory. Then `pip install twine` and run `twine check --strict dist/*` and `twine upload dist/*`, entering `__token__` as the username and the token as the password
 
 
 ## Distributing a release on Conda Forge (for conda installation):
 
 - The [conda-forge/pandana-feedstock](https://github.com/conda-forge/pandana-feedstock) repository controls the Conda Forge release, including which GitHub users have maintainer status for the repo
 
-- Conda Forge bots usually detect new releases on PyPI and set in motion the appropriate feedstock updates, which a current maintainer will need to approve and merge
+- Conda Forge bots usually detect new releases on PyPI within a few hours and open a pull request to update the feedstock, which a current feedstock maintainer needs to review and merge
 
-- Maintainers can add on additional changes before merging the PR, for example to update the requirements or edit the list of maintainers
+- Before merging, check that the requirements in `recipe/meta.yaml` still match `setup.py` and `pyproject.toml`; the bot only updates the version and hash. Additional changes can be pushed to the bot's branch, for example to update the requirements or the list of maintainers
+
+- The bots also open a pull request to rebuild the package for each new version of Python. Merge these once their checks pass rather than closing them: a closed rebuild is treated as done, and the package will be missing for that Python version
 
 - You can also fork the feedstock and open a PR manually. It seems like this must be done from a personal account (not a group account like UDST) so that the bots can be granted permission for automated cleanup
 

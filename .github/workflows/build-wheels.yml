@@ -1,17 +1,26 @@
 name: Build wheels
 
+# Builds and tests the binary installers ("wheels") and the source distribution.
+# This runs on every pull request, to confirm nothing is broken, and again when a
+# release is published on GitHub, in which case the files are then uploaded to PyPI
+# using Trusted Publishing. Merging to main never publishes anything; only publishing
+# a release on GitHub (which creates or points at a v* tag) does, and the upload step
+# waits for approval in the protected "pypi" environment. See CONTRIBUTING.md.
+
 on:
   pull_request:
   release:
     types: [published]
-  workflow_dispatch:
+  workflow_dispatch:  # build and verify only, without publishing
 
 permissions:
   contents: read
 
+# Cancel superseded runs for a pull request, but never a release run, which may be
+# partway through an upload
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build-wheels:
@@ -46,13 +55,15 @@ jobs:
           openmp: MSVC /openmp enabled
 
     steps:
-    - uses: actions/checkout@v7
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
     - name: Show wheel target
       run: |
         echo "cibuildwheel architectures: ${{ matrix.cibw-archs }}"
         echo "OpenMP target: ${{ matrix.openmp }}"
     - name: Build wheels
-      uses: pypa/cibuildwheel@v4.2.1
+      uses: pypa/cibuildwheel@e090b81e30c4d855ea63bf4b6e59204c09a101ae # v4.2.1
       env:
         CIBW_BUILD: "cp310-* cp311-* cp312-* cp313-* cp314-*"
         CIBW_SKIP: "*-musllinux_*"
@@ -79,19 +90,22 @@ jobs:
         CIBW_REPAIR_WHEEL_COMMAND_MACOS: >
           delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}
     - name: Save artifacts
-      uses: actions/upload-artifact@v7
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
       with:
         name: wheels-${{ matrix.os }}
         path: wheelhouse/*.whl
+        if-no-files-found: error
 
   build-sdist:
     name: Build source distribution
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-    - uses: actions/checkout@v7
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
     - name: Set up Python
-      uses: actions/setup-python@v7
+      uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
       with:
         python-version: '3.14'
     - name: Build sdist
@@ -99,7 +113,118 @@ jobs:
         python -m pip install --upgrade pip build
         python -m build --sdist
     - name: Save artifact
-      uses: actions/upload-artifact@v7
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
       with:
         name: sdist
         path: dist/*.tar.gz
+        if-no-files-found: error
+
+  check-dist:
+    name: Check distributions
+    needs: [build-wheels, build-sdist]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - name: Download distributions
+      uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+      with:
+        path: dist
+        merge-multiple: true
+    - name: Set up Python
+      uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+      with:
+        python-version: '3.14'
+    - name: Check metadata
+      run: |
+        python -m pip install twine
+        python -m twine check --strict dist/*
+    - name: Check that the files share one version, matching the release
+      shell: python
+      env:
+        EVENT_NAME: ${{ github.event_name }}
+        PRERELEASE: ${{ github.event.release.prerelease }}
+      run: |
+        import os
+        import re
+        import sys
+        import tarfile
+        import zipfile
+        from email.parser import Parser
+        from pathlib import Path
+
+
+        def metadata_version(path):
+            # Read the version from the metadata inside each file, rather than from
+            # setup.py or the filename, so that the check binds the release tag to
+            # the files being uploaded
+            if path.suffix == ".whl":
+                with zipfile.ZipFile(path) as z:
+                    name = next(n for n in z.namelist() if n.endswith(".dist-info/METADATA"))
+                    text = z.read(name).decode()
+            else:
+                with tarfile.open(path) as t:
+                    name = next(n for n in t.getnames() if re.fullmatch(r"[^/]+/PKG-INFO", n))
+                    text = t.extractfile(name).read().decode()
+            return Parser().parsestr(text)["Version"]
+
+
+        files = sorted(Path("dist").iterdir())
+        wheels = [f for f in files if f.name.endswith(".whl")]
+        sdists = [f for f in files if f.name.endswith(".tar.gz")]
+        versions = {f.name: metadata_version(f) for f in wheels + sdists}
+        for name, version in versions.items():
+            print(version, name)
+        print(f"{len(wheels)} wheels and {len(sdists)} source distribution(s)")
+
+        errors = []
+        if not wheels or len(sdists) != 1 or len(versions) != len(files):
+            errors.append("expected wheels plus exactly one source distribution")
+        if len(set(versions.values())) != 1:
+            errors.append("the files do not all have the same version")
+
+        if not errors and os.environ["EVENT_NAME"] == "release":
+            actual = next(iter(versions.values()))
+            tag = os.environ["GITHUB_REF_NAME"]
+            prerelease = os.environ["PRERELEASE"] == "true"
+            print(f"tag {tag} expects version {tag.removeprefix('v')}; the files report {actual}")
+            if tag != "v" + actual:
+                errors.append("the package version does not match the release tag")
+            if re.search(r"(a|b|rc|dev)[0-9]*$", actual):
+                if not prerelease:
+                    errors.append(
+                        f"{actual} is a pre-release version, but the GitHub release is "
+                        "not marked as a pre-release"
+                    )
+            elif prerelease:
+                errors.append(
+                    f"{actual} is a final version, but the GitHub release is marked as "
+                    "a pre-release"
+                )
+
+        for error in errors:
+            print(f"::error::{error}")
+        sys.exit(1 if errors else 0)
+
+  publish:
+    name: Publish to PyPI
+    needs: check-dist
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: pypi
+      url: https://pypi.org/project/pandana/
+    permissions:
+      id-token: write  # for Trusted Publishing; no other access is needed
+    steps:
+    - name: Download distributions
+      uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+      with:
+        path: dist
+        merge-multiple: true
+    - name: Upload to PyPI
+      uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # v1.14.3
+      with:
+        # Files upload one at a time and PyPI refuses re-uploads of a filename, so
+        # let a re-run after a partial failure finish the release instead of aborting
+        skip-existing: true
