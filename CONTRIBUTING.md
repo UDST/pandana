@@ -43,6 +43,7 @@ You can contact Sam Maurer, the lead maintainer, at `maurer@urbansim.com`.
 
 - Update the version number and changelog
   - `CHANGELOG.md`
+  - `docs/source/changelog.rst` (the same entry in reStructuredText, with links into the API documentation)
   - `setup.py`
   - `pandana/__init__.py`
   - `docs/source/index.rst`
