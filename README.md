@@ -35,7 +35,7 @@ organization-level governance process.
 See the [UDST Project Directory](https://github.com/UDST/.github/blob/main/PROJECTS.md)
 for organization-wide project status and policy.
 
-New in v0.8 is support for current versions of Python (3.10 to 3.14), NumPy 2, and Pandas 3, with binary installers for all platforms built and tested automatically.
+New in v0.8 is support for current versions of Python (3.10 and later), NumPy 2, and Pandas 3, with binary installers for all platforms built and tested automatically.
 
 New in v0.5 and v0.6 is vectorized, multi-threaded calculation of shortest path routes and distances: [network.shortest_paths()](http://udst.github.io/pandana/network.html#pandana.network.Network.shortest_paths), [network.shortest_path_lengths()](http://udst.github.io/pandana/network.html#pandana.network.Network.shortest_path_lengths).
 
@@ -49,7 +49,7 @@ Binary installers are provided for Mac, Linux, and Windows through both PyPI and
 - `pip install pandana`
 - `conda install pandana --channel conda-forge`
 
-Pandana v0.8 supports Python 3.10 to 3.14. The last version with Python 3.8 and 3.9 binaries is v0.7, and the last with Python 3.5 through 3.7 is v0.6.1.
+Pandana v0.8.1 supports Python 3.10 to 3.15. The last version with Python 3.8 and 3.9 binaries is v0.7, and the last with Python 3.5 through 3.7 is v0.6.1.
 
 See the documentation for information about other [installation options](http://udst.github.io/pandana/installation.html).
 

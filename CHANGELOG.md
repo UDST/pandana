@@ -1,3 +1,16 @@
+v0.8.1
+======
+
+2026/11/18 (release candidate 1)
+
+* `Network()` now raises a `ValueError` if any edge refers to a node ID that isn't in the node table. Previously the network was built without complaint, with the edge attached to the wrong node
+* Reduces memory use for large networks and queries by storing node indices as 32-bit integers inside the compiled extension; node IDs remain 64-bit. `Network()` raises a `ValueError` if there are more nodes than a 32-bit index can address (about 2.1 billion)
+* The warning from `Network.shortest_path_lengths()` about unconnected node pairs now reports how many there are and lists up to 10 of them, rather than every pair, which could exhaust memory for large batches. The wording of the warning has changed. Also fixes a `KeyError` when node IDs are passed as Series with a non-default index
+* For code that uses Pandana's internals: `Network.node_idx` is now `int32`, and the `pandana.cyaccess` methods that take internal node indices require `int32` arrays
+* Adds binary installers for Python 3.15. Until `numexpr` and `ndindex` publish wheels for Python 3.15, pip builds those two dependencies from source there, which requires a C/C++ compiler; Conda Forge is not affected
+* Releases are now published to PyPI from GitHub Actions using Trusted Publishing
+* Thanks to @gromicho for the shortest-path warning and integer index work (PRs #211 and #215)
+
 v0.8
 ====
 
