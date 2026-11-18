@@ -22,6 +22,11 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
+env:
+  # The Python versions to build wheels for. cibuildwheel reads this in the build
+  # jobs, and the check-dist job uses it to confirm that nothing is missing
+  CIBW_BUILD: "cp310-* cp311-* cp312-* cp313-* cp314-*"
+
 jobs:
   build-wheels:
     name: ${{ matrix.name }}
@@ -65,7 +70,6 @@ jobs:
     - name: Build wheels
       uses: pypa/cibuildwheel@e090b81e30c4d855ea63bf4b6e59204c09a101ae # v4.2.1
       env:
-        CIBW_BUILD: "cp310-* cp311-* cp312-* cp313-* cp314-*"
         CIBW_SKIP: "*-musllinux_*"
         CIBW_ARCHS: ${{ matrix.cibw-archs }}
         CIBW_BUILD_VERBOSITY: 1
@@ -136,14 +140,15 @@ jobs:
         python-version: '3.14'
     - name: Check metadata
       run: |
-        python -m pip install twine
+        python -m pip install twine packaging
         python -m twine check --strict dist/*
-    - name: Check that the files share one version, matching the release
+    - name: Check that the files are complete and share one version, matching the release
       shell: python
       env:
         EVENT_NAME: ${{ github.event_name }}
         PRERELEASE: ${{ github.event.release.prerelease }}
       run: |
+        import itertools
         import os
         import re
         import sys
@@ -151,6 +156,21 @@ jobs:
         import zipfile
         from email.parser import Parser
         from pathlib import Path
+
+        from packaging.version import Version
+
+        # One wheel is expected for each Python version in CIBW_BUILD on each of these
+        # platforms, which correspond to the jobs in the build matrix
+        PLATFORMS = ["manylinux_x86_64", "manylinux_aarch64", "macosx_x86_64", "macosx_arm64",
+                     "win_amd64"]
+
+
+        def wheel_target(path):
+            # pandana-0.8-cp314-cp314-macosx_15_0_arm64.whl -> ("cp314", "macosx_arm64")
+            python, _, platform = path.stem.split("-")[-3:]
+            system = re.match(r"[a-z]+", platform).group()
+            machine = re.search(r"(x86_64|aarch64|arm64|amd64)$", platform)
+            return python, f"{system}_{machine.group() if machine else platform}"
 
 
         def metadata_version(path):
@@ -168,18 +188,35 @@ jobs:
             return Parser().parsestr(text)["Version"]
 
 
+        errors = []
         files = sorted(Path("dist").iterdir())
         wheels = [f for f in files if f.name.endswith(".whl")]
         sdists = [f for f in files if f.name.endswith(".tar.gz")]
-        versions = {f.name: metadata_version(f) for f in wheels + sdists}
-        for name, version in versions.items():
-            print(version, name)
         print(f"{len(wheels)} wheels and {len(sdists)} source distribution(s)")
-
-        errors = []
-        if not wheels or len(sdists) != 1 or len(versions) != len(files):
+        if len(sdists) != 1 or len(wheels) + len(sdists) != len(files):
             errors.append("expected wheels plus exactly one source distribution")
-        if len(set(versions.values())) != 1:
+
+        pythons = [build.removesuffix("-*") for build in os.environ["CIBW_BUILD"].split()]
+        expected = set(itertools.product(pythons, PLATFORMS))
+        built = [wheel_target(f) for f in wheels]
+        print(f"expecting {len(expected)} wheels: {' '.join(pythons)} on {' '.join(PLATFORMS)}")
+        for label, targets in [
+            ("missing", expected - set(built)),
+            ("unexpected", set(built) - expected),
+            ("duplicate", {t for t in built if built.count(t) > 1}),
+        ]:
+            if targets:
+                names = ", ".join(sorted(f"{python} {platform}" for python, platform in targets))
+                errors.append(f"{label} wheels: {names}")
+
+        versions = {}
+        for f in wheels + sdists:
+            try:
+                versions[f.name] = metadata_version(f)
+                print(versions[f.name], f.name)
+            except Exception as e:
+                errors.append(f"could not read the package metadata in {f.name} ({e!r})")
+        if len(set(versions.values())) > 1:
             errors.append("the files do not all have the same version")
 
         if not errors and os.environ["EVENT_NAME"] == "release":
@@ -189,7 +226,9 @@ jobs:
             print(f"tag {tag} expects version {tag.removeprefix('v')}; the files report {actual}")
             if tag != "v" + actual:
                 errors.append("the package version does not match the release tag")
-            if re.search(r"(a|b|rc|dev)[0-9]*$", actual):
+            # Pip skips pre-release versions by default, so a release candidate has to
+            # be marked as a pre-release on GitHub and a final version must not be
+            if Version(actual).is_prerelease:
                 if not prerelease:
                     errors.append(
                         f"{actual} is a pre-release version, but the GitHub release is "

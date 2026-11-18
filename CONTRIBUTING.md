@@ -50,7 +50,7 @@ You can contact Sam Maurer, the lead maintainer, at `maurer@urbansim.com`.
   
 - Make sure all the tests are passing, and check if updates are needed to `README.md` or to the documentation
 
-- Open a pull request to the main branch, and merge it once the checks pass
+- Open a pull request to the main branch. Once a maintainer has approved it and the checks have passed, merge it. The `Build wheels` check is the slowest, and the one that matters most here: it builds, tests, and checks the same set of files that the release will upload
 
 - Publish the release on GitHub: create a tag on the merge commit named with a `v` prefix (e.g. `v0.8.1` for version `0.8.1`), and use the changelog text as the release notes. Publishing the release starts the `Build wheels` workflow described below
 
@@ -66,6 +66,10 @@ You can contact Sam Maurer, the lead maintainer, at `maurer@urbansim.com`.
 - When a release is published, the workflow goes on to check the files with `twine check --strict`, confirm that the version in every file matches the release tag (and that a pre-release version is marked as a pre-release on GitHub, and a final version is not), and then upload them to PyPI using [Trusted Publishing](https://docs.pypi.org/trusted-publishers/), so no PyPI credentials are stored on GitHub
 
 - The upload step runs in the repository's `pypi` deployment environment, which requires approval from a maintainer: once the builds and checks succeed, the workflow pauses until a reviewer approves the deployment from the workflow run page. Merging to `main` never publishes anything
+
+- If the upload fails partway through, use "Re-run failed jobs" on the workflow run page, which uploads the remaining files from the same build. Don't use "Re-run all jobs": it would rebuild the wheels, and the release would end up as a mix of files from two different builds
+
+- The workflow can also be started by hand from the Actions tab ("Run workflow"), on any branch, as a dry run: it builds, tests, and checks everything, but never uploads
 
 - Check https://pypi.org/project/pandana/ for the new version, and try `pip install pandana` in a fresh environment. The `Installation` GitHub Actions workflow can also be run manually to test installation across platforms and Python versions
 
