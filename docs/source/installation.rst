@@ -17,7 +17,7 @@ Or Conda::
 
     conda install pandana --channel conda-forge
 
-Pandana v0.8 supports Python 3.10 to 3.14. The last version with Python 3.8 and 3.9 binaries is v0.7, and the last with Python 3.5 through 3.7 is v0.6.1. The last version with Python 2.7 binaries is v0.4.4 on Conda Forge.
+Pandana v0.8.1 supports Python 3.10 to 3.15. The last version with Python 3.8 and 3.9 binaries is v0.7, and the last with Python 3.5 through 3.7 is v0.6.1. The last version with Python 2.7 binaries is v0.4.4 on Conda Forge.
 
 
 Binary installers

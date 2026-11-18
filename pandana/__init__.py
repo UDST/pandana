@@ -1,3 +1,3 @@
 from .network import Network
 
-version = __version__ = '0.8'
+version = __version__ = '0.8.1rc1'
