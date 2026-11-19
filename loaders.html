@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Loaders &mdash; pandana 0.8 documentation</title>
+  <title>Loaders &mdash; pandana 0.8.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=a0e24af7"></script>
+      <script src="_static/documentation_options.js?v=ec16d22d"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
@@ -122,8 +122,8 @@ the <a class="reference external" href="https://github.com/udst/osmnet">OSMnet</
 function for getting specific nodes within a bounding box.
 This can be used to populate a network with points of interest:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nodes</span> <span class="o">=</span> <span class="n">osm</span><span class="o">.</span><span class="n">node_query</span><span class="p">(</span>
-    <span class="mf">37.859</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.282</span><span class="p">,</span> <span class="mf">37.881</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.252</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="s1">&#39;&quot;amenity&quot;=&quot;restaurant&quot;&#39;</span><span class="p">)</span>
-<span class="n">network</span><span class="o">.</span><span class="n">set_pois</span><span class="p">(</span><span class="s1">&#39;restaurants&#39;</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">nodes</span><span class="p">[</span><span class="s1">&#39;lon&#39;</span><span class="p">],</span> <span class="n">nodes</span><span class="p">[</span><span class="s1">&#39;lat&#39;</span><span class="p">])</span>
+    <span class="mf">37.859</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.282</span><span class="p">,</span> <span class="mf">37.881</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.252</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="s1">'"amenity"="restaurant"'</span><span class="p">)</span>
+<span class="n">network</span><span class="o">.</span><span class="n">set_pois</span><span class="p">(</span><span class="s1">'restaurants'</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">nodes</span><span class="p">[</span><span class="s1">'lon'</span><span class="p">],</span> <span class="n">nodes</span><span class="p">[</span><span class="s1">'lat'</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>For more about tags see the
@@ -158,8 +158,8 @@ As an example, you can use the
 <a class="reference internal" href="network.html#pandana.network.Network.low_connectivity_nodes" title="pandana.network.Network.low_connectivity_nodes"><code class="xref py py-meth docutils literal notranslate"><span class="pre">low_connectivity_nodes()</span></code></a> method
 to identify nodes that may not be connected to the larger network,
 then exclude those nodes when saving to HDF5:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lcn</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">low_connectivity_nodes</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">imp_name</span><span class="o">=</span><span class="s1">&#39;distance&#39;</span><span class="p">)</span>
-<span class="n">network</span><span class="o">.</span><span class="n">save_hdf5</span><span class="p">(</span><span class="s1">&#39;mynetwork.h5&#39;</span><span class="p">,</span> <span class="n">rm_nodes</span><span class="o">=</span><span class="n">lcn</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lcn</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">low_connectivity_nodes</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">imp_name</span><span class="o">=</span><span class="s1">'distance'</span><span class="p">)</span>
+<span class="n">network</span><span class="o">.</span><span class="n">save_hdf5</span><span class="p">(</span><span class="s1">'mynetwork.h5'</span><span class="p">,</span> <span class="n">rm_nodes</span><span class="o">=</span><span class="n">lcn</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -372,7 +372,7 @@ place or into <code class="docutils literal notranslate"><span class="pre">outpu
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2021, UrbanSim Inc..</p>
+    <p>&#169; Copyright 2026, UrbanSim Inc..</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

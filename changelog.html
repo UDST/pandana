@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Change log &mdash; pandana 0.8 documentation</title>
+  <title>Change log &mdash; pandana 0.8.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=a0e24af7"></script>
+      <script src="_static/documentation_options.js?v=ec16d22d"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
@@ -50,6 +50,7 @@
 <li class="toctree-l1"><a class="reference internal" href="loaders.html">Loaders</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Change log</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v0-8-1">v0.8.1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-8">v0.8</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-7">v0.7</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-6-1">v0.6.1</a></li>
@@ -93,6 +94,19 @@
              
   <section id="change-log">
 <h1>Change log<a class="headerlink" href="#change-log" title="Link to this heading"></a></h1>
+<section id="v0-8-1">
+<h2>v0.8.1<a class="headerlink" href="#v0-8-1" title="Link to this heading"></a></h2>
+<p>2026/11/18</p>
+<ul class="simple">
+<li><p><a class="reference external" href="network.html#pandana.network.Network">Network()</a> now raises a <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> if any edge refers to a node ID that isn’t in the node table. Previously the network was built without complaint, with the edge attached to the wrong node</p></li>
+<li><p>Reduces memory use for large networks and queries by storing node indices as 32-bit integers inside the compiled extension; node IDs remain 64-bit. <code class="docutils literal notranslate"><span class="pre">Network()</span></code> raises a <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> if there are more nodes than a 32-bit index can address (about 2.1 billion)</p></li>
+<li><p>The warning from <a class="reference external" href="network.html#pandana.network.Network.shortest_path_lengths">Network.shortest_path_lengths()</a> about unconnected node pairs now reports how many there are and lists up to 10 of them, rather than every pair, which could exhaust memory for large batches. The wording of the warning has changed. Also fixes a <code class="docutils literal notranslate"><span class="pre">KeyError</span></code> when node IDs are passed as Series with a non-default index</p></li>
+<li><p>For code that uses Pandana’s internals: <code class="docutils literal notranslate"><span class="pre">Network.node_idx</span></code> is now <code class="docutils literal notranslate"><span class="pre">int32</span></code>, and the <code class="docutils literal notranslate"><span class="pre">pandana.cyaccess</span></code> methods that take internal node indices require <code class="docutils literal notranslate"><span class="pre">int32</span></code> arrays</p></li>
+<li><p>Adds binary installers for Python 3.15. Until <code class="docutils literal notranslate"><span class="pre">numexpr</span></code> and <code class="docutils literal notranslate"><span class="pre">ndindex</span></code> publish wheels for Python 3.15, pip builds those two dependencies from source there, which requires a C/C++ compiler; Conda Forge is not affected</p></li>
+<li><p>Releases are now published to PyPI from GitHub Actions using Trusted Publishing</p></li>
+<li><p>Thanks to Joaquim Gromicho for the shortest-path warning and integer index work</p></li>
+</ul>
+</section>
 <section id="v0-8">
 <h2>v0.8<a class="headerlink" href="#v0-8" title="Link to this heading"></a></h2>
 <p>2026/08/24</p>
